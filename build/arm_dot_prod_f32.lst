@@ -1,0 +1,308 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_dot_prod_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c"
+  20              		.section	.text.arm_dot_prod_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_dot_prod_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_dot_prod_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Title:        arm_dot_prod_f32.c
+   4:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Description:  Floating-point dot product
+   5:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @ingroup groupMath
+  33:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @defgroup dot_prod Vector Dot Product
+  37:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Computes the dot product of two vectors.
+  39:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * The vectors are multiplied element-by-element and then summed.
+  40:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  41:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * <pre>
+  42:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *     sum = pSrcA[0]*pSrcB[0] + pSrcA[1]*pSrcB[1] + ... + pSrcA[blockSize-1]*pSrcB[blockSize-1]
+  43:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * </pre>
+  44:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  45:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * There are separate functions for floating-point, Q7, Q15, and Q31 data types.
+  46:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  47:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  48:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  49:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @addtogroup dot_prod
+  50:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @{
+  51:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  52:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  53:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  54:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @brief Dot product of floating-point vectors.
+  55:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @param[in]       *pSrcA points to the first input vector
+  56:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @param[in]       *pSrcB points to the second input vector
+  57:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @param[in]       blockSize number of samples in each vector
+  58:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @param[out]      *result output result returned here
+  59:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * @return none.
+  60:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  61:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  62:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  63:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** void arm_dot_prod_f32(
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   float32_t * pSrcA,
+  65:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   float32_t * pSrcB,
+  66:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   uint32_t blockSize,
+  67:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   float32_t * result)
+  68:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** {
+  30              		.loc 1 68 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 68 1 is_stmt 0 view .LVU1
+  36 0000 10B4     		push	{r4}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 4
+  39              		.cfi_offset 4, -4
+  69:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   float32_t sum = 0.0f;                          /* Temporary result storage */
+  40              		.loc 1 69 3 is_stmt 1 view .LVU2
+  41              	.LVL1:
+  70:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   uint32_t blkCnt;                               /* loop counter */
+  42              		.loc 1 70 3 view .LVU3
+  71:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  72:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  73:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #if defined (ARM_MATH_DSP)
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s 			page 3
+
+
+  74:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  75:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /* Run the below code for Cortex-M4 and Cortex-M3 */
+  76:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /*loop Unrolling */
+  77:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   blkCnt = blockSize >> 2U;
+  43              		.loc 1 77 3 view .LVU4
+  44              		.loc 1 77 10 is_stmt 0 view .LVU5
+  45 0002 9408     		lsrs	r4, r2, #2
+  46              	.LVL2:
+  78:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  80:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   while (blkCnt > 0U)
+  47              		.loc 1 81 3 is_stmt 1 view .LVU6
+  69:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   uint32_t blkCnt;                               /* loop counter */
+  48              		.loc 1 69 13 is_stmt 0 view .LVU7
+  49 0004 DFED1D7A 		vldr.32	s15, .L7
+  50              		.loc 1 81 9 view .LVU8
+  51 0008 22E0     		b	.L2
+  52              	.LVL3:
+  53              	.L3:
+  82:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   {
+  83:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+  84:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Calculate dot product and then store the result in a temporary buffer */
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+  54              		.loc 1 85 5 is_stmt 1 view .LVU9
+  55              		.loc 1 85 13 is_stmt 0 view .LVU10
+  56 000a 90ED007A 		vldr.32	s14, [r0]
+  57              	.LVL4:
+  58              		.loc 1 85 26 view .LVU11
+  59 000e D1ED006A 		vldr.32	s13, [r1]
+  60              		.loc 1 85 23 view .LVU12
+  61 0012 27EE267A 		vmul.f32	s14, s14, s13
+  62              		.loc 1 85 9 view .LVU13
+  63 0016 77EE877A 		vadd.f32	s15, s15, s14
+  64              	.LVL5:
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+  65              		.loc 1 86 5 is_stmt 1 view .LVU14
+  66              		.loc 1 86 13 is_stmt 0 view .LVU15
+  67 001a 90ED017A 		vldr.32	s14, [r0, #4]
+  68              	.LVL6:
+  69              		.loc 1 86 26 view .LVU16
+  70 001e D1ED016A 		vldr.32	s13, [r1, #4]
+  71              		.loc 1 86 23 view .LVU17
+  72 0022 27EE267A 		vmul.f32	s14, s14, s13
+  73              		.loc 1 86 9 view .LVU18
+  74 0026 77EE877A 		vadd.f32	s15, s15, s14
+  75              	.LVL7:
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+  76              		.loc 1 87 5 is_stmt 1 view .LVU19
+  77              		.loc 1 87 13 is_stmt 0 view .LVU20
+  78 002a 90ED027A 		vldr.32	s14, [r0, #8]
+  79              	.LVL8:
+  80              		.loc 1 87 26 view .LVU21
+  81 002e D1ED026A 		vldr.32	s13, [r1, #8]
+  82              		.loc 1 87 23 view .LVU22
+  83 0032 27EE267A 		vmul.f32	s14, s14, s13
+  84              		.loc 1 87 9 view .LVU23
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s 			page 4
+
+
+  85 0036 77EE877A 		vadd.f32	s15, s15, s14
+  86              	.LVL9:
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+  87              		.loc 1 88 5 is_stmt 1 view .LVU24
+  88              		.loc 1 88 13 is_stmt 0 view .LVU25
+  89 003a 90ED037A 		vldr.32	s14, [r0, #12]
+  90              	.LVL10:
+  91              		.loc 1 88 26 view .LVU26
+  92 003e D1ED036A 		vldr.32	s13, [r1, #12]
+  93              		.loc 1 88 23 view .LVU27
+  94 0042 27EE267A 		vmul.f32	s14, s14, s13
+  95              		.loc 1 88 9 view .LVU28
+  96 0046 77EE877A 		vadd.f32	s15, s15, s14
+  97              	.LVL11:
+  89:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  90:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Decrement the loop counter */
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt--;
+  98              		.loc 1 91 5 is_stmt 1 view .LVU29
+  99              		.loc 1 91 11 is_stmt 0 view .LVU30
+ 100 004a 013C     		subs	r4, r4, #1
+ 101              	.LVL12:
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+ 102              		.loc 1 88 32 view .LVU31
+ 103 004c 1031     		adds	r1, r1, #16
+ 104              	.LVL13:
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+ 105              		.loc 1 88 19 view .LVU32
+ 106 004e 1030     		adds	r0, r0, #16
+ 107              	.LVL14:
+ 108              	.L2:
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   {
+ 109              		.loc 1 81 17 is_stmt 1 view .LVU33
+ 110 0050 002C     		cmp	r4, #0
+ 111 0052 DAD1     		bne	.L3
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   }
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+  95:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****    ** No loop unrolling is used. */
+  96:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   blkCnt = blockSize % 0x4U;
+ 112              		.loc 1 96 3 view .LVU34
+ 113              		.loc 1 96 10 is_stmt 0 view .LVU35
+ 114 0054 02F00302 		and	r2, r2, #3
+ 115              	.LVL15:
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #else
+  99:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 100:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* Run the below code for Cortex-M0 */
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* Initialize blkCnt with number of samples */
+ 103:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   blkCnt = blockSize;
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 106:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   while (blkCnt > 0U)
+ 116              		.loc 1 108 3 is_stmt 1 view .LVU36
+ 117              		.loc 1 108 9 is_stmt 0 view .LVU37
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s 			page 5
+
+
+ 118 0058 08E0     		b	.L4
+ 119              	.L5:
+ 109:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   {
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Calculate dot product and then store the result in a temporary buffer. */
+ 112:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+ 120              		.loc 1 112 5 is_stmt 1 view .LVU38
+ 121              	.LVL16:
+ 122              		.loc 1 112 13 is_stmt 0 view .LVU39
+ 123 005a B0EC017A 		vldmia.32	r0!, {s14}
+ 124              	.LVL17:
+ 125              		.loc 1 112 26 view .LVU40
+ 126 005e F1EC016A 		vldmia.32	r1!, {s13}
+ 127              	.LVL18:
+ 128              		.loc 1 112 23 view .LVU41
+ 129 0062 27EE267A 		vmul.f32	s14, s14, s13
+ 130              		.loc 1 112 9 view .LVU42
+ 131 0066 77EE877A 		vadd.f32	s15, s15, s14
+ 132              	.LVL19:
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Decrement the loop counter */
+ 115:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt--;
+ 133              		.loc 1 115 5 is_stmt 1 view .LVU43
+ 134              		.loc 1 115 11 is_stmt 0 view .LVU44
+ 135 006a 013A     		subs	r2, r2, #1
+ 136              	.LVL20:
+ 137              	.L4:
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   {
+ 138              		.loc 1 108 17 is_stmt 1 view .LVU45
+ 139 006c 002A     		cmp	r2, #0
+ 140 006e F4D1     		bne	.L5
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   }
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* Store the result back in the destination buffer */
+ 118:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   *result = sum;
+ 141              		.loc 1 118 3 view .LVU46
+ 142              		.loc 1 118 11 is_stmt 0 view .LVU47
+ 143 0070 C3ED007A 		vstr.32	s15, [r3]
+ 119:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** }
+ 144              		.loc 1 119 1 view .LVU48
+ 145 0074 5DF8044B 		ldr	r4, [sp], #4
+ 146              	.LCFI1:
+ 147              		.cfi_restore 4
+ 148              		.cfi_def_cfa_offset 0
+ 149 0078 7047     		bx	lr
+ 150              	.L8:
+ 151 007a 00BF     		.align	2
+ 152              	.L7:
+ 153 007c 00000000 		.word	0
+ 154              		.cfi_endproc
+ 155              	.LFE139:
+ 157              		.text
+ 158              	.Letext0:
+ 159              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 160              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 161              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_dot_prod_f32.c
+C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s:21     .text.arm_dot_prod_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s:27     .text.arm_dot_prod_f32:00000000 arm_dot_prod_f32
+C:\Users\Lamp\AppData\Local\Temp\ccqV9HsQ.s:153    .text.arm_dot_prod_f32:0000007c $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,457 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_min_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c"
+  20              		.section	.text.arm_min_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_min_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_min_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Title:        arm_min_f32.c
+   4:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Description:  Minimum value of a floating-point vector
+   5:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @ingroup groupStats
+  33:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @defgroup Min Minimum
+  37:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * Computes the minimum value of an array of data.
+  39:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * The function returns both the minimum value and its position within the array.
+  40:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * There are separate functions for floating-point, Q31, Q15, and Q7 data types.
+  41:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  */
+  42:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  43:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** /**
+  44:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @addtogroup Min
+  45:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @{
+  46:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  */
+  47:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  48:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  49:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** /**
+  50:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @brief Minimum value of a floating-point vector.
+  51:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @param[in]       *pSrc points to the input vector
+  52:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @param[in]       blockSize length of the input vector
+  53:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @param[out]      *pResult minimum value returned here
+  54:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @param[out]      *pIndex index of minimum value returned here
+  55:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  * @return none.
+  56:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****  */
+  57:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  58:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** void arm_min_f32(
+  59:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   float32_t * pSrc,
+  60:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   uint32_t blockSize,
+  61:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   float32_t * pResult,
+  62:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   uint32_t * pIndex)
+  63:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** {
+  30              		.loc 1 63 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 63 1 is_stmt 0 view .LVU1
+  35 0000 70B5     		push	{r4, r5, r6, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 4, -16
+  39              		.cfi_offset 5, -12
+  40              		.cfi_offset 6, -8
+  41              		.cfi_offset 14, -4
+  64:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** #if defined (ARM_MATH_DSP)
+  65:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  66:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  67:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   float32_t minVal1, minVal2, out;               /* Temporary variables to store the output value. 
+  42              		.loc 1 67 3 is_stmt 1 view .LVU2
+  68:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   uint32_t blkCnt, outIndex, count;              /* loop counter */
+  43              		.loc 1 68 3 view .LVU3
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  70:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Initialise the count value. */
+  71:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   count = 0U;
+  44              		.loc 1 71 3 view .LVU4
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 3
+
+
+  45              	.LVL1:
+  72:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Initialise the index value to zero. */
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   outIndex = 0U;
+  46              		.loc 1 73 3 view .LVU5
+  74:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Load first input value that act as reference value for comparision */
+  75:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   out = *pSrc++;
+  47              		.loc 1 75 3 view .LVU6
+  48              		.loc 1 75 7 is_stmt 0 view .LVU7
+  49 0002 F0EC017A 		vldmia.32	r0!, {s15}
+  50              	.LVL2:
+  76:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Loop unrolling */
+  78:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   blkCnt = (blockSize - 1U) >> 2U;
+  51              		.loc 1 78 3 is_stmt 1 view .LVU8
+  52              		.loc 1 78 23 is_stmt 0 view .LVU9
+  53 0006 4C1E     		subs	r4, r1, #1
+  54              		.loc 1 78 10 view .LVU10
+  55 0008 A508     		lsrs	r5, r4, #2
+  56              	.LVL3:
+  79:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   while (blkCnt > 0U)
+  57              		.loc 1 80 3 is_stmt 1 view .LVU11
+  71:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Initialise the index value to zero. */
+  58              		.loc 1 71 9 is_stmt 0 view .LVU12
+  59 000a 4FF0000C 		mov	ip, #0
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Load first input value that act as reference value for comparision */
+  60              		.loc 1 73 12 view .LVU13
+  61 000e 6646     		mov	r6, ip
+  62              		.loc 1 80 9 view .LVU14
+  63 0010 03E0     		b	.L2
+  64              	.LVL4:
+  65              	.L9:
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   {
+  82:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* Initialize minVal to the next consecutive values one by one */
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal1 = *pSrc++;
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal2 = *pSrc++;
+  85:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  86:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* compare for the minimum value */
+  87:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     if (out > minVal1)
+  88:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+  89:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       /* Update the minimum value and its index */
+  90:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       out = minVal1;
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 1U;
+  92:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+  93:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  94:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* compare for the minimum value */
+  95:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     if (out > minVal2)
+  96:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       /* Update the minimum value and its index */
+  98:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       out = minVal2;
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 2U;
+ 100:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 101:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 102:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* Initialize minVal to the next consecutive values one by one */
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal1 = *pSrc++;
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal2 = *pSrc++;
+ 105:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 4
+
+
+ 106:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* compare for the minimum value */
+ 107:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     if (out > minVal1)
+ 108:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 109:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       /* Update the minimum value and its index */
+ 110:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       out = minVal1;
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 3U;
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 113:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 114:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* compare for the minimum value */
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     if (out > minVal2)
+ 116:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 117:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       /* Update the minimum value and its index */
+ 118:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       out = minVal2;
+ 119:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 4U;
+ 120:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 121:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 122:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     count += 4U;
+  66              		.loc 1 122 5 is_stmt 1 view .LVU15
+  67              		.loc 1 122 11 is_stmt 0 view .LVU16
+  68 0012 0CF1040C 		add	ip, ip, #4
+  69              	.LVL5:
+ 123:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 124:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* Decrement the loop counter */
+ 125:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     blkCnt--;
+  70              		.loc 1 125 5 is_stmt 1 view .LVU17
+  71              		.loc 1 125 11 is_stmt 0 view .LVU18
+  72 0016 013D     		subs	r5, r5, #1
+  73              	.LVL6:
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  74              		.loc 1 104 20 view .LVU19
+  75 0018 7046     		mov	r0, lr
+  76              	.LVL7:
+  77              	.L2:
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   {
+  78              		.loc 1 80 17 is_stmt 1 view .LVU20
+  79 001a 75B3     		cbz	r5, .L22
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal2 = *pSrc++;
+  80              		.loc 1 83 5 view .LVU21
+  81              	.LVL8:
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal2 = *pSrc++;
+  82              		.loc 1 83 13 is_stmt 0 view .LVU22
+  83 001c D0ED006A 		vldr.32	s13, [r0]
+  84              	.LVL9:
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  85              		.loc 1 84 5 is_stmt 1 view .LVU23
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+  86              		.loc 1 84 13 is_stmt 0 view .LVU24
+  87 0020 90ED017A 		vldr.32	s14, [r0, #4]
+  88              	.LVL10:
+  87:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+  89              		.loc 1 87 5 is_stmt 1 view .LVU25
+  87:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+  90              		.loc 1 87 8 is_stmt 0 view .LVU26
+  91 0024 F4EEE67A 		vcmpe.f32	s15, s13
+  92 0028 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  93 002c 03DD     		ble	.L3
+  90:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 1U;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 5
+
+
+  94              		.loc 1 90 7 is_stmt 1 view .LVU27
+  95              	.LVL11:
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+  96              		.loc 1 91 7 view .LVU28
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+  97              		.loc 1 91 16 is_stmt 0 view .LVU29
+  98 002e 0CF10106 		add	r6, ip, #1
+  99              	.LVL12:
+  90:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 1U;
+ 100              		.loc 1 90 11 view .LVU30
+ 101 0032 F0EE667A 		vmov.f32	s15, s13
+ 102              	.LVL13:
+ 103              	.L3:
+  95:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 104              		.loc 1 95 5 is_stmt 1 view .LVU31
+  95:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 105              		.loc 1 95 8 is_stmt 0 view .LVU32
+ 106 0036 F4EEC77A 		vcmpe.f32	s15, s14
+ 107 003a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 108 003e 03DD     		ble	.L5
+  98:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 2U;
+ 109              		.loc 1 98 7 is_stmt 1 view .LVU33
+ 110              	.LVL14:
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 111              		.loc 1 99 7 view .LVU34
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 112              		.loc 1 99 16 is_stmt 0 view .LVU35
+ 113 0040 0CF10206 		add	r6, ip, #2
+ 114              	.LVL15:
+  98:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 2U;
+ 115              		.loc 1 98 11 view .LVU36
+ 116 0044 F0EE477A 		vmov.f32	s15, s14
+ 117              	.LVL16:
+ 118              	.L5:
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal2 = *pSrc++;
+ 119              		.loc 1 103 5 is_stmt 1 view .LVU37
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal2 = *pSrc++;
+ 120              		.loc 1 103 13 is_stmt 0 view .LVU38
+ 121 0048 D0ED026A 		vldr.32	s13, [r0, #8]
+ 122              	.LVL17:
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 123              		.loc 1 104 5 is_stmt 1 view .LVU39
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 124              		.loc 1 104 20 is_stmt 0 view .LVU40
+ 125 004c 00F1100E 		add	lr, r0, #16
+ 126              	.LVL18:
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 127              		.loc 1 104 13 view .LVU41
+ 128 0050 90ED037A 		vldr.32	s14, [r0, #12]
+ 129              	.LVL19:
+ 107:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 130              		.loc 1 107 5 is_stmt 1 view .LVU42
+ 107:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 131              		.loc 1 107 8 is_stmt 0 view .LVU43
+ 132 0054 F4EEE67A 		vcmpe.f32	s15, s13
+ 133 0058 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 134 005c 03DD     		ble	.L7
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 6
+
+
+ 110:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 3U;
+ 135              		.loc 1 110 7 is_stmt 1 view .LVU44
+ 136              	.LVL20:
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 137              		.loc 1 111 7 view .LVU45
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 138              		.loc 1 111 16 is_stmt 0 view .LVU46
+ 139 005e 0CF10306 		add	r6, ip, #3
+ 140              	.LVL21:
+ 110:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 3U;
+ 141              		.loc 1 110 11 view .LVU47
+ 142 0062 F0EE667A 		vmov.f32	s15, s13
+ 143              	.LVL22:
+ 144              	.L7:
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 145              		.loc 1 115 5 is_stmt 1 view .LVU48
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 146              		.loc 1 115 8 is_stmt 0 view .LVU49
+ 147 0066 F4EEC77A 		vcmpe.f32	s15, s14
+ 148 006a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 149 006e D0DD     		ble	.L9
+ 118:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 4U;
+ 150              		.loc 1 118 7 is_stmt 1 view .LVU50
+ 151              	.LVL23:
+ 119:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 152              		.loc 1 119 7 view .LVU51
+ 119:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 153              		.loc 1 119 16 is_stmt 0 view .LVU52
+ 154 0070 0CF10406 		add	r6, ip, #4
+ 155              	.LVL24:
+ 118:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = count + 4U;
+ 156              		.loc 1 118 11 view .LVU53
+ 157 0074 F0EE477A 		vmov.f32	s15, s14
+ 158 0078 CBE7     		b	.L9
+ 159              	.LVL25:
+ 160              	.L22:
+ 126:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   }
+ 127:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 128:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* if (blockSize - 1U) is not multiple of 4 */
+ 129:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   blkCnt = (blockSize - 1U) % 4U;
+ 161              		.loc 1 129 3 is_stmt 1 view .LVU54
+ 162              		.loc 1 129 10 is_stmt 0 view .LVU55
+ 163 007a 04F00304 		and	r4, r4, #3
+ 164              	.LVL26:
+ 130:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 131:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** #else
+ 132:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Run the below code for Cortex-M0 */
+ 133:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 134:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   float32_t minVal1, out;                        /* Temporary variables to store the output value. 
+ 135:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   uint32_t blkCnt, outIndex;                     /* loop counter */
+ 136:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 137:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Initialise the index value to zero. */
+ 138:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   outIndex = 0U;
+ 139:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Load first input value that act as reference value for comparision */
+ 140:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   out = *pSrc++;
+ 141:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 142:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   blkCnt = (blockSize - 1U);
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 7
+
+
+ 143:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 144:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 145:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 146:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   while (blkCnt > 0U)
+ 165              		.loc 1 146 3 is_stmt 1 view .LVU56
+ 166              		.loc 1 146 9 is_stmt 0 view .LVU57
+ 167 007e 00E0     		b	.L12
+ 168              	.LVL27:
+ 169              	.L13:
+ 147:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   {
+ 148:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* Initialize minVal to the next consecutive values one by one */
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     minVal1 = *pSrc++;
+ 150:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 151:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* compare for the minimum value */
+ 152:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     if (out > minVal1)
+ 153:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 154:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       /* Update the minimum value and it's index */
+ 155:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       out = minVal1;
+ 156:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = blockSize - blkCnt;
+ 157:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 158:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 159:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     /* Decrement the loop counter */
+ 160:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     blkCnt--;
+ 170              		.loc 1 160 5 is_stmt 1 view .LVU58
+ 171              		.loc 1 160 11 is_stmt 0 view .LVU59
+ 172 0080 013C     		subs	r4, r4, #1
+ 173              	.LVL28:
+ 174              	.L12:
+ 146:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   {
+ 175              		.loc 1 146 17 is_stmt 1 view .LVU60
+ 176 0082 54B1     		cbz	r4, .L23
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 177              		.loc 1 149 5 view .LVU61
+ 178              	.LVL29:
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 179              		.loc 1 149 13 is_stmt 0 view .LVU62
+ 180 0084 B0EC017A 		vldmia.32	r0!, {s14}
+ 181              	.LVL30:
+ 152:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 182              		.loc 1 152 5 is_stmt 1 view .LVU63
+ 152:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     {
+ 183              		.loc 1 152 8 is_stmt 0 view .LVU64
+ 184 0088 F4EEC77A 		vcmpe.f32	s15, s14
+ 185 008c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 186 0090 F6DD     		ble	.L13
+ 155:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = blockSize - blkCnt;
+ 187              		.loc 1 155 7 is_stmt 1 view .LVU65
+ 188              	.LVL31:
+ 156:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 189              		.loc 1 156 7 view .LVU66
+ 156:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****     }
+ 190              		.loc 1 156 16 is_stmt 0 view .LVU67
+ 191 0092 0E1B     		subs	r6, r1, r4
+ 192              	.LVL32:
+ 155:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****       outIndex = blockSize - blkCnt;
+ 193              		.loc 1 155 11 view .LVU68
+ 194 0094 F0EE477A 		vmov.f32	s15, s14
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 8
+
+
+ 195 0098 F2E7     		b	.L13
+ 196              	.LVL33:
+ 197              	.L23:
+ 161:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   }
+ 162:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** 
+ 163:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   /* Store the minimum value and it's index into destination pointers */
+ 164:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   *pResult = out;
+ 198              		.loc 1 164 3 is_stmt 1 view .LVU69
+ 199              		.loc 1 164 12 is_stmt 0 view .LVU70
+ 200 009a C2ED007A 		vstr.32	s15, [r2]
+ 165:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c ****   *pIndex = outIndex;
+ 201              		.loc 1 165 3 is_stmt 1 view .LVU71
+ 202              		.loc 1 165 11 is_stmt 0 view .LVU72
+ 203 009e 1E60     		str	r6, [r3]
+ 166:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_f32.c **** }
+ 204              		.loc 1 166 1 view .LVU73
+ 205 00a0 70BD     		pop	{r4, r5, r6, pc}
+ 206              		.loc 1 166 1 view .LVU74
+ 207              		.cfi_endproc
+ 208              	.LFE139:
+ 210              		.text
+ 211              	.Letext0:
+ 212              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 213              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 214              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_min_f32.c
+C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s:21     .text.arm_min_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccHmEdfA.s:27     .text.arm_min_f32:00000000 arm_min_f32
+
+NO UNDEFINED SYMBOLS

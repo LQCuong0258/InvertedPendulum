@@ -1,0 +1,521 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_std_q31.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c"
+  20              		.global	__aeabi_ldivmod
+  21              		.section	.text.arm_std_q31,"ax",%progbits
+  22              		.align	1
+  23              		.global	arm_std_q31
+  24              		.syntax unified
+  25              		.thumb
+  26              		.thumb_func
+  28              	arm_std_q31:
+  29              	.LVL0:
+  30              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Title:        arm_std_q31.c
+   4:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Description:  Standard deviation of an array of Q31 type.
+   5:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+   6:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+   9:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** /*
+  12:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+  14:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+  16:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+  20:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+  22:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  */
+  28:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 2
+
+
+  29:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** #include "arm_math.h"
+  30:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  31:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** /**
+  32:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @ingroup groupStats
+  33:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  */
+  34:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  35:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** /**
+  36:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @addtogroup STD
+  37:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  */
+  39:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  40:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** /**
+  41:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @brief Standard deviation of the elements of a Q31 vector.
+  42:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @param[in]       *pSrc points to the input vector
+  43:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @param[in]       blockSize length of the input vector
+  44:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @param[out]      *pResult standard deviation value returned here
+  45:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @return none.
+  46:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * @details
+  47:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * <b>Scaling and Overflow Behavior:</b>
+  48:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+  49:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *\par
+  50:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * The function is implemented using an internal 64-bit accumulator.
+  51:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * The input is represented in 1.31 format, which is then downshifted by 8 bits
+  52:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * which yields 1.23, and intermediate multiplication yields a 2.46 format.
+  53:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * The accumulator maintains full precision of the intermediate multiplication results,
+  54:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * but provides only a 16 guard bits.
+  55:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * There is no saturation on intermediate additions.
+  56:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * If the accumulator overflows it wraps around and distorts the result.
+  57:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * In order to avoid overflows completely the input signal must be scaled down by
+  58:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * log2(blockSize)-8 bits, as a total of blockSize additions are performed internally.
+  59:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * After division, internal variables should be Q18.46
+  60:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  * Finally, the 18.46 accumulator is right shifted by 15 bits to yield a 1.31 format value.
+  61:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  *
+  62:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****  */
+  63:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  64:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** void arm_std_q31(
+  65:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   q31_t * pSrc,
+  66:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   uint32_t blockSize,
+  67:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   q31_t * pResult)
+  68:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** {
+  31              		.loc 1 68 1 view -0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 8
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		.loc 1 68 1 is_stmt 0 view .LVU1
+  36 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 36
+  39              		.cfi_offset 4, -36
+  40              		.cfi_offset 5, -32
+  41              		.cfi_offset 6, -28
+  42              		.cfi_offset 7, -24
+  43              		.cfi_offset 8, -20
+  44              		.cfi_offset 9, -16
+  45              		.cfi_offset 10, -12
+  46              		.cfi_offset 11, -8
+  47              		.cfi_offset 14, -4
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 3
+
+
+  48 0004 83B0     		sub	sp, sp, #12
+  49              	.LCFI1:
+  50              		.cfi_def_cfa_offset 48
+  51 0006 0192     		str	r2, [sp, #4]
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   q63_t sum = 0;                                 /* Accumulator */
+  52              		.loc 1 69 3 is_stmt 1 view .LVU2
+  53              	.LVL1:
+  70:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   q63_t meanOfSquares, squareOfMean;             /* square of mean and mean of square */
+  54              		.loc 1 70 3 view .LVU3
+  71:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   q31_t in;                                      /* input value */
+  55              		.loc 1 71 3 view .LVU4
+  72:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   uint32_t blkCnt;                               /* loop counter */
+  56              		.loc 1 72 3 view .LVU5
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   q63_t sumOfSquares = 0;                        /* Accumulator */
+  57              		.loc 1 73 3 view .LVU6
+  74:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  75:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   if (blockSize == 1U)
+  58              		.loc 1 75 3 view .LVU7
+  59              		.loc 1 75 6 is_stmt 0 view .LVU8
+  60 0008 0129     		cmp	r1, #1
+  61 000a 08D0     		beq	.L9
+  62 000c 8646     		mov	lr, r0
+  63 000e 0E46     		mov	r6, r1
+  76:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   {
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     *pResult = 0;
+  78:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     return;
+  79:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   }
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** #if defined (ARM_MATH_DSP)
+  82:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /*loop Unrolling */
+  85:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   blkCnt = blockSize >> 2U;
+  64              		.loc 1 85 3 is_stmt 1 view .LVU9
+  65              		.loc 1 85 10 is_stmt 0 view .LVU10
+  66 0010 8808     		lsrs	r0, r1, #2
+  67              	.LVL2:
+  86:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  87:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  88:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  89:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   while (blkCnt > 0U)
+  68              		.loc 1 89 3 is_stmt 1 view .LVU11
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+  69              		.loc 1 73 9 is_stmt 0 view .LVU12
+  70 0012 4FF0000C 		mov	ip, #0
+  71 0016 6146     		mov	r1, ip
+  72              	.LVL3:
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   q63_t meanOfSquares, squareOfMean;             /* square of mean and mean of square */
+  73              		.loc 1 69 9 view .LVU13
+  74 0018 6446     		mov	r4, ip
+  75 001a 6546     		mov	r5, ip
+  76              		.loc 1 89 9 view .LVU14
+  77 001c 4AE0     		b	.L4
+  78              	.LVL4:
+  79              	.L9:
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     return;
+  80              		.loc 1 77 5 is_stmt 1 view .LVU15
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 4
+
+
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     return;
+  81              		.loc 1 77 14 is_stmt 0 view .LVU16
+  82 001e 0023     		movs	r3, #0
+  83 0020 1360     		str	r3, [r2]
+  78:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   }
+  84              		.loc 1 78 5 is_stmt 1 view .LVU17
+  85 0022 83E0     		b	.L1
+  86              	.LVL5:
+  87              	.L5:
+  90:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   {
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* C = (A[0] * A[0] + A[1] * A[1] + ... + A[blockSize-1] * A[blockSize-1])  */
+  92:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* Compute Sum of squares of the input samples
+  93:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****      * and then store the result in a temporary variable, sum. */
+  94:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     in = *pSrc++ >> 8U;
+  88              		.loc 1 94 5 view .LVU18
+  89              		.loc 1 94 10 is_stmt 0 view .LVU19
+  90 0024 DEF80070 		ldr	r7, [lr]
+  91              		.loc 1 94 8 view .LVU20
+  92 0028 3B12     		asrs	r3, r7, #8
+  93              	.LVL6:
+  95:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sum += in;
+  94              		.loc 1 95 5 is_stmt 1 view .LVU21
+  95              		.loc 1 95 9 is_stmt 0 view .LVU22
+  96 002a FA17     		asrs	r2, r7, #31
+  97 002c 1C19     		adds	r4, r3, r4
+  98              	.LVL7:
+  99              		.loc 1 95 9 view .LVU23
+ 100 002e 45EBE775 		adc	r5, r5, r7, asr #31
+ 101              	.LVL8:
+  96:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sumOfSquares += ((q63_t) (in) * (in));
+ 102              		.loc 1 96 5 is_stmt 1 view .LVU24
+ 103              		.loc 1 96 35 is_stmt 0 view .LVU25
+ 104 0032 03FB02F2 		mul	r2, r3, r2
+ 105 0036 A3FB0338 		umull	r3, r8, r3, r3
+ 106              	.LVL9:
+ 107              		.loc 1 96 35 view .LVU26
+ 108 003a 08EB4208 		add	r8, r8, r2, lsl #1
+ 109              		.loc 1 96 18 view .LVU27
+ 110 003e 13EB0C02 		adds	r2, r3, ip
+ 111 0042 48EB0101 		adc	r1, r8, r1
+ 112              	.LVL10:
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     in = *pSrc++ >> 8U;
+ 113              		.loc 1 97 5 is_stmt 1 view .LVU28
+ 114              		.loc 1 97 10 is_stmt 0 view .LVU29
+ 115 0046 DEF80470 		ldr	r7, [lr, #4]
+ 116              	.LVL11:
+ 117              		.loc 1 97 8 view .LVU30
+ 118 004a 3B12     		asrs	r3, r7, #8
+ 119              	.LVL12:
+  98:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sum += in;
+ 120              		.loc 1 98 5 is_stmt 1 view .LVU31
+ 121              		.loc 1 98 9 is_stmt 0 view .LVU32
+ 122 004c 4FEAE778 		asr	r8, r7, #31
+ 123 0050 1C19     		adds	r4, r3, r4
+ 124              	.LVL13:
+ 125              		.loc 1 98 9 view .LVU33
+ 126 0052 45EBE775 		adc	r5, r5, r7, asr #31
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 5
+
+
+ 127              	.LVL14:
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sumOfSquares += ((q63_t) (in) * (in));
+ 128              		.loc 1 99 5 is_stmt 1 view .LVU34
+ 129              		.loc 1 99 35 is_stmt 0 view .LVU35
+ 130 0056 03FB08F8 		mul	r8, r3, r8
+ 131 005a A3FB033C 		umull	r3, ip, r3, r3
+ 132              	.LVL15:
+ 133              		.loc 1 99 35 view .LVU36
+ 134 005e 0CEB480C 		add	ip, ip, r8, lsl #1
+ 135              		.loc 1 99 18 view .LVU37
+ 136 0062 9A18     		adds	r2, r3, r2
+ 137              	.LVL16:
+ 138              		.loc 1 99 18 view .LVU38
+ 139 0064 4CEB0101 		adc	r1, ip, r1
+ 140              	.LVL17:
+ 100:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     in = *pSrc++ >> 8U;
+ 141              		.loc 1 100 5 is_stmt 1 view .LVU39
+ 142              		.loc 1 100 10 is_stmt 0 view .LVU40
+ 143 0068 DEF80870 		ldr	r7, [lr, #8]
+ 144              	.LVL18:
+ 145              		.loc 1 100 8 view .LVU41
+ 146 006c 3B12     		asrs	r3, r7, #8
+ 147              	.LVL19:
+ 101:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sum += in;
+ 148              		.loc 1 101 5 is_stmt 1 view .LVU42
+ 149              		.loc 1 101 9 is_stmt 0 view .LVU43
+ 150 006e 4FEAE778 		asr	r8, r7, #31
+ 151 0072 1C19     		adds	r4, r3, r4
+ 152              	.LVL20:
+ 153              		.loc 1 101 9 view .LVU44
+ 154 0074 45EBE77C 		adc	ip, r5, r7, asr #31
+ 155              	.LVL21:
+ 102:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sumOfSquares += ((q63_t) (in) * (in));
+ 156              		.loc 1 102 5 is_stmt 1 view .LVU45
+ 157              		.loc 1 102 35 is_stmt 0 view .LVU46
+ 158 0078 03FB08F5 		mul	r5, r3, r8
+ 159 007c A3FB0338 		umull	r3, r8, r3, r3
+ 160              	.LVL22:
+ 161              		.loc 1 102 35 view .LVU47
+ 162 0080 08EB4508 		add	r8, r8, r5, lsl #1
+ 163              		.loc 1 102 18 view .LVU48
+ 164 0084 9A18     		adds	r2, r3, r2
+ 165              	.LVL23:
+ 166              		.loc 1 102 18 view .LVU49
+ 167 0086 48EB0108 		adc	r8, r8, r1
+ 168              	.LVL24:
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     in = *pSrc++ >> 8U;
+ 169              		.loc 1 103 5 is_stmt 1 view .LVU50
+ 170              		.loc 1 103 10 is_stmt 0 view .LVU51
+ 171 008a DEF80C50 		ldr	r5, [lr, #12]
+ 172              		.loc 1 103 8 view .LVU52
+ 173 008e 2B12     		asrs	r3, r5, #8
+ 174              	.LVL25:
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sum += in;
+ 175              		.loc 1 104 5 is_stmt 1 view .LVU53
+ 176              		.loc 1 104 9 is_stmt 0 view .LVU54
+ 177 0090 4FEAE579 		asr	r9, r5, #31
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 6
+
+
+ 178 0094 1C19     		adds	r4, r3, r4
+ 179              	.LVL26:
+ 180              		.loc 1 104 9 view .LVU55
+ 181 0096 4CEBE575 		adc	r5, ip, r5, asr #31
+ 182              	.LVL27:
+ 105:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sumOfSquares += ((q63_t) (in) * (in));
+ 183              		.loc 1 105 5 is_stmt 1 view .LVU56
+ 184              		.loc 1 105 35 is_stmt 0 view .LVU57
+ 185 009a 03FB09FC 		mul	ip, r3, r9
+ 186 009e A3FB0331 		umull	r3, r1, r3, r3
+ 187              	.LVL28:
+ 188              		.loc 1 105 35 view .LVU58
+ 189 00a2 01EB4C01 		add	r1, r1, ip, lsl #1
+ 190              		.loc 1 105 18 view .LVU59
+ 191 00a6 13EB020C 		adds	ip, r3, r2
+ 192 00aa 41EB0801 		adc	r1, r1, r8
+ 193              	.LVL29:
+ 106:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 107:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* Decrement the loop counter */
+ 108:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     blkCnt--;
+ 194              		.loc 1 108 5 is_stmt 1 view .LVU60
+ 195              		.loc 1 108 11 is_stmt 0 view .LVU61
+ 196 00ae 0138     		subs	r0, r0, #1
+ 197              	.LVL30:
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sum += in;
+ 198              		.loc 1 103 15 view .LVU62
+ 199 00b0 0EF1100E 		add	lr, lr, #16
+ 200              	.LVL31:
+ 201              	.L4:
+  89:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   {
+ 202              		.loc 1 89 17 is_stmt 1 view .LVU63
+ 203 00b4 0028     		cmp	r0, #0
+ 204 00b6 B5D1     		bne	.L5
+ 109:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   }
+ 110:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****    ** No loop unrolling is used. */
+ 113:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   blkCnt = blockSize % 0x4U;
+ 205              		.loc 1 113 3 view .LVU64
+ 206              		.loc 1 113 10 is_stmt 0 view .LVU65
+ 207 00b8 06F00300 		and	r0, r6, #3
+ 208              	.LVL32:
+ 114:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   while (blkCnt > 0U)
+ 209              		.loc 1 115 3 is_stmt 1 view .LVU66
+ 210              		.loc 1 115 9 is_stmt 0 view .LVU67
+ 211 00bc 13E0     		b	.L6
+ 212              	.L7:
+ 116:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   {
+ 117:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* C = (A[0] * A[0] + A[1] * A[1] + ... + A[blockSize-1] * A[blockSize-1]) */
+ 118:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* Compute Sum of squares of the input samples
+ 119:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****      * and then store the result in a temporary variable, sum. */
+ 120:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     in = *pSrc++ >> 8U;
+ 213              		.loc 1 120 5 is_stmt 1 view .LVU68
+ 214              	.LVL33:
+ 215              		.loc 1 120 10 is_stmt 0 view .LVU69
+ 216 00be 5EF8042B 		ldr	r2, [lr], #4
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 7
+
+
+ 217              	.LVL34:
+ 218              		.loc 1 120 8 view .LVU70
+ 219 00c2 1312     		asrs	r3, r2, #8
+ 220              	.LVL35:
+ 121:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sum += in;
+ 221              		.loc 1 121 5 is_stmt 1 view .LVU71
+ 222              		.loc 1 121 9 is_stmt 0 view .LVU72
+ 223 00c4 4FEAE278 		asr	r8, r2, #31
+ 224 00c8 1C19     		adds	r4, r3, r4
+ 225              	.LVL36:
+ 226              		.loc 1 121 9 view .LVU73
+ 227 00ca 45EBE275 		adc	r5, r5, r2, asr #31
+ 228              	.LVL37:
+ 122:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sumOfSquares += ((q63_t) (in) * (in));
+ 229              		.loc 1 122 5 is_stmt 1 view .LVU74
+ 230              		.loc 1 122 35 is_stmt 0 view .LVU75
+ 231 00ce 03FB08F8 		mul	r8, r3, r8
+ 232 00d2 A3FB0332 		umull	r3, r2, r3, r3
+ 233              	.LVL38:
+ 234              		.loc 1 122 35 view .LVU76
+ 235 00d6 02EB4802 		add	r2, r2, r8, lsl #1
+ 236              		.loc 1 122 18 view .LVU77
+ 237 00da 13EB0C03 		adds	r3, r3, ip
+ 238 00de 9C46     		mov	ip, r3
+ 239              	.LVL39:
+ 240              		.loc 1 122 18 view .LVU78
+ 241 00e0 42EB0101 		adc	r1, r2, r1
+ 242              	.LVL40:
+ 123:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 124:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* Decrement the loop counter */
+ 125:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     blkCnt--;
+ 243              		.loc 1 125 5 is_stmt 1 view .LVU79
+ 244              		.loc 1 125 11 is_stmt 0 view .LVU80
+ 245 00e4 0138     		subs	r0, r0, #1
+ 246              	.LVL41:
+ 247              	.L6:
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   {
+ 248              		.loc 1 115 17 is_stmt 1 view .LVU81
+ 249 00e6 0028     		cmp	r0, #0
+ 250 00e8 E9D1     		bne	.L7
+ 126:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   }
+ 127:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 128:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* Compute Mean of squares of the input samples
+ 129:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****    * and then store the result in a temporary variable, meanOfSquares. */
+ 130:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   meanOfSquares = sumOfSquares / (q63_t)(blockSize - 1U);
+ 251              		.loc 1 130 3 view .LVU82
+ 252              		.loc 1 130 52 is_stmt 0 view .LVU83
+ 253 00ea 06F1FF39 		add	r9, r6, #-1
+ 254              		.loc 1 130 34 view .LVU84
+ 255 00ee 4FF00008 		mov	r8, #0
+ 256              		.loc 1 130 17 view .LVU85
+ 257 00f2 4A46     		mov	r2, r9
+ 258 00f4 4346     		mov	r3, r8
+ 259 00f6 6046     		mov	r0, ip
+ 260              	.LVL42:
+ 261              		.loc 1 130 17 view .LVU86
+ 262 00f8 FFF7FEFF 		bl	__aeabi_ldivmod
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 8
+
+
+ 263              	.LVL43:
+ 264              		.loc 1 130 17 view .LVU87
+ 265 00fc 8246     		mov	r10, r0
+ 266 00fe 8B46     		mov	fp, r1
+ 267              	.LVL44:
+ 131:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 132:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** #else
+ 133:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* Run the below code for Cortex-M0 */
+ 134:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 135:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* Loop over blockSize number of values */
+ 136:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   blkCnt = blockSize;
+ 137:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 138:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   while (blkCnt > 0U)
+ 139:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   {
+ 140:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* C = (A[0] * A[0] + A[1] * A[1] + ... + A[blockSize-1] * A[blockSize-1]) */
+ 141:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* Compute Sum of squares of the input samples
+ 142:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****      * and then store the result in a temporary variable, sumOfSquares. */
+ 143:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     in = *pSrc++ >> 8U;
+ 144:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sumOfSquares += ((q63_t) (in) * (in));
+ 145:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 146:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* C = (A[0] + A[1] + A[2] + ... + A[blockSize-1]) */
+ 147:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* Compute sum of all input values and then store the result in a temporary variable, sum. */
+ 148:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     sum += in;
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 150:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     /* Decrement the loop counter */
+ 151:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****     blkCnt--;
+ 152:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   }
+ 153:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 154:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* Compute Mean of squares of the input samples
+ 155:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****    * and then store the result in a temporary variable, meanOfSquares. */
+ 156:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   meanOfSquares = sumOfSquares / (q63_t)(blockSize - 1U);
+ 157:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 158:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 159:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 160:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* Compute square of mean */
+ 161:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   squareOfMean = sum * sum / (q63_t)(blockSize * (blockSize - 1U));
+ 268              		.loc 1 161 3 is_stmt 1 view .LVU88
+ 269              		.loc 1 161 22 is_stmt 0 view .LVU89
+ 270 0100 04FB05F5 		mul	r5, r4, r5
+ 271              	.LVL45:
+ 272              		.loc 1 161 22 view .LVU90
+ 273 0104 A4FB0404 		umull	r0, r4, r4, r4
+ 274              	.LVL46:
+ 275              		.loc 1 161 16 view .LVU91
+ 276 0108 06FB09F2 		mul	r2, r6, r9
+ 277 010c 4346     		mov	r3, r8
+ 278 010e 04EB4501 		add	r1, r4, r5, lsl #1
+ 279              	.LVL47:
+ 280              		.loc 1 161 16 view .LVU92
+ 281 0112 FFF7FEFF 		bl	__aeabi_ldivmod
+ 282              	.LVL48:
+ 162:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** 
+ 163:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   /* Compute standard deviation and then store the result to the destination */
+ 164:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c ****   arm_sqrt_q31((meanOfSquares - squareOfMean) >> 15U, pResult);
+ 283              		.loc 1 164 3 is_stmt 1 view .LVU93
+ 284              		.loc 1 164 31 is_stmt 0 view .LVU94
+ 285 0116 BAEB000A 		subs	r10, r10, r0
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 9
+
+
+ 286              	.LVL49:
+ 287              		.loc 1 164 31 view .LVU95
+ 288 011a 6BEB0100 		sbc	r0, fp, r1
+ 289              	.LVL50:
+ 290              		.loc 1 164 47 view .LVU96
+ 291 011e 4FEADA3A 		lsr	r10, r10, #15
+ 292              		.loc 1 164 3 view .LVU97
+ 293 0122 0199     		ldr	r1, [sp, #4]
+ 294 0124 4AEA4040 		orr	r0, r10, r0, lsl #17
+ 295 0128 FFF7FEFF 		bl	arm_sqrt_q31
+ 296              	.LVL51:
+ 297              	.L1:
+ 165:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_std_q31.c **** }
+ 298              		.loc 1 165 1 view .LVU98
+ 299 012c 03B0     		add	sp, sp, #12
+ 300              	.LCFI2:
+ 301              		.cfi_def_cfa_offset 36
+ 302              		@ sp needed
+ 303 012e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 304              		.loc 1 165 1 view .LVU99
+ 305              		.cfi_endproc
+ 306              	.LFE139:
+ 308              		.text
+ 309              	.Letext0:
+ 310              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 311              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 312              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_std_q31.c
+C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s:22     .text.arm_std_q31:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccYkIHJL.s:28     .text.arm_std_q31:00000000 arm_std_q31
+
+UNDEFINED SYMBOLS
+__aeabi_ldivmod
+arm_sqrt_q31

@@ -1,0 +1,2064 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_conv_partial_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c"
+  20              		.section	.text.arm_conv_partial_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_conv_partial_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_conv_partial_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Title:        arm_conv_partial_f32.c
+   4:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Description:  Partial convolution of floating-point sequences
+   5:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @ingroup groupFilters
+  33:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @defgroup PartialConv Partial Convolution
+  37:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Partial Convolution is equivalent to Convolution except that a subset of the output samples is g
+  39:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Each function has two additional arguments.
+  40:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * <code>firstIndex</code> specifies the starting index of the subset of output samples.
+  41:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * <code>numPoints</code> is the number of output samples to compute.
+  42:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * The function computes the output in the range
+  43:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * <code>[firstIndex, ..., firstIndex+numPoints-1]</code>.
+  44:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * The output array <code>pDst</code> contains <code>numPoints</code> values.
+  45:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  46:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * The allowable range of output indices is [0 srcALen+srcBLen-2].
+  47:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * If the requested subset does not fall in this range then the functions return ARM_MATH_ARGUMENT_
+  48:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Otherwise the functions return ARM_MATH_SUCCESS.
+  49:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * \note Refer arm_conv_f32() for details on fixed point behavior.
+  50:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  51:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  52:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * <b>Fast Versions</b>
+  53:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  54:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * \par
+  55:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Fast versions are supported for Q31 and Q15 of partial convolution.  Cycles for Fast versions ar
+  56:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * the input signals should be scaled down to avoid intermediate overflows.
+  57:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  58:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  59:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * <b>Opt Versions</b>
+  60:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  *
+  61:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * \par
+  62:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * Opt versions are supported for Q15 and Q7.  Design uses internal scratch buffer for getting good
+  63:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * These versions are optimised in cycles and consumes more memory(Scratch memory) compared to Q15 
+  64:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  */
+  65:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  66:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** /**
+  67:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @addtogroup PartialConv
+  68:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @{
+  69:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  */
+  70:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  71:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** /**
+  72:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @brief Partial convolution of floating-point sequences.
+  73:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @param[in]       *pSrcA points to the first input sequence.
+  74:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @param[in]       srcALen length of the first input sequence.
+  75:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @param[in]       *pSrcB points to the second input sequence.
+  76:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @param[in]       srcBLen length of the second input sequence.
+  77:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @param[out]      *pDst points to the location where the output result is written.
+  78:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @param[in]       firstIndex is the first output sample to start with.
+  79:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @param[in]       numPoints is the number of output points to be computed.
+  80:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  * @return  Returns either ARM_MATH_SUCCESS if the function completed correctly or ARM_MATH_ARGUMEN
+  81:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****  */
+  82:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  83:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** arm_status arm_conv_partial_f32(
+  84:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t * pSrcA,
+  85:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   uint32_t srcALen,
+  86:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t * pSrcB,
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 3
+
+
+  87:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   uint32_t srcBLen,
+  88:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t * pDst,
+  89:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   uint32_t firstIndex,
+  90:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   uint32_t numPoints)
+  91:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** {
+  30              		.loc 1 91 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 12, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 91 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 83B0     		sub	sp, sp, #12
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 48
+  50 0006 0C46     		mov	r4, r1
+  51 0008 1146     		mov	r1, r2
+  52              	.LVL1:
+  53              		.loc 1 91 1 view .LVU2
+  54 000a 9A46     		mov	r10, r3
+  55 000c 0D9F     		ldr	r7, [sp, #52]
+  56 000e 0E9B     		ldr	r3, [sp, #56]
+  57              	.LVL2:
+  92:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  93:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  94:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** #if defined (ARM_MATH_DSP)
+  95:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  96:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  97:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+  98:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *pIn1 = pSrcA;                       /* inputA pointer */
+  58              		.loc 1 98 3 is_stmt 1 view .LVU3
+  99:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *pIn2 = pSrcB;                       /* inputB pointer */
+  59              		.loc 1 99 3 view .LVU4
+ 100:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *pOut = pDst;                        /* output pointer */
+  60              		.loc 1 100 3 view .LVU5
+ 101:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *px;                                 /* Intermediate inputA pointer */
+  61              		.loc 1 101 3 view .LVU6
+ 102:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *py;                                 /* Intermediate inputB pointer */
+  62              		.loc 1 102 3 view .LVU7
+ 103:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *pSrc1, *pSrc2;                      /* Intermediate pointers */
+  63              		.loc 1 103 3 view .LVU8
+ 104:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t sum, acc0, acc1, acc2, acc3;         /* Accumulator */
+  64              		.loc 1 104 3 view .LVU9
+ 105:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t x0, x1, x2, x3, c0;                  /* Temporary variables to hold state and coefficie
+  65              		.loc 1 105 3 view .LVU10
+ 106:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   uint32_t j, k, count = 0U, blkCnt, check;
+  66              		.loc 1 106 3 view .LVU11
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 4
+
+
+ 107:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   int32_t blockSize1, blockSize2, blockSize3;    /* loop counters */
+  67              		.loc 1 107 3 view .LVU12
+ 108:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   arm_status status;                             /* status of Partial convolution */
+  68              		.loc 1 108 3 view .LVU13
+ 109:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 110:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 111:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   /* Check for range of output samples to be calculated */
+ 112:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   if ((firstIndex + numPoints) > ((srcALen + (srcBLen - 1U))))
+  69              		.loc 1 112 3 view .LVU14
+  70              		.loc 1 112 19 is_stmt 0 view .LVU15
+  71 0010 FD18     		adds	r5, r7, r3
+  72              		.loc 1 112 44 view .LVU16
+  73 0012 0AEB0402 		add	r2, r10, r4
+  74              	.LVL3:
+  75              		.loc 1 112 44 view .LVU17
+  76 0016 013A     		subs	r2, r2, #1
+  77              		.loc 1 112 6 view .LVU18
+  78 0018 9542     		cmp	r5, r2
+  79 001a 00F20982 		bhi	.L42
+ 113:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   {
+ 114:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Set status as ARM_MATH_ARGUMENT_ERROR */
+ 115:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     status = ARM_MATH_ARGUMENT_ERROR;
+ 116:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   }
+ 117:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   else
+ 118:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   {
+ 119:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 120:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* The algorithm implementation is based on the lengths of the inputs. */
+ 121:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* srcB is always made to slide across srcA. */
+ 122:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* So srcBLen is always considered as shorter or equal to srcALen */
+ 123:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     if (srcALen >= srcBLen)
+  80              		.loc 1 123 5 is_stmt 1 view .LVU19
+  81              		.loc 1 123 8 is_stmt 0 view .LVU20
+  82 001e A245     		cmp	r10, r4
+  83 0020 05D8     		bhi	.L3
+  84 0022 0A46     		mov	r2, r1
+ 124:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 125:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Initialization of inputA pointer */
+ 126:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       pIn1 = pSrcA;
+  85              		.loc 1 126 12 view .LVU21
+  86 0024 0146     		mov	r1, r0
+  87              	.LVL4:
+ 127:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 128:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Initialization of inputB pointer */
+ 129:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       pIn2 = pSrcB;
+  88              		.loc 1 129 12 view .LVU22
+  89 0026 1046     		mov	r0, r2
+  90              	.LVL5:
+ 123:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+  91              		.loc 1 123 8 view .LVU23
+  92 0028 5246     		mov	r2, r10
+  93              	.LVL6:
+ 123:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+  94              		.loc 1 123 8 view .LVU24
+  95 002a A246     		mov	r10, r4
+  96              	.LVL7:
+ 123:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+  97              		.loc 1 123 8 view .LVU25
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 5
+
+
+  98 002c 1446     		mov	r4, r2
+  99              	.LVL8:
+ 100              	.L3:
+ 130:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 131:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     else
+ 132:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 133:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Initialization of inputA pointer */
+ 134:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       pIn1 = pSrcB;
+ 135:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 136:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Initialization of inputB pointer */
+ 137:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       pIn2 = pSrcA;
+ 138:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 139:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* srcBLen is always considered as shorter or equal to srcALen */
+ 140:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       j = srcBLen;
+ 141:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       srcBLen = srcALen;
+ 142:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       srcALen = j;
+ 143:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 144:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 145:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Conditions to check which loopCounter holds
+ 146:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * the first and last indices of the output samples to be calculated. */
+ 147:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     check = firstIndex + numPoints;
+ 101              		.loc 1 147 5 is_stmt 1 view .LVU26
+ 148:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize3 = ((int32_t)check > (int32_t)srcALen) ? (int32_t)check - (int32_t)srcALen : 0;
+ 102              		.loc 1 148 5 view .LVU27
+ 103              		.loc 1 148 36 is_stmt 0 view .LVU28
+ 104 002e 5646     		mov	r6, r10
+ 105              		.loc 1 148 90 view .LVU29
+ 106 0030 5545     		cmp	r5, r10
+ 107 0032 11DD     		ble	.L43
+ 108              		.loc 1 148 90 discriminator 1 view .LVU30
+ 109 0034 A5EB0A02 		sub	r2, r5, r10
+ 110              	.L4:
+ 111              	.LVL9:
+ 149:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize3 = ((int32_t)firstIndex > (int32_t)srcALen - 1) ? blockSize3 - (int32_t)firstIndex + 
+ 112              		.loc 1 149 5 is_stmt 1 discriminator 4 view .LVU31
+ 113              		.loc 1 149 117 is_stmt 0 discriminator 4 view .LVU32
+ 114 0038 BE42     		cmp	r6, r7
+ 115 003a 01DC     		bgt	.L5
+ 116              		.loc 1 149 76 discriminator 1 view .LVU33
+ 117 003c D21B     		subs	r2, r2, r7
+ 118              	.LVL10:
+ 119              		.loc 1 149 117 discriminator 1 view .LVU34
+ 120 003e 3244     		add	r2, r2, r6
+ 121              	.L5:
+ 122              	.LVL11:
+ 150:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize1 = ((int32_t) srcBLen - 1) - (int32_t) firstIndex;
+ 123              		.loc 1 150 5 is_stmt 1 discriminator 4 view .LVU35
+ 124              		.loc 1 150 42 is_stmt 0 discriminator 4 view .LVU36
+ 125 0040 A4EB0709 		sub	r9, r4, r7
+ 126 0044 09F1FF39 		add	r9, r9, #-1
+ 127              	.LVL12:
+ 151:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize1 = (blockSize1 > 0) ? ((check > (srcBLen - 1U)) ? blockSize1 :
+ 128              		.loc 1 151 5 is_stmt 1 discriminator 4 view .LVU37
+ 152:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****                                      (int32_t) numPoints) : 0;
+ 129              		.loc 1 152 59 is_stmt 0 discriminator 4 view .LVU38
+ 130 0048 B9F1000F 		cmp	r9, #0
+ 131 004c 06DD     		ble	.L44
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 6
+
+
+ 151:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize1 = (blockSize1 > 0) ? ((check > (srcBLen - 1U)) ? blockSize1 :
+ 132              		.loc 1 151 56 view .LVU39
+ 133 004e 661E     		subs	r6, r4, #1
+ 151:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize1 = (blockSize1 > 0) ? ((check > (srcBLen - 1U)) ? blockSize1 :
+ 134              		.loc 1 151 76 view .LVU40
+ 135 0050 B542     		cmp	r5, r6
+ 136 0052 05D8     		bhi	.L6
+ 151:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize1 = (blockSize1 > 0) ? ((check > (srcBLen - 1U)) ? blockSize1 :
+ 137              		.loc 1 151 76 discriminator 2 view .LVU41
+ 138 0054 9946     		mov	r9, r3
+ 139              	.LVL13:
+ 151:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize1 = (blockSize1 > 0) ? ((check > (srcBLen - 1U)) ? blockSize1 :
+ 140              		.loc 1 151 76 discriminator 2 view .LVU42
+ 141 0056 03E0     		b	.L6
+ 142              	.LVL14:
+ 143              	.L43:
+ 148:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize3 = ((int32_t)firstIndex > (int32_t)srcALen - 1) ? blockSize3 - (int32_t)firstIndex + 
+ 144              		.loc 1 148 90 view .LVU43
+ 145 0058 0022     		movs	r2, #0
+ 146 005a EDE7     		b	.L4
+ 147              	.LVL15:
+ 148              	.L44:
+ 149              		.loc 1 152 59 view .LVU44
+ 150 005c 4FF00009 		mov	r9, #0
+ 151              	.LVL16:
+ 152              	.L6:
+ 153:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize2 = ((int32_t) check - blockSize3) -
+ 153              		.loc 1 153 5 is_stmt 1 view .LVU45
+ 154              		.loc 1 153 35 is_stmt 0 view .LVU46
+ 155 0060 AB1A     		subs	r3, r5, r2
+ 154:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       (blockSize1 + (int32_t) firstIndex);
+ 156              		.loc 1 154 19 view .LVU47
+ 157 0062 07EB0905 		add	r5, r7, r9
+ 158              	.LVL17:
+ 153:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize2 = ((int32_t) check - blockSize3) -
+ 159              		.loc 1 153 16 view .LVU48
+ 160 0066 5B1B     		subs	r3, r3, r5
+ 161              	.LVL18:
+ 155:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     blockSize2 = (blockSize2 > 0) ? blockSize2 : 0;
+ 162              		.loc 1 155 5 is_stmt 1 view .LVU49
+ 163              		.loc 1 155 16 is_stmt 0 view .LVU50
+ 164 0068 23EAE37C 		bic	ip, r3, r3, asr #31
+ 165              	.LVL19:
+ 156:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 157:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* conv(x,y) at n = x[n] * y[0] + x[n-1] * y[1] + x[n-2] * y[2] + ...+ x[n-N+1] * y[N -1] */
+ 158:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* The function is internally
+ 159:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * divided into three stages according to the number of multiplications that has to be
+ 160:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * taken place between inputA samples and inputB samples. In the first stage of the
+ 161:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * algorithm, the multiplications increase by one for every iteration.
+ 162:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * In the second stage of the algorithm, srcBLen number of multiplications are done.
+ 163:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * In the third stage of the algorithm, the multiplications decrease by one
+ 164:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * for every iteration. */
+ 165:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 166:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Set the output pointer to point to the firstIndex
+ 167:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * of the output sample to be calculated. */
+ 168:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     pOut = pDst + firstIndex;
+ 166              		.loc 1 168 5 is_stmt 1 view .LVU51
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 7
+
+
+ 167              		.loc 1 168 10 is_stmt 0 view .LVU52
+ 168 006c 0C9B     		ldr	r3, [sp, #48]
+ 169 006e 03EB8703 		add	r3, r3, r7, lsl #2
+ 170              	.LVL20:
+ 169:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 170:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* --------------------------
+ 171:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * Initializations of stage1
+ 172:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * -------------------------*/
+ 173:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 174:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* sum = x[0] * y[0]
+ 175:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * sum = x[0] * y[1] + x[1] * y[0]
+ 176:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * ....
+ 177:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * sum = x[0] * y[srcBlen - 1] + x[1] * y[srcBlen - 2] +...+ x[srcBLen - 1] * y[0]
+ 178:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      */
+ 179:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 180:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* In this stage the MAC operations are increased by 1 for every iteration.
+ 181:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        The count variable holds the number of MAC operations performed.
+ 182:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        Since the partial convolution starts from from firstIndex
+ 183:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        Number of Macs to be performed is firstIndex + 1 */
+ 184:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     count = 1U + firstIndex;
+ 171              		.loc 1 184 5 is_stmt 1 view .LVU53
+ 172              		.loc 1 184 11 is_stmt 0 view .LVU54
+ 173 0072 07F10108 		add	r8, r7, #1
+ 174              	.LVL21:
+ 185:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 186:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Working pointer of inputA */
+ 187:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     px = pIn1;
+ 175              		.loc 1 187 5 is_stmt 1 view .LVU55
+ 188:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 189:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Working pointer of inputB */
+ 190:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     pSrc1 = pIn2 + firstIndex;
+ 176              		.loc 1 190 5 view .LVU56
+ 177              		.loc 1 190 11 is_stmt 0 view .LVU57
+ 178 0076 00EB870B 		add	fp, r0, r7, lsl #2
+ 179              	.LVL22:
+ 191:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     py = pSrc1;
+ 180              		.loc 1 191 5 is_stmt 1 view .LVU58
+ 192:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 193:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* ------------------------
+ 194:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * Stage1 process
+ 195:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * ----------------------*/
+ 196:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 197:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* The first stage starts here */
+ 198:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     while (blockSize1 > 0)
+ 181              		.loc 1 198 5 view .LVU59
+ 182 007a 9646     		mov	lr, r2
+ 183 007c 0090     		str	r0, [sp]
+ 184              		.loc 1 198 11 is_stmt 0 view .LVU60
+ 185 007e 3CE0     		b	.L7
+ 186              	.LVL23:
+ 187              	.L9:
+ 199:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 200:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Accumulator is made zero for every iteration */
+ 201:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       sum = 0.0f;
+ 202:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 203:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Apply loop unrolling and compute 4 MACs simultaneously. */
+ 204:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       k = count >> 2U;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 8
+
+
+ 205:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 206:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* First part of the processing with loop unrolling.  Compute 4 MACs at a time.
+ 207:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        ** a second loop below computes MACs for the remaining 1 to 3 samples. */
+ 208:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       while (k > 0U)
+ 209:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 210:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* x[0] * y[srcBLen - 1] */
+ 211:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 188              		.loc 1 211 9 is_stmt 1 view .LVU61
+ 189              		.loc 1 211 16 is_stmt 0 view .LVU62
+ 190 0080 95ED007A 		vldr.32	s14, [r5]
+ 191              	.LVL24:
+ 192              		.loc 1 211 24 view .LVU63
+ 193 0084 D6ED006A 		vldr.32	s13, [r6]
+ 194              		.loc 1 211 22 view .LVU64
+ 195 0088 27EE267A 		vmul.f32	s14, s14, s13
+ 196              		.loc 1 211 13 view .LVU65
+ 197 008c 77EE877A 		vadd.f32	s15, s15, s14
+ 198              	.LVL25:
+ 212:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 213:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* x[1] * y[srcBLen - 2] */
+ 214:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 199              		.loc 1 214 9 is_stmt 1 view .LVU66
+ 200              		.loc 1 214 16 is_stmt 0 view .LVU67
+ 201 0090 95ED017A 		vldr.32	s14, [r5, #4]
+ 202              	.LVL26:
+ 203              		.loc 1 214 24 view .LVU68
+ 204 0094 56ED016A 		vldr.32	s13, [r6, #-4]
+ 205              		.loc 1 214 22 view .LVU69
+ 206 0098 27EE267A 		vmul.f32	s14, s14, s13
+ 207              		.loc 1 214 13 view .LVU70
+ 208 009c 77EE877A 		vadd.f32	s15, s15, s14
+ 209              	.LVL27:
+ 215:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 216:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* x[2] * y[srcBLen - 3] */
+ 217:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 210              		.loc 1 217 9 is_stmt 1 view .LVU71
+ 211              		.loc 1 217 16 is_stmt 0 view .LVU72
+ 212 00a0 95ED027A 		vldr.32	s14, [r5, #8]
+ 213              	.LVL28:
+ 214              		.loc 1 217 24 view .LVU73
+ 215 00a4 56ED026A 		vldr.32	s13, [r6, #-8]
+ 216              		.loc 1 217 22 view .LVU74
+ 217 00a8 27EE267A 		vmul.f32	s14, s14, s13
+ 218              		.loc 1 217 13 view .LVU75
+ 219 00ac 77EE877A 		vadd.f32	s15, s15, s14
+ 220              	.LVL29:
+ 218:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 219:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* x[3] * y[srcBLen - 4] */
+ 220:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 221              		.loc 1 220 9 is_stmt 1 view .LVU76
+ 222              		.loc 1 220 16 is_stmt 0 view .LVU77
+ 223 00b0 95ED037A 		vldr.32	s14, [r5, #12]
+ 224              	.LVL30:
+ 225              		.loc 1 220 24 view .LVU78
+ 226 00b4 56ED036A 		vldr.32	s13, [r6, #-12]
+ 227              		.loc 1 220 22 view .LVU79
+ 228 00b8 27EE267A 		vmul.f32	s14, s14, s13
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 9
+
+
+ 229              		.loc 1 220 13 view .LVU80
+ 230 00bc 77EE877A 		vadd.f32	s15, s15, s14
+ 231              	.LVL31:
+ 221:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 222:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Decrement the loop counter */
+ 223:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k--;
+ 232              		.loc 1 223 9 is_stmt 1 view .LVU81
+ 233              		.loc 1 223 10 is_stmt 0 view .LVU82
+ 234 00c0 013A     		subs	r2, r2, #1
+ 235              	.LVL32:
+ 220:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 236              		.loc 1 220 27 view .LVU83
+ 237 00c2 103E     		subs	r6, r6, #16
+ 238              	.LVL33:
+ 220:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 239              		.loc 1 220 19 view .LVU84
+ 240 00c4 1035     		adds	r5, r5, #16
+ 241              	.LVL34:
+ 242              	.L8:
+ 208:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 243              		.loc 1 208 16 is_stmt 1 view .LVU85
+ 244 00c6 002A     		cmp	r2, #0
+ 245 00c8 DAD1     		bne	.L9
+ 224:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 225:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 226:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* If the count is not a multiple of 4, compute any remaining MACs here.
+ 227:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        ** No loop unrolling is used. */
+ 228:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       k = count % 0x4U;
+ 246              		.loc 1 228 7 view .LVU86
+ 247              		.loc 1 228 9 is_stmt 0 view .LVU87
+ 248 00ca 08F00302 		and	r2, r8, #3
+ 249              	.LVL35:
+ 229:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 230:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       while (k > 0U)
+ 250              		.loc 1 230 7 is_stmt 1 view .LVU88
+ 251              		.loc 1 230 13 is_stmt 0 view .LVU89
+ 252 00ce 0AE0     		b	.L10
+ 253              	.L11:
+ 231:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 232:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Perform the multiply-accumulates */
+ 233:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 254              		.loc 1 233 9 is_stmt 1 view .LVU90
+ 255              	.LVL36:
+ 256              		.loc 1 233 16 is_stmt 0 view .LVU91
+ 257 00d0 B5EC017A 		vldmia.32	r5!, {s14}
+ 258              	.LVL37:
+ 259              		.loc 1 233 24 view .LVU92
+ 260 00d4 3046     		mov	r0, r6
+ 261 00d6 043E     		subs	r6, r6, #4
+ 262              	.LVL38:
+ 263              		.loc 1 233 24 view .LVU93
+ 264 00d8 D0ED006A 		vldr.32	s13, [r0]
+ 265              		.loc 1 233 22 view .LVU94
+ 266 00dc 27EE267A 		vmul.f32	s14, s14, s13
+ 267              		.loc 1 233 13 view .LVU95
+ 268 00e0 77EE877A 		vadd.f32	s15, s15, s14
+ 269              	.LVL39:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 10
+
+
+ 234:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 235:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Decrement the loop counter */
+ 236:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k--;
+ 270              		.loc 1 236 9 is_stmt 1 view .LVU96
+ 271              		.loc 1 236 10 is_stmt 0 view .LVU97
+ 272 00e4 013A     		subs	r2, r2, #1
+ 273              	.LVL40:
+ 274              	.L10:
+ 230:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 275              		.loc 1 230 16 is_stmt 1 view .LVU98
+ 276 00e6 002A     		cmp	r2, #0
+ 277 00e8 F2D1     		bne	.L11
+ 237:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 238:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 239:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Store the result in the accumulator in the destination buffer. */
+ 240:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       *pOut++ = sum;
+ 278              		.loc 1 240 7 view .LVU99
+ 279              	.LVL41:
+ 280              		.loc 1 240 15 is_stmt 0 view .LVU100
+ 281 00ea E3EC017A 		vstmia.32	r3!, {s15}
+ 282              	.LVL42:
+ 241:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 242:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Update the inputA and inputB pointers for next MAC calculation */
+ 243:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       py = ++pSrc1;
+ 283              		.loc 1 243 7 is_stmt 1 view .LVU101
+ 284              		.loc 1 243 10 is_stmt 0 view .LVU102
+ 285 00ee 0BF1040B 		add	fp, fp, #4
+ 286              	.LVL43:
+ 244:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       px = pIn1;
+ 287              		.loc 1 244 7 is_stmt 1 view .LVU103
+ 245:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 246:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Increment the MAC count */
+ 247:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       count++;
+ 288              		.loc 1 247 7 view .LVU104
+ 289              		.loc 1 247 12 is_stmt 0 view .LVU105
+ 290 00f2 08F10108 		add	r8, r8, #1
+ 291              	.LVL44:
+ 248:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 249:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Decrement the loop counter */
+ 250:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       blockSize1--;
+ 292              		.loc 1 250 7 is_stmt 1 view .LVU106
+ 293              		.loc 1 250 17 is_stmt 0 view .LVU107
+ 294 00f6 09F1FF39 		add	r9, r9, #-1
+ 295              	.LVL45:
+ 296              	.L7:
+ 198:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 297              		.loc 1 198 23 is_stmt 1 view .LVU108
+ 298 00fa B9F1000F 		cmp	r9, #0
+ 299 00fe 06DD     		ble	.L48
+ 201:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 300              		.loc 1 201 7 view .LVU109
+ 301              	.LVL46:
+ 204:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 302              		.loc 1 204 7 view .LVU110
+ 204:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 303              		.loc 1 204 9 is_stmt 0 view .LVU111
+ 304 0100 4FEA9802 		lsr	r2, r8, #2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 11
+
+
+ 305              	.LVL47:
+ 208:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 306              		.loc 1 208 7 is_stmt 1 view .LVU112
+ 208:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 307              		.loc 1 208 13 is_stmt 0 view .LVU113
+ 308 0104 5E46     		mov	r6, fp
+ 309 0106 0D46     		mov	r5, r1
+ 201:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 310              		.loc 1 201 11 view .LVU114
+ 311 0108 DFEDCB7A 		vldr.32	s15, .L52
+ 208:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 312              		.loc 1 208 13 view .LVU115
+ 313 010c DBE7     		b	.L8
+ 314              	.LVL48:
+ 315              	.L48:
+ 251:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 252:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 253:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* --------------------------
+ 254:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * Initializations of stage2
+ 255:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * ------------------------*/
+ 256:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 257:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* sum = x[0] * y[srcBLen-1] + x[1] * y[srcBLen-2] +...+ x[srcBLen-1] * y[0]
+ 258:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * sum = x[1] * y[srcBLen-1] + x[2] * y[srcBLen-2] +...+ x[srcBLen] * y[0]
+ 259:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * ....
+ 260:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * sum = x[srcALen-srcBLen-2] * y[srcBLen-1] + x[srcALen] * y[srcBLen-2] +...+ x[srcALen-1] * y
+ 261:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      */
+ 262:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 263:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Working pointer of inputA */
+ 264:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     if ((int32_t)firstIndex - (int32_t)srcBLen + 1 > 0)
+ 316              		.loc 1 264 8 view .LVU116
+ 317 010e 7246     		mov	r2, lr
+ 318 0110 0098     		ldr	r0, [sp]
+ 319              		.loc 1 264 5 is_stmt 1 view .LVU117
+ 320              		.loc 1 264 8 is_stmt 0 view .LVU118
+ 321 0112 B7EB0408 		subs	r8, r7, r4
+ 322              	.LVL49:
+ 323              		.loc 1 264 8 view .LVU119
+ 324 0116 14D4     		bmi	.L45
+ 325              	.LVL50:
+ 265:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 266:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       px = pIn1 + firstIndex - srcBLen + 1;
+ 326              		.loc 1 266 7 is_stmt 1 view .LVU120
+ 327              		.loc 1 266 40 is_stmt 0 view .LVU121
+ 328 0118 08F1010E 		add	lr, r8, #1
+ 329              		.loc 1 266 10 view .LVU122
+ 330 011c 01EB8E0E 		add	lr, r1, lr, lsl #2
+ 331              	.LVL51:
+ 332              	.L13:
+ 267:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 268:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     else
+ 269:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 270:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       px = pIn1;
+ 271:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 272:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 273:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Working pointer of inputB */
+ 274:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     pSrc2 = pIn2 + (srcBLen - 1U);
+ 333              		.loc 1 274 5 is_stmt 1 view .LVU123
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 12
+
+
+ 334              		.loc 1 274 18 is_stmt 0 view .LVU124
+ 335 0120 04F18045 		add	r5, r4, #1073741824
+ 336 0124 013D     		subs	r5, r5, #1
+ 337              		.loc 1 274 11 view .LVU125
+ 338 0126 00EB8505 		add	r5, r0, r5, lsl #2
+ 339              	.LVL52:
+ 275:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     py = pSrc2;
+ 340              		.loc 1 275 5 is_stmt 1 view .LVU126
+ 276:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 277:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* count is index by which the pointer pIn1 to be incremented */
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     count = 0U;
+ 341              		.loc 1 278 5 view .LVU127
+ 279:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 280:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* -------------------
+ 281:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * Stage2 process
+ 282:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * ------------------*/
+ 283:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 284:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Stage2 depends on srcBLen as in this stage srcBLen number of MACS are performed.
+ 285:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * So, to loop unroll over blockSize2,
+ 286:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * srcBLen should be greater than or equal to 4 */
+ 287:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     if (srcBLen >= 4U)
+ 342              		.loc 1 287 5 view .LVU128
+ 343              		.loc 1 287 8 is_stmt 0 view .LVU129
+ 344 012a 032C     		cmp	r4, #3
+ 345 012c 40F20881 		bls	.L14
+ 288:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 289:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Loop unroll over blockSize2, by 4 */
+ 290:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       blkCnt = ((uint32_t) blockSize2 >> 2U);
+ 346              		.loc 1 290 7 is_stmt 1 view .LVU130
+ 347              		.loc 1 290 14 is_stmt 0 view .LVU131
+ 348 0130 4FEA9C09 		lsr	r9, ip, #2
+ 349              	.LVL53:
+ 291:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 292:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       while (blkCnt > 0U)
+ 350              		.loc 1 292 7 is_stmt 1 view .LVU132
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 351              		.loc 1 278 11 is_stmt 0 view .LVU133
+ 352 0134 0026     		movs	r6, #0
+ 353 0136 0192     		str	r2, [sp, #4]
+ 354 0138 0095     		str	r5, [sp]
+ 355              	.LVL54:
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 356              		.loc 1 278 11 view .LVU134
+ 357 013a 0A46     		mov	r2, r1
+ 358              	.LVL55:
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 359              		.loc 1 278 11 view .LVU135
+ 360 013c 4946     		mov	r1, r9
+ 361              	.LVL56:
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 362              		.loc 1 278 11 view .LVU136
+ 363 013e 9146     		mov	r9, r2
+ 364              	.LVL57:
+ 365              		.loc 1 292 13 view .LVU137
+ 366 0140 37E0     		b	.L15
+ 367              	.LVL58:
+ 368              	.L45:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 13
+
+
+ 270:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 369              		.loc 1 270 10 view .LVU138
+ 370 0142 8E46     		mov	lr, r1
+ 371 0144 ECE7     		b	.L13
+ 372              	.LVL59:
+ 373              	.L18:
+ 293:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 294:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Set all accumulators to zero */
+ 295:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc0 = 0.0f;
+ 296:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc1 = 0.0f;
+ 297:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc2 = 0.0f;
+ 298:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc3 = 0.0f;
+ 299:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 300:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* read x[0], x[1], x[2] samples */
+ 301:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         x0 = *(px++);
+ 302:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         x1 = *(px++);
+ 303:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         x2 = *(px++);
+ 304:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 305:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Apply loop unrolling and compute 4 MACs simultaneously. */
+ 306:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k = srcBLen >> 2U;
+ 307:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 308:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* First part of the processing with loop unrolling.  Compute 4 MACs at a time.
+ 309:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****          ** a second loop below computes MACs for the remaining 1 to 3 samples. */
+ 310:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         do
+ 311:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 312:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read y[srcBLen - 1] sample */
+ 313:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           c0 = *(py--);
+ 314:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 315:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read x[3] sample */
+ 316:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x3 = *(px++);
+ 317:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 318:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulate */
+ 319:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc0 +=  x[0] * y[srcBLen - 1] */
+ 320:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc0 += x0 * c0;
+ 321:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 322:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[1] * y[srcBLen - 1] */
+ 323:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc1 += x1 * c0;
+ 324:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 325:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[2] * y[srcBLen - 1] */
+ 326:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc2 += x2 * c0;
+ 327:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 328:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[3] * y[srcBLen - 1] */
+ 329:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc3 += x3 * c0;
+ 330:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 331:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read y[srcBLen - 2] sample */
+ 332:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           c0 = *(py--);
+ 333:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 334:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read x[4] sample */
+ 335:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x0 = *(px++);
+ 336:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 337:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulate */
+ 338:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc0 +=  x[1] * y[srcBLen - 2] */
+ 339:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc0 += x1 * c0;
+ 340:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[2] * y[srcBLen - 2] */
+ 341:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc1 += x2 * c0;
+ 342:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[3] * y[srcBLen - 2] */
+ 343:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc2 += x3 * c0;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 14
+
+
+ 344:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[4] * y[srcBLen - 2] */
+ 345:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc3 += x0 * c0;
+ 346:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 347:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read y[srcBLen - 3] sample */
+ 348:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           c0 = *(py--);
+ 349:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 350:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read x[5] sample */
+ 351:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x1 = *(px++);
+ 352:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 353:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulates */
+ 354:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc0 +=  x[2] * y[srcBLen - 3] */
+ 355:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc0 += x2 * c0;
+ 356:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[3] * y[srcBLen - 2] */
+ 357:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc1 += x3 * c0;
+ 358:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[4] * y[srcBLen - 2] */
+ 359:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc2 += x0 * c0;
+ 360:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[5] * y[srcBLen - 2] */
+ 361:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc3 += x1 * c0;
+ 362:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 363:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read y[srcBLen - 4] sample */
+ 364:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           c0 = *(py--);
+ 365:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 366:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read x[6] sample */
+ 367:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x2 = *(px++);
+ 368:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 369:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulates */
+ 370:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc0 +=  x[3] * y[srcBLen - 4] */
+ 371:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc0 += x3 * c0;
+ 372:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[4] * y[srcBLen - 4] */
+ 373:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc1 += x0 * c0;
+ 374:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[5] * y[srcBLen - 4] */
+ 375:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc2 += x1 * c0;
+ 376:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[6] * y[srcBLen - 4] */
+ 377:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc3 += x2 * c0;
+ 378:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 379:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 380:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         } while (--k);
+ 381:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 382:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* If the srcBLen is not a multiple of 4, compute any remaining MACs here.
+ 383:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****          ** No loop unrolling is used. */
+ 384:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k = srcBLen % 0x4U;
+ 385:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 386:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         while (k > 0U)
+ 387:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 388:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read y[srcBLen - 5] sample */
+ 389:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           c0 = *(py--);
+ 374              		.loc 1 389 11 is_stmt 1 view .LVU139
+ 375              		.loc 1 389 14 is_stmt 0 view .LVU140
+ 376 0146 8646     		mov	lr, r0
+ 377 0148 0438     		subs	r0, r0, #4
+ 378              	.LVL60:
+ 379              		.loc 1 389 14 view .LVU141
+ 380 014a 9EED007A 		vldr.32	s14, [lr]
+ 381              	.LVL61:
+ 390:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 391:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Read x[7] sample */
+ 392:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x3 = *(px++);
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 15
+
+
+ 382              		.loc 1 392 11 is_stmt 1 view .LVU142
+ 383              		.loc 1 392 14 is_stmt 0 view .LVU143
+ 384 014e F2EC013A 		vldmia.32	r2!, {s7}
+ 385              	.LVL62:
+ 393:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 394:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulates */
+ 395:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc0 +=  x[4] * y[srcBLen - 5] */
+ 396:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc0 += x0 * c0;
+ 386              		.loc 1 396 11 is_stmt 1 view .LVU144
+ 387              		.loc 1 396 22 is_stmt 0 view .LVU145
+ 388 0152 26EE076A 		vmul.f32	s12, s12, s14
+ 389              	.LVL63:
+ 390              		.loc 1 396 16 view .LVU146
+ 391 0156 76EE866A 		vadd.f32	s13, s13, s12
+ 392              	.LVL64:
+ 397:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[5] * y[srcBLen - 5] */
+ 398:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc1 += x1 * c0;
+ 393              		.loc 1 398 11 is_stmt 1 view .LVU147
+ 394              		.loc 1 398 22 is_stmt 0 view .LVU148
+ 395 015a 25EE876A 		vmul.f32	s12, s11, s14
+ 396              		.loc 1 398 16 view .LVU149
+ 397 015e 74EE864A 		vadd.f32	s9, s9, s12
+ 398              	.LVL65:
+ 399:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[6] * y[srcBLen - 5] */
+ 400:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc2 += x2 * c0;
+ 399              		.loc 1 400 11 is_stmt 1 view .LVU150
+ 400              		.loc 1 400 22 is_stmt 0 view .LVU151
+ 401 0162 24EE076A 		vmul.f32	s12, s8, s14
+ 402              		.loc 1 400 16 view .LVU152
+ 403 0166 35EE065A 		vadd.f32	s10, s10, s12
+ 404              	.LVL66:
+ 401:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[7] * y[srcBLen - 5] */
+ 402:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           acc3 += x3 * c0;
+ 405              		.loc 1 402 11 is_stmt 1 view .LVU153
+ 406              		.loc 1 402 22 is_stmt 0 view .LVU154
+ 407 016a 27EE237A 		vmul.f32	s14, s14, s7
+ 408              	.LVL67:
+ 409              		.loc 1 402 16 view .LVU155
+ 410 016e 77EE877A 		vadd.f32	s15, s15, s14
+ 411              	.LVL68:
+ 403:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 404:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Reuse the present samples for the next MAC */
+ 405:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x0 = x1;
+ 412              		.loc 1 405 11 is_stmt 1 view .LVU156
+ 406:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x1 = x2;
+ 413              		.loc 1 406 11 view .LVU157
+ 407:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x2 = x3;
+ 414              		.loc 1 407 11 view .LVU158
+ 408:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 409:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Decrement the loop counter */
+ 410:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           k--;
+ 415              		.loc 1 410 11 view .LVU159
+ 416              		.loc 1 410 12 is_stmt 0 view .LVU160
+ 417 0172 013D     		subs	r5, r5, #1
+ 418              	.LVL69:
+ 405:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x1 = x2;
+ 419              		.loc 1 405 14 view .LVU161
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 16
+
+
+ 420 0174 B0EE656A 		vmov.f32	s12, s11
+ 406:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           x2 = x3;
+ 421              		.loc 1 406 14 view .LVU162
+ 422 0178 F0EE445A 		vmov.f32	s11, s8
+ 423              	.LVL70:
+ 407:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 424              		.loc 1 407 14 view .LVU163
+ 425 017c B0EE634A 		vmov.f32	s8, s7
+ 426              	.LVL71:
+ 427              	.L17:
+ 386:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 428              		.loc 1 386 18 is_stmt 1 view .LVU164
+ 429 0180 002D     		cmp	r5, #0
+ 430 0182 E0D1     		bne	.L18
+ 411:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 412:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 413:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Store the result in the accumulator in the destination buffer. */
+ 414:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         *pOut++ = acc0;
+ 431              		.loc 1 414 9 view .LVU165
+ 432              	.LVL72:
+ 433              		.loc 1 414 17 is_stmt 0 view .LVU166
+ 434 0184 C3ED006A 		vstr.32	s13, [r3]
+ 415:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         *pOut++ = acc1;
+ 435              		.loc 1 415 9 is_stmt 1 view .LVU167
+ 436              	.LVL73:
+ 437              		.loc 1 415 17 is_stmt 0 view .LVU168
+ 438 0188 C3ED014A 		vstr.32	s9, [r3, #4]
+ 416:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         *pOut++ = acc2;
+ 439              		.loc 1 416 9 is_stmt 1 view .LVU169
+ 440              	.LVL74:
+ 441              		.loc 1 416 17 is_stmt 0 view .LVU170
+ 442 018c 83ED025A 		vstr.32	s10, [r3, #8]
+ 417:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         *pOut++ = acc3;
+ 443              		.loc 1 417 9 is_stmt 1 view .LVU171
+ 444              		.loc 1 417 14 is_stmt 0 view .LVU172
+ 445 0190 03F11002 		add	r2, r3, #16
+ 446              	.LVL75:
+ 447              		.loc 1 417 17 view .LVU173
+ 448 0194 C3ED037A 		vstr.32	s15, [r3, #12]
+ 418:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 419:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Increment the pointer pIn1 index, count by 1 */
+ 420:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         count += 4U;
+ 449              		.loc 1 420 9 is_stmt 1 view .LVU174
+ 450              		.loc 1 420 15 is_stmt 0 view .LVU175
+ 451 0198 0436     		adds	r6, r6, #4
+ 452              	.LVL76:
+ 421:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 422:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Update the inputA and inputB pointers for next MAC calculation */
+ 423:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         if ((int32_t)firstIndex - (int32_t)srcBLen + 1 > 0)
+ 453              		.loc 1 423 9 is_stmt 1 view .LVU176
+ 454              		.loc 1 423 12 is_stmt 0 view .LVU177
+ 455 019a B8F1000F 		cmp	r8, #0
+ 456 019e 75DB     		blt	.L19
+ 424:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 425:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           px = pIn1 + firstIndex - srcBLen + 1 + count;
+ 457              		.loc 1 425 11 is_stmt 1 view .LVU178
+ 458              		.loc 1 425 34 is_stmt 0 view .LVU179
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 17
+
+
+ 459 01a0 A7EB040E 		sub	lr, r7, r4
+ 460              		.loc 1 425 48 view .LVU180
+ 461 01a4 B644     		add	lr, lr, r6
+ 462 01a6 0EF1010E 		add	lr, lr, #1
+ 463              		.loc 1 425 14 view .LVU181
+ 464 01aa 09EB8E0E 		add	lr, r9, lr, lsl #2
+ 465              	.LVL77:
+ 466              	.L20:
+ 426:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 427:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         else
+ 428:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 429:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           px = pIn1 + count;
+ 430:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 431:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         py = pSrc2;
+ 467              		.loc 1 431 9 is_stmt 1 view .LVU182
+ 432:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 433:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Decrement the loop counter */
+ 434:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         blkCnt--;
+ 468              		.loc 1 434 9 view .LVU183
+ 469              		.loc 1 434 15 is_stmt 0 view .LVU184
+ 470 01ae 0139     		subs	r1, r1, #1
+ 471              	.LVL78:
+ 417:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 472              		.loc 1 417 14 view .LVU185
+ 473 01b0 1346     		mov	r3, r2
+ 474              	.LVL79:
+ 475              	.L15:
+ 292:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 476              		.loc 1 292 21 is_stmt 1 view .LVU186
+ 477 01b2 0029     		cmp	r1, #0
+ 478 01b4 6DD0     		beq	.L49
+ 295:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc1 = 0.0f;
+ 479              		.loc 1 295 9 view .LVU187
+ 480              	.LVL80:
+ 296:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc2 = 0.0f;
+ 481              		.loc 1 296 9 view .LVU188
+ 297:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc3 = 0.0f;
+ 482              		.loc 1 297 9 view .LVU189
+ 298:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 483              		.loc 1 298 9 view .LVU190
+ 301:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         x1 = *(px++);
+ 484              		.loc 1 301 9 view .LVU191
+ 301:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         x1 = *(px++);
+ 485              		.loc 1 301 12 is_stmt 0 view .LVU192
+ 486 01b6 9EED006A 		vldr.32	s12, [lr]
+ 487              	.LVL81:
+ 302:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         x2 = *(px++);
+ 488              		.loc 1 302 9 is_stmt 1 view .LVU193
+ 302:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         x2 = *(px++);
+ 489              		.loc 1 302 12 is_stmt 0 view .LVU194
+ 490 01ba DEED015A 		vldr.32	s11, [lr, #4]
+ 491              	.LVL82:
+ 303:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 492              		.loc 1 303 9 is_stmt 1 view .LVU195
+ 303:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 493              		.loc 1 303 18 is_stmt 0 view .LVU196
+ 494 01be 0EF10C02 		add	r2, lr, #12
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 18
+
+
+ 495              	.LVL83:
+ 303:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 496              		.loc 1 303 12 view .LVU197
+ 497 01c2 9EED024A 		vldr.32	s8, [lr, #8]
+ 498              	.LVL84:
+ 306:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 499              		.loc 1 306 9 is_stmt 1 view .LVU198
+ 306:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 500              		.loc 1 306 11 is_stmt 0 view .LVU199
+ 501 01c6 4FEA940B 		lsr	fp, r4, #2
+ 502              	.LVL85:
+ 306:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 503              		.loc 1 306 11 view .LVU200
+ 504 01ca 0098     		ldr	r0, [sp]
+ 298:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 505              		.loc 1 298 14 view .LVU201
+ 506 01cc DFED9A7A 		vldr.32	s15, .L52
+ 297:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc3 = 0.0f;
+ 507              		.loc 1 297 14 view .LVU202
+ 508 01d0 B0EE675A 		vmov.f32	s10, s15
+ 296:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc2 = 0.0f;
+ 509              		.loc 1 296 14 view .LVU203
+ 510 01d4 F0EE674A 		vmov.f32	s9, s15
+ 295:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         acc1 = 0.0f;
+ 511              		.loc 1 295 14 view .LVU204
+ 512 01d8 F0EE676A 		vmov.f32	s13, s15
+ 513              	.LVL86:
+ 514              	.L16:
+ 310:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 515              		.loc 1 310 9 is_stmt 1 discriminator 1 view .LVU205
+ 313:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 516              		.loc 1 313 11 discriminator 1 view .LVU206
+ 313:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 517              		.loc 1 313 14 is_stmt 0 discriminator 1 view .LVU207
+ 518 01dc 90ED007A 		vldr.32	s14, [r0]
+ 519              	.LVL87:
+ 316:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 520              		.loc 1 316 11 is_stmt 1 discriminator 1 view .LVU208
+ 316:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 521              		.loc 1 316 14 is_stmt 0 discriminator 1 view .LVU209
+ 522 01e0 D2ED003A 		vldr.32	s7, [r2]
+ 523              	.LVL88:
+ 320:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 524              		.loc 1 320 11 is_stmt 1 discriminator 1 view .LVU210
+ 320:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 525              		.loc 1 320 22 is_stmt 0 discriminator 1 view .LVU211
+ 526 01e4 26EE076A 		vmul.f32	s12, s12, s14
+ 527              	.LVL89:
+ 320:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 528              		.loc 1 320 16 discriminator 1 view .LVU212
+ 529 01e8 76EE266A 		vadd.f32	s13, s12, s13
+ 530              	.LVL90:
+ 323:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 531              		.loc 1 323 11 is_stmt 1 discriminator 1 view .LVU213
+ 323:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 532              		.loc 1 323 22 is_stmt 0 discriminator 1 view .LVU214
+ 533 01ec 25EE876A 		vmul.f32	s12, s11, s14
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 19
+
+
+ 323:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 534              		.loc 1 323 16 discriminator 1 view .LVU215
+ 535 01f0 76EE244A 		vadd.f32	s9, s12, s9
+ 536              	.LVL91:
+ 326:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 537              		.loc 1 326 11 is_stmt 1 discriminator 1 view .LVU216
+ 326:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 538              		.loc 1 326 22 is_stmt 0 discriminator 1 view .LVU217
+ 539 01f4 24EE076A 		vmul.f32	s12, s8, s14
+ 326:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 540              		.loc 1 326 16 discriminator 1 view .LVU218
+ 541 01f8 36EE055A 		vadd.f32	s10, s12, s10
+ 542              	.LVL92:
+ 329:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 543              		.loc 1 329 11 is_stmt 1 discriminator 1 view .LVU219
+ 329:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 544              		.loc 1 329 22 is_stmt 0 discriminator 1 view .LVU220
+ 545 01fc 27EE237A 		vmul.f32	s14, s14, s7
+ 546              	.LVL93:
+ 329:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 547              		.loc 1 329 16 discriminator 1 view .LVU221
+ 548 0200 77EE277A 		vadd.f32	s15, s14, s15
+ 549              	.LVL94:
+ 332:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 550              		.loc 1 332 11 is_stmt 1 discriminator 1 view .LVU222
+ 332:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 551              		.loc 1 332 14 is_stmt 0 discriminator 1 view .LVU223
+ 552 0204 10ED017A 		vldr.32	s14, [r0, #-4]
+ 553              	.LVL95:
+ 335:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 554              		.loc 1 335 11 is_stmt 1 discriminator 1 view .LVU224
+ 335:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 555              		.loc 1 335 14 is_stmt 0 discriminator 1 view .LVU225
+ 556 0208 92ED016A 		vldr.32	s12, [r2, #4]
+ 557              	.LVL96:
+ 339:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[2] * y[srcBLen - 2] */
+ 558              		.loc 1 339 11 is_stmt 1 discriminator 1 view .LVU226
+ 339:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[2] * y[srcBLen - 2] */
+ 559              		.loc 1 339 22 is_stmt 0 discriminator 1 view .LVU227
+ 560 020c 65EE875A 		vmul.f32	s11, s11, s14
+ 561              	.LVL97:
+ 339:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[2] * y[srcBLen - 2] */
+ 562              		.loc 1 339 16 discriminator 1 view .LVU228
+ 563 0210 75EEA62A 		vadd.f32	s5, s11, s13
+ 564              	.LVL98:
+ 341:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[3] * y[srcBLen - 2] */
+ 565              		.loc 1 341 11 is_stmt 1 discriminator 1 view .LVU229
+ 341:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[3] * y[srcBLen - 2] */
+ 566              		.loc 1 341 22 is_stmt 0 discriminator 1 view .LVU230
+ 567 0214 24EE073A 		vmul.f32	s6, s8, s14
+ 341:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[3] * y[srcBLen - 2] */
+ 568              		.loc 1 341 16 discriminator 1 view .LVU231
+ 569 0218 33EE243A 		vadd.f32	s6, s6, s9
+ 570              	.LVL99:
+ 343:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[4] * y[srcBLen - 2] */
+ 571              		.loc 1 343 11 is_stmt 1 discriminator 1 view .LVU232
+ 343:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[4] * y[srcBLen - 2] */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 20
+
+
+ 572              		.loc 1 343 22 is_stmt 0 discriminator 1 view .LVU233
+ 573 021c 63EE874A 		vmul.f32	s9, s7, s14
+ 343:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[4] * y[srcBLen - 2] */
+ 574              		.loc 1 343 16 discriminator 1 view .LVU234
+ 575 0220 74EE854A 		vadd.f32	s9, s9, s10
+ 576              	.LVL100:
+ 345:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 577              		.loc 1 345 11 is_stmt 1 discriminator 1 view .LVU235
+ 345:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 578              		.loc 1 345 22 is_stmt 0 discriminator 1 view .LVU236
+ 579 0224 27EE067A 		vmul.f32	s14, s14, s12
+ 580              	.LVL101:
+ 345:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 581              		.loc 1 345 16 discriminator 1 view .LVU237
+ 582 0228 37EE277A 		vadd.f32	s14, s14, s15
+ 583              	.LVL102:
+ 348:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 584              		.loc 1 348 11 is_stmt 1 discriminator 1 view .LVU238
+ 348:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 585              		.loc 1 348 14 is_stmt 0 discriminator 1 view .LVU239
+ 586 022c 50ED027A 		vldr.32	s15, [r0, #-8]
+ 587              	.LVL103:
+ 351:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 588              		.loc 1 351 11 is_stmt 1 discriminator 1 view .LVU240
+ 351:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 589              		.loc 1 351 14 is_stmt 0 discriminator 1 view .LVU241
+ 590 0230 D2ED025A 		vldr.32	s11, [r2, #8]
+ 591              	.LVL104:
+ 355:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[3] * y[srcBLen - 2] */
+ 592              		.loc 1 355 11 is_stmt 1 discriminator 1 view .LVU242
+ 355:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[3] * y[srcBLen - 2] */
+ 593              		.loc 1 355 22 is_stmt 0 discriminator 1 view .LVU243
+ 594 0234 64EE276A 		vmul.f32	s13, s8, s15
+ 355:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[3] * y[srcBLen - 2] */
+ 595              		.loc 1 355 16 discriminator 1 view .LVU244
+ 596 0238 76EEA26A 		vadd.f32	s13, s13, s5
+ 597              	.LVL105:
+ 357:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[4] * y[srcBLen - 2] */
+ 598              		.loc 1 357 11 is_stmt 1 discriminator 1 view .LVU245
+ 357:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[4] * y[srcBLen - 2] */
+ 599              		.loc 1 357 22 is_stmt 0 discriminator 1 view .LVU246
+ 600 023c 23EEA75A 		vmul.f32	s10, s7, s15
+ 357:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[4] * y[srcBLen - 2] */
+ 601              		.loc 1 357 16 discriminator 1 view .LVU247
+ 602 0240 35EE035A 		vadd.f32	s10, s10, s6
+ 603              	.LVL106:
+ 359:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[5] * y[srcBLen - 2] */
+ 604              		.loc 1 359 11 is_stmt 1 discriminator 1 view .LVU248
+ 359:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[5] * y[srcBLen - 2] */
+ 605              		.loc 1 359 22 is_stmt 0 discriminator 1 view .LVU249
+ 606 0244 26EE273A 		vmul.f32	s6, s12, s15
+ 359:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[5] * y[srcBLen - 2] */
+ 607              		.loc 1 359 16 discriminator 1 view .LVU250
+ 608 0248 33EE243A 		vadd.f32	s6, s6, s9
+ 609              	.LVL107:
+ 361:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 610              		.loc 1 361 11 is_stmt 1 discriminator 1 view .LVU251
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 21
+
+
+ 361:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 611              		.loc 1 361 22 is_stmt 0 discriminator 1 view .LVU252
+ 612 024c 67EEA57A 		vmul.f32	s15, s15, s11
+ 613              	.LVL108:
+ 361:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 614              		.loc 1 361 16 discriminator 1 view .LVU253
+ 615 0250 37EE877A 		vadd.f32	s14, s15, s14
+ 616              	.LVL109:
+ 364:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 617              		.loc 1 364 11 is_stmt 1 discriminator 1 view .LVU254
+ 364:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 618              		.loc 1 364 14 is_stmt 0 discriminator 1 view .LVU255
+ 619 0254 50ED037A 		vldr.32	s15, [r0, #-12]
+ 620 0258 1038     		subs	r0, r0, #16
+ 621              	.LVL110:
+ 367:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 622              		.loc 1 367 11 is_stmt 1 discriminator 1 view .LVU256
+ 367:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 623              		.loc 1 367 14 is_stmt 0 discriminator 1 view .LVU257
+ 624 025a 92ED034A 		vldr.32	s8, [r2, #12]
+ 625              	.LVL111:
+ 367:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 626              		.loc 1 367 14 discriminator 1 view .LVU258
+ 627 025e 1032     		adds	r2, r2, #16
+ 628              	.LVL112:
+ 371:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[4] * y[srcBLen - 4] */
+ 629              		.loc 1 371 11 is_stmt 1 discriminator 1 view .LVU259
+ 371:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[4] * y[srcBLen - 4] */
+ 630              		.loc 1 371 22 is_stmt 0 discriminator 1 view .LVU260
+ 631 0260 63EEA73A 		vmul.f32	s7, s7, s15
+ 632              	.LVL113:
+ 371:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc1 +=  x[4] * y[srcBLen - 4] */
+ 633              		.loc 1 371 16 discriminator 1 view .LVU261
+ 634 0264 73EEA66A 		vadd.f32	s13, s7, s13
+ 635              	.LVL114:
+ 373:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[5] * y[srcBLen - 4] */
+ 636              		.loc 1 373 11 is_stmt 1 discriminator 1 view .LVU262
+ 373:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[5] * y[srcBLen - 4] */
+ 637              		.loc 1 373 22 is_stmt 0 discriminator 1 view .LVU263
+ 638 0268 66EE274A 		vmul.f32	s9, s12, s15
+ 373:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc2 +=  x[5] * y[srcBLen - 4] */
+ 639              		.loc 1 373 16 discriminator 1 view .LVU264
+ 640 026c 74EE854A 		vadd.f32	s9, s9, s10
+ 641              	.LVL115:
+ 375:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[6] * y[srcBLen - 4] */
+ 642              		.loc 1 375 11 is_stmt 1 discriminator 1 view .LVU265
+ 375:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[6] * y[srcBLen - 4] */
+ 643              		.loc 1 375 22 is_stmt 0 discriminator 1 view .LVU266
+ 644 0270 25EEA75A 		vmul.f32	s10, s11, s15
+ 375:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* acc3 +=  x[6] * y[srcBLen - 4] */
+ 645              		.loc 1 375 16 discriminator 1 view .LVU267
+ 646 0274 35EE035A 		vadd.f32	s10, s10, s6
+ 647              	.LVL116:
+ 377:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 648              		.loc 1 377 11 is_stmt 1 discriminator 1 view .LVU268
+ 377:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 649              		.loc 1 377 22 is_stmt 0 discriminator 1 view .LVU269
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 22
+
+
+ 650 0278 67EE847A 		vmul.f32	s15, s15, s8
+ 651              	.LVL117:
+ 377:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 652              		.loc 1 377 16 discriminator 1 view .LVU270
+ 653 027c 77EE877A 		vadd.f32	s15, s15, s14
+ 654              	.LVL118:
+ 380:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 655              		.loc 1 380 18 is_stmt 1 discriminator 1 view .LVU271
+ 380:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 656              		.loc 1 380 18 is_stmt 0 discriminator 1 view .LVU272
+ 657 0280 BBF1010B 		subs	fp, fp, #1
+ 658              	.LVL119:
+ 380:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 659              		.loc 1 380 18 discriminator 1 view .LVU273
+ 660 0284 AAD1     		bne	.L16
+ 384:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 661              		.loc 1 384 9 is_stmt 1 view .LVU274
+ 384:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 662              		.loc 1 384 11 is_stmt 0 view .LVU275
+ 663 0286 04F00305 		and	r5, r4, #3
+ 664              	.LVL120:
+ 386:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 665              		.loc 1 386 9 is_stmt 1 view .LVU276
+ 386:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 666              		.loc 1 386 15 is_stmt 0 view .LVU277
+ 667 028a 79E7     		b	.L17
+ 668              	.LVL121:
+ 669              	.L19:
+ 429:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 670              		.loc 1 429 11 is_stmt 1 view .LVU278
+ 429:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 671              		.loc 1 429 14 is_stmt 0 view .LVU279
+ 672 028c 09EB860E 		add	lr, r9, r6, lsl #2
+ 673              	.LVL122:
+ 429:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 674              		.loc 1 429 14 view .LVU280
+ 675 0290 8DE7     		b	.L20
+ 676              	.LVL123:
+ 677              	.L49:
+ 435:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 436:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 437:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* If the blockSize2 is not a multiple of 4, compute any remaining output samples here.
+ 438:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        ** No loop unrolling is used. */
+ 439:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       blkCnt = (uint32_t) blockSize2 % 0x4U;
+ 678              		.loc 1 439 14 view .LVU281
+ 679 0292 019A     		ldr	r2, [sp, #4]
+ 680 0294 009D     		ldr	r5, [sp]
+ 681 0296 4946     		mov	r1, r9
+ 682              	.LVL124:
+ 683              		.loc 1 439 7 is_stmt 1 view .LVU282
+ 684              		.loc 1 439 14 is_stmt 0 view .LVU283
+ 685 0298 0CF0030C 		and	ip, ip, #3
+ 686              	.LVL125:
+ 440:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 441:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       while (blkCnt > 0U)
+ 687              		.loc 1 441 7 is_stmt 1 view .LVU284
+ 688 029c B946     		mov	r9, r7
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 23
+
+
+ 689              	.LVL126:
+ 690              		.loc 1 441 7 is_stmt 0 view .LVU285
+ 691 029e 6746     		mov	r7, ip
+ 692              	.LVL127:
+ 693              		.loc 1 441 7 view .LVU286
+ 694 02a0 B446     		mov	ip, r6
+ 695              	.LVL128:
+ 696              		.loc 1 441 13 view .LVU287
+ 697 02a2 44E0     		b	.L22
+ 698              	.LVL129:
+ 699              	.L24:
+ 442:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 443:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Accumulator is made zero for every iteration */
+ 444:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum = 0.0f;
+ 445:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 446:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Apply loop unrolling and compute 4 MACs simultaneously. */
+ 447:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k = srcBLen >> 2U;
+ 448:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 449:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* First part of the processing with loop unrolling.  Compute 4 MACs at a time.
+ 450:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****          ** a second loop below computes MACs for the remaining 1 to 3 samples. */
+ 451:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         while (k > 0U)
+ 452:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 453:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulates */
+ 454:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 700              		.loc 1 454 11 is_stmt 1 view .LVU288
+ 701              		.loc 1 454 18 is_stmt 0 view .LVU289
+ 702 02a4 9EED007A 		vldr.32	s14, [lr]
+ 703              	.LVL130:
+ 704              		.loc 1 454 26 view .LVU290
+ 705 02a8 D0ED006A 		vldr.32	s13, [r0]
+ 706              		.loc 1 454 24 view .LVU291
+ 707 02ac 27EE267A 		vmul.f32	s14, s14, s13
+ 708              		.loc 1 454 15 view .LVU292
+ 709 02b0 77EE877A 		vadd.f32	s15, s15, s14
+ 710              	.LVL131:
+ 455:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 711              		.loc 1 455 11 is_stmt 1 view .LVU293
+ 712              		.loc 1 455 18 is_stmt 0 view .LVU294
+ 713 02b4 9EED017A 		vldr.32	s14, [lr, #4]
+ 714              	.LVL132:
+ 715              		.loc 1 455 26 view .LVU295
+ 716 02b8 50ED016A 		vldr.32	s13, [r0, #-4]
+ 717              		.loc 1 455 24 view .LVU296
+ 718 02bc 27EE267A 		vmul.f32	s14, s14, s13
+ 719              		.loc 1 455 15 view .LVU297
+ 720 02c0 77EE877A 		vadd.f32	s15, s15, s14
+ 721              	.LVL133:
+ 456:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 722              		.loc 1 456 11 is_stmt 1 view .LVU298
+ 723              		.loc 1 456 18 is_stmt 0 view .LVU299
+ 724 02c4 9EED027A 		vldr.32	s14, [lr, #8]
+ 725              	.LVL134:
+ 726              		.loc 1 456 26 view .LVU300
+ 727 02c8 50ED026A 		vldr.32	s13, [r0, #-8]
+ 728              		.loc 1 456 24 view .LVU301
+ 729 02cc 27EE267A 		vmul.f32	s14, s14, s13
+ 730              		.loc 1 456 15 view .LVU302
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 24
+
+
+ 731 02d0 77EE877A 		vadd.f32	s15, s15, s14
+ 732              	.LVL135:
+ 457:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 733              		.loc 1 457 11 is_stmt 1 view .LVU303
+ 734              		.loc 1 457 18 is_stmt 0 view .LVU304
+ 735 02d4 9EED037A 		vldr.32	s14, [lr, #12]
+ 736              	.LVL136:
+ 737              		.loc 1 457 26 view .LVU305
+ 738 02d8 50ED036A 		vldr.32	s13, [r0, #-12]
+ 739              		.loc 1 457 24 view .LVU306
+ 740 02dc 27EE267A 		vmul.f32	s14, s14, s13
+ 741              		.loc 1 457 15 view .LVU307
+ 742 02e0 77EE877A 		vadd.f32	s15, s15, s14
+ 743              	.LVL137:
+ 458:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 459:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Decrement the loop counter */
+ 460:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           k--;
+ 744              		.loc 1 460 11 is_stmt 1 view .LVU308
+ 745              		.loc 1 460 12 is_stmt 0 view .LVU309
+ 746 02e4 013E     		subs	r6, r6, #1
+ 747              	.LVL138:
+ 457:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 748              		.loc 1 457 29 view .LVU310
+ 749 02e6 1038     		subs	r0, r0, #16
+ 750              	.LVL139:
+ 457:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 751              		.loc 1 457 21 view .LVU311
+ 752 02e8 0EF1100E 		add	lr, lr, #16
+ 753              	.LVL140:
+ 754              	.L23:
+ 451:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 755              		.loc 1 451 18 is_stmt 1 view .LVU312
+ 756 02ec 002E     		cmp	r6, #0
+ 757 02ee D9D1     		bne	.L24
+ 461:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 462:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 463:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* If the srcBLen is not a multiple of 4, compute any remaining MACs here.
+ 464:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****          ** No loop unrolling is used. */
+ 465:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k = srcBLen % 0x4U;
+ 758              		.loc 1 465 9 view .LVU313
+ 759              		.loc 1 465 11 is_stmt 0 view .LVU314
+ 760 02f0 04F00306 		and	r6, r4, #3
+ 761              	.LVL141:
+ 466:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 467:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         while (k > 0U)
+ 762              		.loc 1 467 9 is_stmt 1 view .LVU315
+ 763              		.loc 1 467 15 is_stmt 0 view .LVU316
+ 764 02f4 0AE0     		b	.L25
+ 765              	.L26:
+ 468:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 469:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulate */
+ 470:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 766              		.loc 1 470 11 is_stmt 1 view .LVU317
+ 767              	.LVL142:
+ 768              		.loc 1 470 18 is_stmt 0 view .LVU318
+ 769 02f6 BEEC017A 		vldmia.32	lr!, {s14}
+ 770              	.LVL143:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 25
+
+
+ 771              		.loc 1 470 26 view .LVU319
+ 772 02fa 8346     		mov	fp, r0
+ 773 02fc 0438     		subs	r0, r0, #4
+ 774              	.LVL144:
+ 775              		.loc 1 470 26 view .LVU320
+ 776 02fe DBED006A 		vldr.32	s13, [fp]
+ 777              		.loc 1 470 24 view .LVU321
+ 778 0302 27EE267A 		vmul.f32	s14, s14, s13
+ 779              		.loc 1 470 15 view .LVU322
+ 780 0306 77EE877A 		vadd.f32	s15, s15, s14
+ 781              	.LVL145:
+ 471:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 472:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Decrement the loop counter */
+ 473:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           k--;
+ 782              		.loc 1 473 11 is_stmt 1 view .LVU323
+ 783              		.loc 1 473 12 is_stmt 0 view .LVU324
+ 784 030a 013E     		subs	r6, r6, #1
+ 785              	.LVL146:
+ 786              	.L25:
+ 467:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 787              		.loc 1 467 18 is_stmt 1 view .LVU325
+ 788 030c 002E     		cmp	r6, #0
+ 789 030e F2D1     		bne	.L26
+ 474:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 475:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 476:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Store the result in the accumulator in the destination buffer. */
+ 477:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         *pOut++ = sum;
+ 790              		.loc 1 477 9 view .LVU326
+ 791              	.LVL147:
+ 792              		.loc 1 477 17 is_stmt 0 view .LVU327
+ 793 0310 E3EC017A 		vstmia.32	r3!, {s15}
+ 794              	.LVL148:
+ 478:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 479:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Increment the MAC count */
+ 480:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         count++;
+ 795              		.loc 1 480 9 is_stmt 1 view .LVU328
+ 796              		.loc 1 480 14 is_stmt 0 view .LVU329
+ 797 0314 0CF1010C 		add	ip, ip, #1
+ 798              	.LVL149:
+ 481:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 482:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Update the inputA and inputB pointers for next MAC calculation */
+ 483:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         if ((int32_t)firstIndex - (int32_t)srcBLen + 1 > 0)
+ 799              		.loc 1 483 9 is_stmt 1 view .LVU330
+ 800              		.loc 1 483 12 is_stmt 0 view .LVU331
+ 801 0318 B8F1000F 		cmp	r8, #0
+ 802 031c 0DDB     		blt	.L27
+ 484:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 485:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           px = pIn1 + firstIndex - srcBLen + 1 + count;
+ 803              		.loc 1 485 11 is_stmt 1 view .LVU332
+ 804              		.loc 1 485 34 is_stmt 0 view .LVU333
+ 805 031e A9EB040E 		sub	lr, r9, r4
+ 806              	.LVL150:
+ 807              		.loc 1 485 48 view .LVU334
+ 808 0322 E644     		add	lr, lr, ip
+ 809 0324 0EF1010E 		add	lr, lr, #1
+ 810              		.loc 1 485 14 view .LVU335
+ 811 0328 01EB8E0E 		add	lr, r1, lr, lsl #2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 26
+
+
+ 812              	.LVL151:
+ 813              	.L28:
+ 486:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 487:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         else
+ 488:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 489:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           px = pIn1 + count;
+ 490:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 491:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         py = pSrc2;
+ 814              		.loc 1 491 9 is_stmt 1 view .LVU336
+ 492:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 493:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Decrement the loop counter */
+ 494:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         blkCnt--;
+ 815              		.loc 1 494 9 view .LVU337
+ 816              		.loc 1 494 15 is_stmt 0 view .LVU338
+ 817 032c 013F     		subs	r7, r7, #1
+ 818              	.LVL152:
+ 819              	.L22:
+ 441:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 820              		.loc 1 441 21 is_stmt 1 view .LVU339
+ 821 032e 97B3     		cbz	r7, .L30
+ 444:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 822              		.loc 1 444 9 view .LVU340
+ 823              	.LVL153:
+ 447:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 824              		.loc 1 447 9 view .LVU341
+ 447:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 825              		.loc 1 447 11 is_stmt 0 view .LVU342
+ 826 0330 A608     		lsrs	r6, r4, #2
+ 827              	.LVL154:
+ 451:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 828              		.loc 1 451 9 is_stmt 1 view .LVU343
+ 451:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 829              		.loc 1 451 15 is_stmt 0 view .LVU344
+ 830 0332 2846     		mov	r0, r5
+ 444:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 831              		.loc 1 444 13 view .LVU345
+ 832 0334 DFED407A 		vldr.32	s15, .L52
+ 451:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 833              		.loc 1 451 15 view .LVU346
+ 834 0338 D8E7     		b	.L23
+ 835              	.LVL155:
+ 836              	.L27:
+ 489:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 837              		.loc 1 489 11 is_stmt 1 view .LVU347
+ 489:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 838              		.loc 1 489 14 is_stmt 0 view .LVU348
+ 839 033a 01EB8C0E 		add	lr, r1, ip, lsl #2
+ 840              	.LVL156:
+ 489:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 841              		.loc 1 489 14 view .LVU349
+ 842 033e F5E7     		b	.L28
+ 843              	.LVL157:
+ 844              	.L14:
+ 495:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 496:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 497:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     else
+ 498:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 27
+
+
+ 499:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* If the srcBLen is not a multiple of 4,
+ 500:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        * the blockSize2 loop cannot be unrolled by 4 */
+ 501:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       blkCnt = (uint32_t) blockSize2;
+ 845              		.loc 1 501 7 is_stmt 1 view .LVU350
+ 502:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 503:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       while (blkCnt > 0U)
+ 846              		.loc 1 503 7 view .LVU351
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 847              		.loc 1 278 11 is_stmt 0 view .LVU352
+ 848 0340 4FF00009 		mov	r9, #0
+ 849              	.LVL158:
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 850              		.loc 1 278 11 view .LVU353
+ 851 0344 6046     		mov	r0, ip
+ 852 0346 9C46     		mov	ip, r3
+ 853              	.LVL159:
+ 854              		.loc 1 503 13 view .LVU354
+ 855 0348 1BE0     		b	.L31
+ 856              	.LVL160:
+ 857              	.L32:
+ 504:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 505:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Accumulator is made zero for every iteration */
+ 506:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum = 0.0f;
+ 507:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 508:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* srcBLen number of MACS should be performed */
+ 509:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k = srcBLen;
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 511:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         while (k > 0U)
+ 512:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 513:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Perform the multiply-accumulate */
+ 514:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += *px++ * *py--;
+ 858              		.loc 1 514 11 is_stmt 1 view .LVU355
+ 859              		.loc 1 514 18 is_stmt 0 view .LVU356
+ 860 034a FEEC017A 		vldmia.32	lr!, {s15}
+ 861              	.LVL161:
+ 862              		.loc 1 514 26 view .LVU357
+ 863 034e B346     		mov	fp, r6
+ 864 0350 043E     		subs	r6, r6, #4
+ 865              	.LVL162:
+ 866              		.loc 1 514 26 view .LVU358
+ 867 0352 DBED006A 		vldr.32	s13, [fp]
+ 868              		.loc 1 514 24 view .LVU359
+ 869 0356 67EEA67A 		vmul.f32	s15, s15, s13
+ 870              		.loc 1 514 15 view .LVU360
+ 871 035a 37EE277A 		vadd.f32	s14, s14, s15
+ 872              	.LVL163:
+ 515:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 516:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* Decrement the loop counter */
+ 517:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           k--;
+ 873              		.loc 1 517 11 is_stmt 1 view .LVU361
+ 874              		.loc 1 517 12 is_stmt 0 view .LVU362
+ 875 035e 013B     		subs	r3, r3, #1
+ 876              	.LVL164:
+ 877              	.L35:
+ 511:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 878              		.loc 1 511 18 is_stmt 1 view .LVU363
+ 879 0360 002B     		cmp	r3, #0
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 28
+
+
+ 880 0362 F2D1     		bne	.L32
+ 518:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 519:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 520:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Store the result in the accumulator in the destination buffer. */
+ 521:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         *pOut++ = sum;
+ 881              		.loc 1 521 9 view .LVU364
+ 882              	.LVL165:
+ 883              		.loc 1 521 17 is_stmt 0 view .LVU365
+ 884 0364 ACEC017A 		vstmia.32	ip!, {s14}
+ 885              	.LVL166:
+ 522:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 523:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Increment the MAC count */
+ 524:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         count++;
+ 886              		.loc 1 524 9 is_stmt 1 view .LVU366
+ 887              		.loc 1 524 14 is_stmt 0 view .LVU367
+ 888 0368 09F10109 		add	r9, r9, #1
+ 889              	.LVL167:
+ 525:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 526:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Update the inputA and inputB pointers for next MAC calculation */
+ 527:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         if ((int32_t)firstIndex - (int32_t)srcBLen + 1 > 0)
+ 890              		.loc 1 527 9 is_stmt 1 view .LVU368
+ 891              		.loc 1 527 12 is_stmt 0 view .LVU369
+ 892 036c B8F1000F 		cmp	r8, #0
+ 893 0370 0DDB     		blt	.L33
+ 528:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 529:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           px = pIn1 + firstIndex - srcBLen + 1 + count;
+ 894              		.loc 1 529 11 is_stmt 1 view .LVU370
+ 895              		.loc 1 529 34 is_stmt 0 view .LVU371
+ 896 0372 A7EB040E 		sub	lr, r7, r4
+ 897              	.LVL168:
+ 898              		.loc 1 529 48 view .LVU372
+ 899 0376 CE44     		add	lr, lr, r9
+ 900 0378 0EF1010E 		add	lr, lr, #1
+ 901              		.loc 1 529 14 view .LVU373
+ 902 037c 01EB8E0E 		add	lr, r1, lr, lsl #2
+ 903              	.LVL169:
+ 904              	.L34:
+ 530:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 531:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         else
+ 532:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           px = pIn1 + count;
+ 534:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 535:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         py = pSrc2;
+ 905              		.loc 1 535 9 is_stmt 1 view .LVU374
+ 536:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 537:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Decrement the loop counter */
+ 538:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         blkCnt--;
+ 906              		.loc 1 538 9 view .LVU375
+ 907              		.loc 1 538 15 is_stmt 0 view .LVU376
+ 908 0380 0138     		subs	r0, r0, #1
+ 909              	.LVL170:
+ 910              	.L31:
+ 503:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 911              		.loc 1 503 21 is_stmt 1 view .LVU377
+ 912 0382 38B1     		cbz	r0, .L50
+ 509:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 913              		.loc 1 509 11 is_stmt 0 view .LVU378
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 29
+
+
+ 914 0384 2346     		mov	r3, r4
+ 915 0386 2E46     		mov	r6, r5
+ 506:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 916              		.loc 1 506 13 view .LVU379
+ 917 0388 9FED2B7A 		vldr.32	s14, .L52
+ 918 038c E8E7     		b	.L35
+ 919              	.LVL171:
+ 920              	.L33:
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 921              		.loc 1 533 11 is_stmt 1 view .LVU380
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 922              		.loc 1 533 14 is_stmt 0 view .LVU381
+ 923 038e 01EB890E 		add	lr, r1, r9, lsl #2
+ 924              	.LVL172:
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 925              		.loc 1 533 14 view .LVU382
+ 926 0392 F5E7     		b	.L34
+ 927              	.LVL173:
+ 928              	.L50:
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 929              		.loc 1 533 14 view .LVU383
+ 930 0394 6346     		mov	r3, ip
+ 931              	.LVL174:
+ 932              	.L30:
+ 539:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 540:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 541:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 542:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 543:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* --------------------------
+ 544:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * Initializations of stage3
+ 545:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * -------------------------*/
+ 546:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 547:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* sum += x[srcALen-srcBLen+1] * y[srcBLen-1] + x[srcALen-srcBLen+2] * y[srcBLen-2] +...+ x[src
+ 548:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * sum += x[srcALen-srcBLen+2] * y[srcBLen-1] + x[srcALen-srcBLen+3] * y[srcBLen-2] +...+ x[src
+ 549:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * ....
+ 550:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * sum +=  x[srcALen-2] * y[srcBLen-1] + x[srcALen-1] * y[srcBLen-2]
+ 551:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      * sum +=  x[srcALen-1] * y[srcBLen-1]
+ 552:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****      */
+ 553:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 554:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* In this stage the MAC operations are decreased by 1 for every iteration.
+ 555:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        The count variable holds the number of MAC operations performed */
+ 556:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     count = srcBLen - 1U;
+ 933              		.loc 1 556 5 is_stmt 1 view .LVU384
+ 934              		.loc 1 556 11 is_stmt 0 view .LVU385
+ 935 0396 671E     		subs	r7, r4, #1
+ 936              	.LVL175:
+ 557:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 558:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Working pointer of inputA */
+ 559:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     pSrc1 = (pIn1 + srcALen) - (srcBLen - 1U);
+ 937              		.loc 1 559 5 is_stmt 1 view .LVU386
+ 938              		.loc 1 559 30 is_stmt 0 view .LVU387
+ 939 0398 AAEB0400 		sub	r0, r10, r4
+ 940 039c 0130     		adds	r0, r0, #1
+ 941              		.loc 1 559 11 view .LVU388
+ 942 039e 01EB8001 		add	r1, r1, r0, lsl #2
+ 943              	.LVL176:
+ 560:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     px = pSrc1;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 30
+
+
+ 944              		.loc 1 560 5 is_stmt 1 view .LVU389
+ 561:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 562:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Working pointer of inputB */
+ 563:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     pSrc2 = pIn2 + (srcBLen - 1U);
+ 945              		.loc 1 563 5 view .LVU390
+ 564:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     py = pSrc2;
+ 946              		.loc 1 564 5 view .LVU391
+ 565:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 566:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     while (blockSize3 > 0)
+ 947              		.loc 1 566 5 view .LVU392
+ 948              		.loc 1 566 11 is_stmt 0 view .LVU393
+ 949 03a2 39E0     		b	.L36
+ 950              	.LVL177:
+ 951              	.L38:
+ 567:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 568:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Accumulator is made zero for every iteration */
+ 569:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       sum = 0.0f;
+ 570:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 571:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Apply loop unrolling and compute 4 MACs simultaneously. */
+ 572:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       k = count >> 2U;
+ 573:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 574:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* First part of the processing with loop unrolling.  Compute 4 MACs at a time.
+ 575:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        ** a second loop below computes MACs for the remaining 1 to 3 samples. */
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       while (k > 0U)
+ 577:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 578:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* sum += x[srcALen - srcBLen + 1] * y[srcBLen - 1] */
+ 579:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 952              		.loc 1 579 9 is_stmt 1 view .LVU394
+ 953              		.loc 1 579 16 is_stmt 0 view .LVU395
+ 954 03a4 90ED007A 		vldr.32	s14, [r0]
+ 955              	.LVL178:
+ 956              		.loc 1 579 24 view .LVU396
+ 957 03a8 D4ED006A 		vldr.32	s13, [r4]
+ 958              		.loc 1 579 22 view .LVU397
+ 959 03ac 27EE267A 		vmul.f32	s14, s14, s13
+ 960              		.loc 1 579 13 view .LVU398
+ 961 03b0 77EE877A 		vadd.f32	s15, s15, s14
+ 962              	.LVL179:
+ 580:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 581:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* sum += x[srcALen - srcBLen + 2] * y[srcBLen - 2] */
+ 582:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 963              		.loc 1 582 9 is_stmt 1 view .LVU399
+ 964              		.loc 1 582 16 is_stmt 0 view .LVU400
+ 965 03b4 90ED017A 		vldr.32	s14, [r0, #4]
+ 966              	.LVL180:
+ 967              		.loc 1 582 24 view .LVU401
+ 968 03b8 54ED016A 		vldr.32	s13, [r4, #-4]
+ 969              		.loc 1 582 22 view .LVU402
+ 970 03bc 27EE267A 		vmul.f32	s14, s14, s13
+ 971              		.loc 1 582 13 view .LVU403
+ 972 03c0 77EE877A 		vadd.f32	s15, s15, s14
+ 973              	.LVL181:
+ 583:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 584:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* sum += x[srcALen - srcBLen + 3] * y[srcBLen - 3] */
+ 585:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 974              		.loc 1 585 9 is_stmt 1 view .LVU404
+ 975              		.loc 1 585 16 is_stmt 0 view .LVU405
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 31
+
+
+ 976 03c4 90ED027A 		vldr.32	s14, [r0, #8]
+ 977              	.LVL182:
+ 978              		.loc 1 585 24 view .LVU406
+ 979 03c8 54ED026A 		vldr.32	s13, [r4, #-8]
+ 980              		.loc 1 585 22 view .LVU407
+ 981 03cc 27EE267A 		vmul.f32	s14, s14, s13
+ 982              		.loc 1 585 13 view .LVU408
+ 983 03d0 77EE877A 		vadd.f32	s15, s15, s14
+ 984              	.LVL183:
+ 586:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 587:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* sum += x[srcALen - srcBLen + 4] * y[srcBLen - 4] */
+ 588:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 985              		.loc 1 588 9 is_stmt 1 view .LVU409
+ 986              		.loc 1 588 16 is_stmt 0 view .LVU410
+ 987 03d4 90ED037A 		vldr.32	s14, [r0, #12]
+ 988              	.LVL184:
+ 989              		.loc 1 588 24 view .LVU411
+ 990 03d8 54ED036A 		vldr.32	s13, [r4, #-12]
+ 991              		.loc 1 588 22 view .LVU412
+ 992 03dc 27EE267A 		vmul.f32	s14, s14, s13
+ 993              		.loc 1 588 13 view .LVU413
+ 994 03e0 77EE877A 		vadd.f32	s15, s15, s14
+ 995              	.LVL185:
+ 589:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 590:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Decrement the loop counter */
+ 591:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k--;
+ 996              		.loc 1 591 9 is_stmt 1 view .LVU414
+ 997              		.loc 1 591 10 is_stmt 0 view .LVU415
+ 998 03e4 013E     		subs	r6, r6, #1
+ 999              	.LVL186:
+ 588:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 1000              		.loc 1 588 27 view .LVU416
+ 1001 03e6 103C     		subs	r4, r4, #16
+ 1002              	.LVL187:
+ 588:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 1003              		.loc 1 588 19 view .LVU417
+ 1004 03e8 1030     		adds	r0, r0, #16
+ 1005              	.LVL188:
+ 1006              	.L37:
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 1007              		.loc 1 576 16 is_stmt 1 view .LVU418
+ 1008 03ea 002E     		cmp	r6, #0
+ 1009 03ec DAD1     		bne	.L38
+ 592:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 593:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 594:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* If the count is not a multiple of 4, compute any remaining MACs here.
+ 595:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****        ** No loop unrolling is used. */
+ 596:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       k = count % 0x4U;
+ 1010              		.loc 1 596 7 view .LVU419
+ 1011              		.loc 1 596 9 is_stmt 0 view .LVU420
+ 1012 03ee 07F00306 		and	r6, r7, #3
+ 1013              	.LVL189:
+ 597:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 598:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       while (k > 0U)
+ 1014              		.loc 1 598 7 is_stmt 1 view .LVU421
+ 1015              		.loc 1 598 13 is_stmt 0 view .LVU422
+ 1016 03f2 0AE0     		b	.L39
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 32
+
+
+ 1017              	.L40:
+ 599:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 600:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Perform the multiply-accumulates */
+ 601:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* sum +=  x[srcALen-1] * y[srcBLen-1] */
+ 602:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         sum += *px++ * *py--;
+ 1018              		.loc 1 602 9 is_stmt 1 view .LVU423
+ 1019              	.LVL190:
+ 1020              		.loc 1 602 16 is_stmt 0 view .LVU424
+ 1021 03f4 B0EC017A 		vldmia.32	r0!, {s14}
+ 1022              	.LVL191:
+ 1023              		.loc 1 602 24 view .LVU425
+ 1024 03f8 A446     		mov	ip, r4
+ 1025 03fa 043C     		subs	r4, r4, #4
+ 1026              	.LVL192:
+ 1027              		.loc 1 602 24 view .LVU426
+ 1028 03fc DCED006A 		vldr.32	s13, [ip]
+ 1029              		.loc 1 602 22 view .LVU427
+ 1030 0400 27EE267A 		vmul.f32	s14, s14, s13
+ 1031              		.loc 1 602 13 view .LVU428
+ 1032 0404 77EE877A 		vadd.f32	s15, s15, s14
+ 1033              	.LVL193:
+ 603:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 604:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Decrement the loop counter */
+ 605:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         k--;
+ 1034              		.loc 1 605 9 is_stmt 1 view .LVU429
+ 1035              		.loc 1 605 10 is_stmt 0 view .LVU430
+ 1036 0408 013E     		subs	r6, r6, #1
+ 1037              	.LVL194:
+ 1038              	.L39:
+ 598:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 1039              		.loc 1 598 16 is_stmt 1 view .LVU431
+ 1040 040a 002E     		cmp	r6, #0
+ 1041 040c F2D1     		bne	.L40
+ 606:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 607:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 608:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Store the result in the accumulator in the destination buffer. */
+ 609:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       *pOut++ = sum;
+ 1042              		.loc 1 609 7 view .LVU432
+ 1043              	.LVL195:
+ 1044              		.loc 1 609 15 is_stmt 0 view .LVU433
+ 1045 040e E3EC017A 		vstmia.32	r3!, {s15}
+ 1046              	.LVL196:
+ 610:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 611:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Update the inputA and inputB pointers for next MAC calculation */
+ 612:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       px = ++pSrc1;
+ 1047              		.loc 1 612 7 is_stmt 1 view .LVU434
+ 1048              		.loc 1 612 10 is_stmt 0 view .LVU435
+ 1049 0412 0431     		adds	r1, r1, #4
+ 1050              	.LVL197:
+ 613:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       py = pSrc2;
+ 1051              		.loc 1 613 7 is_stmt 1 view .LVU436
+ 614:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 615:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Decrement the MAC count */
+ 616:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       count--;
+ 1052              		.loc 1 616 7 view .LVU437
+ 1053              		.loc 1 616 12 is_stmt 0 view .LVU438
+ 1054 0414 013F     		subs	r7, r7, #1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 33
+
+
+ 1055              	.LVL198:
+ 617:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 618:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Decrement the loop counter */
+ 619:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       blockSize3--;
+ 1056              		.loc 1 619 7 is_stmt 1 view .LVU439
+ 1057              		.loc 1 619 17 is_stmt 0 view .LVU440
+ 1058 0416 013A     		subs	r2, r2, #1
+ 1059              	.LVL199:
+ 1060              	.L36:
+ 566:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 1061              		.loc 1 566 23 is_stmt 1 view .LVU441
+ 1062 0418 002A     		cmp	r2, #0
+ 1063 041a 05DD     		ble	.L51
+ 569:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 1064              		.loc 1 569 7 view .LVU442
+ 1065              	.LVL200:
+ 572:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 1066              		.loc 1 572 7 view .LVU443
+ 572:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 1067              		.loc 1 572 9 is_stmt 0 view .LVU444
+ 1068 041c BE08     		lsrs	r6, r7, #2
+ 1069              	.LVL201:
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 1070              		.loc 1 576 7 is_stmt 1 view .LVU445
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 1071              		.loc 1 576 13 is_stmt 0 view .LVU446
+ 1072 041e 2C46     		mov	r4, r5
+ 1073 0420 0846     		mov	r0, r1
+ 569:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 1074              		.loc 1 569 11 view .LVU447
+ 1075 0422 DFED057A 		vldr.32	s15, .L52
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 1076              		.loc 1 576 13 view .LVU448
+ 1077 0426 E0E7     		b	.L37
+ 1078              	.LVL202:
+ 1079              	.L51:
+ 620:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 621:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 622:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 623:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* set status as ARM_MATH_SUCCESS */
+ 624:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     status = ARM_MATH_SUCCESS;
+ 1080              		.loc 1 624 12 view .LVU449
+ 1081 0428 0020     		movs	r0, #0
+ 1082              	.LVL203:
+ 1083              	.L2:
+ 625:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   }
+ 626:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 627:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   /* Return to application */
+ 628:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   return (status);
+ 1084              		.loc 1 628 3 is_stmt 1 view .LVU450
+ 629:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 630:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** #else
+ 631:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 632:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   /* Run the below code for Cortex-M0 */
+ 633:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 634:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *pIn1 = pSrcA;                       /* inputA pointer */
+ 635:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t *pIn2 = pSrcB;                       /* inputB pointer */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 34
+
+
+ 636:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   float32_t sum;                                 /* Accumulator */
+ 637:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   uint32_t i, j;                                 /* loop counters */
+ 638:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   arm_status status;                             /* status of Partial convolution */
+ 639:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 640:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   /* Check for range of output samples to be calculated */
+ 641:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   if ((firstIndex + numPoints) > ((srcALen + (srcBLen - 1U))))
+ 642:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   {
+ 643:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Set status as ARM_ARGUMENT_ERROR */
+ 644:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     status = ARM_MATH_ARGUMENT_ERROR;
+ 645:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   }
+ 646:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   else
+ 647:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   {
+ 648:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* Loop to calculate convolution for output length number of values */
+ 649:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     for (i = firstIndex; i <= (firstIndex + numPoints - 1); i++)
+ 650:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     {
+ 651:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Initialize sum with zero to carry on MAC operations */
+ 652:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       sum = 0.0f;
+ 653:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 654:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Loop to perform MAC operations according to convolution equation */
+ 655:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       for (j = 0U; j <= i; j++)
+ 656:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       {
+ 657:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         /* Check the array limitations for inputs */
+ 658:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         if ((((i - j) < srcBLen) && (j < srcALen)))
+ 659:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         {
+ 660:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           /* z[i] += x[i-j] * y[j] */
+ 661:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****           sum += pIn1[j] * pIn2[i - j];
+ 662:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****         }
+ 663:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       }
+ 664:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       /* Store the output in the destination buffer */
+ 665:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****       pDst[i] = sum;
+ 666:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     }
+ 667:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     /* set status as ARM_SUCCESS as there are no argument errors */
+ 668:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****     status = ARM_MATH_SUCCESS;
+ 669:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   }
+ 670:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   return (status);
+ 671:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 672:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** #endif /*   #if defined (ARM_MATH_DSP) */
+ 673:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** 
+ 674:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c **** }
+ 1085              		.loc 1 674 1 is_stmt 0 view .LVU451
+ 1086 042a 03B0     		add	sp, sp, #12
+ 1087              	.LCFI2:
+ 1088              		.cfi_remember_state
+ 1089              		.cfi_def_cfa_offset 36
+ 1090              		@ sp needed
+ 1091 042c BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1092              	.LVL204:
+ 1093              	.L42:
+ 1094              	.LCFI3:
+ 1095              		.cfi_restore_state
+ 115:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   }
+ 1096              		.loc 1 115 12 view .LVU452
+ 1097 0430 4FF0FF30 		mov	r0, #-1
+ 1098              	.LVL205:
+ 115:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_conv_partial_f32.c ****   }
+ 1099              		.loc 1 115 12 view .LVU453
+ 1100 0434 F9E7     		b	.L2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 35
+
+
+ 1101              	.L53:
+ 1102 0436 00BF     		.align	2
+ 1103              	.L52:
+ 1104 0438 00000000 		.word	0
+ 1105              		.cfi_endproc
+ 1106              	.LFE139:
+ 1108              		.text
+ 1109              	.Letext0:
+ 1110              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 1111              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 1112              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s 			page 36
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_conv_partial_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s:21     .text.arm_conv_partial_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s:27     .text.arm_conv_partial_f32:00000000 arm_conv_partial_f32
+C:\Users\Lamp\AppData\Local\Temp\cckgtv7Q.s:1104   .text.arm_conv_partial_f32:00000438 $d
+
+NO UNDEFINED SYMBOLS

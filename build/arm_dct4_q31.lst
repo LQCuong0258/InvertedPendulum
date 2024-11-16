@@ -1,0 +1,939 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_dct4_q31.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c"
+  20              		.section	.text.arm_dct4_q31,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_dct4_q31
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_dct4_q31:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Title:        arm_dct4_q31.c
+   4:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Description:  Processing function of DCT4 & IDCT4 Q31
+   5:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  *
+   6:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  *
+   9:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** /*
+  12:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  *
+  14:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  *
+  16:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  *
+  20:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  *
+  22:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  */
+  28:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  29:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  31:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** /**
+  32:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * @addtogroup DCT4_IDCT4
+  33:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * @{
+  34:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  */
+  35:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  36:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** /**
+  37:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * @brief Processing function for the Q31 DCT4/IDCT4.
+  38:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * @param[in]       *S             points to an instance of the Q31 DCT4 structure.
+  39:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * @param[in]       *pState        points to state buffer.
+  40:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * @param[in,out]   *pInlineBuffer points to the in-place input and output buffer.
+  41:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * @return none.
+  42:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * \par Input an output formats:
+  43:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Input samples need to be downscaled by 1 bit to avoid saturations in the Q31 DCT process,
+  44:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * as the conversion from DCT2 to DCT4 involves one subtraction.
+  45:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Internally inputs are downscaled in the RFFT process function to avoid overflows.
+  46:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * Number of bits downscaled, depends on the size of the transform.
+  47:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * The input and output formats for different DCT sizes and number of bits to upscale are mentioned
+  48:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  *
+  49:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  * \image html dct4FormatsQ31Table.gif
+  50:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****  */
+  51:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  52:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** void arm_dct4_q31(
+  53:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   const arm_dct4_instance_q31 * S,
+  54:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   q31_t * pState,
+  55:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   q31_t * pInlineBuffer)
+  56:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** {
+  30              		.loc 1 56 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 56 1 is_stmt 0 view .LVU1
+  35 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 24
+  38              		.cfi_offset 3, -24
+  39              		.cfi_offset 4, -20
+  40              		.cfi_offset 5, -16
+  41              		.cfi_offset 6, -12
+  42              		.cfi_offset 7, -8
+  43              		.cfi_offset 14, -4
+  44 0002 0646     		mov	r6, r0
+  45 0004 0D46     		mov	r5, r1
+  46 0006 1446     		mov	r4, r2
+  57:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   uint16_t i;                                    /* Loop counter */
+  47              		.loc 1 57 3 is_stmt 1 view .LVU2
+  58:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   q31_t *weights = S->pTwiddle;                  /* Pointer to the Weights table */
+  48              		.loc 1 58 3 view .LVU3
+  49              		.loc 1 58 10 is_stmt 0 view .LVU4
+  50 0008 8768     		ldr	r7, [r0, #8]
+  51              	.LVL1:
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   q31_t *cosFact = S->pCosFactor;                /* Pointer to the cos factors table */
+  52              		.loc 1 59 3 is_stmt 1 view .LVU5
+  60:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   q31_t *pS1, *pS2, *pbuff;                      /* Temporary pointers for input buffer and pState 
+  53              		.loc 1 60 3 view .LVU6
+  61:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   q31_t in;                                      /* Temporary variable */
+  54              		.loc 1 61 3 view .LVU7
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 3
+
+
+  62:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  63:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  64:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* DCT4 computation involves DCT2 (which is calculated using RFFT)
+  65:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * along with some pre-processing and post-processing.
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * Computational procedure is explained as follows:
+  67:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * (a) Pre-processing involves multiplying input with cos factor,
+  68:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *     r(n) = 2 * u(n) * cos(pi*(2*n+1)/(4*n))
+  69:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *              where,
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                 r(n) -- output of preprocessing
+  71:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                 u(n) -- input to preprocessing(actual Source buffer)
+  72:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * (b) Calculation of DCT2 using FFT is divided into three steps:
+  73:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                  Step1: Re-ordering of even and odd elements of input.
+  74:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                  Step2: Calculating FFT of the re-ordered input.
+  75:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                  Step3: Taking the real part of the product of FFT output and weights.
+  76:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * (c) Post-processing - DCT4 can be obtained from DCT2 output using the following equation:
+  77:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                   Y4(k) = Y2(k) - Y4(k-1) and Y4(-1) = Y4(0)
+  78:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                        where,
+  79:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *                           Y4 -- DCT4 output,   Y2 -- DCT2 output
+  80:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * (d) Multiplying the output with the normalizing factor sqrt(2/N).
+  81:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    */
+  82:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  83:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****         /*-------- Pre-processing ------------*/
+  84:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Multiplying input with cos factor i.e. r(n) = 2 * x(n) * cos(pi*(2*n+1)/(4*n)) */
+  85:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_mult_q31(pInlineBuffer, cosFact, pInlineBuffer, S->N);
+  55              		.loc 1 85 3 view .LVU8
+  56 000a 0388     		ldrh	r3, [r0]
+  57 000c C168     		ldr	r1, [r0, #12]
+  58              	.LVL2:
+  59              		.loc 1 85 3 is_stmt 0 view .LVU9
+  60 000e 1046     		mov	r0, r2
+  61              	.LVL3:
+  62              		.loc 1 85 3 view .LVU10
+  63 0010 FFF7FEFF 		bl	arm_mult_q31
+  64              	.LVL4:
+  86:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_shift_q31(pInlineBuffer, 1, pInlineBuffer, S->N);
+  65              		.loc 1 86 3 is_stmt 1 view .LVU11
+  66 0014 3388     		ldrh	r3, [r6]
+  67 0016 2246     		mov	r2, r4
+  68 0018 0121     		movs	r1, #1
+  69 001a 2046     		mov	r0, r4
+  70 001c FFF7FEFF 		bl	arm_shift_q31
+  71              	.LVL5:
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  88:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* ----------------------------------------------------------------
+  89:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * Step1: Re-ordering of even and odd elements as
+  90:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *             pState[i] =  pInlineBuffer[2*i] and
+  91:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *             pState[N-i-1] = pInlineBuffer[2*i+1] where i = 0 to N/2
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    ---------------------------------------------------------------------*/
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  94:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pS1 initialized to pState */
+  95:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS1 = pState;
+  72              		.loc 1 95 3 view .LVU12
+  96:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  97:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pS2 initialized to pState+N-1, so that it points to the end of the state buffer */
+  98:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS2 = pState + (S->N - 1U);
+  73              		.loc 1 98 3 view .LVU13
+  74              		.loc 1 98 20 is_stmt 0 view .LVU14
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 4
+
+
+  75 0020 3288     		ldrh	r2, [r6]
+  76              		.loc 1 98 16 view .LVU15
+  77 0022 02F18042 		add	r2, r2, #1073741824
+  78 0026 013A     		subs	r2, r2, #1
+  79              		.loc 1 98 7 view .LVU16
+  80 0028 05EB8202 		add	r2, r5, r2, lsl #2
+  81              	.LVL6:
+  99:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 100:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pbuff initialized to input buffer */
+ 101:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pbuff = pInlineBuffer;
+  82              		.loc 1 101 3 is_stmt 1 view .LVU17
+ 102:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 103:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** #if defined (ARM_MATH_DSP)
+ 104:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 105:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+ 106:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 107:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter to N/2 >> 2 for loop unrolling by 4 */
+ 108:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = S->Nby2 >> 2U;
+  83              		.loc 1 108 3 view .LVU18
+  84              		.loc 1 108 8 is_stmt 0 view .LVU19
+  85 002c B6F802C0 		ldrh	ip, [r6, #2]
+  86              		.loc 1 108 5 view .LVU20
+  87 0030 4FEA9C0C 		lsr	ip, ip, #2
+  88              	.LVL7:
+ 101:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  89              		.loc 1 101 9 view .LVU21
+  90 0034 2346     		mov	r3, r4
+  95:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+  91              		.loc 1 95 7 view .LVU22
+  92 0036 2946     		mov	r1, r5
+  93              	.LVL8:
+  94              	.L2:
+ 109:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 110:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+ 111:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+ 112:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   do
+  95              		.loc 1 112 3 is_stmt 1 discriminator 1 view .LVU23
+ 113:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 114:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Re-ordering of even and odd elements */
+ 115:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* pState[i] =  pInlineBuffer[2*i] */
+ 116:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS1++ = *pbuff++;
+  96              		.loc 1 116 5 discriminator 1 view .LVU24
+  97              		.loc 1 116 14 is_stmt 0 discriminator 1 view .LVU25
+  98 0038 1868     		ldr	r0, [r3]
+  99              		.loc 1 116 12 discriminator 1 view .LVU26
+ 100 003a 0860     		str	r0, [r1]
+ 117:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* pState[N-i-1] = pInlineBuffer[2*i+1] */
+ 118:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS2-- = *pbuff++;
+ 101              		.loc 1 118 5 is_stmt 1 discriminator 1 view .LVU27
+ 102              	.LVL9:
+ 103              		.loc 1 118 14 is_stmt 0 discriminator 1 view .LVU28
+ 104 003c 5868     		ldr	r0, [r3, #4]
+ 105              		.loc 1 118 12 discriminator 1 view .LVU29
+ 106 003e 1060     		str	r0, [r2]
+ 119:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 120:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS1++ = *pbuff++;
+ 107              		.loc 1 120 5 is_stmt 1 discriminator 1 view .LVU30
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 5
+
+
+ 108              	.LVL10:
+ 109              		.loc 1 120 14 is_stmt 0 discriminator 1 view .LVU31
+ 110 0040 9868     		ldr	r0, [r3, #8]
+ 111              		.loc 1 120 12 discriminator 1 view .LVU32
+ 112 0042 4860     		str	r0, [r1, #4]
+ 121:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS2-- = *pbuff++;
+ 113              		.loc 1 121 5 is_stmt 1 discriminator 1 view .LVU33
+ 114              	.LVL11:
+ 115              		.loc 1 121 14 is_stmt 0 discriminator 1 view .LVU34
+ 116 0044 D868     		ldr	r0, [r3, #12]
+ 117              		.loc 1 121 12 discriminator 1 view .LVU35
+ 118 0046 42F8040C 		str	r0, [r2, #-4]
+ 122:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 123:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS1++ = *pbuff++;
+ 119              		.loc 1 123 5 is_stmt 1 discriminator 1 view .LVU36
+ 120              	.LVL12:
+ 121              		.loc 1 123 14 is_stmt 0 discriminator 1 view .LVU37
+ 122 004a 1869     		ldr	r0, [r3, #16]
+ 123              		.loc 1 123 12 discriminator 1 view .LVU38
+ 124 004c 8860     		str	r0, [r1, #8]
+ 124:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS2-- = *pbuff++;
+ 125              		.loc 1 124 5 is_stmt 1 discriminator 1 view .LVU39
+ 126              	.LVL13:
+ 127              		.loc 1 124 14 is_stmt 0 discriminator 1 view .LVU40
+ 128 004e 5869     		ldr	r0, [r3, #20]
+ 129              		.loc 1 124 12 discriminator 1 view .LVU41
+ 130 0050 42F8080C 		str	r0, [r2, #-8]
+ 125:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 126:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS1++ = *pbuff++;
+ 131              		.loc 1 126 5 is_stmt 1 discriminator 1 view .LVU42
+ 132              	.LVL14:
+ 133              		.loc 1 126 14 is_stmt 0 discriminator 1 view .LVU43
+ 134 0054 9869     		ldr	r0, [r3, #24]
+ 135              		.loc 1 126 12 discriminator 1 view .LVU44
+ 136 0056 C860     		str	r0, [r1, #12]
+ 137 0058 1031     		adds	r1, r1, #16
+ 138              	.LVL15:
+ 127:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS2-- = *pbuff++;
+ 139              		.loc 1 127 5 is_stmt 1 discriminator 1 view .LVU45
+ 140              		.loc 1 127 5 is_stmt 0 discriminator 1 view .LVU46
+ 141 005a 9646     		mov	lr, r2
+ 142              		.loc 1 127 9 discriminator 1 view .LVU47
+ 143 005c 103A     		subs	r2, r2, #16
+ 144              	.LVL16:
+ 145              		.loc 1 127 14 discriminator 1 view .LVU48
+ 146 005e D869     		ldr	r0, [r3, #28]
+ 147 0060 2033     		adds	r3, r3, #32
+ 148              	.LVL17:
+ 149              		.loc 1 127 12 discriminator 1 view .LVU49
+ 150 0062 4EF80C0C 		str	r0, [lr, #-12]
+ 128:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 129:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 130:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 151              		.loc 1 130 5 is_stmt 1 discriminator 1 view .LVU50
+ 152              		.loc 1 130 6 is_stmt 0 discriminator 1 view .LVU51
+ 153 0066 0CF1FF3C 		add	ip, ip, #-1
+ 154              	.LVL18:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 6
+
+
+ 155              		.loc 1 130 6 discriminator 1 view .LVU52
+ 156 006a 1FFA8CFC 		uxth	ip, ip
+ 157              	.LVL19:
+ 131:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   } while (i > 0U);
+ 158              		.loc 1 131 14 is_stmt 1 discriminator 1 view .LVU53
+ 159 006e BCF1000F 		cmp	ip, #0
+ 160 0072 E1D1     		bne	.L2
+ 132:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 133:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pbuff initialized to input buffer */
+ 134:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pbuff = pInlineBuffer;
+ 161              		.loc 1 134 3 view .LVU54
+ 162              	.LVL20:
+ 135:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 136:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pS1 initialized to pState */
+ 137:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS1 = pState;
+ 163              		.loc 1 137 3 view .LVU55
+ 138:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 139:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter to N/4 instead of N for loop unrolling */
+ 140:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = S->N >> 2U;
+ 164              		.loc 1 140 3 view .LVU56
+ 165              		.loc 1 140 8 is_stmt 0 view .LVU57
+ 166 0074 3188     		ldrh	r1, [r6]
+ 167              		.loc 1 140 5 view .LVU58
+ 168 0076 8908     		lsrs	r1, r1, #2
+ 169              	.LVL21:
+ 134:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 170              		.loc 1 134 9 view .LVU59
+ 171 0078 2246     		mov	r2, r4
+ 172              	.LVL22:
+ 137:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 173              		.loc 1 137 7 view .LVU60
+ 174 007a 2B46     		mov	r3, r5
+ 175              	.LVL23:
+ 176              	.L3:
+ 141:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 142:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Processing with loop unrolling 4 times as N is always multiple of 4.
+ 143:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * Compute 4 outputs at a time */
+ 144:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   do
+ 177              		.loc 1 144 3 is_stmt 1 discriminator 1 view .LVU61
+ 145:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 146:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Writing the re-ordered output back to inplace input buffer */
+ 147:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = *pS1++;
+ 178              		.loc 1 147 5 discriminator 1 view .LVU62
+ 179              		.loc 1 147 16 is_stmt 0 discriminator 1 view .LVU63
+ 180 007c 1868     		ldr	r0, [r3]
+ 181              		.loc 1 147 14 discriminator 1 view .LVU64
+ 182 007e 1060     		str	r0, [r2]
+ 148:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = *pS1++;
+ 183              		.loc 1 148 5 is_stmt 1 discriminator 1 view .LVU65
+ 184              	.LVL24:
+ 185              		.loc 1 148 16 is_stmt 0 discriminator 1 view .LVU66
+ 186 0080 5868     		ldr	r0, [r3, #4]
+ 187              		.loc 1 148 14 discriminator 1 view .LVU67
+ 188 0082 5060     		str	r0, [r2, #4]
+ 149:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = *pS1++;
+ 189              		.loc 1 149 5 is_stmt 1 discriminator 1 view .LVU68
+ 190              	.LVL25:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 7
+
+
+ 191              		.loc 1 149 16 is_stmt 0 discriminator 1 view .LVU69
+ 192 0084 9868     		ldr	r0, [r3, #8]
+ 193              		.loc 1 149 14 discriminator 1 view .LVU70
+ 194 0086 9060     		str	r0, [r2, #8]
+ 150:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = *pS1++;
+ 195              		.loc 1 150 5 is_stmt 1 discriminator 1 view .LVU71
+ 196              	.LVL26:
+ 197              		.loc 1 150 5 is_stmt 0 discriminator 1 view .LVU72
+ 198 0088 9446     		mov	ip, r2
+ 199              		.loc 1 150 11 discriminator 1 view .LVU73
+ 200 008a 1032     		adds	r2, r2, #16
+ 201              	.LVL27:
+ 202              		.loc 1 150 16 discriminator 1 view .LVU74
+ 203 008c D868     		ldr	r0, [r3, #12]
+ 204 008e 1033     		adds	r3, r3, #16
+ 205              	.LVL28:
+ 206              		.loc 1 150 14 discriminator 1 view .LVU75
+ 207 0090 CCF80C00 		str	r0, [ip, #12]
+ 151:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 152:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 153:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 208              		.loc 1 153 5 is_stmt 1 discriminator 1 view .LVU76
+ 209              		.loc 1 153 6 is_stmt 0 discriminator 1 view .LVU77
+ 210 0094 0139     		subs	r1, r1, #1
+ 211              	.LVL29:
+ 212              		.loc 1 153 6 discriminator 1 view .LVU78
+ 213 0096 89B2     		uxth	r1, r1
+ 214              	.LVL30:
+ 154:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   } while (i > 0U);
+ 215              		.loc 1 154 14 is_stmt 1 discriminator 1 view .LVU79
+ 216 0098 0029     		cmp	r1, #0
+ 217 009a EFD1     		bne	.L3
+ 155:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 156:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 157:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* ---------------------------------------------------------
+ 158:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *     Step2: Calculate RFFT for N-point input
+ 159:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * ---------------------------------------------------------- */
+ 160:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pInlineBuffer is real input of length N , pState is the complex output of length 2N */
+ 161:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_rfft_q31(S->pRfft, pInlineBuffer, pState);
+ 218              		.loc 1 161 3 view .LVU80
+ 219 009c 2A46     		mov	r2, r5
+ 220              	.LVL31:
+ 221              		.loc 1 161 3 is_stmt 0 view .LVU81
+ 222 009e 2146     		mov	r1, r4
+ 223              	.LVL32:
+ 224              		.loc 1 161 3 view .LVU82
+ 225 00a0 3069     		ldr	r0, [r6, #16]
+ 226 00a2 FFF7FEFF 		bl	arm_rfft_q31
+ 227              	.LVL33:
+ 162:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 163:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /*----------------------------------------------------------------------
+ 164:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *  Step3: Multiply the FFT output with the weights.
+ 165:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *----------------------------------------------------------------------*/
+ 166:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_cmplx_mult_cmplx_q31(pState, weights, pState, S->N);
+ 228              		.loc 1 166 3 is_stmt 1 view .LVU83
+ 229 00a6 3388     		ldrh	r3, [r6]
+ 230 00a8 2A46     		mov	r2, r5
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 8
+
+
+ 231 00aa 3946     		mov	r1, r7
+ 232 00ac 2846     		mov	r0, r5
+ 233 00ae FFF7FEFF 		bl	arm_cmplx_mult_cmplx_q31
+ 234              	.LVL34:
+ 167:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 168:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* The output of complex multiplication is in 3.29 format.
+ 169:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * Hence changing the format of N (i.e. 2*N elements) complex numbers to 1.31 format by shifting 
+ 170:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_shift_q31(pState, 2, pState, S->N * 2);
+ 235              		.loc 1 170 3 view .LVU84
+ 236              		.loc 1 170 37 is_stmt 0 view .LVU85
+ 237 00b2 3388     		ldrh	r3, [r6]
+ 238              		.loc 1 170 3 view .LVU86
+ 239 00b4 5B00     		lsls	r3, r3, #1
+ 240 00b6 2A46     		mov	r2, r5
+ 241 00b8 0221     		movs	r1, #2
+ 242 00ba 2846     		mov	r0, r5
+ 243 00bc FFF7FEFF 		bl	arm_shift_q31
+ 244              	.LVL35:
+ 171:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 172:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* ----------- Post-processing ---------- */
+ 173:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* DCT-IV can be obtained from DCT-II by the equation,
+ 174:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *       Y4(k) = Y2(k) - Y4(k-1) and Y4(-1) = Y4(0)
+ 175:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *       Hence, Y4(0) = Y2(0)/2  */
+ 176:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Getting only real part from the output and Converting to DCT-IV */
+ 177:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 178:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter to N >> 2 for loop unrolling by 4 */
+ 179:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = (S->N - 1U) >> 2U;
+ 245              		.loc 1 179 3 is_stmt 1 view .LVU87
+ 246              		.loc 1 179 9 is_stmt 0 view .LVU88
+ 247 00c0 3188     		ldrh	r1, [r6]
+ 248              		.loc 1 179 13 view .LVU89
+ 249 00c2 0139     		subs	r1, r1, #1
+ 250              		.loc 1 179 5 view .LVU90
+ 251 00c4 C1F38F01 		ubfx	r1, r1, #2, #16
+ 252              	.LVL36:
+ 180:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 181:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pbuff initialized to input buffer. */
+ 182:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pbuff = pInlineBuffer;
+ 253              		.loc 1 182 3 is_stmt 1 view .LVU91
+ 183:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 184:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pS1 initialized to pState */
+ 185:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS1 = pState;
+ 254              		.loc 1 185 3 view .LVU92
+ 186:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 187:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Calculating Y4(0) from Y2(0) using Y4(0) = Y2(0)/2 */
+ 188:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   in = *pS1++ >> 1U;
+ 255              		.loc 1 188 3 view .LVU93
+ 256              		.loc 1 188 8 is_stmt 0 view .LVU94
+ 257 00c8 55F8082B 		ldr	r2, [r5], #8
+ 258              	.LVL37:
+ 259              		.loc 1 188 6 view .LVU95
+ 260 00cc 5210     		asrs	r2, r2, #1
+ 261              	.LVL38:
+ 189:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* input buffer acts as inplace, so output values are stored in the input itself. */
+ 190:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   *pbuff++ = in;
+ 262              		.loc 1 190 3 is_stmt 1 view .LVU96
+ 263              		.loc 1 190 9 is_stmt 0 view .LVU97
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 9
+
+
+ 264 00ce 2346     		mov	r3, r4
+ 265              	.LVL39:
+ 266              		.loc 1 190 12 view .LVU98
+ 267 00d0 43F8042B 		str	r2, [r3], #4
+ 268              	.LVL40:
+ 191:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 192:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pState pointer is incremented twice as the real values are located alternatively in the array 
+ 193:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS1++;
+ 269              		.loc 1 193 3 is_stmt 1 view .LVU99
+ 270              	.L4:
+ 194:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 195:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+ 196:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+ 197:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   do
+ 271              		.loc 1 197 3 discriminator 1 view .LVU100
+ 198:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 199:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Calculating Y4(1) to Y4(N-1) from Y2 using equation Y4(k) = Y2(k) - Y4(k-1) */
+ 200:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* pState pointer (pS1) is incremented twice as the real values are located alternatively in th
+ 201:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pS1++ - in;
+ 272              		.loc 1 201 5 discriminator 1 view .LVU101
+ 273              		.loc 1 201 10 is_stmt 0 discriminator 1 view .LVU102
+ 274 00d4 2868     		ldr	r0, [r5]
+ 275              		.loc 1 201 8 discriminator 1 view .LVU103
+ 276 00d6 801A     		subs	r0, r0, r2
+ 277              	.LVL41:
+ 202:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = in;
+ 278              		.loc 1 202 5 is_stmt 1 discriminator 1 view .LVU104
+ 279              		.loc 1 202 14 is_stmt 0 discriminator 1 view .LVU105
+ 280 00d8 1860     		str	r0, [r3]
+ 203:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* points to the next real value */
+ 204:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     pS1++;
+ 281              		.loc 1 204 5 is_stmt 1 discriminator 1 view .LVU106
+ 282              	.LVL42:
+ 205:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 206:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pS1++ - in;
+ 283              		.loc 1 206 5 discriminator 1 view .LVU107
+ 284              		.loc 1 206 10 is_stmt 0 discriminator 1 view .LVU108
+ 285 00da AA68     		ldr	r2, [r5, #8]
+ 286              		.loc 1 206 8 discriminator 1 view .LVU109
+ 287 00dc 121A     		subs	r2, r2, r0
+ 288              	.LVL43:
+ 207:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = in;
+ 289              		.loc 1 207 5 is_stmt 1 discriminator 1 view .LVU110
+ 290              		.loc 1 207 14 is_stmt 0 discriminator 1 view .LVU111
+ 291 00de 5A60     		str	r2, [r3, #4]
+ 208:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     pS1++;
+ 292              		.loc 1 208 5 is_stmt 1 discriminator 1 view .LVU112
+ 293              	.LVL44:
+ 209:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 210:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pS1++ - in;
+ 294              		.loc 1 210 5 discriminator 1 view .LVU113
+ 295              		.loc 1 210 10 is_stmt 0 discriminator 1 view .LVU114
+ 296 00e0 2869     		ldr	r0, [r5, #16]
+ 297              		.loc 1 210 8 discriminator 1 view .LVU115
+ 298 00e2 801A     		subs	r0, r0, r2
+ 299              	.LVL45:
+ 211:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = in;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 10
+
+
+ 300              		.loc 1 211 5 is_stmt 1 discriminator 1 view .LVU116
+ 301              		.loc 1 211 14 is_stmt 0 discriminator 1 view .LVU117
+ 302 00e4 9860     		str	r0, [r3, #8]
+ 212:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     pS1++;
+ 303              		.loc 1 212 5 is_stmt 1 discriminator 1 view .LVU118
+ 304              	.LVL46:
+ 213:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 214:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pS1++ - in;
+ 305              		.loc 1 214 5 discriminator 1 view .LVU119
+ 306              		.loc 1 214 10 is_stmt 0 discriminator 1 view .LVU120
+ 307 00e6 AA69     		ldr	r2, [r5, #24]
+ 308              		.loc 1 214 8 discriminator 1 view .LVU121
+ 309 00e8 121A     		subs	r2, r2, r0
+ 310              	.LVL47:
+ 215:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = in;
+ 311              		.loc 1 215 5 is_stmt 1 discriminator 1 view .LVU122
+ 312              		.loc 1 215 14 is_stmt 0 discriminator 1 view .LVU123
+ 313 00ea DA60     		str	r2, [r3, #12]
+ 314 00ec 1033     		adds	r3, r3, #16
+ 315              	.LVL48:
+ 216:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     pS1++;
+ 316              		.loc 1 216 5 is_stmt 1 discriminator 1 view .LVU124
+ 317              		.loc 1 216 8 is_stmt 0 discriminator 1 view .LVU125
+ 318 00ee 2035     		adds	r5, r5, #32
+ 319              	.LVL49:
+ 217:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 218:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 219:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 320              		.loc 1 219 5 is_stmt 1 discriminator 1 view .LVU126
+ 321              		.loc 1 219 6 is_stmt 0 discriminator 1 view .LVU127
+ 322 00f0 0139     		subs	r1, r1, #1
+ 323              	.LVL50:
+ 324              		.loc 1 219 6 discriminator 1 view .LVU128
+ 325 00f2 89B2     		uxth	r1, r1
+ 326              	.LVL51:
+ 220:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   } while (i > 0U);
+ 327              		.loc 1 220 14 is_stmt 1 discriminator 1 view .LVU129
+ 328 00f4 0029     		cmp	r1, #0
+ 329 00f6 EDD1     		bne	.L4
+ 221:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 222:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 223:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    ** No loop unrolling is used. */
+ 224:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = (S->N - 1U) % 0x4U;
+ 330              		.loc 1 224 3 view .LVU130
+ 331              		.loc 1 224 9 is_stmt 0 view .LVU131
+ 332 00f8 3188     		ldrh	r1, [r6]
+ 333              	.LVL52:
+ 334              		.loc 1 224 13 view .LVU132
+ 335 00fa 0139     		subs	r1, r1, #1
+ 336              		.loc 1 224 5 view .LVU133
+ 337 00fc 01F00301 		and	r1, r1, #3
+ 338              	.LVL53:
+ 225:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 226:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   while (i > 0U)
+ 339              		.loc 1 226 3 is_stmt 1 view .LVU134
+ 340              		.loc 1 226 9 is_stmt 0 view .LVU135
+ 341 0100 06E0     		b	.L5
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 11
+
+
+ 342              	.LVL54:
+ 343              	.L6:
+ 227:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 228:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Calculating Y4(1) to Y4(N-1) from Y2 using equation Y4(k) = Y2(k) - Y4(k-1) */
+ 229:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* pState pointer (pS1) is incremented twice as the real values are located alternatively in th
+ 230:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pS1++ - in;
+ 344              		.loc 1 230 5 is_stmt 1 view .LVU136
+ 345              		.loc 1 230 10 is_stmt 0 view .LVU137
+ 346 0102 55F8080B 		ldr	r0, [r5], #8
+ 347              	.LVL55:
+ 348              		.loc 1 230 8 view .LVU138
+ 349 0106 821A     		subs	r2, r0, r2
+ 350              	.LVL56:
+ 231:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = in;
+ 351              		.loc 1 231 5 is_stmt 1 view .LVU139
+ 352              		.loc 1 231 14 is_stmt 0 view .LVU140
+ 353 0108 43F8042B 		str	r2, [r3], #4
+ 354              	.LVL57:
+ 232:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* points to the next real value */
+ 233:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     pS1++;
+ 355              		.loc 1 233 5 is_stmt 1 view .LVU141
+ 234:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 235:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 236:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 356              		.loc 1 236 5 view .LVU142
+ 357              		.loc 1 236 6 is_stmt 0 view .LVU143
+ 358 010c 0139     		subs	r1, r1, #1
+ 359              	.LVL58:
+ 360              		.loc 1 236 6 view .LVU144
+ 361 010e 89B2     		uxth	r1, r1
+ 362              	.LVL59:
+ 363              	.L5:
+ 226:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 364              		.loc 1 226 12 is_stmt 1 view .LVU145
+ 365 0110 0029     		cmp	r1, #0
+ 366 0112 F6D1     		bne	.L6
+ 237:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   }
+ 238:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 239:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 240:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****         /*------------ Normalizing the output by multiplying with the normalizing factor ----------
+ 241:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 242:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter to N/4 instead of N for loop unrolling */
+ 243:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = S->N >> 2U;
+ 367              		.loc 1 243 3 view .LVU146
+ 368              		.loc 1 243 8 is_stmt 0 view .LVU147
+ 369 0114 3288     		ldrh	r2, [r6]
+ 370              	.LVL60:
+ 371              		.loc 1 243 5 view .LVU148
+ 372 0116 9208     		lsrs	r2, r2, #2
+ 373              	.LVL61:
+ 244:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 245:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pbuff initialized to the pInlineBuffer(now contains the output values) */
+ 246:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pbuff = pInlineBuffer;
+ 374              		.loc 1 246 3 is_stmt 1 view .LVU149
+ 375              	.L7:
+ 247:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 248:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Processing with loop unrolling 4 times as N is always multiple of 4.  Compute 4 outputs at a t
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 12
+
+
+ 249:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   do
+ 376              		.loc 1 249 3 discriminator 1 view .LVU150
+ 250:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 251:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Multiplying pInlineBuffer with the normalizing factor sqrt(2/N) */
+ 252:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pbuff;
+ 377              		.loc 1 252 5 discriminator 1 view .LVU151
+ 378              		.loc 1 252 8 is_stmt 0 discriminator 1 view .LVU152
+ 379 0118 2368     		ldr	r3, [r4]
+ 380              	.LVL62:
+ 253:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = ((q31_t) (((q63_t) in * S->normalize) >> 31));
+ 381              		.loc 1 253 5 is_stmt 1 discriminator 1 view .LVU153
+ 382              		.loc 1 253 27 is_stmt 0 discriminator 1 view .LVU154
+ 383 011a DD17     		asrs	r5, r3, #31
+ 384              		.loc 1 253 41 discriminator 1 view .LVU155
+ 385 011c 7068     		ldr	r0, [r6, #4]
+ 386 011e C117     		asrs	r1, r0, #31
+ 387              		.loc 1 253 38 discriminator 1 view .LVU156
+ 388 0120 03FB01F1 		mul	r1, r3, r1
+ 389 0124 00FB0511 		mla	r1, r0, r5, r1
+ 390 0128 A3FB0030 		umull	r3, r0, r3, r0
+ 391              	.LVL63:
+ 392              		.loc 1 253 38 discriminator 1 view .LVU157
+ 393 012c 0144     		add	r1, r1, r0
+ 394              		.loc 1 253 54 discriminator 1 view .LVU158
+ 395 012e DB0F     		lsrs	r3, r3, #31
+ 396 0130 43EA4103 		orr	r3, r3, r1, lsl #1
+ 397              	.LVL64:
+ 398              		.loc 1 253 14 discriminator 1 view .LVU159
+ 399 0134 2360     		str	r3, [r4]
+ 400              	.LVL65:
+ 254:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 255:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pbuff;
+ 401              		.loc 1 255 5 is_stmt 1 discriminator 1 view .LVU160
+ 402              		.loc 1 255 8 is_stmt 0 discriminator 1 view .LVU161
+ 403 0136 6368     		ldr	r3, [r4, #4]
+ 404              	.LVL66:
+ 256:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = ((q31_t) (((q63_t) in * S->normalize) >> 31));
+ 405              		.loc 1 256 5 is_stmt 1 discriminator 1 view .LVU162
+ 406              		.loc 1 256 27 is_stmt 0 discriminator 1 view .LVU163
+ 407 0138 DD17     		asrs	r5, r3, #31
+ 408              		.loc 1 256 41 discriminator 1 view .LVU164
+ 409 013a 7068     		ldr	r0, [r6, #4]
+ 410 013c C117     		asrs	r1, r0, #31
+ 411              		.loc 1 256 38 discriminator 1 view .LVU165
+ 412 013e 03FB01F1 		mul	r1, r3, r1
+ 413 0142 00FB0511 		mla	r1, r0, r5, r1
+ 414 0146 A3FB0030 		umull	r3, r0, r3, r0
+ 415              	.LVL67:
+ 416              		.loc 1 256 38 discriminator 1 view .LVU166
+ 417 014a 0144     		add	r1, r1, r0
+ 418              		.loc 1 256 54 discriminator 1 view .LVU167
+ 419 014c DB0F     		lsrs	r3, r3, #31
+ 420 014e 43EA4103 		orr	r3, r3, r1, lsl #1
+ 421              	.LVL68:
+ 422              		.loc 1 256 14 discriminator 1 view .LVU168
+ 423 0152 6360     		str	r3, [r4, #4]
+ 424              	.LVL69:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 13
+
+
+ 257:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 258:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pbuff;
+ 425              		.loc 1 258 5 is_stmt 1 discriminator 1 view .LVU169
+ 426              		.loc 1 258 8 is_stmt 0 discriminator 1 view .LVU170
+ 427 0154 A368     		ldr	r3, [r4, #8]
+ 428              	.LVL70:
+ 259:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = ((q31_t) (((q63_t) in * S->normalize) >> 31));
+ 429              		.loc 1 259 5 is_stmt 1 discriminator 1 view .LVU171
+ 430              		.loc 1 259 27 is_stmt 0 discriminator 1 view .LVU172
+ 431 0156 DD17     		asrs	r5, r3, #31
+ 432              		.loc 1 259 41 discriminator 1 view .LVU173
+ 433 0158 7068     		ldr	r0, [r6, #4]
+ 434 015a C117     		asrs	r1, r0, #31
+ 435              		.loc 1 259 38 discriminator 1 view .LVU174
+ 436 015c 03FB01F1 		mul	r1, r3, r1
+ 437 0160 00FB0511 		mla	r1, r0, r5, r1
+ 438 0164 A3FB0030 		umull	r3, r0, r3, r0
+ 439              	.LVL71:
+ 440              		.loc 1 259 38 discriminator 1 view .LVU175
+ 441 0168 0144     		add	r1, r1, r0
+ 442              		.loc 1 259 54 discriminator 1 view .LVU176
+ 443 016a DB0F     		lsrs	r3, r3, #31
+ 444 016c 43EA4103 		orr	r3, r3, r1, lsl #1
+ 445              	.LVL72:
+ 446              		.loc 1 259 14 discriminator 1 view .LVU177
+ 447 0170 A360     		str	r3, [r4, #8]
+ 448              	.LVL73:
+ 260:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 261:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pbuff;
+ 449              		.loc 1 261 5 is_stmt 1 discriminator 1 view .LVU178
+ 450              		.loc 1 261 8 is_stmt 0 discriminator 1 view .LVU179
+ 451 0172 E368     		ldr	r3, [r4, #12]
+ 452              	.LVL74:
+ 262:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = ((q31_t) (((q63_t) in * S->normalize) >> 31));
+ 453              		.loc 1 262 5 is_stmt 1 discriminator 1 view .LVU180
+ 454              		.loc 1 262 27 is_stmt 0 discriminator 1 view .LVU181
+ 455 0174 DD17     		asrs	r5, r3, #31
+ 456              		.loc 1 262 41 discriminator 1 view .LVU182
+ 457 0176 7068     		ldr	r0, [r6, #4]
+ 458 0178 C117     		asrs	r1, r0, #31
+ 459              		.loc 1 262 38 discriminator 1 view .LVU183
+ 460 017a 03FB01F1 		mul	r1, r3, r1
+ 461 017e 00FB0511 		mla	r1, r0, r5, r1
+ 462 0182 A3FB0030 		umull	r3, r0, r3, r0
+ 463              	.LVL75:
+ 464              		.loc 1 262 38 discriminator 1 view .LVU184
+ 465 0186 0144     		add	r1, r1, r0
+ 466              		.loc 1 262 54 discriminator 1 view .LVU185
+ 467 0188 DB0F     		lsrs	r3, r3, #31
+ 468 018a 43EA4103 		orr	r3, r3, r1, lsl #1
+ 469              	.LVL76:
+ 470              		.loc 1 262 14 discriminator 1 view .LVU186
+ 471 018e E360     		str	r3, [r4, #12]
+ 472              	.LVL77:
+ 473              		.loc 1 262 14 discriminator 1 view .LVU187
+ 474 0190 1034     		adds	r4, r4, #16
+ 475              	.LVL78:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 14
+
+
+ 263:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 264:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 265:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 476              		.loc 1 265 5 is_stmt 1 discriminator 1 view .LVU188
+ 477              		.loc 1 265 6 is_stmt 0 discriminator 1 view .LVU189
+ 478 0192 013A     		subs	r2, r2, #1
+ 479              	.LVL79:
+ 480              		.loc 1 265 6 discriminator 1 view .LVU190
+ 481 0194 92B2     		uxth	r2, r2
+ 482              	.LVL80:
+ 266:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   } while (i > 0U);
+ 483              		.loc 1 266 14 is_stmt 1 discriminator 1 view .LVU191
+ 484 0196 002A     		cmp	r2, #0
+ 485 0198 BED1     		bne	.L7
+ 267:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 268:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 269:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** #else
+ 270:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 271:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Run the below code for Cortex-M0 */
+ 272:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 273:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter to N/2 */
+ 274:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = S->Nby2;
+ 275:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 276:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   do
+ 277:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 278:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Re-ordering of even and odd elements */
+ 279:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* pState[i] =  pInlineBuffer[2*i] */
+ 280:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS1++ = *pbuff++;
+ 281:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* pState[N-i-1] = pInlineBuffer[2*i+1] */
+ 282:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pS2-- = *pbuff++;
+ 283:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 284:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 285:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 286:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   } while (i > 0U);
+ 287:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 288:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pbuff initialized to input buffer */
+ 289:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pbuff = pInlineBuffer;
+ 290:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 291:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pS1 initialized to pState */
+ 292:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS1 = pState;
+ 293:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 294:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter */
+ 295:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = S->N;
+ 296:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 297:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   do
+ 298:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 299:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Writing the re-ordered output back to inplace input buffer */
+ 300:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = *pS1++;
+ 301:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 302:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 303:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 304:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   } while (i > 0U);
+ 305:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 306:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 307:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* ---------------------------------------------------------
+ 308:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *     Step2: Calculate RFFT for N-point input
+ 309:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * ---------------------------------------------------------- */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 15
+
+
+ 310:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pInlineBuffer is real input of length N , pState is the complex output of length 2N */
+ 311:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_rfft_q31(S->pRfft, pInlineBuffer, pState);
+ 312:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 313:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /*----------------------------------------------------------------------
+ 314:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *  Step3: Multiply the FFT output with the weights.
+ 315:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *----------------------------------------------------------------------*/
+ 316:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_cmplx_mult_cmplx_q31(pState, weights, pState, S->N);
+ 317:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 318:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* The output of complex multiplication is in 3.29 format.
+ 319:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    * Hence changing the format of N (i.e. 2*N elements) complex numbers to 1.31 format by shifting 
+ 320:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   arm_shift_q31(pState, 2, pState, S->N * 2);
+ 321:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 322:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* ----------- Post-processing ---------- */
+ 323:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* DCT-IV can be obtained from DCT-II by the equation,
+ 324:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *       Y4(k) = Y2(k) - Y4(k-1) and Y4(-1) = Y4(0)
+ 325:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****    *       Hence, Y4(0) = Y2(0)/2  */
+ 326:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Getting only real part from the output and Converting to DCT-IV */
+ 327:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 328:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pbuff initialized to input buffer. */
+ 329:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pbuff = pInlineBuffer;
+ 330:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 331:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pS1 initialized to pState */
+ 332:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS1 = pState;
+ 333:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 334:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Calculating Y4(0) from Y2(0) using Y4(0) = Y2(0)/2 */
+ 335:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   in = *pS1++ >> 1U;
+ 336:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* input buffer acts as inplace, so output values are stored in the input itself. */
+ 337:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   *pbuff++ = in;
+ 338:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 339:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pState pointer is incremented twice as the real values are located alternatively in the array 
+ 340:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pS1++;
+ 341:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 342:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter */
+ 343:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = (S->N - 1U);
+ 344:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 345:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   while (i > 0U)
+ 346:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 347:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Calculating Y4(1) to Y4(N-1) from Y2 using equation Y4(k) = Y2(k) - Y4(k-1) */
+ 348:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* pState pointer (pS1) is incremented twice as the real values are located alternatively in th
+ 349:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pS1++ - in;
+ 350:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = in;
+ 351:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* points to the next real value */
+ 352:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     pS1++;
+ 353:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 354:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 355:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 356:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   }
+ 357:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 358:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 359:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****         /*------------ Normalizing the output by multiplying with the normalizing factor ----------
+ 360:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 361:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* Initializing the loop counter */
+ 362:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   i = S->N;
+ 363:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 364:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   /* pbuff initialized to the pInlineBuffer(now contains the output values) */
+ 365:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   pbuff = pInlineBuffer;
+ 366:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 16
+
+
+ 367:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   do
+ 368:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   {
+ 369:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Multiplying pInlineBuffer with the normalizing factor sqrt(2/N) */
+ 370:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     in = *pbuff;
+ 371:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     *pbuff++ = ((q31_t) (((q63_t) in * S->normalize) >> 31));
+ 372:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 373:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     /* Decrement the loop counter */
+ 374:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****     i--;
+ 375:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c ****   } while (i > 0U);
+ 376:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 377:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 378:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** 
+ 379:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c **** }
+ 486              		.loc 1 379 1 is_stmt 0 view .LVU192
+ 487 019a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 488              		.loc 1 379 1 view .LVU193
+ 489              		.cfi_endproc
+ 490              	.LFE139:
+ 492              		.text
+ 493              	.Letext0:
+ 494              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 495              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 496              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_dct4_q31.c
+C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s:21     .text.arm_dct4_q31:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccBqMjsI.s:27     .text.arm_dct4_q31:00000000 arm_dct4_q31
+
+UNDEFINED SYMBOLS
+arm_mult_q31
+arm_shift_q31
+arm_rfft_q31
+arm_cmplx_mult_cmplx_q31

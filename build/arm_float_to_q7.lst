@@ -1,0 +1,647 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_float_to_q7.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c"
+  20              		.section	.text.arm_float_to_q7,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_float_to_q7
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_float_to_q7:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Title:        arm_float_to_q7.c
+   4:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Description:  Converts the elements of the floating-point vector to Q7 vector
+   5:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *
+   6:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *
+   9:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** /*
+  12:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *
+  14:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *
+  16:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *
+  20:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *
+  22:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  */
+  28:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  29:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  31:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** /**
+  32:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @ingroup groupSupport
+  33:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  */
+  34:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  35:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** /**
+  36:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @addtogroup float_to_x
+  37:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  */
+  39:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  40:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** /**
+  41:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @brief Converts the elements of the floating-point vector to Q7 vector.
+  42:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @param[in]       *pSrc points to the floating-point input vector
+  43:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @param[out]      *pDst points to the Q7 output vector
+  44:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @param[in]       blockSize length of the input vector
+  45:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * @return none.
+  46:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *
+  47:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  *\par Description:
+  48:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * \par
+  49:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * The equation used for the conversion process is:
+  50:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * <pre>
+  51:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * 	pDst[n] = (q7_t)(pSrc[n] * 128);   0 <= n < blockSize.
+  52:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * </pre>
+  53:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * \par Scaling and Overflow Behavior:
+  54:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * \par
+  55:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * The function uses saturating arithmetic.
+  56:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * Results outside of the allowable Q7 range [0x80 0x7F] will be saturated.
+  57:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * \note
+  58:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * In order to apply rounding, the library should be rebuilt with the ROUNDING macro
+  59:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  * defined in the preprocessor section of project options.
+  60:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****  */
+  61:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  62:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  63:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** void arm_float_to_q7(
+  64:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   float32_t * pSrc,
+  65:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   q7_t * pDst,
+  66:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   uint32_t blockSize)
+  67:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** {
+  30              		.loc 1 67 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 67 1 is_stmt 0 view .LVU1
+  36 0000 10B4     		push	{r4}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 4
+  39              		.cfi_offset 4, -4
+  68:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   float32_t *pIn = pSrc;                         /* Src pointer */
+  40              		.loc 1 68 3 is_stmt 1 view .LVU2
+  41              	.LVL1:
+  69:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   uint32_t blkCnt;                               /* loop counter */
+  42              		.loc 1 69 3 view .LVU3
+  70:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  71:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #ifdef ARM_MATH_ROUNDING
+  72:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  73:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   float32_t in;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 3
+
+
+  43              		.loc 1 73 3 view .LVU4
+  74:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  75:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #endif /*      #ifdef ARM_MATH_ROUNDING        */
+  76:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  77:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #if defined (ARM_MATH_DSP)
+  78:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  79:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  80:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  81:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   /*loop Unrolling */
+  82:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   blkCnt = blockSize >> 2U;
+  44              		.loc 1 82 3 view .LVU5
+  45              		.loc 1 82 10 is_stmt 0 view .LVU6
+  46 0002 9408     		lsrs	r4, r2, #2
+  47              	.LVL2:
+  83:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  84:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  85:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  86:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   while (blkCnt > 0U)
+  48              		.loc 1 86 3 is_stmt 1 view .LVU7
+  49              		.loc 1 86 9 is_stmt 0 view .LVU8
+  50 0004 17E0     		b	.L2
+  51              	.LVL3:
+  52              	.L26:
+  87:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   {
+  88:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  89:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #ifdef ARM_MATH_ROUNDING
+  90:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* C = A * 128 */
+  91:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* convert from float to q7 and then store the results in the destination buffer */
+  92:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = *pIn++;
+  93:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+  94:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+  53              		.loc 1 94 28 view .LVU9
+  54 0006 FEEE007A 		vmov.f32	s15, #-5.0e-1
+  55 000a 23E0     		b	.L3
+  56              	.LVL4:
+  57              	.L27:
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+  96:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+  97:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = *pIn++;
+  98:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+  58              		.loc 1 99 28 view .LVU10
+  59 000c FEEE007A 		vmov.f32	s15, #-5.0e-1
+  60 0010 37E0     		b	.L5
+  61              	.LVL5:
+  62              	.L28:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 101:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 102:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = *pIn++;
+ 103:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+  63              		.loc 1 104 28 view .LVU11
+  64 0012 FEEE007A 		vmov.f32	s15, #-5.0e-1
+  65 0016 4BE0     		b	.L7
+  66              	.LVL6:
+  67              	.L29:
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 4
+
+
+ 106:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = *pIn++;
+ 108:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+  68              		.loc 1 109 28 view .LVU12
+  69 0018 FEEE007A 		vmov.f32	s15, #-5.0e-1
+  70              	.L9:
+  71              		.loc 1 109 8 discriminator 4 view .LVU13
+  72 001c 77EE877A 		vadd.f32	s15, s15, s14
+  73              	.LVL7:
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+  74              		.loc 1 110 5 is_stmt 1 discriminator 4 view .LVU14
+  75              	.LBB2:
+  76              		.loc 1 110 23 discriminator 4 view .LVU15
+  77 0020 FDEEE77A 		vcvt.s32.f32	s15, s15
+  78              	.LVL8:
+  79              		.loc 1 110 23 is_stmt 0 discriminator 4 view .LVU16
+  80 0024 17EE903A 		vmov	r3, s15	@ int
+  81              	.LVL9:
+  82              		.loc 1 110 23 discriminator 4 view .LVU17
+  83 0028 1BB2     		sxth	r3, r3
+  84              	.LVL10:
+  85              		.loc 1 110 23 is_stmt 1 discriminator 4 view .LVU18
+  86              		.syntax unified
+  87              	@ 110 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c" 1
+  88 002a 03F30703 		ssat r3, #8, r3
+  89              	@ 0 "" 2
+  90              	.LVL11:
+  91              		.loc 1 110 23 discriminator 4 view .LVU19
+  92              		.loc 1 110 23 is_stmt 0 discriminator 4 view .LVU20
+  93              		.thumb
+  94              		.syntax unified
+  95              	.LBE2:
+  96              		.loc 1 110 13 discriminator 4 view .LVU21
+  97 002e CB70     		strb	r3, [r1, #3]
+ 111:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 112:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #else
+ 113:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 114:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* C = A * 128 */
+ 115:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* convert from float to q7 and then store the results in the destination buffer */
+ 116:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = __SSAT((q31_t) (*pIn++ * 128.0f), 8);
+ 117:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = __SSAT((q31_t) (*pIn++ * 128.0f), 8);
+ 118:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = __SSAT((q31_t) (*pIn++ * 128.0f), 8);
+ 119:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = __SSAT((q31_t) (*pIn++ * 128.0f), 8);
+ 120:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 121:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #endif /*      #ifdef ARM_MATH_ROUNDING        */
+ 122:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 123:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* Decrement the loop counter */
+ 124:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     blkCnt--;
+  98              		.loc 1 124 5 is_stmt 1 discriminator 4 view .LVU22
+  99              		.loc 1 124 11 is_stmt 0 discriminator 4 view .LVU23
+ 100 0030 013C     		subs	r4, r4, #1
+ 101              	.LVL12:
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 102              		.loc 1 107 14 discriminator 4 view .LVU24
+ 103 0032 6046     		mov	r0, ip
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 5
+
+
+ 104              		.loc 1 110 10 discriminator 4 view .LVU25
+ 105 0034 0431     		adds	r1, r1, #4
+ 106              	.LVL13:
+ 107              	.L2:
+  86:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   {
+ 108              		.loc 1 86 17 is_stmt 1 view .LVU26
+ 109 0036 002C     		cmp	r4, #0
+ 110 0038 54D0     		beq	.L32
+  92:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 111              		.loc 1 92 5 view .LVU27
+ 112              	.LVL14:
+  92:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 113              		.loc 1 92 8 is_stmt 0 view .LVU28
+ 114 003a 90ED007A 		vldr.32	s14, [r0]
+ 115              	.LVL15:
+  93:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 116              		.loc 1 93 5 is_stmt 1 view .LVU29
+  93:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 117              		.loc 1 93 8 is_stmt 0 view .LVU30
+ 118 003e DFED3B7A 		vldr.32	s15, .L34
+ 119 0042 27EE277A 		vmul.f32	s14, s14, s15
+ 120              	.LVL16:
+  94:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 121              		.loc 1 94 5 is_stmt 1 view .LVU31
+  94:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 122              		.loc 1 94 28 is_stmt 0 view .LVU32
+ 123 0046 B5EEC07A 		vcmpe.f32	s14, #0
+ 124 004a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 125 004e DADD     		ble	.L26
+ 126 0050 F6EE007A 		vmov.f32	s15, #5.0e-1
+ 127              	.L3:
+  94:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 128              		.loc 1 94 8 discriminator 4 view .LVU33
+ 129 0054 77EE877A 		vadd.f32	s15, s15, s14
+ 130              	.LVL17:
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 131              		.loc 1 95 5 is_stmt 1 discriminator 4 view .LVU34
+ 132              	.LBB3:
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 133              		.loc 1 95 23 discriminator 4 view .LVU35
+ 134 0058 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 135              	.LVL18:
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 136              		.loc 1 95 23 is_stmt 0 discriminator 4 view .LVU36
+ 137 005c 17EE903A 		vmov	r3, s15	@ int
+ 138 0060 1BB2     		sxth	r3, r3
+ 139              	.LVL19:
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 140              		.loc 1 95 23 is_stmt 1 discriminator 4 view .LVU37
+ 141              		.syntax unified
+ 142              	@ 95 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c" 1
+ 143 0062 03F30703 		ssat r3, #8, r3
+ 144              	@ 0 "" 2
+ 145              	.LVL20:
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 146              		.loc 1 95 23 discriminator 4 view .LVU38
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 6
+
+
+ 147              		.loc 1 95 23 is_stmt 0 discriminator 4 view .LVU39
+ 148              		.thumb
+ 149              		.syntax unified
+ 150              	.LBE3:
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 151              		.loc 1 95 13 discriminator 4 view .LVU40
+ 152 0066 0B70     		strb	r3, [r1]
+  97:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 153              		.loc 1 97 5 is_stmt 1 discriminator 4 view .LVU41
+ 154              	.LVL21:
+  97:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 155              		.loc 1 97 8 is_stmt 0 discriminator 4 view .LVU42
+ 156 0068 90ED017A 		vldr.32	s14, [r0, #4]
+ 157              	.LVL22:
+  98:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 158              		.loc 1 98 5 is_stmt 1 discriminator 4 view .LVU43
+  98:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 159              		.loc 1 98 8 is_stmt 0 discriminator 4 view .LVU44
+ 160 006c DFED2F7A 		vldr.32	s15, .L34
+ 161              	.LVL23:
+  98:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 162              		.loc 1 98 8 discriminator 4 view .LVU45
+ 163 0070 27EE277A 		vmul.f32	s14, s14, s15
+ 164              	.LVL24:
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 165              		.loc 1 99 5 is_stmt 1 discriminator 4 view .LVU46
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 166              		.loc 1 99 28 is_stmt 0 discriminator 4 view .LVU47
+ 167 0074 B5EEC07A 		vcmpe.f32	s14, #0
+ 168 0078 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 169 007c C6DD     		ble	.L27
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 170              		.loc 1 99 28 view .LVU48
+ 171 007e F6EE007A 		vmov.f32	s15, #5.0e-1
+ 172              	.L5:
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 173              		.loc 1 99 8 discriminator 4 view .LVU49
+ 174 0082 77EE877A 		vadd.f32	s15, s15, s14
+ 175              	.LVL25:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 176              		.loc 1 100 5 is_stmt 1 discriminator 4 view .LVU50
+ 177              	.LBB4:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 178              		.loc 1 100 23 discriminator 4 view .LVU51
+ 179 0086 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 180              	.LVL26:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 181              		.loc 1 100 23 is_stmt 0 discriminator 4 view .LVU52
+ 182 008a 17EE903A 		vmov	r3, s15	@ int
+ 183              	.LVL27:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 184              		.loc 1 100 23 discriminator 4 view .LVU53
+ 185 008e 1BB2     		sxth	r3, r3
+ 186              	.LVL28:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 187              		.loc 1 100 23 is_stmt 1 discriminator 4 view .LVU54
+ 188              		.syntax unified
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 7
+
+
+ 189              	@ 100 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c" 1
+ 190 0090 03F30703 		ssat r3, #8, r3
+ 191              	@ 0 "" 2
+ 192              	.LVL29:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 193              		.loc 1 100 23 discriminator 4 view .LVU55
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 194              		.loc 1 100 23 is_stmt 0 discriminator 4 view .LVU56
+ 195              		.thumb
+ 196              		.syntax unified
+ 197              	.LBE4:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 198              		.loc 1 100 13 discriminator 4 view .LVU57
+ 199 0094 4B70     		strb	r3, [r1, #1]
+ 102:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 200              		.loc 1 102 5 is_stmt 1 discriminator 4 view .LVU58
+ 201              	.LVL30:
+ 102:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 202              		.loc 1 102 8 is_stmt 0 discriminator 4 view .LVU59
+ 203 0096 90ED027A 		vldr.32	s14, [r0, #8]
+ 204              	.LVL31:
+ 103:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 205              		.loc 1 103 5 is_stmt 1 discriminator 4 view .LVU60
+ 103:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 206              		.loc 1 103 8 is_stmt 0 discriminator 4 view .LVU61
+ 207 009a DFED247A 		vldr.32	s15, .L34
+ 208              	.LVL32:
+ 103:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 209              		.loc 1 103 8 discriminator 4 view .LVU62
+ 210 009e 27EE277A 		vmul.f32	s14, s14, s15
+ 211              	.LVL33:
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 212              		.loc 1 104 5 is_stmt 1 discriminator 4 view .LVU63
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 213              		.loc 1 104 28 is_stmt 0 discriminator 4 view .LVU64
+ 214 00a2 B5EEC07A 		vcmpe.f32	s14, #0
+ 215 00a6 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 216 00aa B2DD     		ble	.L28
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 217              		.loc 1 104 28 view .LVU65
+ 218 00ac F6EE007A 		vmov.f32	s15, #5.0e-1
+ 219              	.L7:
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 220              		.loc 1 104 8 discriminator 4 view .LVU66
+ 221 00b0 77EE877A 		vadd.f32	s15, s15, s14
+ 222              	.LVL34:
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 223              		.loc 1 105 5 is_stmt 1 discriminator 4 view .LVU67
+ 224              	.LBB5:
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 225              		.loc 1 105 23 discriminator 4 view .LVU68
+ 226 00b4 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 227              	.LVL35:
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 228              		.loc 1 105 23 is_stmt 0 discriminator 4 view .LVU69
+ 229 00b8 17EE903A 		vmov	r3, s15	@ int
+ 230              	.LVL36:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 8
+
+
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 231              		.loc 1 105 23 discriminator 4 view .LVU70
+ 232 00bc 1BB2     		sxth	r3, r3
+ 233              	.LVL37:
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 234              		.loc 1 105 23 is_stmt 1 discriminator 4 view .LVU71
+ 235              		.syntax unified
+ 236              	@ 105 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c" 1
+ 237 00be 03F30703 		ssat r3, #8, r3
+ 238              	@ 0 "" 2
+ 239              	.LVL38:
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 240              		.loc 1 105 23 discriminator 4 view .LVU72
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 241              		.loc 1 105 23 is_stmt 0 discriminator 4 view .LVU73
+ 242              		.thumb
+ 243              		.syntax unified
+ 244              	.LBE5:
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 245              		.loc 1 105 13 discriminator 4 view .LVU74
+ 246 00c2 8B70     		strb	r3, [r1, #2]
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 247              		.loc 1 107 5 is_stmt 1 discriminator 4 view .LVU75
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 248              		.loc 1 107 14 is_stmt 0 discriminator 4 view .LVU76
+ 249 00c4 00F1100C 		add	ip, r0, #16
+ 250              	.LVL39:
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 251              		.loc 1 107 8 discriminator 4 view .LVU77
+ 252 00c8 90ED037A 		vldr.32	s14, [r0, #12]
+ 253              	.LVL40:
+ 108:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 254              		.loc 1 108 5 is_stmt 1 discriminator 4 view .LVU78
+ 108:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 255              		.loc 1 108 8 is_stmt 0 discriminator 4 view .LVU79
+ 256 00cc DFED177A 		vldr.32	s15, .L34
+ 257              	.LVL41:
+ 108:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 258              		.loc 1 108 8 discriminator 4 view .LVU80
+ 259 00d0 27EE277A 		vmul.f32	s14, s14, s15
+ 260              	.LVL42:
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 261              		.loc 1 109 5 is_stmt 1 discriminator 4 view .LVU81
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 262              		.loc 1 109 28 is_stmt 0 discriminator 4 view .LVU82
+ 263 00d4 B5EEC07A 		vcmpe.f32	s14, #0
+ 264 00d8 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 265 00dc 9CDD     		ble	.L29
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 266              		.loc 1 109 28 view .LVU83
+ 267 00de F6EE007A 		vmov.f32	s15, #5.0e-1
+ 268 00e2 9BE7     		b	.L9
+ 269              	.LVL43:
+ 270              	.L32:
+ 125:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   }
+ 126:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 127:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 9
+
+
+ 128:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****    ** No loop unrolling is used. */
+ 129:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   blkCnt = blockSize % 0x4U;
+ 271              		.loc 1 129 3 is_stmt 1 view .LVU84
+ 272              		.loc 1 129 10 is_stmt 0 view .LVU85
+ 273 00e4 02F00302 		and	r2, r2, #3
+ 274              	.LVL44:
+ 130:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 131:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   while (blkCnt > 0U)
+ 275              		.loc 1 131 3 is_stmt 1 view .LVU86
+ 276              		.loc 1 131 9 is_stmt 0 view .LVU87
+ 277 00e8 0DE0     		b	.L12
+ 278              	.LVL45:
+ 279              	.L30:
+ 132:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   {
+ 133:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 134:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #ifdef ARM_MATH_ROUNDING
+ 135:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* C = A * 128 */
+ 136:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* convert from float to q7 and then store the results in the destination buffer */
+ 137:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = *pIn++;
+ 138:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 139:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 280              		.loc 1 139 28 view .LVU88
+ 281 00ea FEEE007A 		vmov.f32	s15, #-5.0e-1
+ 282              	.L13:
+ 283              		.loc 1 139 8 discriminator 4 view .LVU89
+ 284 00ee 77EE877A 		vadd.f32	s15, s15, s14
+ 285              	.LVL46:
+ 140:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 286              		.loc 1 140 5 is_stmt 1 discriminator 4 view .LVU90
+ 287              	.LBB6:
+ 288              		.loc 1 140 23 discriminator 4 view .LVU91
+ 289 00f2 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 290              	.LVL47:
+ 291              		.loc 1 140 23 is_stmt 0 discriminator 4 view .LVU92
+ 292 00f6 17EE903A 		vmov	r3, s15	@ int
+ 293 00fa 1BB2     		sxth	r3, r3
+ 294              	.LVL48:
+ 295              		.loc 1 140 23 is_stmt 1 discriminator 4 view .LVU93
+ 296              		.syntax unified
+ 297              	@ 140 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c" 1
+ 298 00fc 03F30703 		ssat r3, #8, r3
+ 299              	@ 0 "" 2
+ 300              	.LVL49:
+ 301              		.loc 1 140 23 discriminator 4 view .LVU94
+ 302              		.loc 1 140 23 is_stmt 0 discriminator 4 view .LVU95
+ 303              		.thumb
+ 304              		.syntax unified
+ 305              	.LBE6:
+ 306              		.loc 1 140 13 discriminator 4 view .LVU96
+ 307 0100 01F8013B 		strb	r3, [r1], #1
+ 308              	.LVL50:
+ 141:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 142:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #else
+ 143:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 144:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* C = A * 128 */
+ 145:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* convert from float to q7 and then store the results in the destination buffer */
+ 146:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = __SSAT((q31_t) (*pIn++ * 128.0f), 8);
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 10
+
+
+ 147:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 148:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #endif /*      #ifdef ARM_MATH_ROUNDING        */
+ 149:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 150:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* Decrement the loop counter */
+ 151:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     blkCnt--;
+ 309              		.loc 1 151 5 is_stmt 1 discriminator 4 view .LVU97
+ 310              		.loc 1 151 11 is_stmt 0 discriminator 4 view .LVU98
+ 311 0104 013A     		subs	r2, r2, #1
+ 312              	.LVL51:
+ 313              	.L12:
+ 131:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   {
+ 314              		.loc 1 131 17 is_stmt 1 view .LVU99
+ 315 0106 6AB1     		cbz	r2, .L33
+ 137:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 316              		.loc 1 137 5 view .LVU100
+ 317              	.LVL52:
+ 137:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128);
+ 318              		.loc 1 137 8 is_stmt 0 view .LVU101
+ 319 0108 B0EC017A 		vldmia.32	r0!, {s14}
+ 320              	.LVL53:
+ 138:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 321              		.loc 1 138 5 is_stmt 1 view .LVU102
+ 138:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0.0f ? 0.5f : -0.5f;
+ 322              		.loc 1 138 8 is_stmt 0 view .LVU103
+ 323 010c DFED077A 		vldr.32	s15, .L34
+ 324 0110 27EE277A 		vmul.f32	s14, s14, s15
+ 325              	.LVL54:
+ 139:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 326              		.loc 1 139 5 is_stmt 1 view .LVU104
+ 139:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
+ 327              		.loc 1 139 28 is_stmt 0 view .LVU105
+ 328 0114 B5EEC07A 		vcmpe.f32	s14, #0
+ 329 0118 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 330 011c E5DD     		ble	.L30
+ 331 011e F6EE007A 		vmov.f32	s15, #5.0e-1
+ 332 0122 E4E7     		b	.L13
+ 333              	.LVL55:
+ 334              	.L33:
+ 152:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   }
+ 153:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 154:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 155:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #else
+ 156:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 157:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   /* Run the below code for Cortex-M0 */
+ 158:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 159:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 160:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   /* Loop over blockSize number of values */
+ 161:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   blkCnt = blockSize;
+ 162:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 163:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   while (blkCnt > 0U)
+ 164:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   {
+ 165:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #ifdef ARM_MATH_ROUNDING
+ 166:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* C = A * 128 */
+ 167:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* convert from float to q7 and then store the results in the destination buffer */
+ 168:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = *pIn++;
+ 169:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in = (in * 128.0f);
+ 170:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     in += in > 0 ? 0.5f : -0.5f;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 11
+
+
+ 171:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) (__SSAT((q31_t) (in), 8));
+ 172:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 173:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #else
+ 174:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 175:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* C = A * 128 */
+ 176:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* convert from float to q7 and then store the results in the destination buffer */
+ 177:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     *pDst++ = (q7_t) __SSAT((q31_t) (*pIn++ * 128.0f), 8);
+ 178:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 179:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #endif /*      #ifdef ARM_MATH_ROUNDING        */
+ 180:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 181:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     /* Decrement the loop counter */
+ 182:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****     blkCnt--;
+ 183:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c ****   }
+ 184:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 185:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 186:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** 
+ 187:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_float_to_q7.c **** }
+ 335              		.loc 1 187 1 view .LVU106
+ 336 0124 5DF8044B 		ldr	r4, [sp], #4
+ 337              	.LCFI1:
+ 338              		.cfi_restore 4
+ 339              		.cfi_def_cfa_offset 0
+ 340 0128 7047     		bx	lr
+ 341              	.L35:
+ 342 012a 00BF     		.align	2
+ 343              	.L34:
+ 344 012c 00000043 		.word	1124073472
+ 345              		.cfi_endproc
+ 346              	.LFE139:
+ 348              		.text
+ 349              	.Letext0:
+ 350              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 351              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 352              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_float_to_q7.c
+C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s:21     .text.arm_float_to_q7:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s:27     .text.arm_float_to_q7:00000000 arm_float_to_q7
+C:\Users\Lamp\AppData\Local\Temp\ccp86xeg.s:344    .text.arm_float_to_q7:0000012c $d
+
+NO UNDEFINED SYMBOLS

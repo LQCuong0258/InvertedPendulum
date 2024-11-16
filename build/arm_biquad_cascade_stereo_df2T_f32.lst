@@ -1,0 +1,1700 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_biquad_cascade_stereo_df2T_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c"
+  20              		.section	.text.arm_biquad_cascade_stereo_df2T_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_biquad_cascade_stereo_df2T_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_biquad_cascade_stereo_df2T_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * Title:        arm_biquad_cascade_stereo_df2T_f32.c
+   4:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * Description:  Processing function for floating-point transposed direct form II Biquad cascade fi
+   5:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @ingroup groupFilters
+  33:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** */
+  34:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @defgroup BiquadCascadeDF2T Biquad Cascade IIR Filters Using a Direct Form II Transposed Structur
+  37:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  38:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * This set of functions implements arbitrary order recursive (IIR) filters using a transposed direc
+  39:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The filters are implemented as a cascade of second order Biquad sections.
+  40:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * These functions provide a slight memory savings as compared to the direct form I Biquad filter fu
+  41:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Only floating-point data is supported.
+  42:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  43:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * This function operate on blocks of input and output data and each call to the function
+  44:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * processes <code>blockSize</code> samples through the filter.
+  45:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <code>pSrc</code> points to the array of input data and
+  46:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <code>pDst</code> points to the array of output data.
+  47:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Both arrays contain <code>blockSize</code> values.
+  48:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  49:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par Algorithm
+  50:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Each Biquad stage implements a second order filter using the difference equation:
+  51:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <pre>
+  52:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *    y[n] = b0 * x[n] + d1
+  53:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *    d1 = b1 * x[n] + a1 * y[n] + d2
+  54:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *    d2 = b2 * x[n] + a2 * y[n]
+  55:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * </pre>
+  56:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * where d1 and d2 represent the two state values.
+  57:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  58:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par
+  59:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * A Biquad filter using a transposed Direct Form II structure is shown below.
+  60:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \image html BiquadDF2Transposed.gif "Single transposed Direct Form II Biquad"
+  61:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Coefficients <code>b0, b1, and b2 </code> multiply the input signal <code>x[n]</code> and are ref
+  62:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Coefficients <code>a1</code> and <code>a2</code> multiply the output signal <code>y[n]</code> and
+  63:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Pay careful attention to the sign of the feedback coefficients.
+  64:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Some design tools flip the sign of the feedback coefficients:
+  65:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <pre>
+  66:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *    y[n] = b0 * x[n] + d1;
+  67:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *    d1 = b1 * x[n] - a1 * y[n] + d2;
+  68:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *    d2 = b2 * x[n] - a2 * y[n];
+  69:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * </pre>
+  70:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * In this case the feedback coefficients <code>a1</code> and <code>a2</code> must be negated when u
+  71:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  72:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par
+  73:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Higher order filters are realized as a cascade of second order sections.
+  74:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <code>numStages</code> refers to the number of second order stages used.
+  75:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * For example, an 8th order filter would be realized with <code>numStages=4</code> second order sta
+  76:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * A 9th order filter would be realized with <code>numStages=5</code> second order stages with the
+  77:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * coefficients for one of the stages configured as a first order filter (<code>b2=0</code> and <cod
+  78:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  79:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par
+  80:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <code>pState</code> points to the state variable array.
+  81:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Each Biquad stage has 2 state variables <code>d1</code> and <code>d2</code>.
+  82:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The state variables are arranged in the <code>pState</code> array as:
+  83:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <pre>
+  84:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *     {d11, d12, d21, d22, ...}
+  85:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * </pre>
+  86:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * where <code>d1x</code> refers to the state variables for the first Biquad and
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 3
+
+
+  87:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <code>d2x</code> refers to the state variables for the second Biquad.
+  88:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The state array has a total length of <code>2*numStages</code> values.
+  89:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The state variables are updated after each block of data is processed; the coefficients are untou
+  90:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  91:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par
+  92:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The CMSIS library contains Biquad filters in both Direct Form I and transposed Direct Form II.
+  93:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The advantage of the Direct Form I structure is that it is numerically more robust for fixed-poin
+  94:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * That is why the Direct Form I structure supports Q15 and Q31 data types.
+  95:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The transposed Direct Form II structure, on the other hand, requires a wide dynamic range for the
+  96:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Because of this, the CMSIS library only has a floating-point version of the Direct Form II Biquad
+  97:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The advantage of the Direct Form II Biquad is that it requires half the number of state variables
+  98:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+  99:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par Instance Structure
+ 100:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The coefficients and state variables for a filter are stored together in an instance data structu
+ 101:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * A separate instance structure must be defined for each filter.
+ 102:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Coefficient arrays may be shared among several instances while state variable arrays cannot be sh
+ 103:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+ 104:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par Init Functions
+ 105:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * There is also an associated initialization function.
+ 106:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * The initialization function performs following operations:
+ 107:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * - Sets the values of the internal structure fields.
+ 108:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * - Zeros out the values in the state buffer.
+ 109:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * To do this manually without calling the init function, assign the follow subfields of the instanc
+ 110:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * numStages, pCoeffs, pState. Also set all of the values in pState to zero.
+ 111:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+ 112:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * \par
+ 113:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Use of the initialization function is optional.
+ 114:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * However, if the initialization function is used, then the instance structure cannot be placed int
+ 115:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * To place an instance structure into a const data section, the instance structure must be manually
+ 116:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * Set the values in the state buffer to zeros before static initialization.
+ 117:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * For example, to statically initialize the instance structure use
+ 118:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <pre>
+ 119:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *     arm_biquad_cascade_df2T_instance_f32 S1 = {numStages, pState, pCoeffs};
+ 120:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * </pre>
+ 121:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * where <code>numStages</code> is the number of Biquad stages in the filter; <code>pState</code> is
+ 122:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * <code>pCoeffs</code> is the address of the coefficient buffer;
+ 123:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** *
+ 124:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** */
+ 125:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 126:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** /**
+ 127:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @addtogroup BiquadCascadeDF2T
+ 128:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @{
+ 129:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** */
+ 130:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 131:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** /**
+ 132:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @brief Processing function for the floating-point transposed direct form II Biquad cascade filter
+ 133:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @param[in]  *S        points to an instance of the filter data structure.
+ 134:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @param[in]  *pSrc     points to the block of input data.
+ 135:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @param[out] *pDst     points to the block of output data
+ 136:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @param[in]  blockSize number of samples to process.
+ 137:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** * @return none.
+ 138:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** */
+ 139:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 140:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 141:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** LOW_OPTIMIZATION_ENTER
+ 142:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** void arm_biquad_cascade_stereo_df2T_f32(
+ 143:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** const arm_biquad_cascade_stereo_df2T_instance_f32 * S,
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 4
+
+
+ 144:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** float32_t * pSrc,
+ 145:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** float32_t * pDst,
+ 146:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** uint32_t blockSize)
+ 147:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** {
+  30              		.loc 1 147 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 147 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 2DED068B 		vpush.64	{d8, d9, d10}
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 60
+  50              		.cfi_offset 80, -60
+  51              		.cfi_offset 81, -56
+  52              		.cfi_offset 82, -52
+  53              		.cfi_offset 83, -48
+  54              		.cfi_offset 84, -44
+  55              		.cfi_offset 85, -40
+  56 0008 1546     		mov	r5, r2
+ 148:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 149:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t *pIn = pSrc;                         /*  source pointer            */
+  57              		.loc 1 149 5 is_stmt 1 view .LVU2
+  58              	.LVL1:
+ 150:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t *pOut = pDst;                        /*  destination pointer       */
+  59              		.loc 1 150 5 view .LVU3
+ 151:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t *pState = S->pState;                 /*  State pointer             */
+  60              		.loc 1 151 5 view .LVU4
+ 152:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t *pCoeffs = S->pCoeffs;               /*  coefficient pointer       */
+  61              		.loc 1 152 5 view .LVU5
+ 153:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t acc1a, acc1b;                        /*  accumulator               */
+  62              		.loc 1 153 5 view .LVU6
+ 154:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t b0, b1, b2, a1, a2;                  /*  Filter coefficients       */
+  63              		.loc 1 154 5 view .LVU7
+ 155:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t Xn1a, Xn1b;                          /*  temporary input           */
+  64              		.loc 1 155 5 view .LVU8
+ 156:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t d1a, d2a, d1b, d2b;                  /*  state variables           */
+  65              		.loc 1 156 5 view .LVU9
+ 157:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     uint32_t sample, stage = S->numStages;         /*  loop counters             */
+  66              		.loc 1 157 5 view .LVU10
+  67              		.loc 1 157 22 is_stmt 0 view .LVU11
+  68 000a 0478     		ldrb	r4, [r0]	@ zero_extendqisi2
+  69              	.LVL2:
+ 158:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 159:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** #if defined(ARM_MATH_CM7)
+ 160:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 5
+
+
+ 161:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t Xn2a, Xn3a, Xn4a, Xn5a, Xn6a, Xn7a, Xn8a;         /*  Input State variables     */
+ 162:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t Xn2b, Xn3b, Xn4b, Xn5b, Xn6b, Xn7b, Xn8b;         /*  Input State variables     */
+ 163:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t acc2a, acc3a, acc4a, acc5a, acc6a, acc7a, acc8a;  /*  Simulates the accumulator */
+ 164:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t acc2b, acc3b, acc4b, acc5b, acc6b, acc7b, acc8b;  /*  Simulates the accumulator */
+ 165:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 166:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     do
+ 167:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     {
+ 168:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Reading the coefficients */
+ 169:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b0 = pCoeffs[0];
+ 170:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b1 = pCoeffs[1];
+ 171:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b2 = pCoeffs[2];
+ 172:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a1 = pCoeffs[3];
+ 173:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Apply loop unrolling and compute 8 output values simultaneously. */
+ 174:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         sample = blockSize >> 3U;
+ 175:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a2 = pCoeffs[4];
+ 176:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 177:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /*Reading the state values */
+ 178:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1a = pState[0];
+ 179:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2a = pState[1];
+ 180:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1b = pState[2];
+ 181:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2b = pState[3];
+ 182:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 183:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pCoeffs += 5U;
+ 184:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 185:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* First part of the processing with loop unrolling.  Compute 8 outputs at a time.
+ 186:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         ** a second loop below computes the remaining 1 to 7 samples. */
+ 187:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         while (sample > 0U) {
+ 188:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 189:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* y[n] = b0 * x[n] + d1 */
+ 190:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
+ 191:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d2 = b2 * x[n] + a2 * y[n] */
+ 192:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 193:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Read the first 2 inputs. 2 cycles */
+ 194:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a  = pIn[0 ];
+ 195:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b  = pIn[1 ];
+ 196:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 197:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 1. 5 cycles */
+ 198:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2a  = pIn[2 ];
+ 199:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = b0 * Xn1a + d1a;
+ 200:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 201:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2b  = pIn[3 ];
+ 202:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn1a + d2a;
+ 203:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 204:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3a  = pIn[4 ];
+ 205:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn1a;
+ 206:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 207:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3b  = pIn[5 ];
+ 208:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc1a;
+ 209:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 210:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4a  = pIn[6 ];
+ 211:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc1a;
+ 212:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 213:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 2. 5 cycles */
+ 214:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4b  = pIn[7 ];
+ 215:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = b0 * Xn1b + d1b;
+ 216:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 217:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn5a  = pIn[8 ];
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 6
+
+
+ 218:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn1b + d2b;
+ 219:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 220:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn5b = pIn[9 ];
+ 221:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn1b;
+ 222:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 223:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn6a = pIn[10];
+ 224:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc1b;
+ 225:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 226:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn6b = pIn[11];
+ 227:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc1b;
+ 228:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 229:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 3. 5 cycles */
+ 230:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn7a = pIn[12];
+ 231:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2a = b0 * Xn2a + d1a;
+ 232:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 233:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn7b = pIn[13];
+ 234:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn2a + d2a;
+ 235:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 236:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn8a = pIn[14];
+ 237:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn2a;
+ 238:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 239:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn8b = pIn[15];
+ 240:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc2a;
+ 241:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 242:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pIn += 16;
+ 243:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc2a;
+ 244:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 245:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 4. 5 cycles */
+ 246:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2b = b0 * Xn2b + d1b;
+ 247:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn2b + d2b;
+ 248:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn2b;
+ 249:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc2b;
+ 250:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc2b;
+ 251:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 252:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 5. 5 cycles */
+ 253:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3a = b0 * Xn3a + d1a;
+ 254:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn3a + d2a;
+ 255:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn3a;
+ 256:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc3a;
+ 257:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc3a;
+ 258:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 259:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 6. 5 cycles */
+ 260:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3b = b0 * Xn3b + d1b;
+ 261:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn3b + d2b;
+ 262:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn3b;
+ 263:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc3b;
+ 264:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc3b;
+ 265:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 266:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 7. 5 cycles */
+ 267:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc4a = b0 * Xn4a + d1a;
+ 268:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn4a + d2a;
+ 269:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn4a;
+ 270:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc4a;
+ 271:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc4a;
+ 272:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 273:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 8. 5 cycles */
+ 274:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc4b = b0 * Xn4b + d1b;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 7
+
+
+ 275:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn4b + d2b;
+ 276:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn4b;
+ 277:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc4b;
+ 278:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc4b;
+ 279:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 280:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 9. 5 cycles */
+ 281:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc5a = b0 * Xn5a + d1a;
+ 282:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn5a + d2a;
+ 283:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn5a;
+ 284:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc5a;
+ 285:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc5a;
+ 286:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 287:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 10. 5 cycles */
+ 288:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc5b = b0 * Xn5b + d1b;
+ 289:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn5b + d2b;
+ 290:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn5b;
+ 291:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc5b;
+ 292:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc5b;
+ 293:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 294:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 11. 5 cycles */
+ 295:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc6a = b0 * Xn6a + d1a;
+ 296:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn6a + d2a;
+ 297:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn6a;
+ 298:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc6a;
+ 299:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc6a;
+ 300:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 301:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 12. 5 cycles */
+ 302:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc6b = b0 * Xn6b + d1b;
+ 303:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn6b + d2b;
+ 304:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn6b;
+ 305:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc6b;
+ 306:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc6b;
+ 307:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 308:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 13. 5 cycles */
+ 309:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc7a = b0 * Xn7a + d1a;
+ 310:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn7a + d2a;
+ 311:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 312:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[0 ] = acc1a ;
+ 313:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn7a;
+ 314:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 315:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[1 ] = acc1b ;
+ 316:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc7a;
+ 317:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 318:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[2 ] = acc2a ;
+ 319:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc7a;
+ 320:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 321:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 14. 5 cycles */
+ 322:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[3 ] = acc2b ;
+ 323:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc7b = b0 * Xn7b + d1b;
+ 324:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 325:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[4 ] = acc3a ;
+ 326:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn7b + d2b;
+ 327:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 328:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[5 ] = acc3b ;
+ 329:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn7b;
+ 330:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 331:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[6 ] = acc4a ;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 8
+
+
+ 332:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc7b;
+ 333:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 334:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[7 ] = acc4b ;
+ 335:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc7b;
+ 336:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 337:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 15. 5 cycles */
+ 338:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[8 ] = acc5a ;
+ 339:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc8a = b0 * Xn8a + d1a;
+ 340:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 341:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[9 ] = acc5b;
+ 342:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = b1 * Xn8a + d2a;
+ 343:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 344:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[10] = acc6a;
+ 345:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = b2 * Xn8a;
+ 346:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 347:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[11] = acc6b;
+ 348:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a += a1 * acc8a;
+ 349:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 350:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[12] = acc7a;
+ 351:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a += a2 * acc8a;
+ 352:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 353:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Sample 16. 5 cycles */
+ 354:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[13] = acc7b;
+ 355:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc8b = b0 * Xn8b + d1b;
+ 356:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 357:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[14] = acc8a;
+ 358:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = b1 * Xn8b + d2b;
+ 359:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 360:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[15] = acc8b;
+ 361:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = b2 * Xn8b;
+ 362:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 363:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             sample--;
+ 364:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b += a1 * acc8b;
+ 365:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 366:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut += 16;
+ 367:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b += a2 * acc8b;
+ 368:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         }
+ 369:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 370:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         sample = blockSize & 0x7U;
+ 371:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         while (sample > 0U) {
+ 372:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Read the input */
+ 373:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++; //Channel a
+ 374:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = *pIn++; //Channel b
+ 375:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 376:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* y[n] = b0 * x[n] + d1 */
+ 377:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = (b0 * Xn1a) + d1a;
+ 378:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = (b0 * Xn1b) + d1b;
+ 379:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 380:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Store the result in the accumulator in the destination buffer. */
+ 381:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1a;
+ 382:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1b;
+ 383:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 384:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Every time after the output is computed state should be updated. */
+ 385:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
+ 386:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = ((b1 * Xn1a) + (a1 * acc1a)) + d2a;
+ 387:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = ((b1 * Xn1b) + (a1 * acc1b)) + d2b;
+ 388:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 9
+
+
+ 389:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d2 = b2 * x[n] + a2 * y[n] */
+ 390:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = (b2 * Xn1a) + (a2 * acc1a);
+ 391:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = (b2 * Xn1b) + (a2 * acc1b);
+ 392:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 393:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             sample--;
+ 394:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         }
+ 395:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 396:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Store the updated state variables back into the state array */
+ 397:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pState[0] = d1a;
+ 398:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pState[1] = d2a;
+ 399:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 400:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pState[2] = d1b;
+ 401:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pState[3] = d2b;
+ 402:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 403:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* The current stage input is given as the output to the next stage */
+ 404:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pIn = pDst;
+ 405:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* decrement the loop counter */
+ 406:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         stage--;
+ 407:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 408:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pState += 4U;
+ 409:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /*Reset the output working pointer */
+ 410:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pOut = pDst;
+ 411:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 412:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     } while (stage > 0U);
+ 413:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 414:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** #elif defined(ARM_MATH_CM0_FAMILY)
+ 415:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 416:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     /* Run the below code for Cortex-M0 */
+ 417:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 418:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     do
+ 419:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     {
+ 420:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Reading the coefficients */
+ 421:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b0 = *pCoeffs++;
+ 422:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b1 = *pCoeffs++;
+ 423:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b2 = *pCoeffs++;
+ 424:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a1 = *pCoeffs++;
+ 425:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a2 = *pCoeffs++;
+ 426:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 427:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /*Reading the state values */
+ 428:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1a = pState[0];
+ 429:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2a = pState[1];
+ 430:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1b = pState[2];
+ 431:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2b = pState[3];
+ 432:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 433:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 434:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         sample = blockSize;
+ 435:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 436:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         while (sample > 0U)
+ 437:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         {
+ 438:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Read the input */
+ 439:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++; //Channel a
+ 440:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = *pIn++; //Channel b
+ 441:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 442:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* y[n] = b0 * x[n] + d1 */
+ 443:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = (b0 * Xn1a) + d1a;
+ 444:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = (b0 * Xn1b) + d1b;
+ 445:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 10
+
+
+ 446:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Store the result in the accumulator in the destination buffer. */
+ 447:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1a;
+ 448:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1b;
+ 449:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 450:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Every time after the output is computed state should be updated. */
+ 451:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
+ 452:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = ((b1 * Xn1a) + (a1 * acc1a)) + d2a;
+ 453:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = ((b1 * Xn1b) + (a1 * acc1b)) + d2b;
+ 454:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 455:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d2 = b2 * x[n] + a2 * y[n] */
+ 456:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = (b2 * Xn1a) + (a2 * acc1a);
+ 457:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = (b2 * Xn1b) + (a2 * acc1b);
+ 458:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 459:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* decrement the loop counter */
+ 460:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             sample--;
+ 461:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         }
+ 462:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 463:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Store the updated state variables back into the state array */
+ 464:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d1a;
+ 465:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2a;
+ 466:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d1b;
+ 467:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2b;
+ 468:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 469:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* The current stage input is given as the output to the next stage */
+ 470:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pIn = pDst;
+ 471:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 472:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /*Reset the output working pointer */
+ 473:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pOut = pDst;
+ 474:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 475:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* decrement the loop counter */
+ 476:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         stage--;
+ 477:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 478:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     } while (stage > 0U);
+ 479:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 480:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** #else
+ 481:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 482:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t Xn2a, Xn3a, Xn4a;                          /*  Input State variables     */
+ 483:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t Xn2b, Xn3b, Xn4b;                          /*  Input State variables     */
+ 484:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t acc2a, acc3a, acc4a;                       /*  accumulator               */
+ 485:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t acc2b, acc3b, acc4b;                       /*  accumulator               */
+ 486:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t p0a, p1a, p2a, p3a, p4a, A1a;
+ 487:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t p0b, p1b, p2b, p3b, p4b, A1b;
+ 488:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 489:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     /* Run the below code for Cortex-M4 and Cortex-M3 */
+ 490:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     do
+ 491:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     {
+ 492:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Reading the coefficients */
+ 493:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b0 = *pCoeffs++;
+ 494:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b1 = *pCoeffs++;
+ 495:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b2 = *pCoeffs++;
+ 496:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a1 = *pCoeffs++;
+ 497:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a2 = *pCoeffs++;
+ 498:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 499:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /*Reading the state values */
+ 500:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1a = pState[0];
+ 501:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2a = pState[1];
+ 502:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1b = pState[2];
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 11
+
+
+ 503:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2b = pState[3];
+ 504:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 505:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Apply loop unrolling and compute 4 output values simultaneously. */
+ 506:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         sample = blockSize >> 2U;
+  70              		.loc 1 506 16 view .LVU12
+  71 000c 9E08     		lsrs	r6, r3, #2
+  72 000e 8268     		ldr	r2, [r0, #8]
+  73              	.LVL3:
+  74              		.loc 1 506 16 view .LVU13
+  75 0010 02F1140E 		add	lr, r2, #20
+  76 0014 4268     		ldr	r2, [r0, #4]
+  77 0016 02F1100C 		add	ip, r2, #16
+  78 001a 4FEA461A 		lsl	r10, r6, #5
+ 507:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 508:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+ 509:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         ** a second loop below computes the remaining 1 to 3 samples. */
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         while (sample > 0U) {
+ 511:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 512:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* y[n] = b0 * x[n] + d1 */
+ 513:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
+ 514:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* d2 = b2 * x[n] + a2 * y[n] */
+ 515:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 516:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             /* Read the four inputs */
+ 517:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = pIn[0];
+ 518:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = pIn[1];
+ 519:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2a = pIn[2];
+ 520:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2b = pIn[3];
+ 521:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3a = pIn[4];
+ 522:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3b = pIn[5];
+ 523:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4a = pIn[6];
+ 524:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4b = pIn[7];
+ 525:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pIn += 8;
+ 526:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 527:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn1a;
+ 528:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn1b;
+ 529:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn1a;
+ 530:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn1b;
+ 531:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = p0a + d1a;
+ 532:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = p0b + d1b;
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn2a;
+ 534:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn2b;
+ 535:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc1a;
+ 536:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc1b;
+ 537:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn1a;
+ 538:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn1b;
+ 539:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 540:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 541:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc1a;
+ 542:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc1b;
+ 543:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 544:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 545:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 546:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 547:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 548:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn2a;
+ 549:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn2b;
+ 550:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2a = p0a + d1a;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 12
+
+
+ 551:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2b = p0b + d1b;
+ 552:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn3a;
+ 553:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn3b;
+ 554:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc2a;
+ 555:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc2b;
+ 556:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn2a;
+ 557:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn2b;
+ 558:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 559:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 560:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc2a;
+ 561:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc2b;
+ 562:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 563:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 564:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 565:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 566:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 567:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn3a;
+ 568:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn3b;
+ 569:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3a = p0a + d1a;
+ 570:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3b = p0b + d1b;
+ 571:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn4a;
+ 572:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn4b;
+ 573:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc3a;
+ 574:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc3b;
+ 575:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn3a;
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn3b;
+ 577:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 578:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 579:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc3a;
+ 580:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc3b;
+ 581:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 582:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 583:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 584:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 585:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 586:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc4a = p0a + d1a;
+ 587:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc4b = p0b + d1b;
+ 588:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn4a;
+ 589:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn4b;
+ 590:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc4a;
+ 591:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc4b;
+ 592:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn4a;
+ 593:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn4b;
+ 594:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 595:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 596:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc4a;
+ 597:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc4b;
+ 598:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 599:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 600:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 601:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 602:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 603:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[0] = acc1a;
+ 604:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[1] = acc1b;
+ 605:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[2] = acc2a;
+ 606:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[3] = acc2b;
+ 607:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[4] = acc3a;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 13
+
+
+ 608:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[5] = acc3b;
+ 609:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[6] = acc4a;
+ 610:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[7] = acc4b;
+ 611:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut += 8;
+  79              		.loc 1 611 18 view .LVU14
+  80 001e 05EB4619 		add	r9, r5, r6, lsl #5
+ 612:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 613:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             sample--;
+ 614:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         }
+ 615:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 616:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         sample = blockSize & 0x3U;
+  81              		.loc 1 616 16 view .LVU15
+  82 0022 03F00307 		and	r7, r3, #3
+  83 0026 07F10108 		add	r8, r7, #1
+  84 002a 4FEAC808 		lsl	r8, r8, #3
+  85 002e 00E0     		b	.L6
+  86              	.LVL4:
+  87              	.L8:
+ 617:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         while (sample > 0U) {
+ 618:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++;
+ 619:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = *pIn++;
+ 620:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 621:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn1a;
+ 622:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn1b;
+ 623:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn1a;
+ 624:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn1b;
+ 625:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = p0a + d1a;
+ 626:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = p0b + d1b;
+ 627:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc1a;
+ 628:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc1b;
+ 629:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn1a;
+ 630:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn1b;
+ 631:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 632:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 633:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc1a;
+ 634:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc1b;
+ 635:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 636:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 637:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 638:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 639:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 640:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1a;
+ 641:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1b;
+ 642:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 643:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             sample--;
+ 644:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         }
+ 645:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 646:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* Store the updated state variables back into the state array */
+ 647:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d1a;
+ 648:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2a;
+ 649:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d1b;
+ 650:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2b;
+ 651:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 652:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* The current stage input is given as the output to the next stage */
+ 653:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pIn = pDst;
+  88              		.loc 1 653 13 view .LVU16
+  89 0030 2946     		mov	r1, r5
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 14
+
+
+  90              	.LVL5:
+  91              	.L6:
+ 482:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t Xn2b, Xn3b, Xn4b;                          /*  Input State variables     */
+  92              		.loc 1 482 5 is_stmt 1 view .LVU17
+ 483:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t acc2a, acc3a, acc4a;                       /*  accumulator               */
+  93              		.loc 1 483 5 view .LVU18
+ 484:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t acc2b, acc3b, acc4b;                       /*  accumulator               */
+  94              		.loc 1 484 5 view .LVU19
+ 485:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t p0a, p1a, p2a, p3a, p4a, A1a;
+  95              		.loc 1 485 5 view .LVU20
+ 486:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     float32_t p0b, p1b, p2b, p3b, p4b, A1b;
+  96              		.loc 1 486 5 view .LVU21
+ 487:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+  97              		.loc 1 487 5 view .LVU22
+ 490:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     {
+  98              		.loc 1 490 5 view .LVU23
+ 493:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b1 = *pCoeffs++;
+  99              		.loc 1 493 9 view .LVU24
+ 493:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b1 = *pCoeffs++;
+ 100              		.loc 1 493 12 is_stmt 0 view .LVU25
+ 101 0032 5EED054A 		vldr.32	s9, [lr, #-20]
+ 102              	.LVL6:
+ 494:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b2 = *pCoeffs++;
+ 103              		.loc 1 494 9 is_stmt 1 view .LVU26
+ 494:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         b2 = *pCoeffs++;
+ 104              		.loc 1 494 12 is_stmt 0 view .LVU27
+ 105 0036 1EED044A 		vldr.32	s8, [lr, #-16]
+ 106              	.LVL7:
+ 495:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a1 = *pCoeffs++;
+ 107              		.loc 1 495 9 is_stmt 1 view .LVU28
+ 495:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a1 = *pCoeffs++;
+ 108              		.loc 1 495 12 is_stmt 0 view .LVU29
+ 109 003a 5EED033A 		vldr.32	s7, [lr, #-12]
+ 110              	.LVL8:
+ 496:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a2 = *pCoeffs++;
+ 111              		.loc 1 496 9 is_stmt 1 view .LVU30
+ 496:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         a2 = *pCoeffs++;
+ 112              		.loc 1 496 12 is_stmt 0 view .LVU31
+ 113 003e 1EED023A 		vldr.32	s6, [lr, #-8]
+ 114              	.LVL9:
+ 497:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 115              		.loc 1 497 9 is_stmt 1 view .LVU32
+ 497:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 116              		.loc 1 497 12 is_stmt 0 view .LVU33
+ 117 0042 5EED012A 		vldr.32	s5, [lr, #-4]
+ 118              	.LVL10:
+ 500:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2a = pState[1];
+ 119              		.loc 1 500 9 is_stmt 1 view .LVU34
+ 120 0046 6246     		mov	r2, ip
+ 500:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2a = pState[1];
+ 121              		.loc 1 500 13 is_stmt 0 view .LVU35
+ 122 0048 5CED045A 		vldr.32	s11, [ip, #-16]
+ 123              	.LVL11:
+ 501:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1b = pState[2];
+ 124              		.loc 1 501 9 is_stmt 1 view .LVU36
+ 501:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d1b = pState[2];
+ 125              		.loc 1 501 13 is_stmt 0 view .LVU37
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 15
+
+
+ 126 004c 1CED03AA 		vldr.32	s20, [ip, #-12]
+ 127              	.LVL12:
+ 502:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2b = pState[3];
+ 128              		.loc 1 502 9 is_stmt 1 view .LVU38
+ 502:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         d2b = pState[3];
+ 129              		.loc 1 502 13 is_stmt 0 view .LVU39
+ 130 0050 1CED026A 		vldr.32	s12, [ip, #-8]
+ 131              	.LVL13:
+ 503:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 132              		.loc 1 503 9 is_stmt 1 view .LVU40
+ 503:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 133              		.loc 1 503 13 is_stmt 0 view .LVU41
+ 134 0054 5CED019A 		vldr.32	s19, [ip, #-4]
+ 135              	.LVL14:
+ 506:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 136              		.loc 1 506 9 is_stmt 1 view .LVU42
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 137              		.loc 1 510 9 view .LVU43
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 138              		.loc 1 510 23 view .LVU44
+ 139 0058 002E     		cmp	r6, #0
+ 140 005a 00F00581 		beq	.L7
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 141              		.loc 1 510 23 is_stmt 0 view .LVU45
+ 142 005e 01F12000 		add	r0, r1, #32
+ 143 0062 05F12003 		add	r3, r5, #32
+ 506:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 144              		.loc 1 506 16 view .LVU46
+ 145 0066 B346     		mov	fp, r6
+ 146              	.LVL15:
+ 147              	.L3:
+ 517:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = pIn[1];
+ 148              		.loc 1 517 13 is_stmt 1 view .LVU47
+ 517:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = pIn[1];
+ 149              		.loc 1 517 18 is_stmt 0 view .LVU48
+ 150 0068 10ED085A 		vldr.32	s10, [r0, #-32]
+ 151              	.LVL16:
+ 518:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2a = pIn[2];
+ 152              		.loc 1 518 13 is_stmt 1 view .LVU49
+ 518:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2a = pIn[2];
+ 153              		.loc 1 518 18 is_stmt 0 view .LVU50
+ 154 006c 50ED076A 		vldr.32	s13, [r0, #-28]
+ 155              	.LVL17:
+ 519:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2b = pIn[3];
+ 156              		.loc 1 519 13 is_stmt 1 view .LVU51
+ 519:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn2b = pIn[3];
+ 157              		.loc 1 519 18 is_stmt 0 view .LVU52
+ 158 0070 10ED067A 		vldr.32	s14, [r0, #-24]
+ 159              	.LVL18:
+ 520:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3a = pIn[4];
+ 160              		.loc 1 520 13 is_stmt 1 view .LVU53
+ 520:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3a = pIn[4];
+ 161              		.loc 1 520 18 is_stmt 0 view .LVU54
+ 162 0074 50ED057A 		vldr.32	s15, [r0, #-20]
+ 163              	.LVL19:
+ 521:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3b = pIn[5];
+ 164              		.loc 1 521 13 is_stmt 1 view .LVU55
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 16
+
+
+ 521:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn3b = pIn[5];
+ 165              		.loc 1 521 18 is_stmt 0 view .LVU56
+ 166 0078 50ED040A 		vldr.32	s1, [r0, #-16]
+ 167              	.LVL20:
+ 522:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4a = pIn[6];
+ 168              		.loc 1 522 13 is_stmt 1 view .LVU57
+ 522:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4a = pIn[6];
+ 169              		.loc 1 522 18 is_stmt 0 view .LVU58
+ 170 007c 10ED031A 		vldr.32	s2, [r0, #-12]
+ 171              	.LVL21:
+ 523:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4b = pIn[7];
+ 172              		.loc 1 523 13 is_stmt 1 view .LVU59
+ 523:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn4b = pIn[7];
+ 173              		.loc 1 523 18 is_stmt 0 view .LVU60
+ 174 0080 10ED029A 		vldr.32	s18, [r0, #-8]
+ 175              	.LVL22:
+ 524:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pIn += 8;
+ 176              		.loc 1 524 13 is_stmt 1 view .LVU61
+ 524:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pIn += 8;
+ 177              		.loc 1 524 18 is_stmt 0 view .LVU62
+ 178 0084 50ED018A 		vldr.32	s17, [r0, #-4]
+ 179              	.LVL23:
+ 525:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 180              		.loc 1 525 13 is_stmt 1 view .LVU63
+ 527:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn1b;
+ 181              		.loc 1 527 13 view .LVU64
+ 528:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn1a;
+ 182              		.loc 1 528 13 view .LVU65
+ 529:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn1b;
+ 183              		.loc 1 529 13 view .LVU66
+ 530:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = p0a + d1a;
+ 184              		.loc 1 530 13 view .LVU67
+ 531:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = p0b + d1b;
+ 185              		.loc 1 531 13 view .LVU68
+ 527:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn1b;
+ 186              		.loc 1 527 17 is_stmt 0 view .LVU69
+ 187 0088 24EE858A 		vmul.f32	s16, s9, s10
+ 188              	.LVL24:
+ 531:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = p0b + d1b;
+ 189              		.loc 1 531 19 view .LVU70
+ 190 008c 38EE258A 		vadd.f32	s16, s16, s11
+ 191              	.LVL25:
+ 532:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn2a;
+ 192              		.loc 1 532 13 is_stmt 1 view .LVU71
+ 528:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn1a;
+ 193              		.loc 1 528 17 is_stmt 0 view .LVU72
+ 194 0090 24EEA60A 		vmul.f32	s0, s9, s13
+ 195              	.LVL26:
+ 532:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn2a;
+ 196              		.loc 1 532 19 view .LVU73
+ 197 0094 30EE060A 		vadd.f32	s0, s0, s12
+ 198              	.LVL27:
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn2b;
+ 199              		.loc 1 533 13 is_stmt 1 view .LVU74
+ 534:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc1a;
+ 200              		.loc 1 534 13 view .LVU75
+ 535:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc1b;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 17
+
+
+ 201              		.loc 1 535 13 view .LVU76
+ 536:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn1a;
+ 202              		.loc 1 536 13 view .LVU77
+ 537:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn1b;
+ 203              		.loc 1 537 13 view .LVU78
+ 538:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 204              		.loc 1 538 13 view .LVU79
+ 539:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 205              		.loc 1 539 13 view .LVU80
+ 540:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc1a;
+ 206              		.loc 1 540 13 view .LVU81
+ 541:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc1b;
+ 207              		.loc 1 541 13 view .LVU82
+ 542:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 208              		.loc 1 542 13 view .LVU83
+ 543:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 209              		.loc 1 543 13 view .LVU84
+ 544:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 210              		.loc 1 544 13 view .LVU85
+ 545:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 211              		.loc 1 545 13 view .LVU86
+ 546:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 212              		.loc 1 546 13 view .LVU87
+ 548:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn2b;
+ 213              		.loc 1 548 13 view .LVU88
+ 549:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2a = p0a + d1a;
+ 214              		.loc 1 549 13 view .LVU89
+ 550:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2b = p0b + d1b;
+ 215              		.loc 1 550 13 view .LVU90
+ 529:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn1b;
+ 216              		.loc 1 529 17 is_stmt 0 view .LVU91
+ 217 0098 64EE051A 		vmul.f32	s3, s8, s10
+ 535:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc1b;
+ 218              		.loc 1 535 17 view .LVU92
+ 219 009c 23EE086A 		vmul.f32	s12, s6, s16
+ 220              	.LVL28:
+ 539:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 221              		.loc 1 539 17 view .LVU93
+ 222 00a0 71EE861A 		vadd.f32	s3, s3, s12
+ 223              	.LVL29:
+ 543:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 224              		.loc 1 543 17 view .LVU94
+ 225 00a4 71EE8A1A 		vadd.f32	s3, s3, s20
+ 226              	.LVL30:
+ 533:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn2b;
+ 227              		.loc 1 533 17 view .LVU95
+ 228 00a8 24EE876A 		vmul.f32	s12, s9, s14
+ 229              	.LVL31:
+ 550:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2b = p0b + d1b;
+ 230              		.loc 1 550 19 view .LVU96
+ 231 00ac 71EE861A 		vadd.f32	s3, s3, s12
+ 232              	.LVL32:
+ 551:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn3a;
+ 233              		.loc 1 551 13 is_stmt 1 view .LVU97
+ 530:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = p0a + d1a;
+ 234              		.loc 1 530 17 is_stmt 0 view .LVU98
+ 235 00b0 24EE262A 		vmul.f32	s4, s8, s13
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 18
+
+
+ 536:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn1a;
+ 236              		.loc 1 536 17 view .LVU99
+ 237 00b4 23EE006A 		vmul.f32	s12, s6, s0
+ 238              	.LVL33:
+ 540:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc1a;
+ 239              		.loc 1 540 17 view .LVU100
+ 240 00b8 32EE062A 		vadd.f32	s4, s4, s12
+ 241              	.LVL34:
+ 544:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 242              		.loc 1 544 17 view .LVU101
+ 243 00bc 32EE292A 		vadd.f32	s4, s4, s19
+ 244              	.LVL35:
+ 534:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc1a;
+ 245              		.loc 1 534 17 view .LVU102
+ 246 00c0 24EEA76A 		vmul.f32	s12, s9, s15
+ 247              	.LVL36:
+ 551:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn3a;
+ 248              		.loc 1 551 19 view .LVU103
+ 249 00c4 32EE062A 		vadd.f32	s4, s4, s12
+ 250              	.LVL37:
+ 552:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn3b;
+ 251              		.loc 1 552 13 is_stmt 1 view .LVU104
+ 553:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc2a;
+ 252              		.loc 1 553 13 view .LVU105
+ 554:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc2b;
+ 253              		.loc 1 554 13 view .LVU106
+ 555:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn2a;
+ 254              		.loc 1 555 13 view .LVU107
+ 556:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn2b;
+ 255              		.loc 1 556 13 view .LVU108
+ 557:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 256              		.loc 1 557 13 view .LVU109
+ 558:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 257              		.loc 1 558 13 view .LVU110
+ 559:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc2a;
+ 258              		.loc 1 559 13 view .LVU111
+ 560:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc2b;
+ 259              		.loc 1 560 13 view .LVU112
+ 561:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 260              		.loc 1 561 13 view .LVU113
+ 562:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 261              		.loc 1 562 13 view .LVU114
+ 563:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 262              		.loc 1 563 13 view .LVU115
+ 564:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 263              		.loc 1 564 13 view .LVU116
+ 565:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 264              		.loc 1 565 13 view .LVU117
+ 567:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn3b;
+ 265              		.loc 1 567 13 view .LVU118
+ 568:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3a = p0a + d1a;
+ 266              		.loc 1 568 13 view .LVU119
+ 569:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3b = p0b + d1b;
+ 267              		.loc 1 569 13 view .LVU120
+ 537:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn1b;
+ 268              		.loc 1 537 17 is_stmt 0 view .LVU121
+ 269 00c8 23EE855A 		vmul.f32	s10, s7, s10
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 19
+
+
+ 270              	.LVL38:
+ 541:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc1b;
+ 271              		.loc 1 541 17 view .LVU122
+ 272 00cc 22EE886A 		vmul.f32	s12, s5, s16
+ 545:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 273              		.loc 1 545 17 view .LVU123
+ 274 00d0 35EE065A 		vadd.f32	s10, s10, s12
+ 548:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn2b;
+ 275              		.loc 1 548 17 view .LVU124
+ 276 00d4 24EE076A 		vmul.f32	s12, s8, s14
+ 554:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc2b;
+ 277              		.loc 1 554 17 view .LVU125
+ 278 00d8 63EE215A 		vmul.f32	s11, s6, s3
+ 279              	.LVL39:
+ 558:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 280              		.loc 1 558 17 view .LVU126
+ 281 00dc 36EE256A 		vadd.f32	s12, s12, s11
+ 282              	.LVL40:
+ 562:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 283              		.loc 1 562 17 view .LVU127
+ 284 00e0 35EE065A 		vadd.f32	s10, s10, s12
+ 285              	.LVL41:
+ 552:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn3b;
+ 286              		.loc 1 552 17 view .LVU128
+ 287 00e4 24EEA06A 		vmul.f32	s12, s9, s1
+ 288              	.LVL42:
+ 569:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3b = p0b + d1b;
+ 289              		.loc 1 569 19 view .LVU129
+ 290 00e8 35EE065A 		vadd.f32	s10, s10, s12
+ 291              	.LVL43:
+ 570:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn4a;
+ 292              		.loc 1 570 13 is_stmt 1 view .LVU130
+ 538:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 293              		.loc 1 538 17 is_stmt 0 view .LVU131
+ 294 00ec 63EEA66A 		vmul.f32	s13, s7, s13
+ 295              	.LVL44:
+ 542:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 296              		.loc 1 542 17 view .LVU132
+ 297 00f0 22EE806A 		vmul.f32	s12, s5, s0
+ 298              	.LVL45:
+ 546:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 299              		.loc 1 546 17 view .LVU133
+ 300 00f4 76EE866A 		vadd.f32	s13, s13, s12
+ 549:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc2a = p0a + d1a;
+ 301              		.loc 1 549 17 view .LVU134
+ 302 00f8 24EE276A 		vmul.f32	s12, s8, s15
+ 555:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn2a;
+ 303              		.loc 1 555 17 view .LVU135
+ 304 00fc 63EE025A 		vmul.f32	s11, s6, s4
+ 305              	.LVL46:
+ 559:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc2a;
+ 306              		.loc 1 559 17 view .LVU136
+ 307 0100 36EE256A 		vadd.f32	s12, s12, s11
+ 308              	.LVL47:
+ 563:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 309              		.loc 1 563 17 view .LVU137
+ 310 0104 76EE866A 		vadd.f32	s13, s13, s12
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 20
+
+
+ 311              	.LVL48:
+ 553:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc2a;
+ 312              		.loc 1 553 17 view .LVU138
+ 313 0108 24EE816A 		vmul.f32	s12, s9, s2
+ 314              	.LVL49:
+ 570:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0a = b0 * Xn4a;
+ 315              		.loc 1 570 19 view .LVU139
+ 316 010c 76EE866A 		vadd.f32	s13, s13, s12
+ 317              	.LVL50:
+ 571:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn4b;
+ 318              		.loc 1 571 13 is_stmt 1 view .LVU140
+ 572:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc3a;
+ 319              		.loc 1 572 13 view .LVU141
+ 573:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc3b;
+ 320              		.loc 1 573 13 view .LVU142
+ 574:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn3a;
+ 321              		.loc 1 574 13 view .LVU143
+ 575:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn3b;
+ 322              		.loc 1 575 13 view .LVU144
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 323              		.loc 1 576 13 view .LVU145
+ 577:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 324              		.loc 1 577 13 view .LVU146
+ 578:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc3a;
+ 325              		.loc 1 578 13 view .LVU147
+ 579:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc3b;
+ 326              		.loc 1 579 13 view .LVU148
+ 580:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 327              		.loc 1 580 13 view .LVU149
+ 581:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 328              		.loc 1 581 13 view .LVU150
+ 582:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 329              		.loc 1 582 13 view .LVU151
+ 583:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 330              		.loc 1 583 13 view .LVU152
+ 584:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 331              		.loc 1 584 13 view .LVU153
+ 586:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc4b = p0b + d1b;
+ 332              		.loc 1 586 13 view .LVU154
+ 556:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn2b;
+ 333              		.loc 1 556 17 is_stmt 0 view .LVU155
+ 334 0110 23EE877A 		vmul.f32	s14, s7, s14
+ 335              	.LVL51:
+ 560:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc2b;
+ 336              		.loc 1 560 17 view .LVU156
+ 337 0114 22EEA16A 		vmul.f32	s12, s5, s3
+ 564:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 338              		.loc 1 564 17 view .LVU157
+ 339 0118 37EE067A 		vadd.f32	s14, s14, s12
+ 567:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn3b;
+ 340              		.loc 1 567 17 view .LVU158
+ 341 011c 24EE206A 		vmul.f32	s12, s8, s1
+ 342              	.LVL52:
+ 573:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc3b;
+ 343              		.loc 1 573 17 view .LVU159
+ 344 0120 63EE055A 		vmul.f32	s11, s6, s10
+ 345              	.LVL53:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 21
+
+
+ 577:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 346              		.loc 1 577 17 view .LVU160
+ 347 0124 36EE256A 		vadd.f32	s12, s12, s11
+ 348              	.LVL54:
+ 581:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 349              		.loc 1 581 17 view .LVU161
+ 350 0128 37EE067A 		vadd.f32	s14, s14, s12
+ 351              	.LVL55:
+ 571:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn4b;
+ 352              		.loc 1 571 17 view .LVU162
+ 353 012c 24EE896A 		vmul.f32	s12, s9, s18
+ 354              	.LVL56:
+ 586:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc4b = p0b + d1b;
+ 355              		.loc 1 586 19 view .LVU163
+ 356 0130 37EE067A 		vadd.f32	s14, s14, s12
+ 357              	.LVL57:
+ 587:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn4a;
+ 358              		.loc 1 587 13 is_stmt 1 view .LVU164
+ 557:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 359              		.loc 1 557 17 is_stmt 0 view .LVU165
+ 360 0134 63EEA77A 		vmul.f32	s15, s7, s15
+ 361              	.LVL58:
+ 561:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 362              		.loc 1 561 17 view .LVU166
+ 363 0138 22EE826A 		vmul.f32	s12, s5, s4
+ 364              	.LVL59:
+ 565:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 365              		.loc 1 565 17 view .LVU167
+ 366 013c 77EE867A 		vadd.f32	s15, s15, s12
+ 568:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc3a = p0a + d1a;
+ 367              		.loc 1 568 17 view .LVU168
+ 368 0140 24EE016A 		vmul.f32	s12, s8, s2
+ 369              	.LVL60:
+ 574:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn3a;
+ 370              		.loc 1 574 17 view .LVU169
+ 371 0144 63EE265A 		vmul.f32	s11, s6, s13
+ 372              	.LVL61:
+ 578:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc3a;
+ 373              		.loc 1 578 17 view .LVU170
+ 374 0148 36EE256A 		vadd.f32	s12, s12, s11
+ 375              	.LVL62:
+ 582:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 376              		.loc 1 582 17 view .LVU171
+ 377 014c 77EE867A 		vadd.f32	s15, s15, s12
+ 378              	.LVL63:
+ 572:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc3a;
+ 379              		.loc 1 572 17 view .LVU172
+ 380 0150 24EEA86A 		vmul.f32	s12, s9, s17
+ 381              	.LVL64:
+ 587:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn4a;
+ 382              		.loc 1 587 19 view .LVU173
+ 383 0154 77EE867A 		vadd.f32	s15, s15, s12
+ 384              	.LVL65:
+ 588:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn4b;
+ 385              		.loc 1 588 13 is_stmt 1 view .LVU174
+ 589:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc4a;
+ 386              		.loc 1 589 13 view .LVU175
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 22
+
+
+ 590:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc4b;
+ 387              		.loc 1 590 13 view .LVU176
+ 591:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn4a;
+ 388              		.loc 1 591 13 view .LVU177
+ 592:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn4b;
+ 389              		.loc 1 592 13 view .LVU178
+ 593:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 390              		.loc 1 593 13 view .LVU179
+ 594:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 391              		.loc 1 594 13 view .LVU180
+ 595:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc4a;
+ 392              		.loc 1 595 13 view .LVU181
+ 596:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc4b;
+ 393              		.loc 1 596 13 view .LVU182
+ 597:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 394              		.loc 1 597 13 view .LVU183
+ 598:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 395              		.loc 1 598 13 view .LVU184
+ 575:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn3b;
+ 396              		.loc 1 575 17 is_stmt 0 view .LVU185
+ 397 0158 63EEA00A 		vmul.f32	s1, s7, s1
+ 398              	.LVL66:
+ 579:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc3b;
+ 399              		.loc 1 579 17 view .LVU186
+ 400 015c 22EE856A 		vmul.f32	s12, s5, s10
+ 401              	.LVL67:
+ 583:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 402              		.loc 1 583 17 view .LVU187
+ 403 0160 70EE860A 		vadd.f32	s1, s1, s12
+ 404              	.LVL68:
+ 588:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn4b;
+ 405              		.loc 1 588 17 view .LVU188
+ 406 0164 64EE095A 		vmul.f32	s11, s8, s18
+ 407              	.LVL69:
+ 590:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc4b;
+ 408              		.loc 1 590 17 view .LVU189
+ 409 0168 23EE076A 		vmul.f32	s12, s6, s14
+ 410              	.LVL70:
+ 594:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 411              		.loc 1 594 17 view .LVU190
+ 412 016c 75EE865A 		vadd.f32	s11, s11, s12
+ 413              	.LVL71:
+ 598:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 414              		.loc 1 598 17 view .LVU191
+ 415 0170 70EEA55A 		vadd.f32	s11, s1, s11
+ 416              	.LVL72:
+ 599:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 417              		.loc 1 599 13 is_stmt 1 view .LVU192
+ 576:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 418              		.loc 1 576 17 is_stmt 0 view .LVU193
+ 419 0174 23EE811A 		vmul.f32	s2, s7, s2
+ 420              	.LVL73:
+ 580:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 421              		.loc 1 580 17 view .LVU194
+ 422 0178 22EEA66A 		vmul.f32	s12, s5, s13
+ 423              	.LVL74:
+ 584:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 23
+
+
+ 424              		.loc 1 584 17 view .LVU195
+ 425 017c 31EE061A 		vadd.f32	s2, s2, s12
+ 426              	.LVL75:
+ 589:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc4a;
+ 427              		.loc 1 589 17 view .LVU196
+ 428 0180 24EE286A 		vmul.f32	s12, s8, s17
+ 429              	.LVL76:
+ 591:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn4a;
+ 430              		.loc 1 591 17 view .LVU197
+ 431 0184 63EE270A 		vmul.f32	s1, s6, s15
+ 432              	.LVL77:
+ 595:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc4a;
+ 433              		.loc 1 595 17 view .LVU198
+ 434 0188 36EE206A 		vadd.f32	s12, s12, s1
+ 435              	.LVL78:
+ 599:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 436              		.loc 1 599 17 view .LVU199
+ 437 018c 31EE066A 		vadd.f32	s12, s2, s12
+ 438              	.LVL79:
+ 600:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 439              		.loc 1 600 13 is_stmt 1 view .LVU200
+ 592:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn4b;
+ 440              		.loc 1 592 17 is_stmt 0 view .LVU201
+ 441 0190 23EE899A 		vmul.f32	s18, s7, s18
+ 442              	.LVL80:
+ 596:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc4b;
+ 443              		.loc 1 596 17 view .LVU202
+ 444 0194 22EE87AA 		vmul.f32	s20, s5, s14
+ 445              	.LVL81:
+ 600:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 446              		.loc 1 600 17 view .LVU203
+ 447 0198 39EE0AAA 		vadd.f32	s20, s18, s20
+ 448              	.LVL82:
+ 601:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 449              		.loc 1 601 13 is_stmt 1 view .LVU204
+ 593:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 450              		.loc 1 593 17 is_stmt 0 view .LVU205
+ 451 019c 63EEA88A 		vmul.f32	s17, s7, s17
+ 452              	.LVL83:
+ 597:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 453              		.loc 1 597 17 view .LVU206
+ 454 01a0 62EEA79A 		vmul.f32	s19, s5, s15
+ 455              	.LVL84:
+ 601:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 456              		.loc 1 601 17 view .LVU207
+ 457 01a4 78EEA99A 		vadd.f32	s19, s17, s19
+ 458              	.LVL85:
+ 603:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[1] = acc1b;
+ 459              		.loc 1 603 13 is_stmt 1 view .LVU208
+ 603:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[1] = acc1b;
+ 460              		.loc 1 603 21 is_stmt 0 view .LVU209
+ 461 01a8 03ED088A 		vstr.32	s16, [r3, #-32]
+ 462              	.LVL86:
+ 604:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[2] = acc2a;
+ 463              		.loc 1 604 13 is_stmt 1 view .LVU210
+ 604:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[2] = acc2a;
+ 464              		.loc 1 604 21 is_stmt 0 view .LVU211
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 24
+
+
+ 465 01ac 03ED070A 		vstr.32	s0, [r3, #-28]
+ 605:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[3] = acc2b;
+ 466              		.loc 1 605 13 is_stmt 1 view .LVU212
+ 605:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[3] = acc2b;
+ 467              		.loc 1 605 21 is_stmt 0 view .LVU213
+ 468 01b0 43ED061A 		vstr.32	s3, [r3, #-24]
+ 606:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[4] = acc3a;
+ 469              		.loc 1 606 13 is_stmt 1 view .LVU214
+ 606:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[4] = acc3a;
+ 470              		.loc 1 606 21 is_stmt 0 view .LVU215
+ 471 01b4 03ED052A 		vstr.32	s4, [r3, #-20]
+ 607:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[5] = acc3b;
+ 472              		.loc 1 607 13 is_stmt 1 view .LVU216
+ 607:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[5] = acc3b;
+ 473              		.loc 1 607 21 is_stmt 0 view .LVU217
+ 474 01b8 03ED045A 		vstr.32	s10, [r3, #-16]
+ 608:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[6] = acc4a;
+ 475              		.loc 1 608 13 is_stmt 1 view .LVU218
+ 608:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[6] = acc4a;
+ 476              		.loc 1 608 21 is_stmt 0 view .LVU219
+ 477 01bc 43ED036A 		vstr.32	s13, [r3, #-12]
+ 609:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[7] = acc4b;
+ 478              		.loc 1 609 13 is_stmt 1 view .LVU220
+ 609:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut[7] = acc4b;
+ 479              		.loc 1 609 21 is_stmt 0 view .LVU221
+ 480 01c0 03ED027A 		vstr.32	s14, [r3, #-8]
+ 610:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut += 8;
+ 481              		.loc 1 610 13 is_stmt 1 view .LVU222
+ 610:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             pOut += 8;
+ 482              		.loc 1 610 21 is_stmt 0 view .LVU223
+ 483 01c4 43ED017A 		vstr.32	s15, [r3, #-4]
+ 611:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 484              		.loc 1 611 13 is_stmt 1 view .LVU224
+ 485              	.LVL87:
+ 613:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         }
+ 486              		.loc 1 613 13 view .LVU225
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 487              		.loc 1 510 23 view .LVU226
+ 488 01c8 2030     		adds	r0, r0, #32
+ 489              	.LVL88:
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 490              		.loc 1 510 23 is_stmt 0 view .LVU227
+ 491 01ca 2033     		adds	r3, r3, #32
+ 492 01cc BBF1010B 		subs	fp, fp, #1
+ 493              	.LVL89:
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 494              		.loc 1 510 23 view .LVU228
+ 495 01d0 7FF44AAF 		bne	.L3
+ 525:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 496              		.loc 1 525 17 view .LVU229
+ 497 01d4 5144     		add	r1, r1, r10
+ 611:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 498              		.loc 1 611 18 view .LVU230
+ 499 01d6 4846     		mov	r0, r9
+ 500              	.LVL90:
+ 501              	.L2:
+ 616:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         while (sample > 0U) {
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 25
+
+
+ 502              		.loc 1 616 9 is_stmt 1 view .LVU231
+ 617:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++;
+ 503              		.loc 1 617 9 view .LVU232
+ 617:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++;
+ 504              		.loc 1 617 23 view .LVU233
+ 505 01d8 9FB3     		cbz	r7, .L4
+ 617:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++;
+ 506              		.loc 1 617 23 is_stmt 0 view .LVU234
+ 507 01da 01F10803 		add	r3, r1, #8
+ 508 01de 0830     		adds	r0, r0, #8
+ 509 01e0 4144     		add	r1, r1, r8
+ 510              	.LVL91:
+ 511              	.L5:
+ 618:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = *pIn++;
+ 512              		.loc 1 618 13 is_stmt 1 view .LVU235
+ 618:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1b = *pIn++;
+ 513              		.loc 1 618 18 is_stmt 0 view .LVU236
+ 514 01e2 13ED025A 		vldr.32	s10, [r3, #-8]
+ 515              	.LVL92:
+ 619:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 516              		.loc 1 619 13 is_stmt 1 view .LVU237
+ 619:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 517              		.loc 1 619 18 is_stmt 0 view .LVU238
+ 518 01e6 53ED016A 		vldr.32	s13, [r3, #-4]
+ 519              	.LVL93:
+ 621:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn1b;
+ 520              		.loc 1 621 13 is_stmt 1 view .LVU239
+ 622:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn1a;
+ 521              		.loc 1 622 13 view .LVU240
+ 623:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn1b;
+ 522              		.loc 1 623 13 view .LVU241
+ 624:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = p0a + d1a;
+ 523              		.loc 1 624 13 view .LVU242
+ 625:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = p0b + d1b;
+ 524              		.loc 1 625 13 view .LVU243
+ 621:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p0b = b0 * Xn1b;
+ 525              		.loc 1 621 17 is_stmt 0 view .LVU244
+ 526 01ea 24EE857A 		vmul.f32	s14, s9, s10
+ 527              	.LVL94:
+ 625:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1b = p0b + d1b;
+ 528              		.loc 1 625 19 view .LVU245
+ 529 01ee 37EE257A 		vadd.f32	s14, s14, s11
+ 530              	.LVL95:
+ 626:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc1a;
+ 531              		.loc 1 626 13 is_stmt 1 view .LVU246
+ 622:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1a = b1 * Xn1a;
+ 532              		.loc 1 622 17 is_stmt 0 view .LVU247
+ 533 01f2 64EEA67A 		vmul.f32	s15, s9, s13
+ 534              	.LVL96:
+ 626:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3a = a1 * acc1a;
+ 535              		.loc 1 626 19 view .LVU248
+ 536 01f6 77EE867A 		vadd.f32	s15, s15, s12
+ 537              	.LVL97:
+ 627:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc1b;
+ 538              		.loc 1 627 13 is_stmt 1 view .LVU249
+ 628:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn1a;
+ 539              		.loc 1 628 13 view .LVU250
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 26
+
+
+ 629:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn1b;
+ 540              		.loc 1 629 13 view .LVU251
+ 630:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 541              		.loc 1 630 13 view .LVU252
+ 631:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 542              		.loc 1 631 13 view .LVU253
+ 632:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc1a;
+ 543              		.loc 1 632 13 view .LVU254
+ 633:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc1b;
+ 544              		.loc 1 633 13 view .LVU255
+ 634:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 545              		.loc 1 634 13 view .LVU256
+ 635:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 546              		.loc 1 635 13 view .LVU257
+ 623:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p1b = b1 * Xn1b;
+ 547              		.loc 1 623 17 is_stmt 0 view .LVU258
+ 548 01fa 64EE055A 		vmul.f32	s11, s8, s10
+ 549              	.LVL98:
+ 627:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p3b = a1 * acc1b;
+ 550              		.loc 1 627 17 view .LVU259
+ 551 01fe 23EE076A 		vmul.f32	s12, s6, s14
+ 552              	.LVL99:
+ 631:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1b = p1b + p3b;
+ 553              		.loc 1 631 17 view .LVU260
+ 554 0202 75EE865A 		vadd.f32	s11, s11, s12
+ 555              	.LVL100:
+ 635:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1b = A1b + d2b;
+ 556              		.loc 1 635 17 view .LVU261
+ 557 0206 75EE8A5A 		vadd.f32	s11, s11, s20
+ 558              	.LVL101:
+ 636:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 559              		.loc 1 636 13 is_stmt 1 view .LVU262
+ 624:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             acc1a = p0a + d1a;
+ 560              		.loc 1 624 17 is_stmt 0 view .LVU263
+ 561 020a 24EE266A 		vmul.f32	s12, s8, s13
+ 562              	.LVL102:
+ 628:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2a = b2 * Xn1a;
+ 563              		.loc 1 628 17 view .LVU264
+ 564 020e 23EE272A 		vmul.f32	s4, s6, s15
+ 565              	.LVL103:
+ 632:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4a = a2 * acc1a;
+ 566              		.loc 1 632 17 view .LVU265
+ 567 0212 36EE026A 		vadd.f32	s12, s12, s4
+ 568              	.LVL104:
+ 636:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2a = p2a + p4a;
+ 569              		.loc 1 636 17 view .LVU266
+ 570 0216 36EE296A 		vadd.f32	s12, s12, s19
+ 571              	.LVL105:
+ 637:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 572              		.loc 1 637 13 is_stmt 1 view .LVU267
+ 629:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p2b = b2 * Xn1b;
+ 573              		.loc 1 629 17 is_stmt 0 view .LVU268
+ 574 021a 23EE855A 		vmul.f32	s10, s7, s10
+ 575              	.LVL106:
+ 633:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             p4b = a2 * acc1b;
+ 576              		.loc 1 633 17 view .LVU269
+ 577 021e 22EE87AA 		vmul.f32	s20, s5, s14
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 27
+
+
+ 578              	.LVL107:
+ 637:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d2b = p2b + p4b;
+ 579              		.loc 1 637 17 view .LVU270
+ 580 0222 35EE0AAA 		vadd.f32	s20, s10, s20
+ 581              	.LVL108:
+ 638:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 582              		.loc 1 638 13 is_stmt 1 view .LVU271
+ 630:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             A1a = p1a + p3a;
+ 583              		.loc 1 630 17 is_stmt 0 view .LVU272
+ 584 0226 63EEA66A 		vmul.f32	s13, s7, s13
+ 585              	.LVL109:
+ 634:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             d1a = A1a + d2a;
+ 586              		.loc 1 634 17 view .LVU273
+ 587 022a 62EEA79A 		vmul.f32	s19, s5, s15
+ 588              	.LVL110:
+ 638:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 589              		.loc 1 638 17 view .LVU274
+ 590 022e 76EEA99A 		vadd.f32	s19, s13, s19
+ 591              	.LVL111:
+ 640:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1b;
+ 592              		.loc 1 640 13 is_stmt 1 view .LVU275
+ 640:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             *pOut++ = acc1b;
+ 593              		.loc 1 640 21 is_stmt 0 view .LVU276
+ 594 0232 00ED027A 		vstr.32	s14, [r0, #-8]
+ 595              	.LVL112:
+ 641:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 596              		.loc 1 641 13 is_stmt 1 view .LVU277
+ 641:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 597              		.loc 1 641 21 is_stmt 0 view .LVU278
+ 598 0236 40ED017A 		vstr.32	s15, [r0, #-4]
+ 643:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         }
+ 599              		.loc 1 643 13 is_stmt 1 view .LVU279
+ 617:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++;
+ 600              		.loc 1 617 23 view .LVU280
+ 601 023a 0833     		adds	r3, r3, #8
+ 602              	.LVL113:
+ 617:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****             Xn1a = *pIn++;
+ 603              		.loc 1 617 23 is_stmt 0 view .LVU281
+ 604 023c 0830     		adds	r0, r0, #8
+ 605 023e 8B42     		cmp	r3, r1
+ 606 0240 CFD1     		bne	.L5
+ 607              	.LVL114:
+ 608              	.L4:
+ 647:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2a;
+ 609              		.loc 1 647 9 is_stmt 1 view .LVU282
+ 647:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2a;
+ 610              		.loc 1 647 19 is_stmt 0 view .LVU283
+ 611 0242 42ED045A 		vstr.32	s11, [r2, #-16]
+ 648:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d1b;
+ 612              		.loc 1 648 9 is_stmt 1 view .LVU284
+ 613              	.LVL115:
+ 648:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d1b;
+ 614              		.loc 1 648 19 is_stmt 0 view .LVU285
+ 615 0246 02ED03AA 		vstr.32	s20, [r2, #-12]
+ 649:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2b;
+ 616              		.loc 1 649 9 is_stmt 1 view .LVU286
+ 617              	.LVL116:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 28
+
+
+ 649:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         *pState++ = d2b;
+ 618              		.loc 1 649 19 is_stmt 0 view .LVU287
+ 619 024a 02ED026A 		vstr.32	s12, [r2, #-8]
+ 650:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 620              		.loc 1 650 9 is_stmt 1 view .LVU288
+ 621              	.LVL117:
+ 650:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 622              		.loc 1 650 19 is_stmt 0 view .LVU289
+ 623 024e 42ED019A 		vstr.32	s19, [r2, #-4]
+ 624              		.loc 1 653 9 is_stmt 1 view .LVU290
+ 654:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 655:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /*Reset the output working pointer */
+ 656:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         pOut = pDst;
+ 625              		.loc 1 656 9 view .LVU291
+ 657:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 658:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         /* decrement the loop counter */
+ 659:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****         stage--;
+ 626              		.loc 1 659 9 view .LVU292
+ 627              	.LVL118:
+ 660:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 661:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c ****     } while (stage > 0U);
+ 628              		.loc 1 661 20 view .LVU293
+ 629 0252 0EF1140E 		add	lr, lr, #20
+ 630              	.LVL119:
+ 631              		.loc 1 661 20 is_stmt 0 view .LVU294
+ 632 0256 0CF1100C 		add	ip, ip, #16
+ 633              	.LVL120:
+ 634              		.loc 1 661 20 view .LVU295
+ 635 025a 013C     		subs	r4, r4, #1
+ 636              	.LVL121:
+ 637              		.loc 1 661 20 view .LVU296
+ 638 025c 7FF4E8AE 		bne	.L8
+ 662:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 663:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** #endif
+ 664:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 665:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** }
+ 639              		.loc 1 665 1 view .LVU297
+ 640 0260 BDEC068B 		vldm	sp!, {d8-d10}
+ 641              	.LCFI2:
+ 642              		.cfi_remember_state
+ 643              		.cfi_restore 84
+ 644              		.cfi_restore 85
+ 645              		.cfi_restore 82
+ 646              		.cfi_restore 83
+ 647              		.cfi_restore 80
+ 648              		.cfi_restore 81
+ 649              		.cfi_def_cfa_offset 36
+ 650              	.LVL122:
+ 651              		.loc 1 665 1 view .LVU298
+ 652 0264 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 653              	.LVL123:
+ 654              	.L7:
+ 655              	.LCFI3:
+ 656              		.cfi_restore_state
+ 510:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c **** 
+ 657              		.loc 1 510 23 view .LVU299
+ 658 0268 2846     		mov	r0, r5
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 29
+
+
+ 659 026a B5E7     		b	.L2
+ 660              		.cfi_endproc
+ 661              	.LFE139:
+ 663              		.text
+ 664              	.Letext0:
+ 665              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 666              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 667              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s 			page 30
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_biquad_cascade_stereo_df2T_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s:21     .text.arm_biquad_cascade_stereo_df2T_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc7RTKn4.s:27     .text.arm_biquad_cascade_stereo_df2T_f32:00000000 arm_biquad_cascade_stereo_df2T_f32
+
+NO UNDEFINED SYMBOLS

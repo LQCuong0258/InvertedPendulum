@@ -1,0 +1,184 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccn0uWxv.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_lms_init_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c"
+  20              		.section	.text.arm_lms_init_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_lms_init_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_lms_init_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * Title:        arm_lms_init_f32.c
+   4:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * Description:  Floating-point LMS filter initialization function
+   5:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccn0uWxv.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * @addtogroup LMS
+  33:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * @{
+  34:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  */
+  35:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  36:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   /**
+  37:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @brief Initialization function for floating-point LMS filter.
+  38:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @param[in] *S points to an instance of the floating-point LMS filter structure.
+  39:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @param[in] numTaps  number of filter coefficients.
+  40:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @param[in] *pCoeffs points to the coefficient buffer.
+  41:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @param[in] *pState points to state buffer.
+  42:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @param[in] mu step size that controls filter coefficient updates.
+  43:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @param[in] blockSize number of samples to process.
+  44:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    * @return none.
+  45:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****    */
+  46:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  47:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** /**
+  48:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * \par Description:
+  49:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * <code>pCoeffs</code> points to the array of filter coefficients stored in time reversed order:
+  50:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * <pre>
+  51:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  *    {b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]}
+  52:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * </pre>
+  53:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * The initial filter coefficients serve as a starting point for the adaptive filter.
+  54:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  * <code>pState</code> points to an array of length <code>numTaps+blockSize-1</code> samples, where
+  55:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****  */
+  56:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  57:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** void arm_lms_init_f32(
+  58:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   arm_lms_instance_f32 * S,
+  59:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   uint16_t numTaps,
+  60:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   float32_t * pCoeffs,
+  61:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   float32_t * pState,
+  62:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   float32_t mu,
+  63:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   uint32_t blockSize)
+  64:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** {
+  30              		.loc 1 64 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 64 1 is_stmt 0 view .LVU1
+  35 0000 70B5     		push	{r4, r5, r6, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 4, -16
+  39              		.cfi_offset 5, -12
+  40              		.cfi_offset 6, -8
+  41              		.cfi_offset 14, -4
+  42 0002 0446     		mov	r4, r0
+  43 0004 1D46     		mov	r5, r3
+  44 0006 10EE106A 		vmov	r6, s0
+  65:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   /* Assign filter taps */
+  66:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   S->numTaps = numTaps;
+  45              		.loc 1 66 3 is_stmt 1 view .LVU2
+  46              		.loc 1 66 14 is_stmt 0 view .LVU3
+  47 000a 0180     		strh	r1, [r0]	@ movhi
+  67:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  68:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   /* Assign coefficient pointer */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccn0uWxv.s 			page 3
+
+
+  69:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   S->pCoeffs = pCoeffs;
+  48              		.loc 1 69 3 is_stmt 1 view .LVU4
+  49              		.loc 1 69 14 is_stmt 0 view .LVU5
+  50 000c 8260     		str	r2, [r0, #8]
+  70:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  71:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   /* Clear state buffer and size is always blockSize + numTaps */
+  72:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   memset(pState, 0, (numTaps + (blockSize - 1)) * sizeof(float32_t));
+  51              		.loc 1 72 3 is_stmt 1 view .LVU6
+  52              		.loc 1 72 30 is_stmt 0 view .LVU7
+  53 000e 049B     		ldr	r3, [sp, #16]
+  54              	.LVL1:
+  55              		.loc 1 72 30 view .LVU8
+  56 0010 1944     		add	r1, r1, r3
+  57              	.LVL2:
+  58              		.loc 1 72 30 view .LVU9
+  59 0012 4A1E     		subs	r2, r1, #1
+  60              	.LVL3:
+  61              		.loc 1 72 3 view .LVU10
+  62 0014 9200     		lsls	r2, r2, #2
+  63 0016 0021     		movs	r1, #0
+  64 0018 2846     		mov	r0, r5
+  65              	.LVL4:
+  66              		.loc 1 72 3 view .LVU11
+  67 001a FFF7FEFF 		bl	memset
+  68              	.LVL5:
+  73:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  74:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   /* Assign state pointer */
+  75:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   S->pState = pState;
+  69              		.loc 1 75 3 is_stmt 1 view .LVU12
+  70              		.loc 1 75 13 is_stmt 0 view .LVU13
+  71 001e 6560     		str	r5, [r4, #4]
+  76:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** 
+  77:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   /* Assign Step size value */
+  78:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c ****   S->mu = mu;
+  72              		.loc 1 78 3 is_stmt 1 view .LVU14
+  73              		.loc 1 78 9 is_stmt 0 view .LVU15
+  74 0020 E660     		str	r6, [r4, #12]	@ float
+  79:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_lms_init_f32.c **** }
+  75              		.loc 1 79 1 view .LVU16
+  76 0022 70BD     		pop	{r4, r5, r6, pc}
+  77              		.loc 1 79 1 view .LVU17
+  78              		.cfi_endproc
+  79              	.LFE139:
+  81              		.text
+  82              	.Letext0:
+  83              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+  84              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+  85              		.file 4 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/in
+  86              		.file 5 "Drivers/CMSIS/DSP/Include/arm_math.h"
+  87              		.file 6 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+  88              		.file 7 "<built-in>"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccn0uWxv.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_lms_init_f32.c
+C:\Users\Lamp\AppData\Local\Temp\ccn0uWxv.s:21     .text.arm_lms_init_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccn0uWxv.s:27     .text.arm_lms_init_f32:00000000 arm_lms_init_f32
+
+UNDEFINED SYMBOLS
+memset

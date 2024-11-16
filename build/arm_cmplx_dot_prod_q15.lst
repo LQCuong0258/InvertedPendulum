@@ -1,0 +1,639 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_cmplx_dot_prod_q15.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c"
+  20              		.section	.text.arm_cmplx_dot_prod_q15,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_cmplx_dot_prod_q15
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_cmplx_dot_prod_q15:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * Title:        arm_cmplx_dot_prod_q15.c
+   4:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * Description:  Processing function for the Q15 Complex Dot product
+   5:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  *
+   6:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  *
+   9:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** /*
+  12:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  *
+  14:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  *
+  16:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  *
+  20:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  *
+  22:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  */
+  28:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  29:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  31:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** /**
+  32:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @ingroup groupCmplxMath
+  33:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  */
+  34:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  35:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** /**
+  36:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @addtogroup cmplx_dot_prod
+  37:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  */
+  39:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  40:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** /**
+  41:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @brief  Q15 complex dot product
+  42:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @param  *pSrcA points to the first input vector
+  43:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @param  *pSrcB points to the second input vector
+  44:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @param  numSamples number of complex samples in each vector
+  45:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @param  *realResult real part of the result returned here
+  46:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @param  *imagResult imaginary part of the result returned here
+  47:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * @return none.
+  48:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  *
+  49:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * <b>Scaling and Overflow Behavior:</b>
+  50:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * \par
+  51:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * The function is implemented using an internal 64-bit accumulator.
+  52:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * The intermediate 1.15 by 1.15 multiplications are performed with full precision and yield a 2.30
+  53:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * These are accumulated in a 64-bit accumulator with 34.30 precision.
+  54:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * As a final step, the accumulators are converted to 8.24 format.
+  55:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  * The return results <code>realResult</code> and <code>imagResult</code> are in 8.24 format.
+  56:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****  */
+  57:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  58:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** void arm_cmplx_dot_prod_q15(
+  59:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q15_t * pSrcA,
+  60:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q15_t * pSrcB,
+  61:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   uint32_t numSamples,
+  62:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q31_t * realResult,
+  63:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q31_t * imagResult)
+  64:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** {
+  30              		.loc 1 64 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 64 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 83B0     		sub	sp, sp, #12
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 48
+  50 0006 0193     		str	r3, [sp, #4]
+  65:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q63_t real_sum = 0, imag_sum = 0;              /* Temporary result storage */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 3
+
+
+  51              		.loc 1 65 3 is_stmt 1 view .LVU2
+  52              	.LVL1:
+  66:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q15_t a0,b0,c0,d0;
+  53              		.loc 1 66 3 view .LVU3
+  67:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  68:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** #if defined (ARM_MATH_DSP)
+  69:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  70:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  71:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   uint32_t blkCnt;                               /* loop counter */
+  54              		.loc 1 71 3 view .LVU4
+  72:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  73:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  74:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /*loop Unrolling */
+  75:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   blkCnt = numSamples >> 2U;
+  55              		.loc 1 75 3 view .LVU5
+  56              		.loc 1 75 10 is_stmt 0 view .LVU6
+  57 0008 9408     		lsrs	r4, r2, #2
+  58              	.LVL2:
+  76:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  77:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  78:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  79:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   while (blkCnt > 0U)
+  59              		.loc 1 79 3 is_stmt 1 view .LVU7
+  65:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q15_t a0,b0,c0,d0;
+  60              		.loc 1 65 23 is_stmt 0 view .LVU8
+  61 000a 0023     		movs	r3, #0
+  62              	.LVL3:
+  65:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q15_t a0,b0,c0,d0;
+  63              		.loc 1 65 23 view .LVU9
+  64 000c 9C46     		mov	ip, r3
+  65:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   q15_t a0,b0,c0,d0;
+  65              		.loc 1 65 9 view .LVU10
+  66 000e 1D46     		mov	r5, r3
+  67 0010 1E46     		mov	r6, r3
+  68              		.loc 1 79 9 view .LVU11
+  69 0012 7EE0     		b	.L2
+  70              	.LVL4:
+  71              	.L3:
+  80:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   {
+  81:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       a0 = *pSrcA++;
+  72              		.loc 1 81 7 is_stmt 1 view .LVU12
+  73              		.loc 1 81 10 is_stmt 0 view .LVU13
+  74 0014 B0F900E0 		ldrsh	lr, [r0]
+  75              	.LVL5:
+  82:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       b0 = *pSrcA++;
+  76              		.loc 1 82 7 is_stmt 1 view .LVU14
+  77              		.loc 1 82 10 is_stmt 0 view .LVU15
+  78 0018 B0F90280 		ldrsh	r8, [r0, #2]
+  79              	.LVL6:
+  83:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+  80              		.loc 1 83 7 is_stmt 1 view .LVU16
+  81              		.loc 1 83 10 is_stmt 0 view .LVU17
+  82 001c B1F90070 		ldrsh	r7, [r1]
+  83              	.LVL7:
+  84:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       d0 = *pSrcB++;
+  84              		.loc 1 84 7 is_stmt 1 view .LVU18
+  85              		.loc 1 84 10 is_stmt 0 view .LVU19
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 4
+
+
+  86 0020 B1F90290 		ldrsh	r9, [r1, #2]
+  87              	.LVL8:
+  85:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  86:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum += (q31_t)a0 * c0;
+  88              		.loc 1 86 7 is_stmt 1 view .LVU20
+  89              		.loc 1 86 29 is_stmt 0 view .LVU21
+  90 0024 07FB0EFA 		mul	r10, r7, lr
+  91              		.loc 1 86 16 view .LVU22
+  92 0028 1AEB0505 		adds	r5, r10, r5
+  93              	.LVL9:
+  94              		.loc 1 86 16 view .LVU23
+  95 002c 46EBEA76 		adc	r6, r6, r10, asr #31
+  96              	.LVL10:
+  87:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)a0 * d0;
+  97              		.loc 1 87 7 is_stmt 1 view .LVU24
+  98              		.loc 1 87 29 is_stmt 0 view .LVU25
+  99 0030 09FB0EFE 		mul	lr, r9, lr
+ 100              	.LVL11:
+ 101              		.loc 1 87 16 view .LVU26
+ 102 0034 1EEB0303 		adds	r3, lr, r3
+ 103              	.LVL12:
+ 104              		.loc 1 87 16 view .LVU27
+ 105 0038 4CEBEE7E 		adc	lr, ip, lr, asr #31
+ 106              	.LVL13:
+  88:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum -= (q31_t)b0 * d0;
+ 107              		.loc 1 88 7 is_stmt 1 view .LVU28
+ 108              		.loc 1 88 29 is_stmt 0 view .LVU29
+ 109 003c 08FB09F9 		mul	r9, r8, r9
+ 110              	.LVL14:
+ 111              		.loc 1 88 16 view .LVU30
+ 112 0040 B5EB0905 		subs	r5, r5, r9
+ 113              	.LVL15:
+ 114              		.loc 1 88 16 view .LVU31
+ 115 0044 66EBE976 		sbc	r6, r6, r9, asr #31
+ 116              	.LVL16:
+  89:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)b0 * c0;
+ 117              		.loc 1 89 7 is_stmt 1 view .LVU32
+ 118              		.loc 1 89 29 is_stmt 0 view .LVU33
+ 119 0048 08FB07F7 		mul	r7, r8, r7
+ 120              	.LVL17:
+ 121              		.loc 1 89 16 view .LVU34
+ 122 004c FB18     		adds	r3, r7, r3
+ 123              	.LVL18:
+ 124              		.loc 1 89 16 view .LVU35
+ 125 004e 4EEBE77E 		adc	lr, lr, r7, asr #31
+ 126              	.LVL19:
+  90:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  91:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       a0 = *pSrcA++;
+ 127              		.loc 1 91 7 is_stmt 1 view .LVU36
+ 128              		.loc 1 91 10 is_stmt 0 view .LVU37
+ 129 0052 B0F904C0 		ldrsh	ip, [r0, #4]
+ 130              	.LVL20:
+  92:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       b0 = *pSrcA++;
+ 131              		.loc 1 92 7 is_stmt 1 view .LVU38
+ 132              		.loc 1 92 10 is_stmt 0 view .LVU39
+ 133 0056 B0F90690 		ldrsh	r9, [r0, #6]
+ 134              	.LVL21:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 5
+
+
+  93:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+ 135              		.loc 1 93 7 is_stmt 1 view .LVU40
+ 136              		.loc 1 93 10 is_stmt 0 view .LVU41
+ 137 005a B1F90480 		ldrsh	r8, [r1, #4]
+ 138              	.LVL22:
+  94:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       d0 = *pSrcB++;
+ 139              		.loc 1 94 7 is_stmt 1 view .LVU42
+ 140              		.loc 1 94 10 is_stmt 0 view .LVU43
+ 141 005e B1F906A0 		ldrsh	r10, [r1, #6]
+ 142              	.LVL23:
+  95:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+  96:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum += (q31_t)a0 * c0;
+ 143              		.loc 1 96 7 is_stmt 1 view .LVU44
+ 144              		.loc 1 96 29 is_stmt 0 view .LVU45
+ 145 0062 08FB0CF7 		mul	r7, r8, ip
+ 146              		.loc 1 96 16 view .LVU46
+ 147 0066 7D19     		adds	r5, r7, r5
+ 148              	.LVL24:
+ 149              		.loc 1 96 16 view .LVU47
+ 150 0068 46EBE777 		adc	r7, r6, r7, asr #31
+ 151              	.LVL25:
+  97:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)a0 * d0;
+ 152              		.loc 1 97 7 is_stmt 1 view .LVU48
+ 153              		.loc 1 97 29 is_stmt 0 view .LVU49
+ 154 006c 0AFB0CFC 		mul	ip, r10, ip
+ 155              	.LVL26:
+ 156              		.loc 1 97 16 view .LVU50
+ 157 0070 1CEB0303 		adds	r3, ip, r3
+ 158              	.LVL27:
+ 159              		.loc 1 97 16 view .LVU51
+ 160 0074 4EEBEC7C 		adc	ip, lr, ip, asr #31
+ 161              	.LVL28:
+  98:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum -= (q31_t)b0 * d0;
+ 162              		.loc 1 98 7 is_stmt 1 view .LVU52
+ 163              		.loc 1 98 29 is_stmt 0 view .LVU53
+ 164 0078 09FB0AFA 		mul	r10, r9, r10
+ 165              	.LVL29:
+ 166              		.loc 1 98 16 view .LVU54
+ 167 007c B5EB0A05 		subs	r5, r5, r10
+ 168              	.LVL30:
+ 169              		.loc 1 98 16 view .LVU55
+ 170 0080 67EBEA77 		sbc	r7, r7, r10, asr #31
+ 171              	.LVL31:
+  99:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)b0 * c0;
+ 172              		.loc 1 99 7 is_stmt 1 view .LVU56
+ 173              		.loc 1 99 29 is_stmt 0 view .LVU57
+ 174 0084 09FB08F8 		mul	r8, r9, r8
+ 175              	.LVL32:
+ 176              		.loc 1 99 16 view .LVU58
+ 177 0088 18EB0303 		adds	r3, r8, r3
+ 178              	.LVL33:
+ 179              		.loc 1 99 16 view .LVU59
+ 180 008c 4CEBE876 		adc	r6, ip, r8, asr #31
+ 181              	.LVL34:
+ 100:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 101:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       a0 = *pSrcA++;
+ 182              		.loc 1 101 7 is_stmt 1 view .LVU60
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 6
+
+
+ 183              		.loc 1 101 10 is_stmt 0 view .LVU61
+ 184 0090 B0F908E0 		ldrsh	lr, [r0, #8]
+ 185              	.LVL35:
+ 102:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       b0 = *pSrcA++;
+ 186              		.loc 1 102 7 is_stmt 1 view .LVU62
+ 187              		.loc 1 102 10 is_stmt 0 view .LVU63
+ 188 0094 B0F90AA0 		ldrsh	r10, [r0, #10]
+ 189              	.LVL36:
+ 103:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+ 190              		.loc 1 103 7 is_stmt 1 view .LVU64
+ 191              		.loc 1 103 10 is_stmt 0 view .LVU65
+ 192 0098 B1F90880 		ldrsh	r8, [r1, #8]
+ 193              	.LVL37:
+ 104:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       d0 = *pSrcB++;
+ 194              		.loc 1 104 7 is_stmt 1 view .LVU66
+ 195              		.loc 1 104 10 is_stmt 0 view .LVU67
+ 196 009c B1F90AB0 		ldrsh	fp, [r1, #10]
+ 197              	.LVL38:
+ 105:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 106:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum += (q31_t)a0 * c0;
+ 198              		.loc 1 106 7 is_stmt 1 view .LVU68
+ 199              		.loc 1 106 29 is_stmt 0 view .LVU69
+ 200 00a0 08FB0EF9 		mul	r9, r8, lr
+ 201              		.loc 1 106 16 view .LVU70
+ 202 00a4 19EB0505 		adds	r5, r9, r5
+ 203              	.LVL39:
+ 204              		.loc 1 106 16 view .LVU71
+ 205 00a8 47EBE979 		adc	r9, r7, r9, asr #31
+ 206              	.LVL40:
+ 107:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)a0 * d0;
+ 207              		.loc 1 107 7 is_stmt 1 view .LVU72
+ 208              		.loc 1 107 29 is_stmt 0 view .LVU73
+ 209 00ac 0BFB0EFC 		mul	ip, fp, lr
+ 210              		.loc 1 107 16 view .LVU74
+ 211 00b0 1CEB0303 		adds	r3, ip, r3
+ 212              	.LVL41:
+ 213              		.loc 1 107 16 view .LVU75
+ 214 00b4 46EBEC7C 		adc	ip, r6, ip, asr #31
+ 215              	.LVL42:
+ 108:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum -= (q31_t)b0 * d0;
+ 216              		.loc 1 108 7 is_stmt 1 view .LVU76
+ 217              		.loc 1 108 29 is_stmt 0 view .LVU77
+ 218 00b8 0AFB0BFB 		mul	fp, r10, fp
+ 219              	.LVL43:
+ 220              		.loc 1 108 16 view .LVU78
+ 221 00bc B5EB0B05 		subs	r5, r5, fp
+ 222              	.LVL44:
+ 223              		.loc 1 108 16 view .LVU79
+ 224 00c0 69EBEB79 		sbc	r9, r9, fp, asr #31
+ 225              	.LVL45:
+ 109:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)b0 * c0;
+ 226              		.loc 1 109 7 is_stmt 1 view .LVU80
+ 227              		.loc 1 109 29 is_stmt 0 view .LVU81
+ 228 00c4 0AFB08F8 		mul	r8, r10, r8
+ 229              	.LVL46:
+ 230              		.loc 1 109 16 view .LVU82
+ 231 00c8 18EB0303 		adds	r3, r8, r3
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 7
+
+
+ 232              	.LVL47:
+ 233              		.loc 1 109 16 view .LVU83
+ 234 00cc 4CEBE87A 		adc	r10, ip, r8, asr #31
+ 235              	.LVL48:
+ 110:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 111:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       a0 = *pSrcA++;
+ 236              		.loc 1 111 7 is_stmt 1 view .LVU84
+ 237              		.loc 1 111 10 is_stmt 0 view .LVU85
+ 238 00d0 B0F90CE0 		ldrsh	lr, [r0, #12]
+ 239              	.LVL49:
+ 112:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       b0 = *pSrcA++;
+ 240              		.loc 1 112 7 is_stmt 1 view .LVU86
+ 241              		.loc 1 112 10 is_stmt 0 view .LVU87
+ 242 00d4 B0F90E80 		ldrsh	r8, [r0, #14]
+ 243              	.LVL50:
+ 113:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+ 244              		.loc 1 113 7 is_stmt 1 view .LVU88
+ 245              		.loc 1 113 10 is_stmt 0 view .LVU89
+ 246 00d8 B1F90C70 		ldrsh	r7, [r1, #12]
+ 247              	.LVL51:
+ 114:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       d0 = *pSrcB++;
+ 248              		.loc 1 114 7 is_stmt 1 view .LVU90
+ 249              		.loc 1 114 10 is_stmt 0 view .LVU91
+ 250 00dc B1F90E60 		ldrsh	r6, [r1, #14]
+ 251              	.LVL52:
+ 115:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 116:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum += (q31_t)a0 * c0;
+ 252              		.loc 1 116 7 is_stmt 1 view .LVU92
+ 253              		.loc 1 116 29 is_stmt 0 view .LVU93
+ 254 00e0 07FB0EFC 		mul	ip, r7, lr
+ 255              		.loc 1 116 16 view .LVU94
+ 256 00e4 1CEB0505 		adds	r5, ip, r5
+ 257              	.LVL53:
+ 258              		.loc 1 116 16 view .LVU95
+ 259 00e8 49EBEC79 		adc	r9, r9, ip, asr #31
+ 260              	.LVL54:
+ 117:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)a0 * d0;
+ 261              		.loc 1 117 7 is_stmt 1 view .LVU96
+ 262              		.loc 1 117 29 is_stmt 0 view .LVU97
+ 263 00ec 06FB0EFC 		mul	ip, r6, lr
+ 264              		.loc 1 117 16 view .LVU98
+ 265 00f0 1CEB0303 		adds	r3, ip, r3
+ 266              	.LVL55:
+ 267              		.loc 1 117 16 view .LVU99
+ 268 00f4 4AEBEC7C 		adc	ip, r10, ip, asr #31
+ 269              	.LVL56:
+ 118:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum -= (q31_t)b0 * d0;
+ 270              		.loc 1 118 7 is_stmt 1 view .LVU100
+ 271              		.loc 1 118 29 is_stmt 0 view .LVU101
+ 272 00f8 08FB06F6 		mul	r6, r8, r6
+ 273              	.LVL57:
+ 274              		.loc 1 118 16 view .LVU102
+ 275 00fc AD1B     		subs	r5, r5, r6
+ 276              	.LVL58:
+ 277              		.loc 1 118 16 view .LVU103
+ 278 00fe 69EBE676 		sbc	r6, r9, r6, asr #31
+ 279              	.LVL59:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 8
+
+
+ 119:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)b0 * c0;
+ 280              		.loc 1 119 7 is_stmt 1 view .LVU104
+ 281              		.loc 1 119 29 is_stmt 0 view .LVU105
+ 282 0102 08FB07F7 		mul	r7, r8, r7
+ 283              	.LVL60:
+ 284              		.loc 1 119 16 view .LVU106
+ 285 0106 FB18     		adds	r3, r7, r3
+ 286              	.LVL61:
+ 287              		.loc 1 119 16 view .LVU107
+ 288 0108 4CEBE77C 		adc	ip, ip, r7, asr #31
+ 289              	.LVL62:
+ 120:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 121:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       /* Decrement the loop counter */
+ 122:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       blkCnt--;
+ 290              		.loc 1 122 7 is_stmt 1 view .LVU108
+ 291              		.loc 1 122 13 is_stmt 0 view .LVU109
+ 292 010c 013C     		subs	r4, r4, #1
+ 293              	.LVL63:
+ 114:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 294              		.loc 1 114 18 view .LVU110
+ 295 010e 1031     		adds	r1, r1, #16
+ 296              	.LVL64:
+ 112:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+ 297              		.loc 1 112 18 view .LVU111
+ 298 0110 1030     		adds	r0, r0, #16
+ 299              	.LVL65:
+ 300              	.L2:
+  79:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   {
+ 301              		.loc 1 79 17 is_stmt 1 view .LVU112
+ 302 0112 002C     		cmp	r4, #0
+ 303 0114 7FF47EAF 		bne	.L3
+ 123:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   }
+ 124:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 125:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /* If the numSamples is not a multiple of 4, compute any remaining output samples here.
+ 126:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****    ** No loop unrolling is used. */
+ 127:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   blkCnt = numSamples % 0x4U;
+ 304              		.loc 1 127 3 view .LVU113
+ 305              		.loc 1 127 10 is_stmt 0 view .LVU114
+ 306 0118 02F00302 		and	r2, r2, #3
+ 307              	.LVL66:
+ 128:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 129:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   while (blkCnt > 0U)
+ 308              		.loc 1 129 3 is_stmt 1 view .LVU115
+ 309              		.loc 1 129 9 is_stmt 0 view .LVU116
+ 310 011c 21E0     		b	.L4
+ 311              	.L5:
+ 130:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   {
+ 131:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       a0 = *pSrcA++;
+ 312              		.loc 1 131 7 is_stmt 1 view .LVU117
+ 313              	.LVL67:
+ 314              		.loc 1 131 10 is_stmt 0 view .LVU118
+ 315 011e 0746     		mov	r7, r0
+ 316 0120 37F9044B 		ldrsh	r4, [r7], #4
+ 317              	.LVL68:
+ 132:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       b0 = *pSrcA++;
+ 318              		.loc 1 132 7 is_stmt 1 view .LVU119
+ 319              		.loc 1 132 10 is_stmt 0 view .LVU120
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 9
+
+
+ 320 0124 B0F90280 		ldrsh	r8, [r0, #2]
+ 321              	.LVL69:
+ 133:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+ 322              		.loc 1 133 7 is_stmt 1 view .LVU121
+ 323              		.loc 1 133 10 is_stmt 0 view .LVU122
+ 324 0128 8E46     		mov	lr, r1
+ 325 012a 3EF9040B 		ldrsh	r0, [lr], #4
+ 326              	.LVL70:
+ 134:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       d0 = *pSrcB++;
+ 327              		.loc 1 134 7 is_stmt 1 view .LVU123
+ 328              		.loc 1 134 10 is_stmt 0 view .LVU124
+ 329 012e B1F90210 		ldrsh	r1, [r1, #2]
+ 330              	.LVL71:
+ 135:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 136:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum += (q31_t)a0 * c0;
+ 331              		.loc 1 136 7 is_stmt 1 view .LVU125
+ 332              		.loc 1 136 29 is_stmt 0 view .LVU126
+ 333 0132 00FB04F9 		mul	r9, r0, r4
+ 334              		.loc 1 136 16 view .LVU127
+ 335 0136 19EB0505 		adds	r5, r9, r5
+ 336              	.LVL72:
+ 337              		.loc 1 136 16 view .LVU128
+ 338 013a 46EBE976 		adc	r6, r6, r9, asr #31
+ 339              	.LVL73:
+ 137:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)a0 * d0;
+ 340              		.loc 1 137 7 is_stmt 1 view .LVU129
+ 341              		.loc 1 137 29 is_stmt 0 view .LVU130
+ 342 013e 01FB04F4 		mul	r4, r1, r4
+ 343              	.LVL74:
+ 344              		.loc 1 137 16 view .LVU131
+ 345 0142 E318     		adds	r3, r4, r3
+ 346              	.LVL75:
+ 347              		.loc 1 137 16 view .LVU132
+ 348 0144 4CEBE474 		adc	r4, ip, r4, asr #31
+ 349              	.LVL76:
+ 138:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum -= (q31_t)b0 * d0;
+ 350              		.loc 1 138 7 is_stmt 1 view .LVU133
+ 351              		.loc 1 138 29 is_stmt 0 view .LVU134
+ 352 0148 08FB01F1 		mul	r1, r8, r1
+ 353              	.LVL77:
+ 354              		.loc 1 138 16 view .LVU135
+ 355 014c 6D1A     		subs	r5, r5, r1
+ 356              	.LVL78:
+ 357              		.loc 1 138 16 view .LVU136
+ 358 014e 66EBE176 		sbc	r6, r6, r1, asr #31
+ 359              	.LVL79:
+ 139:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += (q31_t)b0 * c0;
+ 360              		.loc 1 139 7 is_stmt 1 view .LVU137
+ 361              		.loc 1 139 29 is_stmt 0 view .LVU138
+ 362 0152 08FB00F0 		mul	r0, r8, r0
+ 363              	.LVL80:
+ 364              		.loc 1 139 16 view .LVU139
+ 365 0156 C318     		adds	r3, r0, r3
+ 366              	.LVL81:
+ 367              		.loc 1 139 16 view .LVU140
+ 368 0158 44EBE07C 		adc	ip, r4, r0, asr #31
+ 369              	.LVL82:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 10
+
+
+ 140:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 141:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       /* Decrement the loop counter */
+ 142:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       blkCnt--;
+ 370              		.loc 1 142 7 is_stmt 1 view .LVU141
+ 371              		.loc 1 142 13 is_stmt 0 view .LVU142
+ 372 015c 013A     		subs	r2, r2, #1
+ 373              	.LVL83:
+ 134:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 374              		.loc 1 134 18 view .LVU143
+ 375 015e 7146     		mov	r1, lr
+ 132:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+ 376              		.loc 1 132 18 view .LVU144
+ 377 0160 3846     		mov	r0, r7
+ 378              	.LVL84:
+ 379              	.L4:
+ 129:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   {
+ 380              		.loc 1 129 17 is_stmt 1 view .LVU145
+ 381 0162 002A     		cmp	r2, #0
+ 382 0164 DBD1     		bne	.L5
+ 143:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   }
+ 144:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 145:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** #else
+ 146:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 147:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /* Run the below code for Cortex-M0 */
+ 148:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 149:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   while (numSamples > 0U)
+ 150:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   {
+ 151:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       a0 = *pSrcA++;
+ 152:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       b0 = *pSrcA++;
+ 153:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       c0 = *pSrcB++;
+ 154:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       d0 = *pSrcB++;
+ 155:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 156:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum += a0 * c0;
+ 157:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += a0 * d0;
+ 158:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       real_sum -= b0 * d0;
+ 159:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       imag_sum += b0 * c0;
+ 160:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 161:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 162:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       /* Decrement the loop counter */
+ 163:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****       numSamples--;
+ 164:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   }
+ 165:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 166:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 167:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** 
+ 168:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /* Store the real and imaginary results in 8.24 format  */
+ 169:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /* Convert real data in 34.30 to 8.24 by 6 right shifts */
+ 170:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   *realResult = (q31_t) (real_sum >> 6);
+ 383              		.loc 1 170 3 view .LVU146
+ 384              		.loc 1 170 35 is_stmt 0 view .LVU147
+ 385 0166 AD09     		lsrs	r5, r5, #6
+ 386              	.LVL85:
+ 387              		.loc 1 170 35 view .LVU148
+ 388 0168 45EA8665 		orr	r5, r5, r6, lsl #26
+ 389              		.loc 1 170 15 view .LVU149
+ 390 016c 019A     		ldr	r2, [sp, #4]
+ 391              	.LVL86:
+ 392              		.loc 1 170 15 view .LVU150
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 11
+
+
+ 393 016e 1560     		str	r5, [r2]
+ 171:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   /* Convert imaginary data in 34.30 to 8.24 by 6 right shifts */
+ 172:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c ****   *imagResult = (q31_t) (imag_sum >> 6);
+ 394              		.loc 1 172 3 is_stmt 1 view .LVU151
+ 395              		.loc 1 172 35 is_stmt 0 view .LVU152
+ 396 0170 9B09     		lsrs	r3, r3, #6
+ 397              	.LVL87:
+ 398              		.loc 1 172 35 view .LVU153
+ 399 0172 43EA8C63 		orr	r3, r3, ip, lsl #26
+ 400              		.loc 1 172 15 view .LVU154
+ 401 0176 0C9A     		ldr	r2, [sp, #48]
+ 402 0178 1360     		str	r3, [r2]
+ 173:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c **** }
+ 403              		.loc 1 173 1 view .LVU155
+ 404 017a 03B0     		add	sp, sp, #12
+ 405              	.LCFI2:
+ 406              		.cfi_def_cfa_offset 36
+ 407              		@ sp needed
+ 408 017c BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 409              		.loc 1 173 1 view .LVU156
+ 410              		.cfi_endproc
+ 411              	.LFE139:
+ 413              		.text
+ 414              	.Letext0:
+ 415              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 416              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 417              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_cmplx_dot_prod_q15.c
+C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s:21     .text.arm_cmplx_dot_prod_q15:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc3XMut1.s:27     .text.arm_cmplx_dot_prod_q15:00000000 arm_cmplx_dot_prod_q15
+
+NO UNDEFINED SYMBOLS

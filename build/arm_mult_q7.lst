@@ -1,0 +1,392 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_mult_q7.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c"
+  20              		.section	.text.arm_mult_q7,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_mult_q7
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_mult_q7:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Title:        arm_mult_q7.c
+   4:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Description:  Q7 vector multiplication
+   5:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  *
+   6:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  *
+   9:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** /*
+  12:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  *
+  14:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  *
+  16:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  *
+  20:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  *
+  22:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  */
+  28:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  29:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  31:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** /**
+  32:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @ingroup groupMath
+  33:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  */
+  34:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  35:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** /**
+  36:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @addtogroup BasicMult
+  37:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  */
+  39:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  40:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** /**
+  41:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @brief           Q7 vector multiplication
+  42:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @param[in]       *pSrcA points to the first input vector
+  43:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @param[in]       *pSrcB points to the second input vector
+  44:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @param[out]      *pDst points to the output vector
+  45:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @param[in]       blockSize number of samples in each vector
+  46:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * @return none.
+  47:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  *
+  48:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * <b>Scaling and Overflow Behavior:</b>
+  49:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * \par
+  50:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * The function uses saturating arithmetic.
+  51:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  * Results outside of the allowable Q7 range [0x80 0x7F] will be saturated.
+  52:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****  */
+  53:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  54:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** void arm_mult_q7(
+  55:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   q7_t * pSrcA,
+  56:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   q7_t * pSrcB,
+  57:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   q7_t * pDst,
+  58:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   uint32_t blockSize)
+  59:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** {
+  30              		.loc 1 59 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 59 1 is_stmt 0 view .LVU1
+  35 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 20
+  38              		.cfi_offset 4, -20
+  39              		.cfi_offset 5, -16
+  40              		.cfi_offset 6, -12
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 8E46     		mov	lr, r1
+  60:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   uint32_t blkCnt;                               /* loop counters */
+  44              		.loc 1 60 3 is_stmt 1 view .LVU2
+  61:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  62:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** #if defined (ARM_MATH_DSP)
+  63:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** /* Run the below code for Cortex-M4 and Cortex-M3 */
+  65:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   q7_t out1, out2, out3, out4;                   /* Temporary variables to store the product */
+  45              		.loc 1 65 3 view .LVU3
+  66:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  67:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   /* loop Unrolling */
+  68:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   blkCnt = blockSize >> 2U;
+  46              		.loc 1 68 3 view .LVU4
+  47              		.loc 1 68 10 is_stmt 0 view .LVU5
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 3
+
+
+  48 0004 9C08     		lsrs	r4, r3, #2
+  49              	.LVL1:
+  69:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  70:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  71:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  72:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   while (blkCnt > 0U)
+  50              		.loc 1 72 3 is_stmt 1 view .LVU6
+  51              		.loc 1 72 9 is_stmt 0 view .LVU7
+  52 0006 3FE0     		b	.L2
+  53              	.LVL2:
+  54              	.L3:
+  73:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   {
+  74:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     /* C = A * B */
+  75:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     /* Multiply the inputs and store the results in temporary variables */
+  76:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     out1 = (q7_t) __SSAT((((q15_t) (*pSrcA++) * (*pSrcB++)) >> 7), 8);
+  55              		.loc 1 76 5 is_stmt 1 view .LVU8
+  56              	.LBB2:
+  57              		.loc 1 76 19 view .LVU9
+  58              		.loc 1 76 19 is_stmt 0 view .LVU10
+  59 0008 90F90010 		ldrsb	r1, [r0]
+  60              	.LVL3:
+  61              		.loc 1 76 19 view .LVU11
+  62 000c 9EF90050 		ldrsb	r5, [lr]
+  63 0010 05FB01F1 		mul	r1, r5, r1
+  64 0014 C911     		asrs	r1, r1, #7
+  65              	.LVL4:
+  66              		.loc 1 76 19 is_stmt 1 view .LVU12
+  67              		.syntax unified
+  68              	@ 76 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c" 1
+  69 0016 01F30701 		ssat r1, #8, r1
+  70              	@ 0 "" 2
+  71              	.LVL5:
+  72              		.loc 1 76 19 view .LVU13
+  73              		.thumb
+  74              		.syntax unified
+  75              	.LBE2:
+  76              		.loc 1 76 10 is_stmt 0 view .LVU14
+  77 001a 49B2     		sxtb	r1, r1
+  78              	.LVL6:
+  77:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     out2 = (q7_t) __SSAT((((q15_t) (*pSrcA++) * (*pSrcB++)) >> 7), 8);
+  79              		.loc 1 77 5 is_stmt 1 view .LVU15
+  80              	.LBB3:
+  81              		.loc 1 77 19 view .LVU16
+  82              		.loc 1 77 19 is_stmt 0 view .LVU17
+  83 001c 90F901C0 		ldrsb	ip, [r0, #1]
+  84              	.LVL7:
+  85              		.loc 1 77 19 view .LVU18
+  86 0020 9EF90150 		ldrsb	r5, [lr, #1]
+  87              	.LVL8:
+  88              		.loc 1 77 19 view .LVU19
+  89 0024 05FB0CFC 		mul	ip, r5, ip
+  90 0028 4FEAEC1C 		asr	ip, ip, #7
+  91              	.LVL9:
+  92              		.loc 1 77 19 is_stmt 1 view .LVU20
+  93              		.syntax unified
+  94              	@ 77 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c" 1
+  95 002c 0CF3070C 		ssat ip, #8, ip
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 4
+
+
+  96              	@ 0 "" 2
+  97              	.LVL10:
+  98              		.loc 1 77 19 view .LVU21
+  99              		.thumb
+ 100              		.syntax unified
+ 101              	.LBE3:
+ 102              		.loc 1 77 10 is_stmt 0 view .LVU22
+ 103 0030 4FFA8CF5 		sxtb	r5, ip
+ 104              	.LVL11:
+  78:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     out3 = (q7_t) __SSAT((((q15_t) (*pSrcA++) * (*pSrcB++)) >> 7), 8);
+ 105              		.loc 1 78 5 is_stmt 1 view .LVU23
+ 106              	.LBB4:
+ 107              		.loc 1 78 19 view .LVU24
+ 108              		.loc 1 78 19 is_stmt 0 view .LVU25
+ 109 0034 90F902C0 		ldrsb	ip, [r0, #2]
+ 110              	.LVL12:
+ 111              		.loc 1 78 19 view .LVU26
+ 112 0038 9EF90260 		ldrsb	r6, [lr, #2]
+ 113 003c 06FB0CFC 		mul	ip, r6, ip
+ 114 0040 4FEAEC1C 		asr	ip, ip, #7
+ 115              	.LVL13:
+ 116              		.loc 1 78 19 is_stmt 1 view .LVU27
+ 117              		.syntax unified
+ 118              	@ 78 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c" 1
+ 119 0044 0CF3070C 		ssat ip, #8, ip
+ 120              	@ 0 "" 2
+ 121              	.LVL14:
+ 122              		.loc 1 78 19 view .LVU28
+ 123              		.thumb
+ 124              		.syntax unified
+ 125              	.LBE4:
+ 126              		.loc 1 78 10 is_stmt 0 view .LVU29
+ 127 0048 4FFA8CFC 		sxtb	ip, ip
+ 128              	.LVL15:
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     out4 = (q7_t) __SSAT((((q15_t) (*pSrcA++) * (*pSrcB++)) >> 7), 8);
+ 129              		.loc 1 79 5 is_stmt 1 view .LVU30
+ 130              	.LBB5:
+ 131              		.loc 1 79 19 view .LVU31
+ 132 004c 061D     		adds	r6, r0, #4
+ 133              	.LVL16:
+ 134              		.loc 1 79 19 is_stmt 0 view .LVU32
+ 135 004e 90F90370 		ldrsb	r7, [r0, #3]
+ 136 0052 0EF10400 		add	r0, lr, #4
+ 137              	.LVL17:
+ 138              		.loc 1 79 19 view .LVU33
+ 139 0056 9EF903E0 		ldrsb	lr, [lr, #3]
+ 140              	.LVL18:
+ 141              		.loc 1 79 19 view .LVU34
+ 142 005a 0EFB07FE 		mul	lr, lr, r7
+ 143 005e 4FEAEE1E 		asr	lr, lr, #7
+ 144              	.LVL19:
+ 145              		.loc 1 79 19 is_stmt 1 view .LVU35
+ 146              		.syntax unified
+ 147              	@ 79 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c" 1
+ 148 0062 0EF3070E 		ssat lr, #8, lr
+ 149              	@ 0 "" 2
+ 150              	.LVL20:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 5
+
+
+ 151              		.loc 1 79 19 view .LVU36
+ 152              		.loc 1 79 19 is_stmt 0 view .LVU37
+ 153              		.thumb
+ 154              		.syntax unified
+ 155              	.LBE5:
+  80:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     /* Store the results of 4 inputs in the destination buffer in single cycle by packing */
+  82:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     *__SIMD32(pDst)++ = __PACKq7(out1, out2, out3, out4);
+ 156              		.loc 1 82 5 is_stmt 1 view .LVU38
+ 157              		.loc 1 82 25 is_stmt 0 view .LVU39
+ 158 0066 C9B2     		uxtb	r1, r1
+ 159              		.loc 1 82 25 view .LVU40
+ 160 0068 2D02     		lsls	r5, r5, #8
+ 161              	.LVL21:
+ 162              		.loc 1 82 25 view .LVU41
+ 163 006a ADB2     		uxth	r5, r5
+ 164 006c 2943     		orrs	r1, r1, r5
+ 165              	.LVL22:
+ 166              		.loc 1 82 25 view .LVU42
+ 167 006e 4FEA0C4C 		lsl	ip, ip, #16
+ 168              	.LVL23:
+ 169              		.loc 1 82 25 view .LVU43
+ 170 0072 0CF47F0C 		and	ip, ip, #16711680
+ 171 0076 41EA0C01 		orr	r1, r1, ip
+ 172              	.LVL24:
+ 173              		.loc 1 82 25 view .LVU44
+ 174 007a 41EA0E61 		orr	r1, r1, lr, lsl #24
+ 175              		.loc 1 82 23 view .LVU45
+ 176 007e 42F8041B 		str	r1, [r2], #4
+ 177              	.LVL25:
+  83:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  84:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     /* Decrement the blockSize loop counter */
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     blkCnt--;
+ 178              		.loc 1 85 5 is_stmt 1 view .LVU46
+ 179              		.loc 1 85 11 is_stmt 0 view .LVU47
+ 180 0082 013C     		subs	r4, r4, #1
+ 181              	.LVL26:
+ 182              	.LBB6:
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+ 183              		.loc 1 79 19 view .LVU48
+ 184 0084 8646     		mov	lr, r0
+ 185              	.LVL27:
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+ 186              		.loc 1 79 19 view .LVU49
+ 187 0086 3046     		mov	r0, r6
+ 188              	.LVL28:
+ 189              	.L2:
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+ 190              		.loc 1 79 19 view .LVU50
+ 191              	.LBE6:
+  72:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   {
+ 192              		.loc 1 72 17 is_stmt 1 view .LVU51
+ 193 0088 002C     		cmp	r4, #0
+ 194 008a BDD1     		bne	.L3
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   }
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 6
+
+
+  89:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****    ** No loop unrolling is used. */
+  90:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   blkCnt = blockSize % 0x4U;
+ 195              		.loc 1 90 3 view .LVU52
+ 196              		.loc 1 90 10 is_stmt 0 view .LVU53
+ 197 008c 03F00303 		and	r3, r3, #3
+ 198              	.LVL29:
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** #else
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   /* Run the below code for Cortex-M0 */
+  95:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  96:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   /* Initialize blkCnt with number of samples */
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   blkCnt = blockSize;
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+  99:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 100:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   while (blkCnt > 0U)
+ 199              		.loc 1 102 3 is_stmt 1 view .LVU54
+ 200              		.loc 1 102 9 is_stmt 0 view .LVU55
+ 201 0090 0CE0     		b	.L4
+ 202              	.L5:
+ 103:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   {
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     /* C = A * B */
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     /* Multiply the inputs and store the result in the destination buffer */
+ 106:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     *pDst++ = (q7_t) __SSAT((((q15_t) (*pSrcA++) * (*pSrcB++)) >> 7), 8);
+ 203              		.loc 1 106 5 is_stmt 1 view .LVU56
+ 204              	.LBB7:
+ 205              		.loc 1 106 22 view .LVU57
+ 206              	.LVL30:
+ 207              		.loc 1 106 22 is_stmt 0 view .LVU58
+ 208 0092 10F901CB 		ldrsb	ip, [r0], #1
+ 209              	.LVL31:
+ 210              		.loc 1 106 22 view .LVU59
+ 211 0096 1EF9011B 		ldrsb	r1, [lr], #1
+ 212              	.LVL32:
+ 213              		.loc 1 106 22 view .LVU60
+ 214 009a 01FB0CFC 		mul	ip, r1, ip
+ 215 009e 4FEAEC1C 		asr	ip, ip, #7
+ 216              	.LVL33:
+ 217              		.loc 1 106 22 is_stmt 1 view .LVU61
+ 218              		.syntax unified
+ 219              	@ 106 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c" 1
+ 220 00a2 0CF3070C 		ssat ip, #8, ip
+ 221              	@ 0 "" 2
+ 222              	.LVL34:
+ 223              		.loc 1 106 22 view .LVU62
+ 224              		.loc 1 106 22 is_stmt 0 view .LVU63
+ 225              		.thumb
+ 226              		.syntax unified
+ 227              	.LBE7:
+ 228              		.loc 1 106 13 view .LVU64
+ 229 00a6 02F801CB 		strb	ip, [r2], #1
+ 230              	.LVL35:
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** 
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     /* Decrement the blockSize loop counter */
+ 109:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****     blkCnt--;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 7
+
+
+ 231              		.loc 1 109 5 is_stmt 1 view .LVU65
+ 232              		.loc 1 109 11 is_stmt 0 view .LVU66
+ 233 00aa 013B     		subs	r3, r3, #1
+ 234              	.LVL36:
+ 235              	.L4:
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   {
+ 236              		.loc 1 102 17 is_stmt 1 view .LVU67
+ 237 00ac 002B     		cmp	r3, #0
+ 238 00ae F0D1     		bne	.L5
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c ****   }
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_mult_q7.c **** }
+ 239              		.loc 1 111 1 is_stmt 0 view .LVU68
+ 240 00b0 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 241              		.cfi_endproc
+ 242              	.LFE139:
+ 244              		.text
+ 245              	.Letext0:
+ 246              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 247              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 248              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_mult_q7.c
+C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s:21     .text.arm_mult_q7:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccDRqBKq.s:27     .text.arm_mult_q7:00000000 arm_mult_q7
+
+NO UNDEFINED SYMBOLS

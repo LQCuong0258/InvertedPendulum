@@ -1,0 +1,422 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_dot_prod_q31.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c"
+  20              		.section	.text.arm_dot_prod_q31,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_dot_prod_q31
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_dot_prod_q31:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * Title:        arm_dot_prod_q31.c
+   4:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * Description:  Q31 dot product
+   5:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  *
+   6:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  *
+   9:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** /*
+  12:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  *
+  14:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  *
+  16:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  *
+  20:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  *
+  22:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  */
+  28:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  29:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  31:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** /**
+  32:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @ingroup groupMath
+  33:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  */
+  34:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  35:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** /**
+  36:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @addtogroup dot_prod
+  37:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  */
+  39:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  40:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** /**
+  41:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @brief Dot product of Q31 vectors.
+  42:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @param[in]       *pSrcA points to the first input vector
+  43:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @param[in]       *pSrcB points to the second input vector
+  44:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @param[in]       blockSize number of samples in each vector
+  45:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @param[out]      *result output result returned here
+  46:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * @return none.
+  47:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  *
+  48:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * <b>Scaling and Overflow Behavior:</b>
+  49:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * \par
+  50:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * The intermediate multiplications are in 1.31 x 1.31 = 2.62 format and these
+  51:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * are truncated to 2.48 format by discarding the lower 14 bits.
+  52:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * The 2.48 result is then added without saturation to a 64-bit accumulator in 16.48 format.
+  53:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * There are 15 guard bits in the accumulator and there is no risk of overflow as long as
+  54:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * the length of the vectors is less than 2^16 elements.
+  55:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  * The return result is in 16.48 format.
+  56:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****  */
+  57:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  58:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** void arm_dot_prod_q31(
+  59:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   q31_t * pSrcA,
+  60:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   q31_t * pSrcB,
+  61:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   uint32_t blockSize,
+  62:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   q63_t * result)
+  63:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** {
+  30              		.loc 1 63 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 63 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 83B0     		sub	sp, sp, #12
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 48
+  50 0006 8446     		mov	ip, r0
+  51 0008 8E46     		mov	lr, r1
+  52 000a 9246     		mov	r10, r2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 3
+
+
+  53 000c 1A46     		mov	r2, r3
+  54              	.LVL1:
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   q63_t sum = 0;                                 /* Temporary result storage */
+  55              		.loc 1 64 3 is_stmt 1 view .LVU2
+  65:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   uint32_t blkCnt;                               /* loop counter */
+  56              		.loc 1 65 3 view .LVU3
+  66:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  67:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  68:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** #if defined (ARM_MATH_DSP)
+  69:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  70:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** /* Run the below code for Cortex-M4 and Cortex-M3 */
+  71:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   q31_t inA1, inA2, inA3, inA4;
+  57              		.loc 1 71 3 view .LVU4
+  72:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   q31_t inB1, inB2, inB3, inB4;
+  58              		.loc 1 72 3 view .LVU5
+  73:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  74:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   /*loop Unrolling */
+  75:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   blkCnt = blockSize >> 2U;
+  59              		.loc 1 75 3 view .LVU6
+  60              		.loc 1 75 10 is_stmt 0 view .LVU7
+  61 000e 4FEA9A0B 		lsr	fp, r10, #2
+  62              	.LVL2:
+  76:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  77:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  78:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   while (blkCnt > 0U)
+  63              		.loc 1 79 3 is_stmt 1 view .LVU8
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   uint32_t blkCnt;                               /* loop counter */
+  64              		.loc 1 64 9 is_stmt 0 view .LVU9
+  65 0012 0023     		movs	r3, #0
+  66              	.LVL3:
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   uint32_t blkCnt;                               /* loop counter */
+  67              		.loc 1 64 9 view .LVU10
+  68 0014 1D46     		mov	r5, r3
+  69 0016 CDF800A0 		str	r10, [sp]
+  70 001a 0192     		str	r2, [sp, #4]
+  71 001c 9946     		mov	r9, r3
+  72              		.loc 1 79 9 view .LVU11
+  73 001e 58E0     		b	.L2
+  74              	.LVL4:
+  75              	.L3:
+  80:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   {
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+  82:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     /* Calculate dot product and then store the result in a temporary buffer. */
+  83:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inA1 = *pSrcA++;
+  76              		.loc 1 83 5 is_stmt 1 view .LVU12
+  77              		.loc 1 83 10 is_stmt 0 view .LVU13
+  78 0020 DCF80070 		ldr	r7, [ip]
+  79              	.LVL5:
+  84:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inA2 = *pSrcA++;
+  80              		.loc 1 84 5 is_stmt 1 view .LVU14
+  81              		.loc 1 84 10 is_stmt 0 view .LVU15
+  82 0024 DCF80410 		ldr	r1, [ip, #4]
+  83              	.LVL6:
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inA3 = *pSrcA++;
+  84              		.loc 1 85 5 is_stmt 1 view .LVU16
+  85              		.loc 1 85 10 is_stmt 0 view .LVU17
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 4
+
+
+  86 0028 DCF80830 		ldr	r3, [ip, #8]
+  87              	.LVL7:
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inA4 = *pSrcA++;
+  88              		.loc 1 86 5 is_stmt 1 view .LVU18
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inB1 = *pSrcB++;
+  89              		.loc 1 87 5 view .LVU19
+  90              		.loc 1 87 10 is_stmt 0 view .LVU20
+  91 002c DEF80000 		ldr	r0, [lr]
+  92              	.LVL8:
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inB2 = *pSrcB++;
+  93              		.loc 1 88 5 is_stmt 1 view .LVU21
+  94              		.loc 1 88 10 is_stmt 0 view .LVU22
+  95 0030 DEF80440 		ldr	r4, [lr, #4]
+  96              	.LVL9:
+  89:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inB3 = *pSrcB++;
+  97              		.loc 1 89 5 is_stmt 1 view .LVU23
+  98              		.loc 1 89 10 is_stmt 0 view .LVU24
+  99 0034 DEF80820 		ldr	r2, [lr, #8]
+ 100              	.LVL10:
+  90:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inB4 = *pSrcB++;
+ 101              		.loc 1 90 5 is_stmt 1 view .LVU25
+ 102              		.loc 1 90 10 is_stmt 0 view .LVU26
+ 103 0038 DEF80C60 		ldr	r6, [lr, #12]
+ 104              	.LVL11:
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     sum += ((q63_t) inA1 * inB1) >> 14U;
+ 105              		.loc 1 92 5 is_stmt 1 view .LVU27
+ 106              		.loc 1 92 13 is_stmt 0 view .LVU28
+ 107 003c 4FEAE778 		asr	r8, r7, #31
+ 108              		.loc 1 92 26 view .LVU29
+ 109 0040 4FEAE07A 		asr	r10, r0, #31
+ 110 0044 00FB08F8 		mul	r8, r0, r8
+ 111 0048 07FB0A88 		mla	r8, r7, r10, r8
+ 112 004c A0FB0707 		umull	r0, r7, r0, r7
+ 113              	.LVL12:
+ 114              		.loc 1 92 26 view .LVU30
+ 115 0050 4744     		add	r7, r7, r8
+ 116              		.loc 1 92 34 view .LVU31
+ 117 0052 800B     		lsrs	r0, r0, #14
+ 118 0054 40EA8740 		orr	r0, r0, r7, lsl #18
+ 119              		.loc 1 92 9 view .LVU32
+ 120 0058 10EB0900 		adds	r0, r0, r9
+ 121 005c 45EBA737 		adc	r7, r5, r7, asr #14
+ 122              	.LVL13:
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     sum += ((q63_t) inA2 * inB2) >> 14U;
+ 123              		.loc 1 93 5 is_stmt 1 view .LVU33
+ 124              		.loc 1 93 13 is_stmt 0 view .LVU34
+ 125 0060 CD17     		asrs	r5, r1, #31
+ 126              		.loc 1 93 26 view .LVU35
+ 127 0062 4FEAE478 		asr	r8, r4, #31
+ 128 0066 04FB05F5 		mul	r5, r4, r5
+ 129 006a 01FB0855 		mla	r5, r1, r8, r5
+ 130 006e A4FB0114 		umull	r1, r4, r4, r1
+ 131              	.LVL14:
+ 132              		.loc 1 93 26 view .LVU36
+ 133 0072 2C44     		add	r4, r4, r5
+ 134              		.loc 1 93 34 view .LVU37
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 5
+
+
+ 135 0074 890B     		lsrs	r1, r1, #14
+ 136 0076 41EA8441 		orr	r1, r1, r4, lsl #18
+ 137              		.loc 1 93 9 view .LVU38
+ 138 007a 0918     		adds	r1, r1, r0
+ 139 007c 47EBA434 		adc	r4, r7, r4, asr #14
+ 140              	.LVL15:
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     sum += ((q63_t) inA3 * inB3) >> 14U;
+ 141              		.loc 1 94 5 is_stmt 1 view .LVU39
+ 142              		.loc 1 94 13 is_stmt 0 view .LVU40
+ 143 0080 D817     		asrs	r0, r3, #31
+ 144              		.loc 1 94 26 view .LVU41
+ 145 0082 D517     		asrs	r5, r2, #31
+ 146 0084 02FB00F0 		mul	r0, r2, r0
+ 147 0088 03FB0500 		mla	r0, r3, r5, r0
+ 148 008c A2FB0323 		umull	r2, r3, r2, r3
+ 149              	.LVL16:
+ 150              		.loc 1 94 26 view .LVU42
+ 151 0090 0344     		add	r3, r3, r0
+ 152              		.loc 1 94 34 view .LVU43
+ 153 0092 920B     		lsrs	r2, r2, #14
+ 154 0094 42EA8342 		orr	r2, r2, r3, lsl #18
+ 155              		.loc 1 94 9 view .LVU44
+ 156 0098 5218     		adds	r2, r2, r1
+ 157 009a 44EBA334 		adc	r4, r4, r3, asr #14
+ 158              	.LVL17:
+  95:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     sum += ((q63_t) inA4 * inB4) >> 14U;
+ 159              		.loc 1 95 5 is_stmt 1 view .LVU45
+ 160              		.loc 1 95 13 is_stmt 0 view .LVU46
+ 161 009e DCF80C30 		ldr	r3, [ip, #12]
+ 162 00a2 DD17     		asrs	r5, r3, #31
+ 163              		.loc 1 95 26 view .LVU47
+ 164 00a4 F317     		asrs	r3, r6, #31
+ 165 00a6 06FB05F5 		mul	r5, r6, r5
+ 166 00aa DCF80C10 		ldr	r1, [ip, #12]
+ 167 00ae 01FB0355 		mla	r5, r1, r3, r5
+ 168 00b2 A6FB0163 		umull	r6, r3, r6, r1
+ 169              	.LVL18:
+ 170              		.loc 1 95 26 view .LVU48
+ 171 00b6 1D44     		add	r5, r5, r3
+ 172              		.loc 1 95 34 view .LVU49
+ 173 00b8 B60B     		lsrs	r6, r6, #14
+ 174 00ba 46EA8546 		orr	r6, r6, r5, lsl #18
+ 175              		.loc 1 95 9 view .LVU50
+ 176 00be 16EB0209 		adds	r9, r6, r2
+ 177 00c2 44EBA535 		adc	r5, r4, r5, asr #14
+ 178              	.LVL19:
+  96:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     /* Decrement the loop counter */
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     blkCnt--;
+ 179              		.loc 1 98 5 is_stmt 1 view .LVU51
+ 180              		.loc 1 98 11 is_stmt 0 view .LVU52
+ 181 00c6 0BF1FF3B 		add	fp, fp, #-1
+ 182              	.LVL20:
+  90:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 183              		.loc 1 90 18 view .LVU53
+ 184 00ca 0EF1100E 		add	lr, lr, #16
+ 185              	.LVL21:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 6
+
+
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     inB1 = *pSrcB++;
+ 186              		.loc 1 86 18 view .LVU54
+ 187 00ce 0CF1100C 		add	ip, ip, #16
+ 188              	.LVL22:
+ 189              	.L2:
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   {
+ 190              		.loc 1 79 17 is_stmt 1 view .LVU55
+ 191 00d2 BBF1000F 		cmp	fp, #0
+ 192 00d6 A3D1     		bne	.L3
+  99:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   }
+ 100:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****    ** No loop unrolling is used. */
+ 103:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   blkCnt = blockSize % 0x4U;
+ 193              		.loc 1 103 10 is_stmt 0 view .LVU56
+ 194 00d8 DDF800A0 		ldr	r10, [sp]
+ 195 00dc 019A     		ldr	r2, [sp, #4]
+ 196 00de 4B46     		mov	r3, r9
+ 197              		.loc 1 103 3 is_stmt 1 view .LVU57
+ 198              		.loc 1 103 10 is_stmt 0 view .LVU58
+ 199 00e0 0AF00304 		and	r4, r10, #3
+ 200              	.LVL23:
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** #else
+ 106:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   /* Run the below code for Cortex-M0 */
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 109:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   /* Initialize blkCnt with number of samples */
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   blkCnt = blockSize;
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 112:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 115:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   while (blkCnt > 0U)
+ 201              		.loc 1 115 3 is_stmt 1 view .LVU59
+ 202              		.loc 1 115 9 is_stmt 0 view .LVU60
+ 203 00e4 14E0     		b	.L4
+ 204              	.LVL24:
+ 205              	.L5:
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   {
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+ 118:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     /* Calculate dot product and then store the result in a temporary buffer. */
+ 119:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     sum += ((q63_t) * pSrcA++ * *pSrcB++) >> 14U;
+ 206              		.loc 1 119 5 is_stmt 1 view .LVU61
+ 207              		.loc 1 119 21 is_stmt 0 view .LVU62
+ 208 00e6 5CF8041B 		ldr	r1, [ip], #4
+ 209              	.LVL25:
+ 210              		.loc 1 119 13 view .LVU63
+ 211 00ea CF17     		asrs	r7, r1, #31
+ 212              	.LVL26:
+ 213              		.loc 1 119 33 view .LVU64
+ 214 00ec 5EF8046B 		ldr	r6, [lr], #4
+ 215              	.LVL27:
+ 216              		.loc 1 119 33 view .LVU65
+ 217 00f0 F017     		asrs	r0, r6, #31
+ 218              		.loc 1 119 31 view .LVU66
+ 219 00f2 01FB00F0 		mul	r0, r1, r0
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 7
+
+
+ 220 00f6 06FB0700 		mla	r0, r6, r7, r0
+ 221 00fa A1FB0616 		umull	r1, r6, r1, r6
+ 222 00fe 3044     		add	r0, r0, r6
+ 223              		.loc 1 119 43 view .LVU67
+ 224 0100 890B     		lsrs	r1, r1, #14
+ 225 0102 41EA8041 		orr	r1, r1, r0, lsl #18
+ 226              		.loc 1 119 9 view .LVU68
+ 227 0106 5918     		adds	r1, r3, r1
+ 228 0108 0B46     		mov	r3, r1
+ 229              	.LVL28:
+ 230              		.loc 1 119 9 view .LVU69
+ 231 010a 45EBA035 		adc	r5, r5, r0, asr #14
+ 232              	.LVL29:
+ 120:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 121:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     /* Decrement the loop counter */
+ 122:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****     blkCnt--;
+ 233              		.loc 1 122 5 is_stmt 1 view .LVU70
+ 234              		.loc 1 122 11 is_stmt 0 view .LVU71
+ 235 010e 013C     		subs	r4, r4, #1
+ 236              	.LVL30:
+ 237              	.L4:
+ 115:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   {
+ 238              		.loc 1 115 17 is_stmt 1 view .LVU72
+ 239 0110 002C     		cmp	r4, #0
+ 240 0112 E8D1     		bne	.L5
+ 123:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   }
+ 124:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** 
+ 125:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   /* Store the result in the destination buffer in 16.48 format */
+ 126:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c ****   *result = sum;
+ 241              		.loc 1 126 3 view .LVU73
+ 242              		.loc 1 126 11 is_stmt 0 view .LVU74
+ 243 0114 1360     		str	r3, [r2]
+ 244 0116 5560     		str	r5, [r2, #4]
+ 127:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c **** }
+ 245              		.loc 1 127 1 view .LVU75
+ 246 0118 03B0     		add	sp, sp, #12
+ 247              	.LCFI2:
+ 248              		.cfi_def_cfa_offset 36
+ 249              	.LVL31:
+ 250              		.loc 1 127 1 view .LVU76
+ 251              		@ sp needed
+ 252 011a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 253              		.loc 1 127 1 view .LVU77
+ 254              		.cfi_endproc
+ 255              	.LFE139:
+ 257              		.text
+ 258              	.Letext0:
+ 259              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 260              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 261              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_dot_prod_q31.c
+C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s:21     .text.arm_dot_prod_q31:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cck2LsI5.s:27     .text.arm_dot_prod_q31:00000000 arm_dot_prod_q31
+
+NO UNDEFINED SYMBOLS

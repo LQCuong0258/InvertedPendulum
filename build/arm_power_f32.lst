@@ -1,0 +1,300 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_power_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c"
+  20              		.section	.text.arm_power_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_power_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_power_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Title:        arm_power_f32.c
+   4:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Description:  Sum of the squares of the elements of a floating-point vector
+   5:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @ingroup groupStats
+  33:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @defgroup power Power
+  37:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * Calculates the sum of the squares of the elements in the input vector.
+  39:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * The underlying algorithm is used:
+  40:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  41:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * <pre>
+  42:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * 	Result = pSrc[0] * pSrc[0] + pSrc[1] * pSrc[1] + pSrc[2] * pSrc[2] + ... + pSrc[blockSize-1] * 
+  43:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * </pre>
+  44:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  45:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * There are separate functions for floating point, Q31, Q15, and Q7 data types.
+  46:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  */
+  47:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  48:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** /**
+  49:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @addtogroup power
+  50:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @{
+  51:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  */
+  52:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  53:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  54:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** /**
+  55:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @brief Sum of the squares of the elements of a floating-point vector.
+  56:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @param[in]       *pSrc points to the input vector
+  57:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @param[in]       blockSize length of the input vector
+  58:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @param[out]      *pResult sum of the squares value returned here
+  59:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  * @return none.
+  60:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  *
+  61:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****  */
+  62:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  63:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  64:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** void arm_power_f32(
+  65:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   float32_t * pSrc,
+  66:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   uint32_t blockSize,
+  67:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   float32_t * pResult)
+  68:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** {
+  30              		.loc 1 68 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   float32_t sum = 0.0f;                          /* accumulator */
+  35              		.loc 1 69 3 view .LVU1
+  70:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   float32_t in;                                  /* Temporary variable to store input value */
+  36              		.loc 1 70 3 view .LVU2
+  71:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   uint32_t blkCnt;                               /* loop counter */
+  37              		.loc 1 71 3 view .LVU3
+  72:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** #if defined (ARM_MATH_DSP)
+  74:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  75:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  76:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   /*loop Unrolling */
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   blkCnt = blockSize >> 2U;
+  38              		.loc 1 77 3 view .LVU4
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s 			page 3
+
+
+  39              		.loc 1 77 10 is_stmt 0 view .LVU5
+  40 0000 8B08     		lsrs	r3, r1, #2
+  41              	.LVL1:
+  78:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  79:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   while (blkCnt > 0U)
+  42              		.loc 1 81 3 is_stmt 1 view .LVU6
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   float32_t in;                                  /* Temporary variable to store input value */
+  43              		.loc 1 69 13 is_stmt 0 view .LVU7
+  44 0002 DFED177A 		vldr.32	s15, .L6
+  45              		.loc 1 81 9 view .LVU8
+  46 0006 19E0     		b	.L2
+  47              	.LVL2:
+  48              	.L3:
+  82:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   {
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     /* C = A[0] * A[0] + A[1] * A[1] + A[2] * A[2] + ... + A[blockSize-1] * A[blockSize-1] */
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     /* Compute Power and then store the result in a temporary variable, sum. */
+  85:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     in = *pSrc++;
+  49              		.loc 1 85 5 is_stmt 1 view .LVU9
+  50              		.loc 1 85 8 is_stmt 0 view .LVU10
+  51 0008 90ED007A 		vldr.32	s14, [r0]
+  52              	.LVL3:
+  86:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     sum += in * in;
+  53              		.loc 1 86 5 is_stmt 1 view .LVU11
+  54              		.loc 1 86 15 is_stmt 0 view .LVU12
+  55 000c 27EE077A 		vmul.f32	s14, s14, s14
+  56              	.LVL4:
+  57              		.loc 1 86 9 view .LVU13
+  58 0010 37EE277A 		vadd.f32	s14, s14, s15
+  59              	.LVL5:
+  87:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     in = *pSrc++;
+  60              		.loc 1 87 5 is_stmt 1 view .LVU14
+  61              		.loc 1 87 8 is_stmt 0 view .LVU15
+  62 0014 D0ED017A 		vldr.32	s15, [r0, #4]
+  63              	.LVL6:
+  88:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     sum += in * in;
+  64              		.loc 1 88 5 is_stmt 1 view .LVU16
+  65              		.loc 1 88 15 is_stmt 0 view .LVU17
+  66 0018 67EEA77A 		vmul.f32	s15, s15, s15
+  67              	.LVL7:
+  68              		.loc 1 88 9 view .LVU18
+  69 001c 37EE877A 		vadd.f32	s14, s15, s14
+  70              	.LVL8:
+  89:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     in = *pSrc++;
+  71              		.loc 1 89 5 is_stmt 1 view .LVU19
+  72              		.loc 1 89 8 is_stmt 0 view .LVU20
+  73 0020 D0ED027A 		vldr.32	s15, [r0, #8]
+  74              	.LVL9:
+  90:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     sum += in * in;
+  75              		.loc 1 90 5 is_stmt 1 view .LVU21
+  76              		.loc 1 90 15 is_stmt 0 view .LVU22
+  77 0024 67EEA77A 		vmul.f32	s15, s15, s15
+  78              	.LVL10:
+  79              		.loc 1 90 9 view .LVU23
+  80 0028 37EE877A 		vadd.f32	s14, s15, s14
+  81              	.LVL11:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s 			page 4
+
+
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     in = *pSrc++;
+  82              		.loc 1 91 5 is_stmt 1 view .LVU24
+  83              		.loc 1 91 8 is_stmt 0 view .LVU25
+  84 002c D0ED037A 		vldr.32	s15, [r0, #12]
+  85              	.LVL12:
+  92:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     sum += in * in;
+  86              		.loc 1 92 5 is_stmt 1 view .LVU26
+  87              		.loc 1 92 15 is_stmt 0 view .LVU27
+  88 0030 67EEA77A 		vmul.f32	s15, s15, s15
+  89              	.LVL13:
+  90              		.loc 1 92 9 view .LVU28
+  91 0034 77EE877A 		vadd.f32	s15, s15, s14
+  92              	.LVL14:
+  93:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  94:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     /* Decrement the loop counter */
+  95:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     blkCnt--;
+  93              		.loc 1 95 5 is_stmt 1 view .LVU29
+  94              		.loc 1 95 11 is_stmt 0 view .LVU30
+  95 0038 013B     		subs	r3, r3, #1
+  96              	.LVL15:
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     sum += in * in;
+  97              		.loc 1 91 15 view .LVU31
+  98 003a 1030     		adds	r0, r0, #16
+  99              	.LVL16:
+ 100              	.L2:
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   {
+ 101              		.loc 1 81 17 is_stmt 1 view .LVU32
+ 102 003c 002B     		cmp	r3, #0
+ 103 003e E3D1     		bne	.L3
+  96:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   }
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+  98:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****    ** No loop unrolling is used. */
+ 100:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   blkCnt = blockSize % 0x4U;
+ 104              		.loc 1 100 3 view .LVU33
+ 105              		.loc 1 100 10 is_stmt 0 view .LVU34
+ 106 0040 01F00301 		and	r1, r1, #3
+ 107              	.LVL17:
+ 101:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 102:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** #else
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   /* Run the below code for Cortex-M0 */
+ 105:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 106:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   /* Loop over blockSize number of values */
+ 107:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   blkCnt = blockSize;
+ 108:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 109:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 110:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   while (blkCnt > 0U)
+ 108              		.loc 1 112 3 is_stmt 1 view .LVU35
+ 109              		.loc 1 112 9 is_stmt 0 view .LVU36
+ 110 0044 06E0     		b	.L4
+ 111              	.L5:
+ 113:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   {
+ 114:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     /* C = A[0] * A[0] + A[1] * A[1] + A[2] * A[2] + ... + A[blockSize-1] * A[blockSize-1] */
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     /* compute power and then store the result in a temporary variable, sum. */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s 			page 5
+
+
+ 116:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     in = *pSrc++;
+ 112              		.loc 1 116 5 is_stmt 1 view .LVU37
+ 113              	.LVL18:
+ 114              		.loc 1 116 8 is_stmt 0 view .LVU38
+ 115 0046 B0EC017A 		vldmia.32	r0!, {s14}
+ 116              	.LVL19:
+ 117:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     sum += in * in;
+ 117              		.loc 1 117 5 is_stmt 1 view .LVU39
+ 118              		.loc 1 117 15 is_stmt 0 view .LVU40
+ 119 004a 27EE077A 		vmul.f32	s14, s14, s14
+ 120              	.LVL20:
+ 121              		.loc 1 117 9 view .LVU41
+ 122 004e 77EE877A 		vadd.f32	s15, s15, s14
+ 123              	.LVL21:
+ 118:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 119:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     /* Decrement the loop counter */
+ 120:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****     blkCnt--;
+ 124              		.loc 1 120 5 is_stmt 1 view .LVU42
+ 125              		.loc 1 120 11 is_stmt 0 view .LVU43
+ 126 0052 0139     		subs	r1, r1, #1
+ 127              	.LVL22:
+ 128              	.L4:
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   {
+ 129              		.loc 1 112 17 is_stmt 1 view .LVU44
+ 130 0054 0029     		cmp	r1, #0
+ 131 0056 F6D1     		bne	.L5
+ 121:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   }
+ 122:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** 
+ 123:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   /* Store the result to the destination */
+ 124:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c ****   *pResult = sum;
+ 132              		.loc 1 124 3 view .LVU45
+ 133              		.loc 1 124 12 is_stmt 0 view .LVU46
+ 134 0058 C2ED007A 		vstr.32	s15, [r2]
+ 125:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_power_f32.c **** }
+ 135              		.loc 1 125 1 view .LVU47
+ 136 005c 7047     		bx	lr
+ 137              	.L7:
+ 138 005e 00BF     		.align	2
+ 139              	.L6:
+ 140 0060 00000000 		.word	0
+ 141              		.cfi_endproc
+ 142              	.LFE139:
+ 144              		.text
+ 145              	.Letext0:
+ 146              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 147              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 148              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_power_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s:21     .text.arm_power_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s:27     .text.arm_power_f32:00000000 arm_power_f32
+C:\Users\Lamp\AppData\Local\Temp\cclv1Hi1.s:140    .text.arm_power_f32:00000060 $d
+
+NO UNDEFINED SYMBOLS

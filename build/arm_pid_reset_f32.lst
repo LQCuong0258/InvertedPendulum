@@ -1,0 +1,111 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHF6sGt.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_pid_reset_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c"
+  20              		.section	.text.arm_pid_reset_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_pid_reset_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_pid_reset_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * Title:        arm_pid_reset_f32.c
+   4:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * Description:  Floating-point PID Control reset function
+   5:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHF6sGt.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  /**
+  32:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * @addtogroup PID
+  33:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  * @{
+  34:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****  */
+  35:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** 
+  36:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** /**
+  37:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** * @brief  Reset function for the floating-point PID Control.
+  38:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** * @param[in] *S	Instance pointer of PID control data structure.
+  39:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** * @return none.
+  40:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** * \par Description:
+  41:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** * The function resets the state buffer to zeros.
+  42:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** */
+  43:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** void arm_pid_reset_f32(
+  44:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****   arm_pid_instance_f32 * S)
+  45:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** {
+  30              		.loc 1 45 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  46:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** 
+  47:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****   /* Clear the state buffer.  The size will be always 3 samples */
+  48:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c ****   memset(S->state, 0, 3U * sizeof(float32_t));
+  35              		.loc 1 48 3 view .LVU1
+  36 0000 0023     		movs	r3, #0
+  37 0002 C360     		str	r3, [r0, #12]	@ unaligned
+  38 0004 0361     		str	r3, [r0, #16]	@ unaligned
+  39 0006 4361     		str	r3, [r0, #20]	@ unaligned
+  49:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_pid_reset_f32.c **** }
+  40              		.loc 1 49 1 is_stmt 0 view .LVU2
+  41 0008 7047     		bx	lr
+  42              		.cfi_endproc
+  43              	.LFE139:
+  45              		.text
+  46              	.Letext0:
+  47              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/in
+  48              		.file 3 "Drivers/CMSIS/DSP/Include/arm_math.h"
+  49              		.file 4 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccHF6sGt.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_pid_reset_f32.c
+C:\Users\Lamp\AppData\Local\Temp\ccHF6sGt.s:21     .text.arm_pid_reset_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccHF6sGt.s:27     .text.arm_pid_reset_f32:00000000 arm_pid_reset_f32
+
+NO UNDEFINED SYMBOLS

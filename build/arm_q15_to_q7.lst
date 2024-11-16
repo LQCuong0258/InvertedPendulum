@@ -1,0 +1,330 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_q15_to_q7.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c"
+  20              		.section	.text.arm_q15_to_q7,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_q15_to_q7
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_q15_to_q7:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * Title:        arm_q15_to_q7.c
+   4:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * Description:  Converts the elements of the Q15 vector to Q7 vector
+   5:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+   6:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+   9:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** /*
+  12:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  14:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  16:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  20:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  22:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  */
+  28:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  29:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  31:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** /**
+  32:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @ingroup groupSupport
+  33:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  */
+  34:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  35:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** /**
+  36:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @addtogroup q15_to_x
+  37:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  */
+  39:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  40:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  41:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** /**
+  42:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @brief Converts the elements of the Q15 vector to Q7 vector.
+  43:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @param[in]       *pSrc points to the Q15 input vector
+  44:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @param[out]      *pDst points to the Q7 output vector
+  45:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @param[in]       blockSize length of the input vector
+  46:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * @return none.
+  47:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  48:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * \par Description:
+  49:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  50:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * The equation used for the conversion process is:
+  51:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  52:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * <pre>
+  53:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * 	pDst[n] = (q7_t) pSrc[n] >> 8;   0 <= n < blockSize.
+  54:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  * </pre>
+  55:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  *
+  56:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****  */
+  57:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  58:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  59:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** void arm_q15_to_q7(
+  60:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   q15_t * pSrc,
+  61:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   q7_t * pDst,
+  62:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   uint32_t blockSize)
+  63:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** {
+  30              		.loc 1 63 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 63 1 is_stmt 0 view .LVU1
+  36 0000 30B4     		push	{r4, r5}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 4, -8
+  40              		.cfi_offset 5, -4
+  64:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   q15_t *pIn = pSrc;                             /* Src pointer */
+  41              		.loc 1 64 3 is_stmt 1 view .LVU2
+  42              	.LVL1:
+  65:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   uint32_t blkCnt;                               /* loop counter */
+  43              		.loc 1 65 3 view .LVU3
+  66:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  67:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** #if defined (ARM_MATH_DSP)
+  68:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  69:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  70:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   q31_t in1, in2;
+  44              		.loc 1 70 3 view .LVU4
+  71:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   q31_t out1, out2;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s 			page 3
+
+
+  45              		.loc 1 71 3 view .LVU5
+  72:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  73:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   /*loop Unrolling */
+  74:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   blkCnt = blockSize >> 2U;
+  46              		.loc 1 74 3 view .LVU6
+  47              		.loc 1 74 10 is_stmt 0 view .LVU7
+  48 0002 9408     		lsrs	r4, r2, #2
+  49              	.LVL2:
+  75:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  76:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  77:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  78:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   while (blkCnt > 0U)
+  50              		.loc 1 78 3 is_stmt 1 view .LVU8
+  51              		.loc 1 78 9 is_stmt 0 view .LVU9
+  52 0004 12E0     		b	.L2
+  53              	.LVL3:
+  54              	.L3:
+  79:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   {
+  80:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* C = (q7_t) A >> 8 */
+  81:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* convert from q15 to q7 and then store the results in the destination buffer */
+  82:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     in1 = *__SIMD32(pIn)++;
+  55              		.loc 1 82 5 is_stmt 1 view .LVU10
+  56              		.loc 1 82 9 is_stmt 0 view .LVU11
+  57 0006 8446     		mov	ip, r0
+  58 0008 5CF8085B 		ldr	r5, [ip], #8
+  59              	.LVL4:
+  83:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     in2 = *__SIMD32(pIn)++;
+  60              		.loc 1 83 5 is_stmt 1 view .LVU12
+  61              		.loc 1 83 9 is_stmt 0 view .LVU13
+  62 000c 4368     		ldr	r3, [r0, #4]
+  63              	.LVL5:
+  84:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  85:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** #ifndef ARM_MATH_BIG_ENDIAN
+  86:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  87:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out1 = __PKHTB(in2, in1, 16);
+  64              		.loc 1 87 5 is_stmt 1 view .LVU14
+  65              	.LBB2:
+  66              		.loc 1 87 12 view .LVU15
+  67              		.loc 1 87 12 view .LVU16
+  68              		.loc 1 87 12 view .LVU17
+  69              		.syntax unified
+  70              	@ 87 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c" 1
+  71 000e C3EA2540 		pkhtb r0, r3, r5, asr #16
+  72              	@ 0 "" 2
+  73              	.LVL6:
+  74              		.loc 1 87 12 view .LVU18
+  75              		.loc 1 87 12 is_stmt 0 view .LVU19
+  76              		.thumb
+  77              		.syntax unified
+  78              	.LBE2:
+  88:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out2 = __PKHBT(in2, in1, 16);
+  79              		.loc 1 88 5 is_stmt 1 view .LVU20
+  80              	.LBB3:
+  81              		.loc 1 88 12 view .LVU21
+  82              		.loc 1 88 12 view .LVU22
+  83              		.syntax unified
+  84              	@ 88 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c" 1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s 			page 4
+
+
+  85 0012 C3EA0543 		pkhbt r3, r3, r5, lsl #16
+  86              	@ 0 "" 2
+  87              	.LVL7:
+  88              		.loc 1 88 12 view .LVU23
+  89              		.loc 1 88 12 is_stmt 0 view .LVU24
+  90              		.thumb
+  91              		.syntax unified
+  92              	.LBE3:
+  89:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  90:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** #else
+  91:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  92:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out1 = __PKHTB(in1, in2, 16);
+  93:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out2 = __PKHBT(in1, in2, 16);
+  94:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** #endif //      #ifndef ARM_MATH_BIG_ENDIAN
+  96:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+  97:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* rotate packed value by 24 */
+  98:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out2 = ((uint32_t) out2 << 8) | ((uint32_t) out2 >> 24);
+  93              		.loc 1 98 5 is_stmt 1 view .LVU25
+  94              		.loc 1 98 35 is_stmt 0 view .LVU26
+  95 0016 4FEA3363 		ror	r3, r3, #24
+  96              	.LVL8:
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* anding with 0xff00ff00 to get two 8 bit values */
+ 101:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out1 = out1 & 0xFF00FF00;
+  97              		.loc 1 101 5 is_stmt 1 view .LVU27
+ 102:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* anding with 0x00ff00ff to get two 8 bit values */
+ 103:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out2 = out2 & 0x00FF00FF;
+  98              		.loc 1 103 5 view .LVU28
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* oring two values(contains two 8 bit values) to get four packed 8 bit values */
+ 106:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     out1 = out1 | out2;
+  99              		.loc 1 106 5 view .LVU29
+ 100              		.loc 1 106 10 is_stmt 0 view .LVU30
+ 101 001a 00F0FF20 		and	r0, r0, #-16711936
+ 102              	.LVL9:
+ 103              		.loc 1 106 10 view .LVU31
+ 104 001e 03F0FF13 		and	r3, r3, #16711935
+ 105              	.LVL10:
+ 106              		.loc 1 106 10 view .LVU32
+ 107 0022 0343     		orrs	r3, r3, r0
+ 108              	.LVL11:
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 108:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* store 4 samples at a time to destiantion buffer */
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     *__SIMD32(pDst)++ = out1;
+ 109              		.loc 1 109 5 is_stmt 1 view .LVU33
+ 110              		.loc 1 109 23 is_stmt 0 view .LVU34
+ 111 0024 41F8043B 		str	r3, [r1], #4
+ 112              	.LVL12:
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 111:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* Decrement the loop counter */
+ 112:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     blkCnt--;
+ 113              		.loc 1 112 5 is_stmt 1 view .LVU35
+ 114              		.loc 1 112 11 is_stmt 0 view .LVU36
+ 115 0028 013C     		subs	r4, r4, #1
+ 116              	.LVL13:
+  83:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s 			page 5
+
+
+ 117              		.loc 1 83 25 view .LVU37
+ 118 002a 6046     		mov	r0, ip
+ 119              	.LVL14:
+ 120              	.L2:
+  78:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   {
+ 121              		.loc 1 78 17 is_stmt 1 view .LVU38
+ 122 002c 002C     		cmp	r4, #0
+ 123 002e EAD1     		bne	.L3
+ 113:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   }
+ 114:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 115:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 116:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****    ** No loop unrolling is used. */
+ 117:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   blkCnt = blockSize % 0x4U;
+ 124              		.loc 1 117 3 view .LVU39
+ 125              		.loc 1 117 10 is_stmt 0 view .LVU40
+ 126 0030 02F00302 		and	r2, r2, #3
+ 127              	.LVL15:
+ 118:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 119:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** #else
+ 120:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 121:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   /* Run the below code for Cortex-M0 */
+ 122:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 123:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   /* Loop over blockSize number of values */
+ 124:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   blkCnt = blockSize;
+ 125:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 126:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 127:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 128:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   while (blkCnt > 0U)
+ 128              		.loc 1 128 3 is_stmt 1 view .LVU41
+ 129              		.loc 1 128 9 is_stmt 0 view .LVU42
+ 130 0034 05E0     		b	.L4
+ 131              	.L5:
+ 129:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   {
+ 130:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* C = (q7_t) A >> 8 */
+ 131:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* convert from q15 to q7 and then store the results in the destination buffer */
+ 132:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     *pDst++ = (q7_t) (*pIn++ >> 8);
+ 132              		.loc 1 132 5 is_stmt 1 view .LVU43
+ 133              	.LVL16:
+ 134              		.loc 1 132 23 is_stmt 0 view .LVU44
+ 135 0036 30F9023B 		ldrsh	r3, [r0], #2
+ 136              	.LVL17:
+ 137              		.loc 1 132 15 view .LVU45
+ 138 003a 1B12     		asrs	r3, r3, #8
+ 139              		.loc 1 132 13 view .LVU46
+ 140 003c 01F8013B 		strb	r3, [r1], #1
+ 141              	.LVL18:
+ 133:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 134:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     /* Decrement the loop counter */
+ 135:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****     blkCnt--;
+ 142              		.loc 1 135 5 is_stmt 1 view .LVU47
+ 143              		.loc 1 135 11 is_stmt 0 view .LVU48
+ 144 0040 013A     		subs	r2, r2, #1
+ 145              	.LVL19:
+ 146              	.L4:
+ 128:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   {
+ 147              		.loc 1 128 17 is_stmt 1 view .LVU49
+ 148 0042 002A     		cmp	r2, #0
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s 			page 6
+
+
+ 149 0044 F7D1     		bne	.L5
+ 136:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c ****   }
+ 137:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** 
+ 138:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_q15_to_q7.c **** }
+ 150              		.loc 1 138 1 is_stmt 0 view .LVU50
+ 151 0046 30BC     		pop	{r4, r5}
+ 152              	.LCFI1:
+ 153              		.cfi_restore 5
+ 154              		.cfi_restore 4
+ 155              		.cfi_def_cfa_offset 0
+ 156 0048 7047     		bx	lr
+ 157              		.cfi_endproc
+ 158              	.LFE139:
+ 160              		.text
+ 161              	.Letext0:
+ 162              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 163              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 164              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_q15_to_q7.c
+C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s:21     .text.arm_q15_to_q7:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccSQwJTr.s:27     .text.arm_q15_to_q7:00000000 arm_q15_to_q7
+
+NO UNDEFINED SYMBOLS

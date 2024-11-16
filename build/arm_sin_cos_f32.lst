@@ -1,0 +1,459 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_sin_cos_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c"
+  20              		.section	.text.arm_sin_cos_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_sin_cos_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_sin_cos_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Title:        arm_sin_cos_f32.c
+   4:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Description:  Sine and Cosine calculation for floating-point values
+   5:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** #include "arm_common_tables.h"
+  31:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  32:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** /**
+  33:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @ingroup groupController
+  34:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  */
+  35:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  36:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** /**
+  37:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @defgroup SinCos Sine Cosine
+  38:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  39:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * Computes the trigonometric sine and cosine values using a combination of table lookup
+  40:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * and linear interpolation.
+  41:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * There are separate functions for Q31 and floating-point data types.
+  42:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * The input to the floating-point version is in degrees while the
+  43:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * fixed-point Q31 have a scaled input with the range
+  44:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * [-1 0.9999] mapping to [-180 +180] degrees.
+  45:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  46:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * The floating point function also allows values that are out of the usual range. When this happen
+  47:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * take extra time to adjust the input value to the range of [-180 180].
+  48:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  49:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * The result is accurate to 5 digits after the decimal point.
+  50:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *
+  51:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * The implementation is based on table lookup using 360 values together with linear interpolation.
+  52:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * The steps used are:
+  53:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *  -# Calculation of the nearest integer table index.
+  54:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *  -# Compute the fractional portion (fract) of the input.
+  55:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *  -# Fetch the value corresponding to \c index from sine table to \c y0 and also value from \c in
+  56:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *  -# Sine value is computed as <code> *psinVal = y0 + (fract * (y1 - y0))</code>.
+  57:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *  -# Fetch the value corresponding to \c index from cosine table to \c y0 and also value from \c 
+  58:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  *  -# Cosine value is computed as <code> *pcosVal = y0 + (fract * (y1 - y0))</code>.
+  59:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  */
+  60:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  61:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  /**
+  62:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @addtogroup SinCos
+  63:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @{
+  64:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  */
+  65:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  66:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** /**
+  67:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @brief  Floating-point sin_cos function.
+  68:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @param[in]  theta    input value in degrees
+  69:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @param[out] *pSinVal points to the processed sine output.
+  70:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @param[out] *pCosVal points to the processed cos output.
+  71:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  * @return none.
+  72:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****  */
+  73:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  74:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** void arm_sin_cos_f32(
+  75:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****                       float32_t theta,
+  76:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****                       float32_t * pSinVal,
+  77:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****                       float32_t * pCosVal)
+  78:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** {
+  30              		.loc 1 78 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 78 1 is_stmt 0 view .LVU1
+  36 0000 10B4     		push	{r4}
+  37              	.LCFI0:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 3
+
+
+  38              		.cfi_def_cfa_offset 4
+  39              		.cfi_offset 4, -4
+  79:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     float32_t fract, in;                             /* Temporary variables for input, output */
+  40              		.loc 1 79 5 is_stmt 1 view .LVU2
+  80:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     uint16_t indexS, indexC;                         /* Index variable */
+  41              		.loc 1 80 5 view .LVU3
+  81:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     float32_t f1, f2, d1, d2;                        /* Two nearest output values */
+  42              		.loc 1 81 5 view .LVU4
+  82:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     float32_t findex, Dn, Df, temp;
+  43              		.loc 1 82 5 view .LVU5
+  83:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  84:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* input x is in degrees */
+  85:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* Scale the input, divide input by 360, for cosine add 0.25 (pi/2) to read sine table */
+  86:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     in = theta * 0.00277777777778f;
+  44              		.loc 1 86 5 view .LVU6
+  45              		.loc 1 86 8 is_stmt 0 view .LVU7
+  46 0002 DFED4A7A 		vldr.32	s15, .L11
+  47 0006 60EE277A 		vmul.f32	s15, s0, s15
+  48              	.LVL1:
+  87:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  88:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     if (in < 0.0f)
+  49              		.loc 1 88 5 is_stmt 1 view .LVU8
+  50              		.loc 1 88 8 is_stmt 0 view .LVU9
+  51 000a F5EEC07A 		vcmpe.f32	s15, #0
+  52 000e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  53 0012 00F18380 		bmi	.L9
+  54              	.L2:
+  89:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     {
+  90:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****         in = -in;
+  91:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+  92:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  93:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     in = in - (int32_t)in;
+  55              		.loc 1 93 5 is_stmt 1 view .LVU10
+  56              		.loc 1 93 15 is_stmt 0 view .LVU11
+  57 0016 BDEEE77A 		vcvt.s32.f32	s14, s15
+  58              		.loc 1 93 13 view .LVU12
+  59 001a B8EEC77A 		vcvt.f32.s32	s14, s14
+  60              		.loc 1 93 8 view .LVU13
+  61 001e 77EEC77A 		vsub.f32	s15, s15, s14
+  62              	.LVL2:
+  94:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+  95:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* Calculation of index of the table */
+  96:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     findex = (float32_t) FAST_MATH_TABLE_SIZE * in;
+  63              		.loc 1 96 5 is_stmt 1 view .LVU14
+  64              		.loc 1 96 12 is_stmt 0 view .LVU15
+  65 0022 9FED437A 		vldr.32	s14, .L11+4
+  66 0026 67EE877A 		vmul.f32	s15, s15, s14
+  67              	.LVL3:
+  97:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     indexS = ((uint16_t)findex) & 0x1ff;
+  68              		.loc 1 97 5 is_stmt 1 view .LVU16
+  69              		.loc 1 97 15 is_stmt 0 view .LVU17
+  70 002a BCEEE77A 		vcvt.u32.f32	s14, s15
+  71 002e 17EE103A 		vmov	r3, s14	@ int
+  72              		.loc 1 97 12 view .LVU18
+  73 0032 C3F30803 		ubfx	r3, r3, #0, #9
+  74              	.LVL4:
+  98:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     indexC = (indexS + (FAST_MATH_TABLE_SIZE / 4)) & 0x1ff;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 4
+
+
+  75              		.loc 1 98 5 is_stmt 1 view .LVU19
+  76              		.loc 1 98 22 is_stmt 0 view .LVU20
+  77 0036 03F18002 		add	r2, r3, #128
+  78              		.loc 1 98 12 view .LVU21
+  79 003a C2F30802 		ubfx	r2, r2, #0, #9
+  80              	.LVL5:
+  99:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 100:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* fractional value calculation */
+ 101:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     fract = findex - (float32_t) indexS;
+  81              		.loc 1 101 5 is_stmt 1 view .LVU22
+  82              		.loc 1 101 22 is_stmt 0 view .LVU23
+  83 003e 07EE103A 		vmov	s14, r3	@ int
+  84 0042 B8EE477A 		vcvt.f32.u32	s14, s14
+  85              		.loc 1 101 11 view .LVU24
+  86 0046 77EEC77A 		vsub.f32	s15, s15, s14
+  87              	.LVL6:
+ 102:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 103:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* Read two nearest values of input value from the cos & sin tables */
+ 104:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     f1 = sinTable_f32[indexC+0];
+  88              		.loc 1 104 5 is_stmt 1 view .LVU25
+  89              		.loc 1 104 8 is_stmt 0 view .LVU26
+  90 004a 3A4C     		ldr	r4, .L11+8
+  91 004c 04EB820C 		add	ip, r4, r2, lsl #2
+  92 0050 9CED006A 		vldr.32	s12, [ip]
+  93              	.LVL7:
+ 105:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     f2 = sinTable_f32[indexC+1];
+  94              		.loc 1 105 5 is_stmt 1 view .LVU27
+  95              		.loc 1 105 29 is_stmt 0 view .LVU28
+  96 0054 0132     		adds	r2, r2, #1
+  97              	.LVL8:
+  98              		.loc 1 105 8 view .LVU29
+  99 0056 04EB8202 		add	r2, r4, r2, lsl #2
+ 100              	.LVL9:
+ 101              		.loc 1 105 8 view .LVU30
+ 102 005a 92ED003A 		vldr.32	s6, [r2]
+ 103              	.LVL10:
+ 106:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     d1 = -sinTable_f32[indexS+0];
+ 104              		.loc 1 106 5 is_stmt 1 view .LVU31
+ 105              		.loc 1 106 23 is_stmt 0 view .LVU32
+ 106 005e 04EB8302 		add	r2, r4, r3, lsl #2
+ 107 0062 92ED005A 		vldr.32	s10, [r2]
+ 108              		.loc 1 106 8 view .LVU33
+ 109 0066 B1EE454A 		vneg.f32	s8, s10
+ 110              	.LVL11:
+ 107:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     d2 = -sinTable_f32[indexS+1];
+ 111              		.loc 1 107 5 is_stmt 1 view .LVU34
+ 112              		.loc 1 107 30 is_stmt 0 view .LVU35
+ 113 006a 0133     		adds	r3, r3, #1
+ 114              	.LVL12:
+ 115              		.loc 1 107 23 view .LVU36
+ 116 006c 04EB8304 		add	r4, r4, r3, lsl #2
+ 117 0070 D4ED006A 		vldr.32	s13, [r4]
+ 118              	.LVL13:
+ 108:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 109:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = (1.0f - fract) * f1 + fract * f2;
+ 119              		.loc 1 109 5 is_stmt 1 view .LVU37
+ 110:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 5
+
+
+ 111:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     Dn = 0.0122718463030f; // delta between the two points (fixed), in this case 2*pi/FAST_MATH_TAB
+ 120              		.loc 1 111 5 view .LVU38
+ 112:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     Df = f2 - f1;          // delta between the values of the functions
+ 121              		.loc 1 112 5 view .LVU39
+ 122              		.loc 1 112 8 is_stmt 0 view .LVU40
+ 123 0074 73EE465A 		vsub.f32	s11, s6, s12
+ 124              	.LVL14:
+ 113:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 114:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = Dn *(d1 + d2) - 2 * Df;
+ 125              		.loc 1 114 5 is_stmt 1 view .LVU41
+ 126              		.loc 1 114 15 is_stmt 0 view .LVU42
+ 127 0078 34EE667A 		vsub.f32	s14, s8, s13
+ 128 007c DFED2E4A 		vldr.32	s9, .L11+12
+ 129 0080 27EE247A 		vmul.f32	s14, s14, s9
+ 130              		.loc 1 114 30 view .LVU43
+ 131 0084 75EEA53A 		vadd.f32	s7, s11, s11
+ 132              		.loc 1 114 10 view .LVU44
+ 133 0088 37EE637A 		vsub.f32	s14, s14, s7
+ 134              	.LVL15:
+ 115:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = fract * temp + (3 * Df - (d2 + 2 * d1) * Dn);
+ 135              		.loc 1 115 5 is_stmt 1 view .LVU45
+ 136              		.loc 1 115 18 is_stmt 0 view .LVU46
+ 137 008c 27EE877A 		vmul.f32	s14, s15, s14
+ 138              	.LVL16:
+ 139              		.loc 1 115 30 view .LVU47
+ 140 0090 F0EE082A 		vmov.f32	s5, #3.0e+0
+ 141 0094 65EEA25A 		vmul.f32	s11, s11, s5
+ 142              	.LVL17:
+ 143              		.loc 1 115 45 view .LVU48
+ 144 0098 74EE043A 		vadd.f32	s7, s8, s8
+ 145              	.LVL18:
+ 146              		.loc 1 115 51 view .LVU49
+ 147 009c 73EEE63A 		vsub.f32	s7, s7, s13
+ 148 00a0 63EEA43A 		vmul.f32	s7, s7, s9
+ 149              		.loc 1 115 35 view .LVU50
+ 150 00a4 75EEE35A 		vsub.f32	s11, s11, s7
+ 151              		.loc 1 115 10 view .LVU51
+ 152 00a8 37EE257A 		vadd.f32	s14, s14, s11
+ 153              	.LVL19:
+ 116:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = fract * temp + d1 * Dn;
+ 154              		.loc 1 116 5 is_stmt 1 view .LVU52
+ 155              		.loc 1 116 18 is_stmt 0 view .LVU53
+ 156 00ac 27EE877A 		vmul.f32	s14, s15, s14
+ 157              	.LVL20:
+ 158              		.loc 1 116 30 view .LVU54
+ 159 00b0 24EE244A 		vmul.f32	s8, s8, s9
+ 160              	.LVL21:
+ 161              		.loc 1 116 10 view .LVU55
+ 162 00b4 37EE047A 		vadd.f32	s14, s14, s8
+ 163              	.LVL22:
+ 117:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 118:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* Calculation of cosine value */
+ 119:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     *pCosVal = fract * temp + f1;
+ 164              		.loc 1 119 5 is_stmt 1 view .LVU56
+ 165              		.loc 1 119 22 is_stmt 0 view .LVU57
+ 166 00b8 27EE877A 		vmul.f32	s14, s15, s14
+ 167              	.LVL23:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 6
+
+
+ 168              		.loc 1 119 29 view .LVU58
+ 169 00bc 37EE067A 		vadd.f32	s14, s14, s12
+ 170              		.loc 1 119 14 view .LVU59
+ 171 00c0 81ED007A 		vstr.32	s14, [r1]
+ 120:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 121:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* Read two nearest values of input value from the cos & sin tables */
+ 122:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     f1 = sinTable_f32[indexS+0];
+ 172              		.loc 1 122 5 is_stmt 1 view .LVU60
+ 173              	.LVL24:
+ 123:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     f2 = sinTable_f32[indexS+1];
+ 174              		.loc 1 123 5 view .LVU61
+ 124:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     d1 = sinTable_f32[indexC+0];
+ 175              		.loc 1 124 5 view .LVU62
+ 125:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     d2 = sinTable_f32[indexC+1];
+ 176              		.loc 1 125 5 view .LVU63
+ 126:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 127:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = (1.0f - fract) * f1 + fract * f2;
+ 177              		.loc 1 127 5 view .LVU64
+ 128:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 129:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     Df = f2 - f1; // delta between the values of the functions
+ 178              		.loc 1 129 5 view .LVU65
+ 179              		.loc 1 129 8 is_stmt 0 view .LVU66
+ 180 00c4 76EEC56A 		vsub.f32	s13, s13, s10
+ 181              	.LVL25:
+ 130:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = Dn*(d1 + d2) - 2*Df;
+ 182              		.loc 1 130 5 is_stmt 1 view .LVU67
+ 183              		.loc 1 130 19 is_stmt 0 view .LVU68
+ 184 00c8 36EE037A 		vadd.f32	s14, s12, s6
+ 185              		.loc 1 130 14 view .LVU69
+ 186 00cc 27EE247A 		vmul.f32	s14, s14, s9
+ 187              		.loc 1 130 28 view .LVU70
+ 188 00d0 76EEA65A 		vadd.f32	s11, s13, s13
+ 189              		.loc 1 130 10 view .LVU71
+ 190 00d4 37EE657A 		vsub.f32	s14, s14, s11
+ 191              	.LVL26:
+ 131:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = fract*temp + (3*Df - (d2 + 2*d1)*Dn);
+ 192              		.loc 1 131 5 is_stmt 1 view .LVU72
+ 193              		.loc 1 131 17 is_stmt 0 view .LVU73
+ 194 00d8 27EE877A 		vmul.f32	s14, s15, s14
+ 195              	.LVL27:
+ 196              		.loc 1 131 27 view .LVU74
+ 197 00dc 66EEA26A 		vmul.f32	s13, s13, s5
+ 198              	.LVL28:
+ 199              		.loc 1 131 40 view .LVU75
+ 200 00e0 76EE065A 		vadd.f32	s11, s12, s12
+ 201              	.LVL29:
+ 202              		.loc 1 131 37 view .LVU76
+ 203 00e4 75EE835A 		vadd.f32	s11, s11, s6
+ 204              		.loc 1 131 44 view .LVU77
+ 205 00e8 65EEA45A 		vmul.f32	s11, s11, s9
+ 206              		.loc 1 131 31 view .LVU78
+ 207 00ec 76EEE56A 		vsub.f32	s13, s13, s11
+ 208              		.loc 1 131 10 view .LVU79
+ 209 00f0 37EE267A 		vadd.f32	s14, s14, s13
+ 210              	.LVL30:
+ 132:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     temp = fract*temp + d1*Dn;
+ 211              		.loc 1 132 5 is_stmt 1 view .LVU80
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 7
+
+
+ 212              		.loc 1 132 17 is_stmt 0 view .LVU81
+ 213 00f4 27EE877A 		vmul.f32	s14, s15, s14
+ 214              	.LVL31:
+ 215              		.loc 1 132 27 view .LVU82
+ 216 00f8 26EE246A 		vmul.f32	s12, s12, s9
+ 217              	.LVL32:
+ 218              		.loc 1 132 10 view .LVU83
+ 219 00fc 37EE067A 		vadd.f32	s14, s14, s12
+ 220              	.LVL33:
+ 133:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 134:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     /* Calculation of sine value */
+ 135:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     *pSinVal = fract*temp + f1;
+ 221              		.loc 1 135 5 is_stmt 1 view .LVU84
+ 222              		.loc 1 135 21 is_stmt 0 view .LVU85
+ 223 0100 67EE877A 		vmul.f32	s15, s15, s14
+ 224              	.LVL34:
+ 225              		.loc 1 135 27 view .LVU86
+ 226 0104 35EE275A 		vadd.f32	s10, s10, s15
+ 227              	.LVL35:
+ 228              		.loc 1 135 14 view .LVU87
+ 229 0108 80ED005A 		vstr.32	s10, [r0]
+ 136:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** 
+ 137:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     if (theta < 0.0f)
+ 230              		.loc 1 137 5 is_stmt 1 view .LVU88
+ 231              		.loc 1 137 8 is_stmt 0 view .LVU89
+ 232 010c B5EEC00A 		vcmpe.f32	s0, #0
+ 233 0110 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 234 0114 05D4     		bmi	.L10
+ 235              	.L1:
+ 138:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     {
+ 139:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****         *pSinVal = -*pSinVal;
+ 140:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+ 141:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c **** }
+ 236              		.loc 1 141 1 view .LVU90
+ 237 0116 5DF8044B 		ldr	r4, [sp], #4
+ 238              	.LCFI1:
+ 239              		.cfi_remember_state
+ 240              		.cfi_restore 4
+ 241              		.cfi_def_cfa_offset 0
+ 242              	.LVL36:
+ 243              		.loc 1 141 1 view .LVU91
+ 244 011a 7047     		bx	lr
+ 245              	.LVL37:
+ 246              	.L9:
+ 247              	.LCFI2:
+ 248              		.cfi_restore_state
+  90:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+ 249              		.loc 1 90 9 is_stmt 1 view .LVU92
+  90:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+ 250              		.loc 1 90 12 is_stmt 0 view .LVU93
+ 251 011c F1EE677A 		vneg.f32	s15, s15
+ 252              	.LVL38:
+  90:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+ 253              		.loc 1 90 12 view .LVU94
+ 254 0120 79E7     		b	.L2
+ 255              	.LVL39:
+ 256              	.L10:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 8
+
+
+ 139:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+ 257              		.loc 1 139 9 is_stmt 1 view .LVU95
+ 139:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+ 258              		.loc 1 139 20 is_stmt 0 view .LVU96
+ 259 0122 B1EE455A 		vneg.f32	s10, s10
+ 139:Drivers/CMSIS/DSP/Source/ControllerFunctions/arm_sin_cos_f32.c ****     }
+ 260              		.loc 1 139 18 view .LVU97
+ 261 0126 80ED005A 		vstr.32	s10, [r0]
+ 262              		.loc 1 141 1 view .LVU98
+ 263 012a F4E7     		b	.L1
+ 264              	.L12:
+ 265              		.align	2
+ 266              	.L11:
+ 267 012c 610B363B 		.word	993397601
+ 268 0130 00000044 		.word	1140850688
+ 269 0134 00000000 		.word	sinTable_f32
+ 270 0138 DB0F493C 		.word	1011421147
+ 271              		.cfi_endproc
+ 272              	.LFE139:
+ 274              		.text
+ 275              	.Letext0:
+ 276              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 277              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 278              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 279              		.file 5 "Drivers/CMSIS/DSP/Include/arm_common_tables.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_sin_cos_f32.c
+C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s:21     .text.arm_sin_cos_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s:27     .text.arm_sin_cos_f32:00000000 arm_sin_cos_f32
+C:\Users\Lamp\AppData\Local\Temp\ccVm9FRJ.s:267    .text.arm_sin_cos_f32:0000012c $d
+
+UNDEFINED SYMBOLS
+sinTable_f32

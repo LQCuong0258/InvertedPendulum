@@ -1,0 +1,517 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_var_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c"
+  20              		.section	.text.arm_var_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_var_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_var_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Title:        arm_var_f32.c
+   4:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Description:  Variance of the elements of a floating-point vector
+   5:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @ingroup groupStats
+  33:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @defgroup variance  Variance
+  37:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * Calculates the variance of the elements in the input vector.
+  39:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * The underlying algorithm used is the direct method sometimes referred to as the two-pass method:
+  40:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  41:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * <pre>
+  42:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *   Result = sum(element - meanOfElements)^2) / numElement - 1
+  43:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  44:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *     where, meanOfElements = ( pSrc[0] * pSrc[0] + pSrc[1] * pSrc[1] + ... + pSrc[blockSize-1] ) 
+  45:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  46:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * </pre>
+  47:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  *
+  48:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * There are separate functions for floating point, Q31, and Q15 data types.
+  49:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  */
+  50:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  51:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** /**
+  52:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @addtogroup variance
+  53:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @{
+  54:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  */
+  55:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  56:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  57:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** /**
+  58:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @brief Variance of the elements of a floating-point vector.
+  59:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @param[in]       *pSrc points to the input vector
+  60:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @param[in]       blockSize length of the input vector
+  61:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @param[out]      *pResult variance value returned here
+  62:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  * @return none.
+  63:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****  */
+  64:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  65:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** void arm_var_f32(
+  66:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****                  float32_t * pSrc,
+  67:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****                  uint32_t blockSize,
+  68:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****                  float32_t * pResult)
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** {
+  30              		.loc 1 69 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  70:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t fMean, fValue;
+  35              		.loc 1 70 5 view .LVU1
+  71:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     uint32_t blkCnt;            /* loop counter */
+  36              		.loc 1 71 5 view .LVU2
+  72:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t * pInput = pSrc;
+  37              		.loc 1 72 5 view .LVU3
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t sum = 0.0f;
+  38              		.loc 1 73 5 view .LVU4
+  74:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t fSum = 0.0f;
+  39              		.loc 1 74 5 view .LVU5
+  75:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #if defined(ARM_MATH_DSP)
+  76:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t in1, in2, in3, in4;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 3
+
+
+  40              		.loc 1 76 5 view .LVU6
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #endif
+  78:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  79:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     if (blockSize <= 1U)
+  41              		.loc 1 79 5 view .LVU7
+  42              		.loc 1 79 8 is_stmt 0 view .LVU8
+  43 0000 0129     		cmp	r1, #1
+  44 0002 06D9     		bls	.L15
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t fMean, fValue;
+  45              		.loc 1 69 1 view .LVU9
+  46 0004 70B4     		push	{r4, r5, r6}
+  47              	.LCFI0:
+  48              		.cfi_def_cfa_offset 12
+  49              		.cfi_offset 4, -12
+  50              		.cfi_offset 5, -8
+  51              		.cfi_offset 6, -4
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     {
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         *pResult = 0;
+  82:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         return;
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     }
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  85:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #if defined(ARM_MATH_DSP)
+  86:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* Run the below code for Cortex-M4 and Cortex-M7 */
+  87:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  88:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /*loop Unrolling */
+  89:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt = blockSize >> 2U;
+  52              		.loc 1 89 9 is_stmt 1 view .LVU10
+  53              		.loc 1 89 16 is_stmt 0 view .LVU11
+  54 0006 8D08     		lsrs	r5, r1, #2
+  55              	.LVL1:
+  90:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  92:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         ** a second loop below computes the remaining 1 to 3 samples. */
+  93:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         while (blkCnt > 0U)
+  56              		.loc 1 93 9 is_stmt 1 view .LVU12
+  72:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t sum = 0.0f;
+  57              		.loc 1 72 17 is_stmt 0 view .LVU13
+  58 0008 0346     		mov	r3, r0
+  89:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+  59              		.loc 1 89 16 view .LVU14
+  60 000a 2C46     		mov	r4, r5
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     float32_t fSum = 0.0f;
+  61              		.loc 1 73 15 view .LVU15
+  62 000c DFED337A 		vldr.32	s15, .L16
+  63              		.loc 1 93 15 view .LVU16
+  64 0010 14E0     		b	.L4
+  65              	.LVL2:
+  66              	.L15:
+  67              	.LCFI1:
+  68              		.cfi_def_cfa_offset 0
+  69              		.cfi_restore 4
+  70              		.cfi_restore 5
+  71              		.cfi_restore 6
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         return;
+  72              		.loc 1 81 9 is_stmt 1 view .LVU17
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         return;
+  73              		.loc 1 81 18 is_stmt 0 view .LVU18
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 4
+
+
+  74 0012 0023     		movs	r3, #0
+  75 0014 1360     		str	r3, [r2]	@ float
+  82:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     }
+  76              		.loc 1 82 9 is_stmt 1 view .LVU19
+  77 0016 7047     		bx	lr
+  78              	.LVL3:
+  79              	.L5:
+  80              	.LCFI2:
+  81              		.cfi_def_cfa_offset 12
+  82              		.cfi_offset 4, -12
+  83              		.cfi_offset 5, -8
+  84              		.cfi_offset 6, -4
+  94:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         {
+  95:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             /* C = (A[0] + A[1] + A[2] + ... + A[blockSize-1]) */
+  96:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             in1 = *pInput++;
+  85              		.loc 1 96 13 view .LVU20
+  86              		.loc 1 96 17 is_stmt 0 view .LVU21
+  87 0018 D3ED005A 		vldr.32	s11, [r3]
+  88              	.LVL4:
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             in2 = *pInput++;
+  89              		.loc 1 97 13 is_stmt 1 view .LVU22
+  90              		.loc 1 97 17 is_stmt 0 view .LVU23
+  91 001c D3ED016A 		vldr.32	s13, [r3, #4]
+  92              	.LVL5:
+  98:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             in3 = *pInput++;
+  93              		.loc 1 98 13 is_stmt 1 view .LVU24
+  94              		.loc 1 98 17 is_stmt 0 view .LVU25
+  95 0020 93ED027A 		vldr.32	s14, [r3, #8]
+  96              	.LVL6:
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             in4 = *pInput++;
+  97              		.loc 1 99 13 is_stmt 1 view .LVU26
+  98              		.loc 1 99 17 is_stmt 0 view .LVU27
+  99 0024 93ED036A 		vldr.32	s12, [r3, #12]
+ 100              	.LVL7:
+ 100:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 101:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             sum += in1;
+ 101              		.loc 1 101 13 is_stmt 1 view .LVU28
+ 102              		.loc 1 101 17 is_stmt 0 view .LVU29
+ 103 0028 77EEA57A 		vadd.f32	s15, s15, s11
+ 104              	.LVL8:
+ 102:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             sum += in2;
+ 105              		.loc 1 102 13 is_stmt 1 view .LVU30
+ 106              		.loc 1 102 17 is_stmt 0 view .LVU31
+ 107 002c 76EEA77A 		vadd.f32	s15, s13, s15
+ 108              	.LVL9:
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             sum += in3;
+ 109              		.loc 1 103 13 is_stmt 1 view .LVU32
+ 110              		.loc 1 103 17 is_stmt 0 view .LVU33
+ 111 0030 77EE277A 		vadd.f32	s15, s14, s15
+ 112              	.LVL10:
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             sum += in4;
+ 113              		.loc 1 104 13 is_stmt 1 view .LVU34
+ 114              		.loc 1 104 17 is_stmt 0 view .LVU35
+ 115 0034 76EE277A 		vadd.f32	s15, s12, s15
+ 116              	.LVL11:
+ 105:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 106:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             /* Decrement the loop counter */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 5
+
+
+ 107:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             blkCnt--;
+ 117              		.loc 1 107 13 is_stmt 1 view .LVU36
+ 118              		.loc 1 107 19 is_stmt 0 view .LVU37
+ 119 0038 013C     		subs	r4, r4, #1
+ 120              	.LVL12:
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 121              		.loc 1 99 26 view .LVU38
+ 122 003a 1033     		adds	r3, r3, #16
+ 123              	.LVL13:
+ 124              	.L4:
+  93:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         {
+ 125              		.loc 1 93 23 is_stmt 1 view .LVU39
+ 126 003c 002C     		cmp	r4, #0
+ 127 003e EBD1     		bne	.L5
+ 108:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         }
+ 109:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 110:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         ** No loop unrolling is used. */
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt = blockSize % 0x4U;
+ 128              		.loc 1 112 9 view .LVU40
+ 129              		.loc 1 112 16 is_stmt 0 view .LVU41
+ 130 0040 01F00304 		and	r4, r1, #3
+ 131              	.LVL14:
+ 113:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 114:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #else
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* Run the below code for Cortex-M0 or Cortex-M3 */
+ 116:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 117:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* Loop over blockSize number of values */
+ 118:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt = blockSize;
+ 119:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 120:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #endif
+ 121:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 122:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     while (blkCnt > 0U)
+ 132              		.loc 1 122 5 is_stmt 1 view .LVU42
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 133              		.loc 1 112 16 is_stmt 0 view .LVU43
+ 134 0044 2646     		mov	r6, r4
+ 135              		.loc 1 122 11 view .LVU44
+ 136 0046 04E0     		b	.L6
+ 137              	.LVL15:
+ 138              	.L7:
+ 123:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     {
+ 124:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* C = (A[0] + A[1] + A[2] + ... + A[blockSize-1]) */
+ 125:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         sum += *pInput++;
+ 139              		.loc 1 125 9 is_stmt 1 view .LVU45
+ 140              		.loc 1 125 16 is_stmt 0 view .LVU46
+ 141 0048 B3EC017A 		vldmia.32	r3!, {s14}
+ 142              	.LVL16:
+ 143              		.loc 1 125 13 view .LVU47
+ 144 004c 77EE877A 		vadd.f32	s15, s15, s14
+ 145              	.LVL17:
+ 126:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 127:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* Decrement the loop counter */
+ 128:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt--;
+ 146              		.loc 1 128 9 is_stmt 1 view .LVU48
+ 147              		.loc 1 128 15 is_stmt 0 view .LVU49
+ 148 0050 013E     		subs	r6, r6, #1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 6
+
+
+ 149              	.LVL18:
+ 150              	.L6:
+ 122:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     {
+ 151              		.loc 1 122 19 is_stmt 1 view .LVU50
+ 152 0052 002E     		cmp	r6, #0
+ 153 0054 F8D1     		bne	.L7
+ 129:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     }
+ 130:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 131:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     /* C = (A[0] + A[1] + A[2] + ... + A[blockSize-1]) / blockSize  */
+ 132:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     fMean = sum / (float32_t) blockSize;
+ 154              		.loc 1 132 5 view .LVU51
+ 155              		.loc 1 132 19 is_stmt 0 view .LVU52
+ 156 0056 07EE101A 		vmov	s14, r1	@ int
+ 157 005a B8EE476A 		vcvt.f32.u32	s12, s14
+ 158              		.loc 1 132 11 view .LVU53
+ 159 005e C7EE866A 		vdiv.f32	s13, s15, s12
+ 160              	.LVL19:
+ 133:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 134:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     pInput = pSrc;
+ 161              		.loc 1 134 5 is_stmt 1 view .LVU54
+ 135:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 136:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #if defined(ARM_MATH_DSP)
+ 137:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 138:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /*loop Unrolling */
+ 139:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt = blockSize >> 2U;
+ 162              		.loc 1 139 9 view .LVU55
+ 140:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 141:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+ 142:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         ** a second loop below computes the remaining 1 to 3 samples. */
+ 143:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         while (blkCnt > 0U)
+ 163              		.loc 1 143 9 view .LVU56
+  74:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #if defined(ARM_MATH_DSP)
+ 164              		.loc 1 74 15 is_stmt 0 view .LVU57
+ 165 0062 DFED1E7A 		vldr.32	s15, .L16
+ 166              	.LVL20:
+ 167              		.loc 1 143 15 view .LVU58
+ 168 0066 21E0     		b	.L8
+ 169              	.LVL21:
+ 170              	.L9:
+ 144:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         {
+ 145:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fValue = *pInput++ - fMean;
+ 171              		.loc 1 145 13 is_stmt 1 view .LVU59
+ 172              		.loc 1 145 22 is_stmt 0 view .LVU60
+ 173 0068 90ED007A 		vldr.32	s14, [r0]
+ 174              		.loc 1 145 20 view .LVU61
+ 175 006c 37EE667A 		vsub.f32	s14, s14, s13
+ 176              	.LVL22:
+ 146:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fSum += fValue * fValue;
+ 177              		.loc 1 146 13 is_stmt 1 view .LVU62
+ 178              		.loc 1 146 28 is_stmt 0 view .LVU63
+ 179 0070 27EE077A 		vmul.f32	s14, s14, s14
+ 180              	.LVL23:
+ 181              		.loc 1 146 18 view .LVU64
+ 182 0074 37EE277A 		vadd.f32	s14, s14, s15
+ 183              	.LVL24:
+ 147:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fValue = *pInput++ - fMean;
+ 184              		.loc 1 147 13 is_stmt 1 view .LVU65
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 7
+
+
+ 185              		.loc 1 147 22 is_stmt 0 view .LVU66
+ 186 0078 D0ED017A 		vldr.32	s15, [r0, #4]
+ 187              		.loc 1 147 20 view .LVU67
+ 188 007c 77EEE67A 		vsub.f32	s15, s15, s13
+ 189              	.LVL25:
+ 148:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fSum += fValue * fValue;
+ 190              		.loc 1 148 13 is_stmt 1 view .LVU68
+ 191              		.loc 1 148 28 is_stmt 0 view .LVU69
+ 192 0080 67EEA77A 		vmul.f32	s15, s15, s15
+ 193              	.LVL26:
+ 194              		.loc 1 148 18 view .LVU70
+ 195 0084 37EE877A 		vadd.f32	s14, s15, s14
+ 196              	.LVL27:
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fValue = *pInput++ - fMean;
+ 197              		.loc 1 149 13 is_stmt 1 view .LVU71
+ 198              		.loc 1 149 22 is_stmt 0 view .LVU72
+ 199 0088 D0ED027A 		vldr.32	s15, [r0, #8]
+ 200              		.loc 1 149 20 view .LVU73
+ 201 008c 77EEE67A 		vsub.f32	s15, s15, s13
+ 202              	.LVL28:
+ 150:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fSum += fValue * fValue;
+ 203              		.loc 1 150 13 is_stmt 1 view .LVU74
+ 204              		.loc 1 150 28 is_stmt 0 view .LVU75
+ 205 0090 67EEA77A 		vmul.f32	s15, s15, s15
+ 206              	.LVL29:
+ 207              		.loc 1 150 18 view .LVU76
+ 208 0094 37EE877A 		vadd.f32	s14, s15, s14
+ 209              	.LVL30:
+ 151:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fValue = *pInput++ - fMean;
+ 210              		.loc 1 151 13 is_stmt 1 view .LVU77
+ 211              		.loc 1 151 22 is_stmt 0 view .LVU78
+ 212 0098 D0ED037A 		vldr.32	s15, [r0, #12]
+ 213              		.loc 1 151 20 view .LVU79
+ 214 009c 77EEE67A 		vsub.f32	s15, s15, s13
+ 215              	.LVL31:
+ 152:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fSum += fValue * fValue;
+ 216              		.loc 1 152 13 is_stmt 1 view .LVU80
+ 217              		.loc 1 152 28 is_stmt 0 view .LVU81
+ 218 00a0 67EEA77A 		vmul.f32	s15, s15, s15
+ 219              	.LVL32:
+ 220              		.loc 1 152 18 view .LVU82
+ 221 00a4 77EE877A 		vadd.f32	s15, s15, s14
+ 222              	.LVL33:
+ 153:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 154:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             /* Decrement the loop counter */
+ 155:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             blkCnt--;
+ 223              		.loc 1 155 13 is_stmt 1 view .LVU83
+ 224              		.loc 1 155 19 is_stmt 0 view .LVU84
+ 225 00a8 013D     		subs	r5, r5, #1
+ 226              	.LVL34:
+ 151:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****             fSum += fValue * fValue;
+ 227              		.loc 1 151 29 view .LVU85
+ 228 00aa 1030     		adds	r0, r0, #16
+ 229              	.LVL35:
+ 230              	.L8:
+ 143:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         {
+ 231              		.loc 1 143 23 is_stmt 1 view .LVU86
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 8
+
+
+ 232 00ac 002D     		cmp	r5, #0
+ 233 00ae DBD1     		bne	.L9
+ 143:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         {
+ 234              		.loc 1 143 23 is_stmt 0 view .LVU87
+ 235 00b0 08E0     		b	.L10
+ 236              	.LVL36:
+ 237              	.L11:
+ 156:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         }
+ 157:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 158:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt = blockSize % 0x4U;
+ 159:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #else
+ 160:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* Run the below code for Cortex-M0 or Cortex-M3 */
+ 161:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 162:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* Loop over blockSize number of values */
+ 163:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt = blockSize;
+ 164:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     #endif
+ 165:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 166:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     while (blkCnt > 0U)
+ 167:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     {
+ 168:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         fValue = *pInput++ - fMean;
+ 238              		.loc 1 168 9 is_stmt 1 view .LVU88
+ 239              		.loc 1 168 18 is_stmt 0 view .LVU89
+ 240 00b2 B0EC017A 		vldmia.32	r0!, {s14}
+ 241              	.LVL37:
+ 242              		.loc 1 168 16 view .LVU90
+ 243 00b6 37EE667A 		vsub.f32	s14, s14, s13
+ 244              	.LVL38:
+ 169:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         fSum += fValue * fValue;
+ 245              		.loc 1 169 9 is_stmt 1 view .LVU91
+ 246              		.loc 1 169 24 is_stmt 0 view .LVU92
+ 247 00ba 27EE077A 		vmul.f32	s14, s14, s14
+ 248              	.LVL39:
+ 249              		.loc 1 169 14 view .LVU93
+ 250 00be 77EE877A 		vadd.f32	s15, s15, s14
+ 251              	.LVL40:
+ 170:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 171:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         /* Decrement the loop counter */
+ 172:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****         blkCnt--;
+ 252              		.loc 1 172 9 is_stmt 1 view .LVU94
+ 253              		.loc 1 172 15 is_stmt 0 view .LVU95
+ 254 00c2 013C     		subs	r4, r4, #1
+ 255              	.LVL41:
+ 256              	.L10:
+ 166:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     {
+ 257              		.loc 1 166 19 is_stmt 1 view .LVU96
+ 258 00c4 002C     		cmp	r4, #0
+ 259 00c6 F4D1     		bne	.L11
+ 173:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     }
+ 174:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** 
+ 175:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     /* Variance */
+ 176:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c ****     *pResult = fSum / (float32_t)(blockSize - 1.0f);
+ 260              		.loc 1 176 5 view .LVU97
+ 261              		.loc 1 176 23 is_stmt 0 view .LVU98
+ 262 00c8 B7EE007A 		vmov.f32	s14, #1.0e+0
+ 263 00cc 36EE476A 		vsub.f32	s12, s12, s14
+ 264              		.loc 1 176 21 view .LVU99
+ 265 00d0 87EE867A 		vdiv.f32	s14, s15, s12
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 9
+
+
+ 266              		.loc 1 176 14 view .LVU100
+ 267 00d4 82ED007A 		vstr.32	s14, [r2]
+ 177:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_var_f32.c **** }
+ 268              		.loc 1 177 1 view .LVU101
+ 269 00d8 70BC     		pop	{r4, r5, r6}
+ 270              	.LCFI3:
+ 271              		.cfi_restore 6
+ 272              		.cfi_restore 5
+ 273              		.cfi_restore 4
+ 274              		.cfi_def_cfa_offset 0
+ 275              	.LVL42:
+ 276              		.loc 1 177 1 view .LVU102
+ 277 00da 7047     		bx	lr
+ 278              	.L17:
+ 279              		.align	2
+ 280              	.L16:
+ 281 00dc 00000000 		.word	0
+ 282              		.cfi_endproc
+ 283              	.LFE139:
+ 285              		.text
+ 286              	.Letext0:
+ 287              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 288              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 289              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_var_f32.c
+C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s:21     .text.arm_var_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s:27     .text.arm_var_f32:00000000 arm_var_f32
+C:\Users\Lamp\AppData\Local\Temp\ccEoYZ8T.s:281    .text.arm_var_f32:000000dc $d
+
+NO UNDEFINED SYMBOLS

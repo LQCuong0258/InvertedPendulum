@@ -1,0 +1,245 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctipRUE.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_fill_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c"
+  20              		.section	.text.arm_fill_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_fill_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_fill_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Title:        arm_fill_f32.c
+   4:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Description:  Fills a constant value into a floating-point vector
+   5:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctipRUE.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @ingroup groupSupport
+  33:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @defgroup Fill Vector Fill
+  37:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * Fills the destination vector with a constant value.
+  39:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  40:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * <pre>
+  41:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * 	pDst[n] = value;   0 <= n < blockSize.
+  42:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * </pre>
+  43:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  44:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * There are separate functions for floating point, Q31, Q15, and Q7 data types.
+  45:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  */
+  46:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  47:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** /**
+  48:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @addtogroup Fill
+  49:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @{
+  50:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  */
+  51:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  52:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** /**
+  53:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @brief Fills a constant value into a floating-point vector.
+  54:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @param[in]       value input value to be filled
+  55:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @param[out]      *pDst points to output vector
+  56:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @param[in]       blockSize length of the output vector
+  57:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  * @return none.
+  58:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  *
+  59:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****  */
+  60:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  61:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  62:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** void arm_fill_f32(
+  63:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   float32_t value,
+  64:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   float32_t * pDst,
+  65:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   uint32_t blockSize)
+  66:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** {
+  30              		.loc 1 66 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  67:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   uint32_t blkCnt;                               /* loop counter */
+  35              		.loc 1 67 3 view .LVU1
+  68:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  69:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** #if defined (ARM_MATH_DSP)
+  70:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  71:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  72:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   float32_t in1 = value;
+  36              		.loc 1 72 3 view .LVU2
+  73:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   float32_t in2 = value;
+  37              		.loc 1 73 3 view .LVU3
+  74:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   float32_t in3 = value;
+  38              		.loc 1 74 3 view .LVU4
+  75:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   float32_t in4 = value;
+  39              		.loc 1 75 3 view .LVU5
+  76:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctipRUE.s 			page 3
+
+
+  77:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   /*loop Unrolling */
+  78:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   blkCnt = blockSize >> 2U;
+  40              		.loc 1 78 3 view .LVU6
+  41              		.loc 1 78 10 is_stmt 0 view .LVU7
+  42 0000 8B08     		lsrs	r3, r1, #2
+  43              	.LVL1:
+  79:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  80:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  81:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  82:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   while (blkCnt > 0U)
+  44              		.loc 1 82 3 is_stmt 1 view .LVU8
+  45              		.loc 1 82 9 is_stmt 0 view .LVU9
+  46 0002 09E0     		b	.L2
+  47              	.L3:
+  83:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   {
+  84:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     /* C = value */
+  85:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     /* Fill the value in the destination buffer */
+  86:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     *pDst++ = in1;
+  48              		.loc 1 86 5 is_stmt 1 view .LVU10
+  49              	.LVL2:
+  50              		.loc 1 86 13 is_stmt 0 view .LVU11
+  51 0004 80ED000A 		vstr.32	s0, [r0]
+  87:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     *pDst++ = in2;
+  52              		.loc 1 87 5 is_stmt 1 view .LVU12
+  53              	.LVL3:
+  54              		.loc 1 87 13 is_stmt 0 view .LVU13
+  55 0008 80ED010A 		vstr.32	s0, [r0, #4]
+  88:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     *pDst++ = in3;
+  56              		.loc 1 88 5 is_stmt 1 view .LVU14
+  57              	.LVL4:
+  58              		.loc 1 88 13 is_stmt 0 view .LVU15
+  59 000c 80ED020A 		vstr.32	s0, [r0, #8]
+  89:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     *pDst++ = in4;
+  60              		.loc 1 89 5 is_stmt 1 view .LVU16
+  61              	.LVL5:
+  62              		.loc 1 89 13 is_stmt 0 view .LVU17
+  63 0010 80ED030A 		vstr.32	s0, [r0, #12]
+  90:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  91:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     /* Decrement the loop counter */
+  92:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     blkCnt--;
+  64              		.loc 1 92 5 is_stmt 1 view .LVU18
+  65              		.loc 1 92 11 is_stmt 0 view .LVU19
+  66 0014 013B     		subs	r3, r3, #1
+  67              	.LVL6:
+  89:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     *pDst++ = in4;
+  68              		.loc 1 89 10 view .LVU20
+  69 0016 1030     		adds	r0, r0, #16
+  70              	.LVL7:
+  71              	.L2:
+  82:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   {
+  72              		.loc 1 82 17 is_stmt 1 view .LVU21
+  73 0018 002B     		cmp	r3, #0
+  74 001a F3D1     		bne	.L3
+  93:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   }
+  94:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+  96:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****    ** No loop unrolling is used. */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctipRUE.s 			page 4
+
+
+  97:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   blkCnt = blockSize % 0x4U;
+  75              		.loc 1 97 3 view .LVU22
+  76              		.loc 1 97 10 is_stmt 0 view .LVU23
+  77 001c 01F00301 		and	r1, r1, #3
+  78              	.LVL8:
+  98:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** #else
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+ 101:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   /* Run the below code for Cortex-M0 */
+ 102:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+ 103:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   /* Loop over blockSize number of values */
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   blkCnt = blockSize;
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+ 106:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+ 108:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   while (blkCnt > 0U)
+  79              		.loc 1 109 3 is_stmt 1 view .LVU24
+  80              		.loc 1 109 9 is_stmt 0 view .LVU25
+  81 0020 02E0     		b	.L4
+  82              	.L5:
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   {
+ 111:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     /* C = value */
+ 112:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     /* Fill the value in the destination buffer */
+ 113:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     *pDst++ = value;
+  83              		.loc 1 113 5 is_stmt 1 view .LVU26
+  84              	.LVL9:
+  85              		.loc 1 113 13 is_stmt 0 view .LVU27
+  86 0022 A0EC010A 		vstmia.32	r0!, {s0}
+  87              	.LVL10:
+ 114:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** 
+ 115:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     /* Decrement the loop counter */
+ 116:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****     blkCnt--;
+  88              		.loc 1 116 5 is_stmt 1 view .LVU28
+  89              		.loc 1 116 11 is_stmt 0 view .LVU29
+  90 0026 0139     		subs	r1, r1, #1
+  91              	.LVL11:
+  92              	.L4:
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   {
+  93              		.loc 1 109 17 is_stmt 1 view .LVU30
+  94 0028 0029     		cmp	r1, #0
+  95 002a FAD1     		bne	.L5
+ 117:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c ****   }
+ 118:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_f32.c **** }
+  96              		.loc 1 118 1 is_stmt 0 view .LVU31
+  97 002c 7047     		bx	lr
+  98              		.cfi_endproc
+  99              	.LFE139:
+ 101              		.text
+ 102              	.Letext0:
+ 103              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 104              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 105              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctipRUE.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_fill_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cctipRUE.s:21     .text.arm_fill_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cctipRUE.s:27     .text.arm_fill_f32:00000000 arm_fill_f32
+
+NO UNDEFINED SYMBOLS

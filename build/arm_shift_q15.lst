@@ -1,0 +1,660 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_shift_q15.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c"
+  20              		.section	.text.arm_shift_q15,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_shift_q15
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_shift_q15:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Title:        arm_shift_q15.c
+   4:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Description:  Shifts the elements of a Q15 vector by a specified number of bits
+   5:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  *
+   6:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  *
+   9:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** /*
+  12:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  *
+  14:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  *
+  16:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  *
+  20:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  *
+  22:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  */
+  28:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  29:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  31:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** /**
+  32:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @ingroup groupMath
+  33:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  */
+  34:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  35:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** /**
+  36:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @addtogroup shift
+  37:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  */
+  39:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  40:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** /**
+  41:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @brief  Shifts the elements of a Q15 vector a specified number of bits.
+  42:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @param[in]  *pSrc points to the input vector
+  43:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @param[in]  shiftBits number of bits to shift.  A positive value shifts left; a negative value s
+  44:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @param[out]  *pDst points to the output vector
+  45:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @param[in]  blockSize number of samples in the vector
+  46:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * @return none.
+  47:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  *
+  48:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * <b>Scaling and Overflow Behavior:</b>
+  49:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * \par
+  50:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * The function uses saturating arithmetic.
+  51:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  * Results outside of the allowable Q15 range [0x8000 0x7FFF] will be saturated.
+  52:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****  */
+  53:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  54:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** void arm_shift_q15(
+  55:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   q15_t * pSrc,
+  56:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   int8_t shiftBits,
+  57:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   q15_t * pDst,
+  58:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   uint32_t blockSize)
+  59:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** {
+  30              		.loc 1 59 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 59 1 is_stmt 0 view .LVU1
+  35 0000 70B5     		push	{r4, r5, r6, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 4, -16
+  39              		.cfi_offset 5, -12
+  40              		.cfi_offset 6, -8
+  41              		.cfi_offset 14, -4
+  60:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   uint32_t blkCnt;                               /* loop counter */
+  42              		.loc 1 60 3 is_stmt 1 view .LVU2
+  61:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   uint8_t sign;                                  /* Sign of shiftBits */
+  43              		.loc 1 61 3 view .LVU3
+  62:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  63:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #if defined (ARM_MATH_DSP)
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  65:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** /* Run the below code for Cortex-M4 and Cortex-M3 */
+  66:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  67:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   q15_t in1, in2;                                /* Temporary variables */
+  44              		.loc 1 67 3 view .LVU4
+  68:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  69:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  70:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   /*loop Unrolling */
+  71:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   blkCnt = blockSize >> 2U;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 3
+
+
+  45              		.loc 1 71 3 view .LVU5
+  46              		.loc 1 71 10 is_stmt 0 view .LVU6
+  47 0002 9C08     		lsrs	r4, r3, #2
+  48              	.LVL1:
+  72:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  73:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   /* Getting the sign of shiftBits */
+  74:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   sign = (shiftBits & 0x80);
+  49              		.loc 1 74 3 is_stmt 1 view .LVU7
+  75:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  76:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   /* If the shift value is positive then do right shift else left shift */
+  77:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   if (sign == 0U)
+  50              		.loc 1 77 3 view .LVU8
+  51              		.loc 1 77 6 is_stmt 0 view .LVU9
+  52 0004 B1F1000E 		subs	lr, r1, #0
+  53 0008 25DA     		bge	.L2
+  54 000a 4FE0     		b	.L3
+  55              	.LVL2:
+  56              	.L4:
+  78:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   {
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  80:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****      ** a second loop below computes the remaining 1 to 3 samples. */
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     while (blkCnt > 0U)
+  82:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+  83:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Read 2 inputs */
+  84:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in1 = *pSrc++;
+  57              		.loc 1 84 7 is_stmt 1 view .LVU10
+  58              		.loc 1 84 11 is_stmt 0 view .LVU11
+  59 000c B0F90010 		ldrsh	r1, [r0]
+  60              	.LVL3:
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+  61              		.loc 1 85 7 is_stmt 1 view .LVU12
+  62              		.loc 1 85 11 is_stmt 0 view .LVU13
+  63 0010 B0F902C0 		ldrsh	ip, [r0, #2]
+  64              	.LVL4:
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* C = A << shiftBits */
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Shift the inputs and then store the results in the destination buffer. */
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #ifndef  ARM_MATH_BIG_ENDIAN
+  89:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  90:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT(__SSAT((in1 << shiftBits), 16),
+  65              		.loc 1 90 7 is_stmt 1 view .LVU14
+  66              	.LBB2:
+  67              		.loc 1 90 27 view .LVU15
+  68              	.LBB3:
+  69              		.loc 1 90 27 view .LVU16
+  70 0014 01FA0EF1 		lsl	r1, r1, lr
+  71              	.LVL5:
+  72              		.loc 1 90 27 view .LVU17
+  73              		.syntax unified
+  74              	@ 90 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+  75 0018 01F30F01 		ssat r1, #16, r1
+  76              	@ 0 "" 2
+  77              	.LVL6:
+  78              		.loc 1 90 27 view .LVU18
+  79              		.loc 1 90 27 is_stmt 0 view .LVU19
+  80              		.thumb
+  81              		.syntax unified
+  82              	.LBE3:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 4
+
+
+  83              	.LBB4:
+  84              		.loc 1 90 27 is_stmt 1 view .LVU20
+  85 001c 0CFA0EFC 		lsl	ip, ip, lr
+  86              	.LVL7:
+  87              		.loc 1 90 27 view .LVU21
+  88              		.syntax unified
+  89              	@ 90 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+  90 0020 0CF30F0C 		ssat ip, #16, ip
+  91              	@ 0 "" 2
+  92              	.LVL8:
+  93              		.loc 1 90 27 view .LVU22
+  94              		.loc 1 90 27 is_stmt 0 view .LVU23
+  95              		.thumb
+  96              		.syntax unified
+  97              	.LBE4:
+  98              		.loc 1 90 27 is_stmt 1 view .LVU24
+  99              		.syntax unified
+ 100              	@ 90 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+ 101 0024 C1EA0C41 		pkhbt r1, r1, ip, lsl #16
+ 102              	@ 0 "" 2
+ 103              	.LVL9:
+ 104              		.loc 1 90 27 view .LVU25
+ 105              		.loc 1 90 27 is_stmt 0 view .LVU26
+ 106              		.thumb
+ 107              		.syntax unified
+ 108              	.LBE2:
+ 109              		.loc 1 90 25 view .LVU27
+ 110 0028 1546     		mov	r5, r2
+ 111 002a 45F8081B 		str	r1, [r5], #8
+ 112              	.LVL10:
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   __SSAT((in2 << shiftBits), 16), 16);
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #else
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  95:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT(__SSAT((in2 << shiftBits), 16),
+  96:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   __SSAT((in1 << shiftBits), 16), 16);
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #endif /* #ifndef  ARM_MATH_BIG_ENDIAN    */
+  99:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 100:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in1 = *pSrc++;
+ 113              		.loc 1 100 7 is_stmt 1 view .LVU28
+ 114              		.loc 1 100 11 is_stmt 0 view .LVU29
+ 115 002e B0F904C0 		ldrsh	ip, [r0, #4]
+ 116              	.LVL11:
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+ 117              		.loc 1 101 7 is_stmt 1 view .LVU30
+ 118              		.loc 1 101 18 is_stmt 0 view .LVU31
+ 119 0032 00F10806 		add	r6, r0, #8
+ 120              	.LVL12:
+ 121              		.loc 1 101 11 view .LVU32
+ 122 0036 B0F90610 		ldrsh	r1, [r0, #6]
+ 123              	.LVL13:
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 103:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #ifndef  ARM_MATH_BIG_ENDIAN
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT(__SSAT((in1 << shiftBits), 16),
+ 124              		.loc 1 105 7 is_stmt 1 view .LVU33
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 5
+
+
+ 125              	.LBB5:
+ 126              		.loc 1 105 27 view .LVU34
+ 127              	.LBB6:
+ 128              		.loc 1 105 27 view .LVU35
+ 129 003a 0CFA0EF0 		lsl	r0, ip, lr
+ 130              	.LVL14:
+ 131              		.loc 1 105 27 view .LVU36
+ 132              		.syntax unified
+ 133              	@ 105 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+ 134 003e 00F30F00 		ssat r0, #16, r0
+ 135              	@ 0 "" 2
+ 136              	.LVL15:
+ 137              		.loc 1 105 27 view .LVU37
+ 138              		.loc 1 105 27 is_stmt 0 view .LVU38
+ 139              		.thumb
+ 140              		.syntax unified
+ 141              	.LBE6:
+ 142              	.LBB7:
+ 143              		.loc 1 105 27 is_stmt 1 view .LVU39
+ 144 0042 01FA0EF1 		lsl	r1, r1, lr
+ 145              	.LVL16:
+ 146              		.loc 1 105 27 view .LVU40
+ 147              		.syntax unified
+ 148              	@ 105 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+ 149 0046 01F30F01 		ssat r1, #16, r1
+ 150              	@ 0 "" 2
+ 151              	.LVL17:
+ 152              		.loc 1 105 27 view .LVU41
+ 153              		.loc 1 105 27 is_stmt 0 view .LVU42
+ 154              		.thumb
+ 155              		.syntax unified
+ 156              	.LBE7:
+ 157              		.loc 1 105 27 is_stmt 1 view .LVU43
+ 158              		.syntax unified
+ 159              	@ 105 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+ 160 004a C0EA0140 		pkhbt r0, r0, r1, lsl #16
+ 161              	@ 0 "" 2
+ 162              	.LVL18:
+ 163              		.loc 1 105 27 view .LVU44
+ 164              		.loc 1 105 27 is_stmt 0 view .LVU45
+ 165              		.thumb
+ 166              		.syntax unified
+ 167              	.LBE5:
+ 168              		.loc 1 105 25 view .LVU46
+ 169 004e 5060     		str	r0, [r2, #4]
+ 170              	.LVL19:
+ 106:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   __SSAT((in2 << shiftBits), 16), 16);
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #else
+ 109:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT(__SSAT((in2 << shiftBits), 16),
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   __SSAT((in1 << shiftBits), 16), 16);
+ 112:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #endif /* #ifndef  ARM_MATH_BIG_ENDIAN    */
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 115:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Decrement the loop counter */
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       blkCnt--;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 6
+
+
+ 171              		.loc 1 116 7 is_stmt 1 view .LVU47
+ 172              		.loc 1 116 13 is_stmt 0 view .LVU48
+ 173 0050 013C     		subs	r4, r4, #1
+ 174              	.LVL20:
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   __SSAT((in2 << shiftBits), 16), 16);
+ 175              		.loc 1 105 22 view .LVU49
+ 176 0052 2A46     		mov	r2, r5
+ 177              	.LVL21:
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 178              		.loc 1 101 18 view .LVU50
+ 179 0054 3046     		mov	r0, r6
+ 180              	.LVL22:
+ 181              	.L2:
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 182              		.loc 1 81 19 is_stmt 1 view .LVU51
+ 183 0056 002C     		cmp	r4, #0
+ 184 0058 D8D1     		bne	.L4
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 118:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 119:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 120:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****      ** No loop unrolling is used. */
+ 121:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     blkCnt = blockSize % 0x4U;
+ 185              		.loc 1 121 5 view .LVU52
+ 186              		.loc 1 121 12 is_stmt 0 view .LVU53
+ 187 005a 03F00303 		and	r3, r3, #3
+ 188              	.LVL23:
+ 122:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 123:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     while (blkCnt > 0U)
+ 189              		.loc 1 123 5 is_stmt 1 view .LVU54
+ 190              		.loc 1 123 11 is_stmt 0 view .LVU55
+ 191 005e 08E0     		b	.L5
+ 192              	.L6:
+ 124:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 125:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* C = A << shiftBits */
+ 126:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Shift and then store the results in the destination buffer. */
+ 127:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *pDst++ = __SSAT((*pSrc++ << shiftBits), 16);
+ 193              		.loc 1 127 7 is_stmt 1 view .LVU56
+ 194              	.LBB8:
+ 195              		.loc 1 127 17 view .LVU57
+ 196              	.LVL24:
+ 197              		.loc 1 127 17 is_stmt 0 view .LVU58
+ 198 0060 30F9021B 		ldrsh	r1, [r0], #2
+ 199              	.LVL25:
+ 200              		.loc 1 127 17 view .LVU59
+ 201 0064 01FA0EF1 		lsl	r1, r1, lr
+ 202              	.LVL26:
+ 203              		.loc 1 127 17 is_stmt 1 view .LVU60
+ 204              		.syntax unified
+ 205              	@ 127 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+ 206 0068 01F30F01 		ssat r1, #16, r1
+ 207              	@ 0 "" 2
+ 208              	.LVL27:
+ 209              		.loc 1 127 17 view .LVU61
+ 210              		.loc 1 127 17 is_stmt 0 view .LVU62
+ 211              		.thumb
+ 212              		.syntax unified
+ 213              	.LBE8:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 7
+
+
+ 214              		.loc 1 127 15 view .LVU63
+ 215 006c 22F8021B 		strh	r1, [r2], #2	@ movhi
+ 216              	.LVL28:
+ 128:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 129:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Decrement the loop counter */
+ 130:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       blkCnt--;
+ 217              		.loc 1 130 7 is_stmt 1 view .LVU64
+ 218              		.loc 1 130 13 is_stmt 0 view .LVU65
+ 219 0070 013B     		subs	r3, r3, #1
+ 220              	.LVL29:
+ 221              	.L5:
+ 123:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 222              		.loc 1 123 19 is_stmt 1 view .LVU66
+ 223 0072 002B     		cmp	r3, #0
+ 224 0074 F4D1     		bne	.L6
+ 225              	.L1:
+ 131:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 132:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   }
+ 133:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   else
+ 134:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   {
+ 135:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+ 136:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****      ** a second loop below computes the remaining 1 to 3 samples. */
+ 137:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     while (blkCnt > 0U)
+ 138:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 139:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Read 2 inputs */
+ 140:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in1 = *pSrc++;
+ 141:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+ 142:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 143:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* C = A >> shiftBits */
+ 144:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Shift the inputs and then store the results in the destination buffer. */
+ 145:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #ifndef  ARM_MATH_BIG_ENDIAN
+ 146:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT((in1 >> -shiftBits),
+ 148:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 149:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 150:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #else
+ 151:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 152:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT((in2 >> -shiftBits),
+ 153:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in1 >> -shiftBits), 16);
+ 154:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 155:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #endif /* #ifndef  ARM_MATH_BIG_ENDIAN    */
+ 156:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 157:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in1 = *pSrc++;
+ 158:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+ 159:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 160:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #ifndef  ARM_MATH_BIG_ENDIAN
+ 161:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT((in1 >> -shiftBits),
+ 163:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 164:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 165:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #else
+ 166:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 167:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *__SIMD32(pDst)++ = __PKHBT((in2 >> -shiftBits),
+ 168:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in1 >> -shiftBits), 16);
+ 169:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 170:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #endif /* #ifndef  ARM_MATH_BIG_ENDIAN    */
+ 171:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 8
+
+
+ 172:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Decrement the loop counter */
+ 173:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       blkCnt--;
+ 174:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 175:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 176:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 177:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****      ** No loop unrolling is used. */
+ 178:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     blkCnt = blockSize % 0x4U;
+ 179:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 180:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     while (blkCnt > 0U)
+ 181:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 182:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* C = A >> shiftBits */
+ 183:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Shift the inputs and then store the results in the destination buffer. */
+ 184:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *pDst++ = (*pSrc++ >> -shiftBits);
+ 185:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 186:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Decrement the loop counter */
+ 187:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       blkCnt--;
+ 188:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 189:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   }
+ 190:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 191:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #else
+ 192:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 193:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   /* Run the below code for Cortex-M0 */
+ 194:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 195:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   /* Getting the sign of shiftBits */
+ 196:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   sign = (shiftBits & 0x80);
+ 197:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 198:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   /* If the shift value is positive then do right shift else left shift */
+ 199:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   if (sign == 0U)
+ 200:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   {
+ 201:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     /* Initialize blkCnt with number of samples */
+ 202:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     blkCnt = blockSize;
+ 203:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 204:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     while (blkCnt > 0U)
+ 205:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 206:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* C = A << shiftBits */
+ 207:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Shift and then store the results in the destination buffer. */
+ 208:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *pDst++ = __SSAT(((q31_t) * pSrc++ << shiftBits), 16);
+ 209:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 210:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Decrement the loop counter */
+ 211:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       blkCnt--;
+ 212:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 213:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   }
+ 214:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   else
+ 215:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   {
+ 216:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     /* Initialize blkCnt with number of samples */
+ 217:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     blkCnt = blockSize;
+ 218:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 219:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     while (blkCnt > 0U)
+ 220:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 221:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* C = A >> shiftBits */
+ 222:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Shift the inputs and then store the results in the destination buffer. */
+ 223:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       *pDst++ = (*pSrc++ >> -shiftBits);
+ 224:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 225:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       /* Decrement the loop counter */
+ 226:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       blkCnt--;
+ 227:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 228:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****   }
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 9
+
+
+ 229:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 230:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 231:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 232:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** }
+ 226              		.loc 1 232 1 is_stmt 0 view .LVU67
+ 227 0076 70BD     		pop	{r4, r5, r6, pc}
+ 228              	.LVL30:
+ 229              	.L8:
+ 140:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+ 230              		.loc 1 140 7 is_stmt 1 view .LVU68
+ 140:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+ 231              		.loc 1 140 11 is_stmt 0 view .LVU69
+ 232 0078 B0F90010 		ldrsh	r1, [r0]
+ 233              	.LVL31:
+ 141:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 234              		.loc 1 141 7 is_stmt 1 view .LVU70
+ 141:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 235              		.loc 1 141 11 is_stmt 0 view .LVU71
+ 236 007c B0F90260 		ldrsh	r6, [r0, #2]
+ 237              	.LVL32:
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 238              		.loc 1 147 7 is_stmt 1 view .LVU72
+ 239              	.LBB9:
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 240              		.loc 1 147 27 view .LVU73
+ 241 0080 CEF10005 		rsb	r5, lr, #0
+ 242 0084 2941     		asrs	r1, r1, r5
+ 243              	.LVL33:
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 244              		.loc 1 147 27 is_stmt 0 view .LVU74
+ 245 0086 2E41     		asrs	r6, r6, r5
+ 246              	.LVL34:
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 247              		.loc 1 147 27 is_stmt 1 view .LVU75
+ 248              		.syntax unified
+ 249              	@ 147 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+ 250 0088 C1EA0641 		pkhbt r1, r1, r6, lsl #16
+ 251              	@ 0 "" 2
+ 252              	.LVL35:
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 253              		.loc 1 147 27 view .LVU76
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 254              		.loc 1 147 27 is_stmt 0 view .LVU77
+ 255              		.thumb
+ 256              		.syntax unified
+ 257              	.LBE9:
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 258              		.loc 1 147 25 view .LVU78
+ 259 008c 9446     		mov	ip, r2
+ 260 008e 4CF8081B 		str	r1, [ip], #8
+ 261              	.LVL36:
+ 157:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+ 262              		.loc 1 157 7 is_stmt 1 view .LVU79
+ 157:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****       in2 = *pSrc++;
+ 263              		.loc 1 157 11 is_stmt 0 view .LVU80
+ 264 0092 B0F90410 		ldrsh	r1, [r0, #4]
+ 265              	.LVL37:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 10
+
+
+ 158:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 266              		.loc 1 158 7 is_stmt 1 view .LVU81
+ 158:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 267              		.loc 1 158 11 is_stmt 0 view .LVU82
+ 268 0096 B0F90660 		ldrsh	r6, [r0, #6]
+ 269              	.LVL38:
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 270              		.loc 1 162 7 is_stmt 1 view .LVU83
+ 271              	.LBB10:
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 272              		.loc 1 162 27 view .LVU84
+ 273 009a 2941     		asrs	r1, r1, r5
+ 274              	.LVL39:
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 275              		.loc 1 162 27 is_stmt 0 view .LVU85
+ 276 009c 46FA05F5 		asr	r5, r6, r5
+ 277              	.LVL40:
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 278              		.loc 1 162 27 is_stmt 1 view .LVU86
+ 279              		.syntax unified
+ 280              	@ 162 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c" 1
+ 281 00a0 C1EA0541 		pkhbt r1, r1, r5, lsl #16
+ 282              	@ 0 "" 2
+ 283              	.LVL41:
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 284              		.loc 1 162 27 view .LVU87
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 285              		.loc 1 162 27 is_stmt 0 view .LVU88
+ 286              		.thumb
+ 287              		.syntax unified
+ 288              	.LBE10:
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 289              		.loc 1 162 25 view .LVU89
+ 290 00a4 5160     		str	r1, [r2, #4]
+ 291              	.LVL42:
+ 173:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 292              		.loc 1 173 7 is_stmt 1 view .LVU90
+ 173:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 293              		.loc 1 173 13 is_stmt 0 view .LVU91
+ 294 00a6 013C     		subs	r4, r4, #1
+ 295              	.LVL43:
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****                                   (in2 >> -shiftBits), 16);
+ 296              		.loc 1 162 22 view .LVU92
+ 297 00a8 6246     		mov	r2, ip
+ 298              	.LVL44:
+ 158:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 299              		.loc 1 158 18 view .LVU93
+ 300 00aa 0830     		adds	r0, r0, #8
+ 301              	.LVL45:
+ 302              	.L3:
+ 137:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 303              		.loc 1 137 19 is_stmt 1 view .LVU94
+ 304 00ac 002C     		cmp	r4, #0
+ 305 00ae E3D1     		bne	.L8
+ 178:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 306              		.loc 1 178 5 view .LVU95
+ 178:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 11
+
+
+ 307              		.loc 1 178 12 is_stmt 0 view .LVU96
+ 308 00b0 03F00303 		and	r3, r3, #3
+ 309              	.LVL46:
+ 180:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 310              		.loc 1 180 5 is_stmt 1 view .LVU97
+ 180:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 311              		.loc 1 180 11 is_stmt 0 view .LVU98
+ 312 00b4 07E0     		b	.L9
+ 313              	.L10:
+ 184:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 314              		.loc 1 184 7 is_stmt 1 view .LVU99
+ 315              	.LVL47:
+ 184:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 316              		.loc 1 184 18 is_stmt 0 view .LVU100
+ 317 00b6 30F9021B 		ldrsh	r1, [r0], #2
+ 318              	.LVL48:
+ 184:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 319              		.loc 1 184 29 view .LVU101
+ 320 00ba CEF10004 		rsb	r4, lr, #0
+ 184:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 321              		.loc 1 184 26 view .LVU102
+ 322 00be 2141     		asrs	r1, r1, r4
+ 323              	.LVL49:
+ 184:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c **** 
+ 324              		.loc 1 184 15 view .LVU103
+ 325 00c0 22F8021B 		strh	r1, [r2], #2	@ movhi
+ 326              	.LVL50:
+ 187:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 327              		.loc 1 187 7 is_stmt 1 view .LVU104
+ 187:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     }
+ 328              		.loc 1 187 13 is_stmt 0 view .LVU105
+ 329 00c4 013B     		subs	r3, r3, #1
+ 330              	.LVL51:
+ 331              	.L9:
+ 180:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 332              		.loc 1 180 19 is_stmt 1 view .LVU106
+ 333 00c6 002B     		cmp	r3, #0
+ 334 00c8 F5D1     		bne	.L10
+ 180:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_shift_q15.c ****     {
+ 335              		.loc 1 180 19 is_stmt 0 view .LVU107
+ 336 00ca D4E7     		b	.L1
+ 337              		.cfi_endproc
+ 338              	.LFE139:
+ 340              		.text
+ 341              	.Letext0:
+ 342              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 343              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 344              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_shift_q15.c
+C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s:21     .text.arm_shift_q15:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc2B4YVC.s:27     .text.arm_shift_q15:00000000 arm_shift_q15
+
+NO UNDEFINED SYMBOLS

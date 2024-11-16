@@ -1,0 +1,178 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccslxKh7.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_iir_lattice_init_q15.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c"
+  20              		.section	.text.arm_iir_lattice_init_q15,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_iir_lattice_init_q15
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_iir_lattice_init_q15:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * Title:        arm_iir_lattice_init_q15.c
+   4:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * Description:  Q15 IIR lattice filter initialization function
+   5:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  *
+   6:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  *
+   9:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** /*
+  12:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  *
+  14:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  *
+  16:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  *
+  20:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  *
+  22:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  */
+  28:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  29:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccslxKh7.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  31:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** /**
+  32:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * @ingroup groupFilters
+  33:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  */
+  34:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  35:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** /**
+  36:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * @addtogroup IIR_Lattice
+  37:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****  */
+  39:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  40:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   /**
+  41:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @brief Initialization function for the Q15 IIR lattice filter.
+  42:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @param[in] *S points to an instance of the Q15 IIR lattice structure.
+  43:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @param[in] numStages  number of stages in the filter.
+  44:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @param[in] *pkCoeffs points to reflection coefficient buffer.  The array is of length numStage
+  45:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @param[in] *pvCoeffs points to ladder coefficient buffer.  The array is of length numStages+1.
+  46:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @param[in] *pState points to state buffer.  The array is of length numStages+blockSize.
+  47:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @param[in] blockSize number of samples to process per call.
+  48:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    * @return none.
+  49:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****    */
+  50:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  51:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** void arm_iir_lattice_init_q15(
+  52:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   arm_iir_lattice_instance_q15 * S,
+  53:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   uint16_t numStages,
+  54:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   q15_t * pkCoeffs,
+  55:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   q15_t * pvCoeffs,
+  56:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   q15_t * pState,
+  57:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   uint32_t blockSize)
+  58:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** {
+  30              		.loc 1 58 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 8, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 58 1 is_stmt 0 view .LVU1
+  35 0000 38B5     		push	{r3, r4, r5, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 3, -16
+  39              		.cfi_offset 4, -12
+  40              		.cfi_offset 5, -8
+  41              		.cfi_offset 14, -4
+  42 0002 0446     		mov	r4, r0
+  43 0004 049D     		ldr	r5, [sp, #16]
+  59:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   /* Assign filter taps */
+  60:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   S->numStages = numStages;
+  44              		.loc 1 60 3 is_stmt 1 view .LVU2
+  45              		.loc 1 60 16 is_stmt 0 view .LVU3
+  46 0006 0180     		strh	r1, [r0]	@ movhi
+  61:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  62:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   /* Assign reflection coefficient pointer */
+  63:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   S->pkCoeffs = pkCoeffs;
+  47              		.loc 1 63 3 is_stmt 1 view .LVU4
+  48              		.loc 1 63 15 is_stmt 0 view .LVU5
+  49 0008 8260     		str	r2, [r0, #8]
+  64:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  65:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   /* Assign ladder coefficient pointer */
+  66:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   S->pvCoeffs = pvCoeffs;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccslxKh7.s 			page 3
+
+
+  50              		.loc 1 66 3 is_stmt 1 view .LVU6
+  51              		.loc 1 66 15 is_stmt 0 view .LVU7
+  52 000a C360     		str	r3, [r0, #12]
+  67:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  68:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   /* Clear state buffer and size is always blockSize + numStages */
+  69:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   memset(pState, 0, (numStages + blockSize) * sizeof(q15_t));
+  53              		.loc 1 69 3 is_stmt 1 view .LVU8
+  54              		.loc 1 69 32 is_stmt 0 view .LVU9
+  55 000c 059B     		ldr	r3, [sp, #20]
+  56              	.LVL1:
+  57              		.loc 1 69 32 view .LVU10
+  58 000e 1944     		add	r1, r1, r3
+  59              	.LVL2:
+  60              		.loc 1 69 3 view .LVU11
+  61 0010 4A00     		lsls	r2, r1, #1
+  62              	.LVL3:
+  63              		.loc 1 69 3 view .LVU12
+  64 0012 0021     		movs	r1, #0
+  65 0014 2846     		mov	r0, r5
+  66              	.LVL4:
+  67              		.loc 1 69 3 view .LVU13
+  68 0016 FFF7FEFF 		bl	memset
+  69              	.LVL5:
+  70:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  71:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   /* Assign state pointer */
+  72:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c ****   S->pState = pState;
+  70              		.loc 1 72 3 is_stmt 1 view .LVU14
+  71              		.loc 1 72 13 is_stmt 0 view .LVU15
+  72 001a 6560     		str	r5, [r4, #4]
+  73:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  74:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** 
+  75:Drivers/CMSIS/DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c **** }
+  73              		.loc 1 75 1 view .LVU16
+  74 001c 38BD     		pop	{r3, r4, r5, pc}
+  75              		.loc 1 75 1 view .LVU17
+  76              		.cfi_endproc
+  77              	.LFE139:
+  79              		.text
+  80              	.Letext0:
+  81              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+  82              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+  83              		.file 4 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/in
+  84              		.file 5 "Drivers/CMSIS/DSP/Include/arm_math.h"
+  85              		.file 6 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+  86              		.file 7 "<built-in>"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccslxKh7.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_iir_lattice_init_q15.c
+C:\Users\Lamp\AppData\Local\Temp\ccslxKh7.s:21     .text.arm_iir_lattice_init_q15:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccslxKh7.s:27     .text.arm_iir_lattice_init_q15:00000000 arm_iir_lattice_init_q15
+
+UNDEFINED SYMBOLS
+memset

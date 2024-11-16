@@ -1,0 +1,299 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_sin_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c"
+  20              		.section	.text.arm_sin_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_sin_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_sin_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Title:        arm_sin_f32.c
+   4:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Description:  Fast sine calculation for floating-point values
+   5:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** #include "arm_common_tables.h"
+  31:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** #include <math.h>
+  32:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  33:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  34:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * @ingroup groupFastMath
+  35:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  36:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  37:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  38:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * @defgroup sin Sine
+  39:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  40:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Computes the trigonometric sine function using a combination of table lookup
+  41:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * and linear interpolation.  There are separate functions for
+  42:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Q15, Q31, and floating-point data types.
+  43:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * The input to the floating-point version is in radians and in the range [0 2*pi) while the
+  44:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * fixed-point Q15 and Q31 have a scaled input with the range
+  45:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * [0 +0.9999] mapping to [0 2*pi).  The fixed-point range is chosen so that a
+  46:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * value of 2*pi wraps around to 0.
+  47:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  48:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * The implementation is based on table lookup using 256 values together with linear interpolation.
+  49:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * The steps used are:
+  50:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *  -# Calculation of the nearest integer table index
+  51:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *  -# Compute the fractional portion (fract) of the table index.
+  52:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *  -# The final result equals <code>(1.0f-fract)*a + fract*b;</code>
+  53:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  54:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * where
+  55:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * <pre>
+  56:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *    b=Table[index+0];
+  57:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *    c=Table[index+1];
+  58:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * </pre>
+  59:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  60:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  61:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  62:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * @addtogroup sin
+  63:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * @{
+  64:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  65:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  66:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  67:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * @brief  Fast approximation to the trigonometric sine function for floating-point data.
+  68:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * @param[in] x input value in radians.
+  69:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * @return  sin(x).
+  70:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  71:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  72:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** float32_t arm_sin_f32(
+  73:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t x)
+  74:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** {
+  30              		.loc 1 74 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  75:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t sinVal, fract, in;                           /* Temporary variables for input, output *
+  35              		.loc 1 75 3 view .LVU1
+  76:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   uint16_t index;                                        /* Index variable */
+  36              		.loc 1 76 3 view .LVU2
+  77:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t a, b;                                        /* Two nearest output values */
+  37              		.loc 1 77 3 view .LVU3
+  78:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   int32_t n;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s 			page 3
+
+
+  38              		.loc 1 78 3 view .LVU4
+  79:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t findex;
+  39              		.loc 1 79 3 view .LVU5
+  80:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  81:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Special case for small negative inputs */
+  82:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   if ((x < 0.0f) && (x >= -1.9e-7f)) {
+  40              		.loc 1 82 3 view .LVU6
+  41              		.loc 1 82 6 is_stmt 0 view .LVU7
+  42 0000 B5EEC00A 		vcmpe.f32	s0, #0
+  43 0004 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  44 0008 33D4     		bmi	.L10
+  45              	.L2:
+  83:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****      return x;
+  84:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   }
+  85:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  86:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* input x is in radians */
+  87:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Scale the input to [0 1] range from [0 2*PI] , divide input by 2*pi */
+  88:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   in = x * 0.159154943092f;
+  46              		.loc 1 88 3 is_stmt 1 view .LVU8
+  47              		.loc 1 88 6 is_stmt 0 view .LVU9
+  48 000a DFED217A 		vldr.32	s15, .L12
+  49 000e 60EE277A 		vmul.f32	s15, s0, s15
+  50              	.LVL1:
+  89:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  90:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Calculation of floor value of input */
+  91:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   n = (int32_t) in;
+  51              		.loc 1 91 3 is_stmt 1 view .LVU10
+  52              		.loc 1 91 5 is_stmt 0 view .LVU11
+  53 0012 BDEEE77A 		vcvt.s32.f32	s14, s15
+  54              	.LVL2:
+  92:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  93:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Make negative values towards -infinity */
+  94:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   if (x < 0.0f)
+  55              		.loc 1 94 3 is_stmt 1 view .LVU12
+  56              		.loc 1 94 6 is_stmt 0 view .LVU13
+  57 0016 B5EEC00A 		vcmpe.f32	s0, #0
+  58 001a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  59 001e 30D4     		bmi	.L11
+  60              	.L5:
+  95:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   {
+  96:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****     n--;
+  97:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   }
+  98:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  99:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Map input value to [0 1] */
+ 100:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   in = in - (float32_t) n;
+  61              		.loc 1 100 3 is_stmt 1 view .LVU14
+  62              		.loc 1 100 13 is_stmt 0 view .LVU15
+  63 0020 B8EEC77A 		vcvt.f32.s32	s14, s14
+  64              	.LVL3:
+  65              		.loc 1 100 6 view .LVU16
+  66 0024 77EEC77A 		vsub.f32	s15, s15, s14
+  67              	.LVL4:
+ 101:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 102:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Calculation of index of the table */
+ 103:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   findex = (float32_t) FAST_MATH_TABLE_SIZE * in;
+  68              		.loc 1 103 3 is_stmt 1 view .LVU17
+  69              		.loc 1 103 10 is_stmt 0 view .LVU18
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s 			page 4
+
+
+  70 0028 9FED1A7A 		vldr.32	s14, .L12+4
+  71 002c 67EE877A 		vmul.f32	s15, s15, s14
+  72              	.LVL5:
+ 104:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 105:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   index = ((uint16_t)findex) & 0x1ff;
+  73              		.loc 1 105 3 is_stmt 1 view .LVU19
+  74              		.loc 1 105 12 is_stmt 0 view .LVU20
+  75 0030 BCEEE77A 		vcvt.u32.f32	s14, s15
+  76 0034 17EE103A 		vmov	r3, s14	@ int
+  77              		.loc 1 105 9 view .LVU21
+  78 0038 C3F30803 		ubfx	r3, r3, #0, #9
+  79              	.LVL6:
+ 106:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 107:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* fractional value calculation */
+ 108:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   fract = findex - (float32_t) index;
+  80              		.loc 1 108 3 is_stmt 1 view .LVU22
+  81              		.loc 1 108 20 is_stmt 0 view .LVU23
+  82 003c 07EE103A 		vmov	s14, r3	@ int
+  83 0040 B8EE477A 		vcvt.f32.u32	s14, s14
+  84              		.loc 1 108 9 view .LVU24
+  85 0044 77EEC77A 		vsub.f32	s15, s15, s14
+  86              	.LVL7:
+ 109:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 110:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Read two nearest values of input value from the sin table */
+ 111:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   a = sinTable_f32[index];
+  87              		.loc 1 111 3 is_stmt 1 view .LVU25
+  88              		.loc 1 111 5 is_stmt 0 view .LVU26
+  89 0048 134A     		ldr	r2, .L12+8
+  90 004a 02EB8301 		add	r1, r2, r3, lsl #2
+  91 004e D1ED006A 		vldr.32	s13, [r1]
+  92              	.LVL8:
+ 112:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   b = sinTable_f32[index+1];
+  93              		.loc 1 112 3 is_stmt 1 view .LVU27
+  94              		.loc 1 112 25 is_stmt 0 view .LVU28
+  95 0052 0133     		adds	r3, r3, #1
+  96              	.LVL9:
+  97              		.loc 1 112 5 view .LVU29
+  98 0054 02EB8302 		add	r2, r2, r3, lsl #2
+  99 0058 92ED007A 		vldr.32	s14, [r2]
+ 100              	.LVL10:
+ 113:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 114:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Linear interpolation process */
+ 115:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   sinVal = (1.0f-fract)*a + fract*b;
+ 101              		.loc 1 115 3 is_stmt 1 view .LVU30
+ 102              		.loc 1 115 17 is_stmt 0 view .LVU31
+ 103 005c B7EE000A 		vmov.f32	s0, #1.0e+0
+ 104              	.LVL11:
+ 105              		.loc 1 115 17 view .LVU32
+ 106 0060 30EE670A 		vsub.f32	s0, s0, s15
+ 107              		.loc 1 115 24 view .LVU33
+ 108 0064 20EE260A 		vmul.f32	s0, s0, s13
+ 109              		.loc 1 115 34 view .LVU34
+ 110 0068 67EE877A 		vmul.f32	s15, s15, s14
+ 111              	.LVL12:
+ 112              		.loc 1 115 10 view .LVU35
+ 113 006c 30EE270A 		vadd.f32	s0, s0, s15
+ 114              	.LVL13:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s 			page 5
+
+
+ 116:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 117:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Return the output value */
+ 118:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   return (sinVal);
+ 115              		.loc 1 118 3 is_stmt 1 view .LVU36
+ 116              	.L1:
+ 119:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c **** }
+ 117              		.loc 1 119 1 is_stmt 0 view .LVU37
+ 118 0070 7047     		bx	lr
+ 119              	.LVL14:
+ 120              	.L10:
+  82:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****      return x;
+ 121              		.loc 1 82 18 discriminator 1 view .LVU38
+ 122 0072 DFED0A7A 		vldr.32	s15, .L12+12
+ 123 0076 B4EEE70A 		vcmpe.f32	s0, s15
+ 124 007a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 125 007e C4DB     		blt	.L2
+ 126 0080 F6E7     		b	.L1
+ 127              	.LVL15:
+ 128              	.L11:
+  96:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   }
+ 129              		.loc 1 96 5 is_stmt 1 view .LVU39
+  96:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   }
+ 130              		.loc 1 96 6 is_stmt 0 view .LVU40
+ 131 0082 17EE103A 		vmov	r3, s14	@ int
+ 132 0086 013B     		subs	r3, r3, #1
+ 133 0088 07EE103A 		vmov	s14, r3	@ int
+ 134              	.LVL16:
+  96:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c ****   }
+ 135              		.loc 1 96 6 view .LVU41
+ 136 008c C8E7     		b	.L5
+ 137              	.L13:
+ 138 008e 00BF     		.align	2
+ 139              	.L12:
+ 140 0090 83F9223E 		.word	1042479491
+ 141 0094 00000044 		.word	1140850688
+ 142 0098 00000000 		.word	sinTable_f32
+ 143 009c CD024CB4 		.word	-1270086963
+ 144              		.cfi_endproc
+ 145              	.LFE139:
+ 147              		.text
+ 148              	.Letext0:
+ 149              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 150              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 151              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 152              		.file 5 "Drivers/CMSIS/DSP/Include/arm_common_tables.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_sin_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s:21     .text.arm_sin_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s:27     .text.arm_sin_f32:00000000 arm_sin_f32
+C:\Users\Lamp\AppData\Local\Temp\cctW4urg.s:140    .text.arm_sin_f32:00000090 $d
+
+UNDEFINED SYMBOLS
+sinTable_f32

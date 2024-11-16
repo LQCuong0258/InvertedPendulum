@@ -1,0 +1,468 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_mat_sub_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c"
+  20              		.section	.text.arm_mat_sub_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_mat_sub_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_mat_sub_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Title:        arm_mat_sub_f32.c
+   4:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Description:  Floating-point matrix subtraction
+   5:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @ingroup groupMatrix
+  33:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @defgroup MatrixSub Matrix Subtraction
+  37:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * Subtract two matrices.
+  39:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * \image html MatrixSubtraction.gif "Subraction of two 3 x 3 matrices"
+  40:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  *
+  41:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * The functions check to make sure that
+  42:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * <code>pSrcA</code>, <code>pSrcB</code>, and <code>pDst</code> have the same
+  43:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * number of rows and columns.
+  44:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  */
+  45:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  46:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** /**
+  47:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @addtogroup MatrixSub
+  48:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @{
+  49:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  */
+  50:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  51:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** /**
+  52:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @brief Floating-point matrix subtraction
+  53:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @param[in]       *pSrcA points to the first input matrix structure
+  54:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @param[in]       *pSrcB points to the second input matrix structure
+  55:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @param[out]      *pDst points to output matrix structure
+  56:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * @return     		The function returns either
+  57:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  * <code>ARM_MATH_SIZE_MISMATCH</code> or <code>ARM_MATH_SUCCESS</code> based on the outcome of siz
+  58:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****  */
+  59:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  60:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** arm_status arm_mat_sub_f32(
+  61:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   const arm_matrix_instance_f32 * pSrcA,
+  62:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   const arm_matrix_instance_f32 * pSrcB,
+  63:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   arm_matrix_instance_f32 * pDst)
+  64:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** {
+  30              		.loc 1 64 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 64 1 is_stmt 0 view .LVU1
+  36 0000 70B4     		push	{r4, r5, r6}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 12
+  39              		.cfi_offset 4, -12
+  40              		.cfi_offset 5, -8
+  41              		.cfi_offset 6, -4
+  65:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   float32_t *pIn1 = pSrcA->pData;                /* input data matrix pointer A */
+  42              		.loc 1 65 3 is_stmt 1 view .LVU2
+  43              		.loc 1 65 14 is_stmt 0 view .LVU3
+  44 0002 4368     		ldr	r3, [r0, #4]
+  45              	.LVL1:
+  66:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   float32_t *pIn2 = pSrcB->pData;                /* input data matrix pointer B */
+  46              		.loc 1 66 3 is_stmt 1 view .LVU4
+  47              		.loc 1 66 14 is_stmt 0 view .LVU5
+  48 0004 4C68     		ldr	r4, [r1, #4]
+  49              	.LVL2:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 3
+
+
+  67:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   float32_t *pOut = pDst->pData;                 /* output data matrix pointer  */
+  50              		.loc 1 67 3 is_stmt 1 view .LVU6
+  51              		.loc 1 67 14 is_stmt 0 view .LVU7
+  52 0006 5568     		ldr	r5, [r2, #4]
+  53              	.LVL3:
+  68:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  69:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #if defined (ARM_MATH_DSP)
+  70:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  71:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   float32_t inA1, inA2, inB1, inB2, out1, out2;  /* temporary variables */
+  54              		.loc 1 71 3 is_stmt 1 view .LVU8
+  72:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  73:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #endif //      #if defined (ARM_MATH_DSP)
+  74:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  75:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   uint32_t numSamples;                           /* total number of elements in the matrix  */
+  55              		.loc 1 75 3 view .LVU9
+  76:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   uint32_t blkCnt;                               /* loop counters */
+  56              		.loc 1 76 3 view .LVU10
+  77:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   arm_status status;                             /* status of matrix subtraction */
+  57              		.loc 1 77 3 view .LVU11
+  78:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  79:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #ifdef ARM_MATH_MATRIX_CHECK
+  80:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   /* Check for matrix mismatch condition */
+  81:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   if ((pSrcA->numRows != pSrcB->numRows) ||
+  58              		.loc 1 81 3 view .LVU12
+  59              		.loc 1 81 42 is_stmt 0 view .LVU13
+  60 0008 0668     		ldr	r6, [r0]
+  61 000a 0968     		ldr	r1, [r1]
+  62              	.LVL4:
+  63              		.loc 1 81 6 view .LVU14
+  64 000c 8E42     		cmp	r6, r1
+  65 000e 3FD1     		bne	.L7
+  82:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****      (pSrcA->numCols != pSrcB->numCols) ||
+  83:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****      (pSrcA->numRows != pDst->numRows) || (pSrcA->numCols != pDst->numCols))
+  66              		.loc 1 83 40 view .LVU15
+  67 0010 1268     		ldr	r2, [r2]
+  68              	.LVL5:
+  69              		.loc 1 83 40 view .LVU16
+  70 0012 9642     		cmp	r6, r2
+  71 0014 3FD1     		bne	.L8
+  84:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   {
+  85:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* Set status as ARM_MATH_SIZE_MISMATCH */
+  86:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     status = ARM_MATH_SIZE_MISMATCH;
+  87:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   }
+  88:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   else
+  89:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #endif /*    #ifdef ARM_MATH_MATRIX_CHECK    */
+  90:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   {
+  91:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* Total number of samples in the input matrix */
+  92:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     numSamples = (uint32_t) pSrcA->numRows * pSrcA->numCols;
+  72              		.loc 1 92 5 is_stmt 1 view .LVU17
+  73              		.loc 1 92 34 is_stmt 0 view .LVU18
+  74 0016 0288     		ldrh	r2, [r0]
+  75              		.loc 1 92 51 view .LVU19
+  76 0018 4188     		ldrh	r1, [r0, #2]
+  77              		.loc 1 92 16 view .LVU20
+  78 001a 01FB02F2 		mul	r2, r1, r2
+  79              	.LVL6:
+  93:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 4
+
+
+  94:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #if defined (ARM_MATH_DSP)
+  95:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  96:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* Run the below code for Cortex-M4 and Cortex-M3 */
+  97:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+  98:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* Loop Unrolling */
+  99:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     blkCnt = numSamples >> 2U;
+  80              		.loc 1 99 5 is_stmt 1 view .LVU21
+  81              		.loc 1 99 12 is_stmt 0 view .LVU22
+  82 001e 9108     		lsrs	r1, r2, #2
+  83              	.LVL7:
+ 100:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 101:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+ 102:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****      ** a second loop below computes the remaining 1 to 3 samples. */
+ 103:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     while (blkCnt > 0U)
+  84              		.loc 1 103 5 is_stmt 1 view .LVU23
+  85              		.loc 1 103 11 is_stmt 0 view .LVU24
+  86 0020 23E0     		b	.L3
+  87              	.L4:
+ 104:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     {
+ 105:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* C(m,n) = A(m,n) - B(m,n) */
+ 106:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Subtract and then store the results in the destination buffer. */
+ 107:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source A */
+ 108:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inA1 = pIn1[0];
+  88              		.loc 1 108 7 is_stmt 1 view .LVU25
+  89              		.loc 1 108 12 is_stmt 0 view .LVU26
+  90 0022 D3ED006A 		vldr.32	s13, [r3]
+  91              	.LVL8:
+ 109:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 110:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source B */
+ 111:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inB1 = pIn2[0];
+  92              		.loc 1 111 7 is_stmt 1 view .LVU27
+  93              		.loc 1 111 12 is_stmt 0 view .LVU28
+  94 0026 94ED007A 		vldr.32	s14, [r4]
+  95              	.LVL9:
+ 112:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 113:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source A */
+ 114:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inA2 = pIn1[1];
+  96              		.loc 1 114 7 is_stmt 1 view .LVU29
+  97              		.loc 1 114 12 is_stmt 0 view .LVU30
+  98 002a D3ED017A 		vldr.32	s15, [r3, #4]
+  99              	.LVL10:
+ 115:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 116:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* out = sourceA - sourceB */
+ 117:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       out1 = inA1 - inB1;
+ 100              		.loc 1 117 7 is_stmt 1 view .LVU31
+ 101              		.loc 1 117 12 is_stmt 0 view .LVU32
+ 102 002e 76EEC76A 		vsub.f32	s13, s13, s14
+ 103              	.LVL11:
+ 118:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 119:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source B */
+ 120:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inB2 = pIn2[1];
+ 104              		.loc 1 120 7 is_stmt 1 view .LVU33
+ 105              		.loc 1 120 12 is_stmt 0 view .LVU34
+ 106 0032 94ED016A 		vldr.32	s12, [r4, #4]
+ 107              	.LVL12:
+ 121:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 122:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source A */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 5
+
+
+ 123:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inA1 = pIn1[2];
+ 108              		.loc 1 123 7 is_stmt 1 view .LVU35
+ 109              		.loc 1 123 12 is_stmt 0 view .LVU36
+ 110 0036 93ED027A 		vldr.32	s14, [r3, #8]
+ 111              	.LVL13:
+ 124:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 125:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* out = sourceA - sourceB */
+ 126:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       out2 = inA2 - inB2;
+ 112              		.loc 1 126 7 is_stmt 1 view .LVU37
+ 113              		.loc 1 126 12 is_stmt 0 view .LVU38
+ 114 003a 77EEC67A 		vsub.f32	s15, s15, s12
+ 115              	.LVL14:
+ 127:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 128:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source B */
+ 129:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inB1 = pIn2[2];
+ 116              		.loc 1 129 7 is_stmt 1 view .LVU39
+ 117              		.loc 1 129 12 is_stmt 0 view .LVU40
+ 118 003e 94ED026A 		vldr.32	s12, [r4, #8]
+ 119              	.LVL15:
+ 130:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 131:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Store result in destination */
+ 132:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       pOut[0] = out1;
+ 120              		.loc 1 132 7 is_stmt 1 view .LVU41
+ 121              		.loc 1 132 15 is_stmt 0 view .LVU42
+ 122 0042 C5ED006A 		vstr.32	s13, [r5]
+ 123              	.LVL16:
+ 133:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       pOut[1] = out2;
+ 124              		.loc 1 133 7 is_stmt 1 view .LVU43
+ 125              		.loc 1 133 15 is_stmt 0 view .LVU44
+ 126 0046 C5ED017A 		vstr.32	s15, [r5, #4]
+ 134:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 135:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source A */
+ 136:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inA2 = pIn1[3];
+ 127              		.loc 1 136 7 is_stmt 1 view .LVU45
+ 128              		.loc 1 136 12 is_stmt 0 view .LVU46
+ 129 004a D3ED037A 		vldr.32	s15, [r3, #12]
+ 130              	.LVL17:
+ 137:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 138:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Read values from source B */
+ 139:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       inB2 = pIn2[3];
+ 131              		.loc 1 139 7 is_stmt 1 view .LVU47
+ 132              		.loc 1 139 12 is_stmt 0 view .LVU48
+ 133 004e D4ED036A 		vldr.32	s13, [r4, #12]
+ 134              	.LVL18:
+ 140:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 141:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* out = sourceA - sourceB */
+ 142:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       out1 = inA1 - inB1;
+ 135              		.loc 1 142 7 is_stmt 1 view .LVU49
+ 136              		.loc 1 142 12 is_stmt 0 view .LVU50
+ 137 0052 37EE467A 		vsub.f32	s14, s14, s12
+ 138              	.LVL19:
+ 143:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 144:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 145:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* out = sourceA - sourceB */
+ 146:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       out2 = inA2 - inB2;
+ 139              		.loc 1 146 7 is_stmt 1 view .LVU51
+ 140              		.loc 1 146 12 is_stmt 0 view .LVU52
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 6
+
+
+ 141 0056 77EEE67A 		vsub.f32	s15, s15, s13
+ 142              	.LVL20:
+ 147:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 148:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Store result in destination */
+ 149:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       pOut[2] = out1;
+ 143              		.loc 1 149 7 is_stmt 1 view .LVU53
+ 144              		.loc 1 149 15 is_stmt 0 view .LVU54
+ 145 005a 85ED027A 		vstr.32	s14, [r5, #8]
+ 146              	.LVL21:
+ 150:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 151:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Store result in destination */
+ 152:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       pOut[3] = out2;
+ 147              		.loc 1 152 7 is_stmt 1 view .LVU55
+ 148              		.loc 1 152 15 is_stmt 0 view .LVU56
+ 149 005e C5ED037A 		vstr.32	s15, [r5, #12]
+ 153:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 154:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 155:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* update pointers to process next sampels */
+ 156:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       pIn1 += 4U;
+ 150              		.loc 1 156 7 is_stmt 1 view .LVU57
+ 151              		.loc 1 156 12 is_stmt 0 view .LVU58
+ 152 0062 1033     		adds	r3, r3, #16
+ 153              	.LVL22:
+ 157:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       pIn2 += 4U;
+ 154              		.loc 1 157 7 is_stmt 1 view .LVU59
+ 155              		.loc 1 157 12 is_stmt 0 view .LVU60
+ 156 0064 1034     		adds	r4, r4, #16
+ 157              	.LVL23:
+ 158:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       pOut += 4U;
+ 158              		.loc 1 158 7 is_stmt 1 view .LVU61
+ 159              		.loc 1 158 12 is_stmt 0 view .LVU62
+ 160 0066 1035     		adds	r5, r5, #16
+ 161              	.LVL24:
+ 159:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 160:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Decrement the loop counter */
+ 161:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       blkCnt--;
+ 162              		.loc 1 161 7 is_stmt 1 view .LVU63
+ 163              		.loc 1 161 13 is_stmt 0 view .LVU64
+ 164 0068 0139     		subs	r1, r1, #1
+ 165              	.LVL25:
+ 166              	.L3:
+ 103:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     {
+ 167              		.loc 1 103 19 is_stmt 1 view .LVU65
+ 168 006a 0029     		cmp	r1, #0
+ 169 006c D9D1     		bne	.L4
+ 162:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     }
+ 163:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 164:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* If the numSamples is not a multiple of 4, compute any remaining output samples here.
+ 165:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****      ** No loop unrolling is used. */
+ 166:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     blkCnt = numSamples % 0x4U;
+ 170              		.loc 1 166 5 view .LVU66
+ 171              		.loc 1 166 12 is_stmt 0 view .LVU67
+ 172 006e 02F00302 		and	r2, r2, #3
+ 173              	.LVL26:
+ 167:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 168:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #else
+ 169:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 7
+
+
+ 170:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* Run the below code for Cortex-M0 */
+ 171:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 172:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* Initialize blkCnt with number of samples */
+ 173:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     blkCnt = numSamples;
+ 174:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 175:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 176:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 177:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     while (blkCnt > 0U)
+ 174              		.loc 1 177 5 is_stmt 1 view .LVU68
+ 175              		.loc 1 177 11 is_stmt 0 view .LVU69
+ 176 0072 08E0     		b	.L5
+ 177              	.L6:
+ 178:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     {
+ 179:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* C(m,n) = A(m,n) - B(m,n) */
+ 180:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Subtract and then store the results in the destination buffer. */
+ 181:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       *pOut++ = (*pIn1++) - (*pIn2++);
+ 178              		.loc 1 181 7 is_stmt 1 view .LVU70
+ 179              	.LVL27:
+ 180              		.loc 1 181 18 is_stmt 0 view .LVU71
+ 181 0074 F3EC017A 		vldmia.32	r3!, {s15}
+ 182              	.LVL28:
+ 183              		.loc 1 181 30 view .LVU72
+ 184 0078 B4EC017A 		vldmia.32	r4!, {s14}
+ 185              	.LVL29:
+ 186              		.loc 1 181 27 view .LVU73
+ 187 007c 77EEC77A 		vsub.f32	s15, s15, s14
+ 188              		.loc 1 181 15 view .LVU74
+ 189 0080 E5EC017A 		vstmia.32	r5!, {s15}
+ 190              	.LVL30:
+ 182:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 183:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       /* Decrement the loop counter */
+ 184:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****       blkCnt--;
+ 191              		.loc 1 184 7 is_stmt 1 view .LVU75
+ 192              		.loc 1 184 13 is_stmt 0 view .LVU76
+ 193 0084 013A     		subs	r2, r2, #1
+ 194              	.LVL31:
+ 195              	.L5:
+ 177:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     {
+ 196              		.loc 1 177 19 is_stmt 1 view .LVU77
+ 197 0086 002A     		cmp	r2, #0
+ 198 0088 F4D1     		bne	.L6
+ 185:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     }
+ 186:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 187:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     /* Set status as ARM_MATH_SUCCESS */
+ 188:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****     status = ARM_MATH_SUCCESS;
+ 199              		.loc 1 188 12 is_stmt 0 view .LVU78
+ 200 008a 0020     		movs	r0, #0
+ 201              	.LVL32:
+ 202              	.L2:
+ 189:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   }
+ 190:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** 
+ 191:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   /* Return to application */
+ 192:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   return (status);
+ 203              		.loc 1 192 3 is_stmt 1 view .LVU79
+ 193:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c **** }
+ 204              		.loc 1 193 1 is_stmt 0 view .LVU80
+ 205 008c 70BC     		pop	{r4, r5, r6}
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 8
+
+
+ 206              	.LCFI1:
+ 207              		.cfi_remember_state
+ 208              		.cfi_restore 6
+ 209              		.cfi_restore 5
+ 210              		.cfi_restore 4
+ 211              		.cfi_def_cfa_offset 0
+ 212              	.LVL33:
+ 213              		.loc 1 193 1 view .LVU81
+ 214 008e 7047     		bx	lr
+ 215              	.LVL34:
+ 216              	.L7:
+ 217              	.LCFI2:
+ 218              		.cfi_restore_state
+  86:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   }
+ 219              		.loc 1 86 12 view .LVU82
+ 220 0090 6FF00200 		mvn	r0, #2
+ 221              	.LVL35:
+  86:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   }
+ 222              		.loc 1 86 12 view .LVU83
+ 223 0094 FAE7     		b	.L2
+ 224              	.LVL36:
+ 225              	.L8:
+  86:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   }
+ 226              		.loc 1 86 12 view .LVU84
+ 227 0096 6FF00200 		mvn	r0, #2
+ 228              	.LVL37:
+  86:Drivers/CMSIS/DSP/Source/MatrixFunctions/arm_mat_sub_f32.c ****   }
+ 229              		.loc 1 86 12 view .LVU85
+ 230 009a F7E7     		b	.L2
+ 231              		.cfi_endproc
+ 232              	.LFE139:
+ 234              		.text
+ 235              	.Letext0:
+ 236              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 237              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 238              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_mat_sub_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s:21     .text.arm_mat_sub_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc4kUhuk.s:27     .text.arm_mat_sub_f32:00000000 arm_mat_sub_f32
+
+NO UNDEFINED SYMBOLS

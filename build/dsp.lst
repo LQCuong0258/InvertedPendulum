@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -27,57 +27,102 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 1
   24              		.thumb_func
   26              	ConvertAngle:
   27              	.LVL0:
-  28              	.LFB178:
+  28              	.LFB174:
    1:Core/Src/Application/Src/dsp.c **** #include "dsp.h"
    2:Core/Src/Application/Src/dsp.c **** 
-   3:Core/Src/Application/Src/dsp.c **** extern TIM_HandleTypeDef htim2;
-   4:Core/Src/Application/Src/dsp.c **** extern TIM_HandleTypeDef htim3;
+   3:Core/Src/Application/Src/dsp.c **** extern float32_t MotorCoefficients[MOTOR_FILTER_STAGES_NUM * COEFFICIENT_NUMBER];
+   4:Core/Src/Application/Src/dsp.c **** extern float32_t PendulumCoefficients[MOTOR_FILTER_STAGES_NUM * COEFFICIENT_NUMBER];
    5:Core/Src/Application/Src/dsp.c **** 
-   6:Core/Src/Application/Src/dsp.c **** extern int64_t checkCnt;
-   7:Core/Src/Application/Src/dsp.c **** 
-   8:Core/Src/Application/Src/dsp.c **** /* Các hàm dùng để ánh xạ vào các Methods của DSP struct----------*/
-   9:Core/Src/Application/Src/dsp.c **** 
-  10:Core/Src/Application/Src/dsp.c **** /**
-  11:Core/Src/Application/Src/dsp.c ****  * Hàm này dùng để tính toán số pulse nhận được từ Encoder sang radian
-  12:Core/Src/Application/Src/dsp.c ****  * Biểu diễn bằng thứ nguyên:
-  13:Core/Src/Application/Src/dsp.c ****  * angle (radian) = resolution (radian/pulse) * counter (pulse)
-  14:Core/Src/Application/Src/dsp.c ****  */
-  15:Core/Src/Application/Src/dsp.c **** static void ConvertAngle (DSP * const self, Encoder const * const encoder_topic) {
-  29              		.loc 1 15 82 view -0
+   6:Core/Src/Application/Src/dsp.c **** static void Differentiator_apply(Differentiator * const self, float32_t * input, float32_t * output
+   7:Core/Src/Application/Src/dsp.c **** {
+   8:Core/Src/Application/Src/dsp.c ****     float32_t diff_x;
+   9:Core/Src/Application/Src/dsp.c ****     float32_t filtered_diff_x;
+  10:Core/Src/Application/Src/dsp.c ****     float32_t x = *input;
+  11:Core/Src/Application/Src/dsp.c **** 
+  12:Core/Src/Application/Src/dsp.c ****     /*Estimate first derivative*/
+  13:Core/Src/Application/Src/dsp.c ****     diff_x = self->Cen_Diff_Coeffs[0] * x + self->Cen_Diff_Coeffs[1] * self->state[0] + self->Cen_D
+  14:Core/Src/Application/Src/dsp.c **** 
+  15:Core/Src/Application/Src/dsp.c ****     /*Store the updated state variables back into the state array*/
+  16:Core/Src/Application/Src/dsp.c ****     self->state[1] = self->state[0]; self->state[0] = x;
+  17:Core/Src/Application/Src/dsp.c ****     
+  18:Core/Src/Application/Src/dsp.c ****     /*Filter estimated first derivative*/
+  19:Core/Src/Application/Src/dsp.c ****     self->filter.numStages = 1;
+  20:Core/Src/Application/Src/dsp.c ****     arm_biquad_cascade_df2T_f32(&self->filter, &diff_x, &filtered_diff_x, 1);
+  21:Core/Src/Application/Src/dsp.c **** 
+  22:Core/Src/Application/Src/dsp.c ****     /*Return output value*/
+  23:Core/Src/Application/Src/dsp.c ****     *output = filtered_diff_x;
+  24:Core/Src/Application/Src/dsp.c **** }
+  25:Core/Src/Application/Src/dsp.c **** 
+  26:Core/Src/Application/Src/dsp.c **** /**
+  27:Core/Src/Application/Src/dsp.c ****  * 
+  28:Core/Src/Application/Src/dsp.c ****  */
+  29:Core/Src/Application/Src/dsp.c **** void Differentiator_new(Differentiator * const self, float32_t SampleTime, uint8_t num_states, floa
+  30:Core/Src/Application/Src/dsp.c **** {
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 2
+
+
+  31:Core/Src/Application/Src/dsp.c ****     /*Assign member functions*/
+  32:Core/Src/Application/Src/dsp.c ****     self->apply = &Differentiator_apply;
+  33:Core/Src/Application/Src/dsp.c **** 
+  34:Core/Src/Application/Src/dsp.c ****     /*Initialize data members*/
+  35:Core/Src/Application/Src/dsp.c ****     self->SampleTime = SampleTime;
+  36:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[0] = 3.0f / (2.0f * self->SampleTime);
+  37:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[1] = -4.0f / (2.0f * self->SampleTime);
+  38:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[2] = 1.0f / (2.0f * self->SampleTime);
+  39:Core/Src/Application/Src/dsp.c **** 
+  40:Core/Src/Application/Src/dsp.c ****     // self->state[0] = 0.0F; 
+  41:Core/Src/Application/Src/dsp.c ****     // self->state[1] = 0.0F;
+  42:Core/Src/Application/Src/dsp.c **** 
+  43:Core/Src/Application/Src/dsp.c ****     /*Initialize filter*/
+  44:Core/Src/Application/Src/dsp.c ****     self->filter_state = ( float32_t * ) pvPortMalloc( (2U * (uint32_t) num_states) * sizeof(float3
+  45:Core/Src/Application/Src/dsp.c **** 
+  46:Core/Src/Application/Src/dsp.c ****     arm_biquad_cascade_df2T_init_f32(&self->filter, num_states, filter_coeffs, self->filter_state);
+  47:Core/Src/Application/Src/dsp.c **** }
+  48:Core/Src/Application/Src/dsp.c **** 
+  49:Core/Src/Application/Src/dsp.c **** 
+  50:Core/Src/Application/Src/dsp.c **** /* Các hàm dùng để ánh xạ vào các Methods của DSP struct----------*/
+  51:Core/Src/Application/Src/dsp.c **** 
+  52:Core/Src/Application/Src/dsp.c **** /**
+  53:Core/Src/Application/Src/dsp.c ****  * Hàm này dùng để tính toán số pulse nhận được từ Encoder sang radian
+  54:Core/Src/Application/Src/dsp.c ****  * Biểu diễn bằng thứ nguyên:
+  55:Core/Src/Application/Src/dsp.c ****  * angle (radian) = resolution (radian/pulse) * counter (pulse)
+  56:Core/Src/Application/Src/dsp.c ****  */
+  57:Core/Src/Application/Src/dsp.c **** static void ConvertAngle (DSP * const self, Encoder const * const encoder_topic) {
+  29              		.loc 1 57 82 view -0
   30              		.cfi_startproc
   31              		@ args = 0, pretend = 0, frame = 0
   32              		@ frame_needed = 0, uses_anonymous_args = 0
   33              		@ link register save eliminated.
-  16:Core/Src/Application/Src/dsp.c ****     self->motor_angle = self->motor_resolution * encoder_topic->MotorCnt;
-  34              		.loc 1 16 5 view .LVU1
-  35              		.loc 1 16 29 is_stmt 0 view .LVU2
-  36 0000 90ED027A 		vldr.32	s14, [r0, #8]
-  37              		.loc 1 16 48 view .LVU3
+  58:Core/Src/Application/Src/dsp.c ****     self->raw_motor_angle = self->motor_resolution * encoder_topic->MotorCnt;
+  34              		.loc 1 58 5 view .LVU1
+  35              		.loc 1 58 33 is_stmt 0 view .LVU2
+  36 0000 90ED017A 		vldr.32	s14, [r0, #4]
+  37              		.loc 1 58 52 view .LVU3
   38 0004 D1ED017A 		vldr.32	s15, [r1, #4]	@ int
   39 0008 F8EEE77A 		vcvt.f32.s32	s15, s15
   40 000c 67EE877A 		vmul.f32	s15, s15, s14
-  41              		.loc 1 16 23 view .LVU4
-  42 0010 C0ED047A 		vstr.32	s15, [r0, #16]
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 2
-
-
-  17:Core/Src/Application/Src/dsp.c ****     self->pendulum_angle = self->pendulum_resolution * encoder_topic->PendulumCnt;
-  43              		.loc 1 17 5 is_stmt 1 view .LVU5
-  44              		.loc 1 17 32 is_stmt 0 view .LVU6
-  45 0014 90ED037A 		vldr.32	s14, [r0, #12]
-  46              		.loc 1 17 69 view .LVU7
+  41              		.loc 1 58 27 view .LVU4
+  42 0010 C0ED037A 		vstr.32	s15, [r0, #12]
+  59:Core/Src/Application/Src/dsp.c ****     self->raw_pendulum_angle = self->pendulum_resolution * encoder_topic->PendulumCnt;
+  43              		.loc 1 59 5 is_stmt 1 view .LVU5
+  44              		.loc 1 59 36 is_stmt 0 view .LVU6
+  45 0014 90ED027A 		vldr.32	s14, [r0, #8]
+  46              		.loc 1 59 73 view .LVU7
   47 0018 B1F90030 		ldrsh	r3, [r1]
   48 001c 07EE903A 		vmov	s15, r3	@ int
-  49              		.loc 1 17 54 view .LVU8
+  49              		.loc 1 59 58 view .LVU8
   50 0020 F8EEE77A 		vcvt.f32.s32	s15, s15
   51 0024 67EE877A 		vmul.f32	s15, s15, s14
-  52              		.loc 1 17 26 view .LVU9
-  53 0028 C0ED057A 		vstr.32	s15, [r0, #20]
-  18:Core/Src/Application/Src/dsp.c **** }
-  54              		.loc 1 18 1 view .LVU10
+  52              		.loc 1 59 30 view .LVU9
+  53 0028 C0ED047A 		vstr.32	s15, [r0, #16]
+  60:Core/Src/Application/Src/dsp.c **** }
+  54              		.loc 1 60 1 view .LVU10
   55 002c 7047     		bx	lr
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 3
+
+
   56              		.cfi_endproc
-  57              	.LFE178:
+  57              	.LFE174:
   59              		.section	.text.filter,"ax",%progbits
   60              		.align	1
   61              		.global	filter
@@ -86,386 +131,745 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 1
   64              		.thumb_func
   66              	filter:
   67              	.LVL1:
-  68              	.LFB179:
-  19:Core/Src/Application/Src/dsp.c **** 
-  20:Core/Src/Application/Src/dsp.c **** /**
-  21:Core/Src/Application/Src/dsp.c ****  * Hàm này để lọc data (Low pass filter) nhưng vì hiện tại chưa xử lý được vi�
-  22:Core/Src/Application/Src/dsp.c ****  * lọc data được nên ở đây sẽ gán trực tiếp các giá trị sau khi tính toán �
-  23:Core/Src/Application/Src/dsp.c ****  * của hệ thống vào các biến lưu trạng thái của hệ thống (State)
-  24:Core/Src/Application/Src/dsp.c ****  */
-  25:Core/Src/Application/Src/dsp.c **** void filter (DSP * const self) {
-  69              		.loc 1 25 32 is_stmt 1 view -0
+  68              	.LFB175:
+  61:Core/Src/Application/Src/dsp.c **** 
+  62:Core/Src/Application/Src/dsp.c **** /**
+  63:Core/Src/Application/Src/dsp.c ****  * Hàm này để lọc data (Low pass filter) nhưng vì hiện tại chưa xử lý được vi�
+  64:Core/Src/Application/Src/dsp.c ****  * lọc data được nên ở đây sẽ gán trực tiếp các giá trị sau khi tính toán �
+  65:Core/Src/Application/Src/dsp.c ****  * của hệ thống vào các biến lưu trạng thái của hệ thống (State)
+  66:Core/Src/Application/Src/dsp.c ****  */
+  67:Core/Src/Application/Src/dsp.c **** void filter (DSP * const self) {
+  69              		.loc 1 67 32 is_stmt 1 view -0
   70              		.cfi_startproc
   71              		@ args = 0, pretend = 0, frame = 0
   72              		@ frame_needed = 0, uses_anonymous_args = 0
-  73              		@ link register save eliminated.
-  26:Core/Src/Application/Src/dsp.c ****     self->motor_velocity = (self->motor_angle - self->motor_state.Prev_position) / self->SampleTime
-  74              		.loc 1 26 5 view .LVU12
-  75              		.loc 1 26 33 is_stmt 0 view .LVU13
-  76 0000 90ED047A 		vldr.32	s14, [r0, #16]
-  77              		.loc 1 26 66 view .LVU14
-  78 0004 D0ED0B7A 		vldr.32	s15, [r0, #44]
-  79              		.loc 1 26 47 view .LVU15
-  80 0008 77EE677A 		vsub.f32	s15, s14, s15
-  81              		.loc 1 26 88 view .LVU16
-  82 000c D0ED006A 		vldr.32	s13, [r0]
-  83              		.loc 1 26 82 view .LVU17
-  84 0010 87EEA66A 		vdiv.f32	s12, s15, s13
-  85              		.loc 1 26 26 view .LVU18
-  86 0014 80ED066A 		vstr.32	s12, [r0, #24]
-  27:Core/Src/Application/Src/dsp.c ****     /* Lưu giá trị hiện tại vào biến trước để tính toán velocity trong lần g�
-  28:Core/Src/Application/Src/dsp.c ****     self->motor_state.Prev_position = self->motor_angle;
-  87              		.loc 1 28 5 is_stmt 1 view .LVU19
-  88              		.loc 1 28 37 is_stmt 0 view .LVU20
-  89 0018 80ED0B7A 		vstr.32	s14, [r0, #44]
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 3
-
-
-  29:Core/Src/Application/Src/dsp.c **** 
-  30:Core/Src/Application/Src/dsp.c ****     // Tương tự
-  31:Core/Src/Application/Src/dsp.c ****     self->pendulum_velocity = (self->pendulum_angle - self->pendulum_state.Prev_position) /self->Sa
-  90              		.loc 1 31 5 is_stmt 1 view .LVU21
-  91              		.loc 1 31 36 is_stmt 0 view .LVU22
-  92 001c 90ED057A 		vldr.32	s14, [r0, #20]
-  93              		.loc 1 31 75 view .LVU23
-  94 0020 D0ED137A 		vldr.32	s15, [r0, #76]
-  95              		.loc 1 31 53 view .LVU24
-  96 0024 77EE677A 		vsub.f32	s15, s14, s15
-  97              		.loc 1 31 91 view .LVU25
-  98 0028 87EEA66A 		vdiv.f32	s12, s15, s13
-  99              		.loc 1 31 29 view .LVU26
- 100 002c 80ED076A 		vstr.32	s12, [r0, #28]
-  32:Core/Src/Application/Src/dsp.c ****     self->pendulum_state.Prev_position = self->pendulum_angle;
- 101              		.loc 1 32 5 is_stmt 1 view .LVU27
- 102              		.loc 1 32 40 is_stmt 0 view .LVU28
- 103 0030 80ED137A 		vstr.32	s14, [r0, #76]
-  33:Core/Src/Application/Src/dsp.c **** }
- 104              		.loc 1 33 1 view .LVU29
- 105 0034 7047     		bx	lr
- 106              		.cfi_endproc
- 107              	.LFE179:
- 109              		.section	.text.estimate,"ax",%progbits
- 110              		.align	1
- 111              		.global	estimate
- 112              		.syntax unified
- 113              		.thumb
- 114              		.thumb_func
- 116              	estimate:
- 117              	.LVL2:
- 118              	.LFB180:
-  34:Core/Src/Application/Src/dsp.c **** 
-  35:Core/Src/Application/Src/dsp.c **** /**
-  36:Core/Src/Application/Src/dsp.c ****  * 
-  37:Core/Src/Application/Src/dsp.c ****  */
-  38:Core/Src/Application/Src/dsp.c **** void estimate (DSP * const self) {
- 119              		.loc 1 38 34 is_stmt 1 view -0
- 120              		.cfi_startproc
- 121              		@ args = 0, pretend = 0, frame = 0
- 122              		@ frame_needed = 0, uses_anonymous_args = 0
- 123              		@ link register save eliminated.
-  39:Core/Src/Application/Src/dsp.c ****     /* Lưu lại các trạng thái của hệ thống, vì đây là những
-  40:Core/Src/Application/Src/dsp.c ****        thông tin cần thiết trong quá trình điều khiển */
-  41:Core/Src/Application/Src/dsp.c ****     self->motor_state.position = self->motor_angle;
- 124              		.loc 1 41 5 view .LVU31
- 125              		.loc 1 41 38 is_stmt 0 view .LVU32
- 126 0000 90ED047A 		vldr.32	s14, [r0, #16]
- 127              		.loc 1 41 32 view .LVU33
- 128 0004 80ED087A 		vstr.32	s14, [r0, #32]
-  42:Core/Src/Application/Src/dsp.c ****     self->motor_state.velocity = self->motor_velocity;
- 129              		.loc 1 42 5 is_stmt 1 view .LVU34
- 130              		.loc 1 42 38 is_stmt 0 view .LVU35
- 131 0008 D0ED067A 		vldr.32	s15, [r0, #24]
- 132              		.loc 1 42 32 view .LVU36
- 133 000c C0ED097A 		vstr.32	s15, [r0, #36]
-  43:Core/Src/Application/Src/dsp.c **** 
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 4
-
-
-  44:Core/Src/Application/Src/dsp.c ****     self->pendulum_state.position = self->pendulum_angle;
- 134              		.loc 1 44 5 is_stmt 1 view .LVU37
- 135              		.loc 1 44 41 is_stmt 0 view .LVU38
- 136 0010 4369     		ldr	r3, [r0, #20]	@ float
- 137              		.loc 1 44 35 view .LVU39
- 138 0012 0364     		str	r3, [r0, #64]	@ float
-  45:Core/Src/Application/Src/dsp.c ****     self->pendulum_state.velocity = self->pendulum_velocity;
- 139              		.loc 1 45 5 is_stmt 1 view .LVU40
- 140              		.loc 1 45 41 is_stmt 0 view .LVU41
- 141 0014 C369     		ldr	r3, [r0, #28]	@ float
- 142              		.loc 1 45 35 view .LVU42
- 143 0016 4364     		str	r3, [r0, #68]	@ float
-  46:Core/Src/Application/Src/dsp.c **** 
-  47:Core/Src/Application/Src/dsp.c ****     /* Riêng đối với trạng thái của xe, chúng ta cần tính toán vị trí sang tọa
-  48:Core/Src/Application/Src/dsp.c ****        x(m) và vận tốc v(m/s) trước khi gán vào self->cart_state */
-  49:Core/Src/Application/Src/dsp.c ****     self->cart_state.position = self->motor_angle * self->gear_ratio;
- 144              		.loc 1 49 5 is_stmt 1 view .LVU43
- 145              		.loc 1 49 57 is_stmt 0 view .LVU44
- 146 0018 D0ED016A 		vldr.32	s13, [r0, #4]
- 147              		.loc 1 49 51 view .LVU45
- 148 001c 27EE267A 		vmul.f32	s14, s14, s13
- 149              		.loc 1 49 31 view .LVU46
- 150 0020 80ED0C7A 		vstr.32	s14, [r0, #48]
-  50:Core/Src/Application/Src/dsp.c ****     self->cart_state.velocity = self->motor_velocity * self->gear_ratio;
- 151              		.loc 1 50 5 is_stmt 1 view .LVU47
- 152              		.loc 1 50 54 is_stmt 0 view .LVU48
- 153 0024 67EEA67A 		vmul.f32	s15, s15, s13
- 154              		.loc 1 50 31 view .LVU49
- 155 0028 C0ED0D7A 		vstr.32	s15, [r0, #52]
-  51:Core/Src/Application/Src/dsp.c **** }
- 156              		.loc 1 51 1 view .LVU50
- 157 002c 7047     		bx	lr
- 158              		.cfi_endproc
- 159              	.LFE180:
- 161              		.section	.text.procesNewData,"ax",%progbits
- 162              		.align	1
- 163              		.global	procesNewData
- 164              		.syntax unified
- 165              		.thumb
- 166              		.thumb_func
- 168              	procesNewData:
- 169              	.LVL3:
- 170              	.LFB181:
-  52:Core/Src/Application/Src/dsp.c **** 
-  53:Core/Src/Application/Src/dsp.c **** void procesNewData (DSP * const self, Encoder const * const encoder_topic, State * const state_topi
- 171              		.loc 1 53 103 is_stmt 1 view -0
- 172              		.cfi_startproc
- 173              		@ args = 0, pretend = 0, frame = 0
- 174              		@ frame_needed = 0, uses_anonymous_args = 0
- 175              		.loc 1 53 103 is_stmt 0 view .LVU52
- 176 0000 38B5     		push	{r3, r4, r5, lr}
- 177              	.LCFI0:
- 178              		.cfi_def_cfa_offset 16
- 179              		.cfi_offset 3, -16
- 180              		.cfi_offset 4, -12
- 181              		.cfi_offset 5, -8
- 182              		.cfi_offset 14, -4
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 5
-
-
- 183 0002 0546     		mov	r5, r0
- 184 0004 1446     		mov	r4, r2
-  54:Core/Src/Application/Src/dsp.c ****     /* Chuyển đổi từ pulse sang radian */
-  55:Core/Src/Application/Src/dsp.c ****     ConvertAngle(self, encoder_topic);
- 185              		.loc 1 55 5 is_stmt 1 view .LVU53
- 186 0006 FFF7FEFF 		bl	ConvertAngle
- 187              	.LVL4:
-  56:Core/Src/Application/Src/dsp.c **** 
-  57:Core/Src/Application/Src/dsp.c ****     /* Tiến hành lọc data và tính toán vận tốc*/
-  58:Core/Src/Application/Src/dsp.c ****     filter(self);
- 188              		.loc 1 58 5 view .LVU54
- 189 000a 2846     		mov	r0, r5
- 190 000c FFF7FEFF 		bl	filter
- 191              	.LVL5:
-  59:Core/Src/Application/Src/dsp.c **** 
-  60:Core/Src/Application/Src/dsp.c ****     /* Lưu các giá trị trạng thái vào các thành phần của hệ thống */
-  61:Core/Src/Application/Src/dsp.c ****     estimate(self);
- 192              		.loc 1 61 5 view .LVU55
- 193 0010 2846     		mov	r0, r5
- 194 0012 FFF7FEFF 		bl	estimate
- 195              	.LVL6:
-  62:Core/Src/Application/Src/dsp.c **** 
-  63:Core/Src/Application/Src/dsp.c ****     /* Cuối cùng là ánh xạ các giá trị trạng thái vào struct State sẽ dùng chung 
-  64:Core/Src/Application/Src/dsp.c ****     state_topic->Motor      = self->motor_state;
- 196              		.loc 1 64 5 view .LVU56
- 197              		.loc 1 64 29 is_stmt 0 view .LVU57
- 198 0016 05F12003 		add	r3, r5, #32
- 199 001a 0FCB     		ldm	r3, {r0, r1, r2, r3}
- 200 001c 84E80F00 		stm	r4, {r0, r1, r2, r3}
-  65:Core/Src/Application/Src/dsp.c ****     state_topic->Cart       = self->cart_state;
- 201              		.loc 1 65 5 is_stmt 1 view .LVU58
- 202              		.loc 1 65 29 is_stmt 0 view .LVU59
- 203 0020 04F1100C 		add	ip, r4, #16
- 204 0024 05F13003 		add	r3, r5, #48
- 205 0028 0FCB     		ldm	r3, {r0, r1, r2, r3}
- 206 002a 8CE80F00 		stm	ip, {r0, r1, r2, r3}
-  66:Core/Src/Application/Src/dsp.c ****     state_topic->Pendulum   = self->pendulum_state;
- 207              		.loc 1 66 5 is_stmt 1 view .LVU60
- 208              		.loc 1 66 29 is_stmt 0 view .LVU61
- 209 002e 2034     		adds	r4, r4, #32
- 210              	.LVL7:
- 211              		.loc 1 66 29 view .LVU62
- 212 0030 4035     		adds	r5, r5, #64
- 213              	.LVL8:
- 214              		.loc 1 66 29 view .LVU63
- 215 0032 95E80F00 		ldm	r5, {r0, r1, r2, r3}
- 216 0036 84E80F00 		stm	r4, {r0, r1, r2, r3}
-  67:Core/Src/Application/Src/dsp.c **** }
- 217              		.loc 1 67 1 view .LVU64
- 218 003a 38BD     		pop	{r3, r4, r5, pc}
- 219              		.loc 1 67 1 view .LVU65
- 220              		.cfi_endproc
- 221              	.LFE181:
- 223              		.section	.text.dsp_new,"ax",%progbits
- 224              		.align	1
- 225              		.global	dsp_new
- 226              		.syntax unified
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 6
-
-
- 227              		.thumb
- 228              		.thumb_func
- 230              	dsp_new:
- 231              	.LVL9:
- 232              	.LFB182:
+  73              		.loc 1 67 32 is_stmt 0 view .LVU12
+  74 0000 10B5     		push	{r4, lr}
+  75              	.LCFI0:
+  76              		.cfi_def_cfa_offset 8
+  77              		.cfi_offset 4, -8
+  78              		.cfi_offset 14, -4
+  79 0002 0446     		mov	r4, r0
   68:Core/Src/Application/Src/dsp.c **** 
-  69:Core/Src/Application/Src/dsp.c **** void dsp_new (DSP * const self) {
- 233              		.loc 1 69 33 is_stmt 1 view -0
- 234              		.cfi_startproc
- 235              		@ args = 0, pretend = 0, frame = 0
- 236              		@ frame_needed = 0, uses_anonymous_args = 0
- 237              		@ link register save eliminated.
-  70:Core/Src/Application/Src/dsp.c ****     /** 
-  71:Core/Src/Application/Src/dsp.c ****      * Giá trị chu kỳ lấy mẫu SampleTime nghĩa là hệ thống sẽ lấy mẫu
-  72:Core/Src/Application/Src/dsp.c ****      * (1/SampleTime) lần trong một giây.
-  73:Core/Src/Application/Src/dsp.c ****      * Ví dụ, nếu SampleTime = 0.01s thì trong 1 giây hệ thống sẽ 
-  74:Core/Src/Application/Src/dsp.c ****      * lấy được 100 lần dữ liệu.
-  75:Core/Src/Application/Src/dsp.c ****      */
-  76:Core/Src/Application/Src/dsp.c ****     self->SampleTime = 0.001f;
- 238              		.loc 1 76 5 view .LVU67
- 239              		.loc 1 76 22 is_stmt 0 view .LVU68
- 240 0000 114B     		ldr	r3, .L7
- 241 0002 0360     		str	r3, [r0]	@ float
-  77:Core/Src/Application/Src/dsp.c **** 
-  78:Core/Src/Application/Src/dsp.c ****     /**
-  79:Core/Src/Application/Src/dsp.c ****      * Vì hộp giảm tốc có tỉ số truyền là 1:14, 
-  80:Core/Src/Application/Src/dsp.c ****      * Với bánh răng nhỏ có 14 teeth và Modun = 1.5 => radius = (14 * 1.5) / 2;
-  81:Core/Src/Application/Src/dsp.c ****      * Khi đó tọa độ x = theta * radius;
-  82:Core/Src/Application/Src/dsp.c ****      * Với theta là góc quay của trục động cơ, còn giá trị Encoder chúng ta thu v�
-  83:Core/Src/Application/Src/dsp.c ****      * chính là góc quay của roto nên theta để tìm x cần nhân với giảm đi 14 lầ
-  84:Core/Src/Application/Src/dsp.c ****      */
-  85:Core/Src/Application/Src/dsp.c ****     self->gear_ratio = (1.0f / 14.0f) * ((14.0f * 1.5f * 0.001f) / 2.0f);//( 1.0F / 14.0F ) * 0.011
- 242              		.loc 1 85 5 is_stmt 1 view .LVU69
- 243              		.loc 1 85 22 is_stmt 0 view .LVU70
- 244 0004 114B     		ldr	r3, .L7+4
- 245 0006 4360     		str	r3, [r0, #4]	@ float
-  86:Core/Src/Application/Src/dsp.c **** 
-  87:Core/Src/Application/Src/dsp.c ****     /**
-  88:Core/Src/Application/Src/dsp.c ****      * Motor's encoder have 500 Pulse per round
-  89:Core/Src/Application/Src/dsp.c ****      * Pendulum's encoder have 1000 Pulse per round
-  90:Core/Src/Application/Src/dsp.c ****      * và chúng ta đang đọc chế độ x4 (x2 trên mỗi channels)
-  91:Core/Src/Application/Src/dsp.c ****      * như vậy 2 biến resolution này sẽ quy đổi cho chúng ta từ pulse sang radian
-  92:Core/Src/Application/Src/dsp.c ****      * đơn vị (radian per pulse)
-  93:Core/Src/Application/Src/dsp.c ****      */
-  94:Core/Src/Application/Src/dsp.c ****     self->motor_resolution = (2.0f * PI) / (4.0f * 500.0f);
- 246              		.loc 1 94 5 is_stmt 1 view .LVU71
- 247              		.loc 1 94 28 is_stmt 0 view .LVU72
- 248 0008 114B     		ldr	r3, .L7+8
- 249 000a 8360     		str	r3, [r0, #8]	@ float
-  95:Core/Src/Application/Src/dsp.c ****     self->pendulum_resolution = (2.0f * PI) / (4.0f * 1000.0f);
- 250              		.loc 1 95 5 is_stmt 1 view .LVU73
- 251              		.loc 1 95 31 is_stmt 0 view .LVU74
- 252 000c 114B     		ldr	r3, .L7+12
- 253 000e C360     		str	r3, [r0, #12]	@ float
+  69:Core/Src/Application/Src/dsp.c ****     /* Data về vị trí after filted sẽ được lưu vào biến filted_.._angle */
+  70:Core/Src/Application/Src/dsp.c ****     // Vì vị trí chưa lọc nên sẽ gán trực tiếp giá trị thô vào
+  71:Core/Src/Application/Src/dsp.c ****     self->filted_motor_angle = self->raw_motor_angle;
+  80              		.loc 1 71 5 is_stmt 1 view .LVU13
+  81              		.loc 1 71 36 is_stmt 0 view .LVU14
+  82 0004 C368     		ldr	r3, [r0, #12]	@ float
+  83              		.loc 1 71 30 view .LVU15
+  84 0006 4361     		str	r3, [r0, #20]	@ float
+  72:Core/Src/Application/Src/dsp.c ****     self->filted_pendulum_angle = self->raw_pendulum_angle;
+  85              		.loc 1 72 5 is_stmt 1 view .LVU16
+  86              		.loc 1 72 39 is_stmt 0 view .LVU17
+  87 0008 0369     		ldr	r3, [r0, #16]	@ float
+  88              		.loc 1 72 33 view .LVU18
+  89 000a 8361     		str	r3, [r0, #24]	@ float
+  73:Core/Src/Application/Src/dsp.c **** 
+  74:Core/Src/Application/Src/dsp.c **** 
+  75:Core/Src/Application/Src/dsp.c ****     /**
+  76:Core/Src/Application/Src/dsp.c ****      * Estimate first derivative and filter
+  77:Core/Src/Application/Src/dsp.c ****      * Đạo hàm vị trí sang vận tốc sau đó dùng filter
+  78:Core/Src/Application/Src/dsp.c ****      */
+  79:Core/Src/Application/Src/dsp.c ****     self->motor_differentiator->apply(
+  90              		.loc 1 79 5 is_stmt 1 view .LVU19
+  91              		.loc 1 79 9 is_stmt 0 view .LVU20
+  92 000c C06E     		ldr	r0, [r0, #108]
+  93              	.LVL2:
+  94              		.loc 1 79 31 view .LVU21
+  95 000e 836A     		ldr	r3, [r0, #40]
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 4
+
+
+  96              		.loc 1 79 5 view .LVU22
+  97 0010 04F12C02 		add	r2, r4, #44
+  98 0014 04F11401 		add	r1, r4, #20
+  99 0018 9847     		blx	r3
+ 100              	.LVL3:
+  80:Core/Src/Application/Src/dsp.c ****         self->motor_differentiator,
+  81:Core/Src/Application/Src/dsp.c ****         &self->filted_motor_angle,
+  82:Core/Src/Application/Src/dsp.c ****         &self->filted_motor_velocity
+  83:Core/Src/Application/Src/dsp.c ****     );
+  84:Core/Src/Application/Src/dsp.c **** 
+  85:Core/Src/Application/Src/dsp.c ****     self->pendulum_differentiator->apply(
+ 101              		.loc 1 85 5 is_stmt 1 view .LVU23
+ 102              		.loc 1 85 9 is_stmt 0 view .LVU24
+ 103 001a 206F     		ldr	r0, [r4, #112]
+ 104              		.loc 1 85 34 view .LVU25
+ 105 001c 836A     		ldr	r3, [r0, #40]
+ 106              		.loc 1 85 5 view .LVU26
+ 107 001e 04F13002 		add	r2, r4, #48
+ 108 0022 04F11801 		add	r1, r4, #24
+ 109 0026 9847     		blx	r3
+ 110              	.LVL4:
+  86:Core/Src/Application/Src/dsp.c ****         self->pendulum_differentiator,
+  87:Core/Src/Application/Src/dsp.c ****         &self->filted_pendulum_angle,
+  88:Core/Src/Application/Src/dsp.c ****         &self->filted_pendulum_velocity
+  89:Core/Src/Application/Src/dsp.c ****     );
+  90:Core/Src/Application/Src/dsp.c **** 
+  91:Core/Src/Application/Src/dsp.c **** 
+  92:Core/Src/Application/Src/dsp.c **** 
+  93:Core/Src/Application/Src/dsp.c ****     // self->motor_velocity = (self->motor_angle - self->motor_state.Prev_position) / self->SampleT
+  94:Core/Src/Application/Src/dsp.c ****     // /* Lưu giá trị hiện tại vào biến trước để tính toán velocity trong lần 
+  95:Core/Src/Application/Src/dsp.c ****     // self->motor_state.Prev_position = self->motor_angle;
   96:Core/Src/Application/Src/dsp.c **** 
-  97:Core/Src/Application/Src/dsp.c ****     /* Khởi tạo các giá trị ban đầu */
-  98:Core/Src/Application/Src/dsp.c ****     self->motor_state       = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, 
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 7
+  97:Core/Src/Application/Src/dsp.c ****     // // Tương tự
+  98:Core/Src/Application/Src/dsp.c **** 
+  99:Core/Src/Application/Src/dsp.c ****     // self->pendulum_velocity = (self->pendulum_angle - self->pendulum_state.Prev_position) /self-
+ 100:Core/Src/Application/Src/dsp.c ****     // self->pendulum_state.Prev_position = self->pendulum_angle;
+ 101:Core/Src/Application/Src/dsp.c **** }
+ 111              		.loc 1 101 1 view .LVU27
+ 112 0028 10BD     		pop	{r4, pc}
+ 113              		.loc 1 101 1 view .LVU28
+ 114              		.cfi_endproc
+ 115              	.LFE175:
+ 117              		.section	.text.estimate,"ax",%progbits
+ 118              		.align	1
+ 119              		.global	estimate
+ 120              		.syntax unified
+ 121              		.thumb
+ 122              		.thumb_func
+ 124              	estimate:
+ 125              	.LVL5:
+ 126              	.LFB176:
+ 102:Core/Src/Application/Src/dsp.c **** 
+ 103:Core/Src/Application/Src/dsp.c **** /**
+ 104:Core/Src/Application/Src/dsp.c ****  * 
+ 105:Core/Src/Application/Src/dsp.c ****  */
+ 106:Core/Src/Application/Src/dsp.c **** void estimate (DSP * const self) {
+ 127              		.loc 1 106 34 is_stmt 1 view -0
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 5
 
 
- 254              		.loc 1 98 5 is_stmt 1 view .LVU75
- 255              		.loc 1 98 29 is_stmt 0 view .LVU76
- 256 0010 0023     		movs	r3, #0
- 257 0012 0362     		str	r3, [r0, #32]
- 258 0014 4362     		str	r3, [r0, #36]
- 259 0016 8362     		str	r3, [r0, #40]
- 260 0018 C362     		str	r3, [r0, #44]
-  99:Core/Src/Application/Src/dsp.c ****     self->cart_state        = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, 
- 261              		.loc 1 99 5 is_stmt 1 view .LVU77
- 262              		.loc 1 99 29 is_stmt 0 view .LVU78
- 263 001a 0363     		str	r3, [r0, #48]
- 264 001c 4363     		str	r3, [r0, #52]
- 265 001e 8363     		str	r3, [r0, #56]
- 266 0020 C363     		str	r3, [r0, #60]
- 100:Core/Src/Application/Src/dsp.c ****     self->pendulum_state    = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, 
- 267              		.loc 1 100 5 is_stmt 1 view .LVU79
- 268              		.loc 1 100 29 is_stmt 0 view .LVU80
- 269 0022 0364     		str	r3, [r0, #64]
- 270 0024 4364     		str	r3, [r0, #68]
- 271 0026 8364     		str	r3, [r0, #72]
- 272 0028 C364     		str	r3, [r0, #76]
- 101:Core/Src/Application/Src/dsp.c **** 
- 102:Core/Src/Application/Src/dsp.c ****     /*----------*/
- 103:Core/Src/Application/Src/dsp.c ****     self->motor_angle = 0.0f;
- 273              		.loc 1 103 5 is_stmt 1 view .LVU81
- 274              		.loc 1 103 23 is_stmt 0 view .LVU82
- 275 002a 0023     		movs	r3, #0
- 276 002c 0361     		str	r3, [r0, #16]	@ float
- 104:Core/Src/Application/Src/dsp.c ****     self->motor_velocity = 0.0f;
- 277              		.loc 1 104 5 is_stmt 1 view .LVU83
- 278              		.loc 1 104 26 is_stmt 0 view .LVU84
- 279 002e 8361     		str	r3, [r0, #24]	@ float
- 105:Core/Src/Application/Src/dsp.c **** 
- 106:Core/Src/Application/Src/dsp.c ****     self->pendulum_angle = 0.0f;
- 280              		.loc 1 106 5 is_stmt 1 view .LVU85
- 281              		.loc 1 106 26 is_stmt 0 view .LVU86
- 282 0030 4361     		str	r3, [r0, #20]	@ float
- 107:Core/Src/Application/Src/dsp.c ****     self->pendulum_velocity = 0.0f;
- 283              		.loc 1 107 5 is_stmt 1 view .LVU87
- 284              		.loc 1 107 29 is_stmt 0 view .LVU88
- 285 0032 C361     		str	r3, [r0, #28]	@ float
- 108:Core/Src/Application/Src/dsp.c ****     
- 109:Core/Src/Application/Src/dsp.c **** 
- 110:Core/Src/Application/Src/dsp.c ****     /* Assign function pointer */
- 111:Core/Src/Application/Src/dsp.c ****     self->ConvertAngle  = &ConvertAngle;
- 286              		.loc 1 111 5 is_stmt 1 view .LVU89
- 287              		.loc 1 111 25 is_stmt 0 view .LVU90
- 288 0034 084B     		ldr	r3, .L7+16
- 289 0036 0365     		str	r3, [r0, #80]
- 112:Core/Src/Application/Src/dsp.c ****     self->filter        = &filter;
- 290              		.loc 1 112 5 is_stmt 1 view .LVU91
- 291              		.loc 1 112 25 is_stmt 0 view .LVU92
- 292 0038 084B     		ldr	r3, .L7+20
- 293 003a 4365     		str	r3, [r0, #84]
- 113:Core/Src/Application/Src/dsp.c ****     self->estimate      = &estimate;
- 294              		.loc 1 113 5 is_stmt 1 view .LVU93
- 295              		.loc 1 113 25 is_stmt 0 view .LVU94
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 8
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131              		@ link register save eliminated.
+ 107:Core/Src/Application/Src/dsp.c ****     /* Lưu lại các trạng thái của hệ thống, vì đây là những
+ 108:Core/Src/Application/Src/dsp.c ****        thông tin cần thiết trong quá trình điều khiển */
+ 109:Core/Src/Application/Src/dsp.c ****     self->motor_state.position = self->filted_motor_angle;
+ 132              		.loc 1 109 5 view .LVU30
+ 133              		.loc 1 109 38 is_stmt 0 view .LVU31
+ 134 0000 90ED057A 		vldr.32	s14, [r0, #20]
+ 135              		.loc 1 109 32 view .LVU32
+ 136 0004 80ED0F7A 		vstr.32	s14, [r0, #60]
+ 110:Core/Src/Application/Src/dsp.c ****     self->motor_state.velocity = self->filted_motor_velocity;
+ 137              		.loc 1 110 5 is_stmt 1 view .LVU33
+ 138              		.loc 1 110 38 is_stmt 0 view .LVU34
+ 139 0008 D0ED0B7A 		vldr.32	s15, [r0, #44]
+ 140              		.loc 1 110 32 view .LVU35
+ 141 000c C0ED107A 		vstr.32	s15, [r0, #64]
+ 111:Core/Src/Application/Src/dsp.c **** 
+ 112:Core/Src/Application/Src/dsp.c ****     self->pendulum_state.position = self->filted_pendulum_angle;
+ 142              		.loc 1 112 5 is_stmt 1 view .LVU36
+ 143              		.loc 1 112 41 is_stmt 0 view .LVU37
+ 144 0010 8369     		ldr	r3, [r0, #24]	@ float
+ 145              		.loc 1 112 35 view .LVU38
+ 146 0012 C365     		str	r3, [r0, #92]	@ float
+ 113:Core/Src/Application/Src/dsp.c ****     self->pendulum_state.velocity = self->filted_pendulum_velocity;
+ 147              		.loc 1 113 5 is_stmt 1 view .LVU39
+ 148              		.loc 1 113 41 is_stmt 0 view .LVU40
+ 149 0014 036B     		ldr	r3, [r0, #48]	@ float
+ 150              		.loc 1 113 35 view .LVU41
+ 151 0016 0366     		str	r3, [r0, #96]	@ float
+ 114:Core/Src/Application/Src/dsp.c **** 
+ 115:Core/Src/Application/Src/dsp.c ****     /* Riêng đối với trạng thái của xe, chúng ta cần tính toán vị trí sang tọa
+ 116:Core/Src/Application/Src/dsp.c ****        x(m) và vận tốc v(m/s) trước khi gán vào self->cart_state */
+ 117:Core/Src/Application/Src/dsp.c ****     self->cart_state.position = self->filted_motor_angle * self->gear_ratio;
+ 152              		.loc 1 117 5 is_stmt 1 view .LVU42
+ 153              		.loc 1 117 64 is_stmt 0 view .LVU43
+ 154 0018 D0ED006A 		vldr.32	s13, [r0]
+ 155              		.loc 1 117 58 view .LVU44
+ 156 001c 27EE267A 		vmul.f32	s14, s14, s13
+ 157              		.loc 1 117 31 view .LVU45
+ 158 0020 80ED137A 		vstr.32	s14, [r0, #76]
+ 118:Core/Src/Application/Src/dsp.c ****     self->cart_state.velocity = self->filted_motor_velocity * self->gear_ratio;
+ 159              		.loc 1 118 5 is_stmt 1 view .LVU46
+ 160              		.loc 1 118 61 is_stmt 0 view .LVU47
+ 161 0024 67EEA67A 		vmul.f32	s15, s15, s13
+ 162              		.loc 1 118 31 view .LVU48
+ 163 0028 C0ED147A 		vstr.32	s15, [r0, #80]
+ 119:Core/Src/Application/Src/dsp.c **** }
+ 164              		.loc 1 119 1 view .LVU49
+ 165 002c 7047     		bx	lr
+ 166              		.cfi_endproc
+ 167              	.LFE176:
+ 169              		.section	.text.procesNewData,"ax",%progbits
+ 170              		.align	1
+ 171              		.global	procesNewData
+ 172              		.syntax unified
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 6
 
 
- 296 003c 084B     		ldr	r3, .L7+24
- 297 003e 8365     		str	r3, [r0, #88]
- 114:Core/Src/Application/Src/dsp.c ****     self->procesNewData = &procesNewData;
- 298              		.loc 1 114 5 is_stmt 1 view .LVU95
- 299              		.loc 1 114 25 is_stmt 0 view .LVU96
- 300 0040 084B     		ldr	r3, .L7+28
- 301 0042 C365     		str	r3, [r0, #92]
- 115:Core/Src/Application/Src/dsp.c **** }
- 302              		.loc 1 115 1 view .LVU97
- 303 0044 7047     		bx	lr
- 304              	.L8:
- 305 0046 00BF     		.align	2
- 306              	.L7:
- 307 0048 6F12833A 		.word	981668463
- 308 004c A79B443A 		.word	977574823
- 309 0050 2EE34D3B 		.word	994960174
- 310 0054 2EE3CD3A 		.word	986571566
- 311 0058 00000000 		.word	ConvertAngle
- 312 005c 00000000 		.word	filter
- 313 0060 00000000 		.word	estimate
- 314 0064 00000000 		.word	procesNewData
- 315              		.cfi_endproc
- 316              	.LFE182:
- 318              		.text
- 319              	.Letext0:
- 320              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
- 321              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
- 322              		.file 4 "Middlewares/ST/ARM/DSP/Inc/arm_math.h"
- 323              		.file 5 "Core/Src/Application/Inc/Topic.h"
- 324              		.file 6 "Core/Src/Application/Inc/dsp.h"
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s 			page 9
+ 173              		.thumb
+ 174              		.thumb_func
+ 176              	procesNewData:
+ 177              	.LVL6:
+ 178              	.LFB177:
+ 120:Core/Src/Application/Src/dsp.c **** 
+ 121:Core/Src/Application/Src/dsp.c **** void procesNewData (DSP * const self, Encoder const * const encoder_topic, State * const state_topi
+ 179              		.loc 1 121 103 is_stmt 1 view -0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183              		.loc 1 121 103 is_stmt 0 view .LVU51
+ 184 0000 38B5     		push	{r3, r4, r5, lr}
+ 185              	.LCFI1:
+ 186              		.cfi_def_cfa_offset 16
+ 187              		.cfi_offset 3, -16
+ 188              		.cfi_offset 4, -12
+ 189              		.cfi_offset 5, -8
+ 190              		.cfi_offset 14, -4
+ 191 0002 0446     		mov	r4, r0
+ 192 0004 1546     		mov	r5, r2
+ 122:Core/Src/Application/Src/dsp.c ****     /* Chuyển đổi từ pulse sang radian */
+ 123:Core/Src/Application/Src/dsp.c ****     self->ConvertAngle(self, encoder_topic);
+ 193              		.loc 1 123 5 is_stmt 1 view .LVU52
+ 194              		.loc 1 123 9 is_stmt 0 view .LVU53
+ 195 0006 436F     		ldr	r3, [r0, #116]
+ 196              		.loc 1 123 5 view .LVU54
+ 197 0008 9847     		blx	r3
+ 198              	.LVL7:
+ 124:Core/Src/Application/Src/dsp.c **** 
+ 125:Core/Src/Application/Src/dsp.c ****     /* Tiến hành lọc data và tính toán vận tốc*/
+ 126:Core/Src/Application/Src/dsp.c ****     self->filter(self);
+ 199              		.loc 1 126 5 is_stmt 1 view .LVU55
+ 200              		.loc 1 126 9 is_stmt 0 view .LVU56
+ 201 000a A36F     		ldr	r3, [r4, #120]
+ 202              		.loc 1 126 5 view .LVU57
+ 203 000c 2046     		mov	r0, r4
+ 204 000e 9847     		blx	r3
+ 205              	.LVL8:
+ 127:Core/Src/Application/Src/dsp.c **** 
+ 128:Core/Src/Application/Src/dsp.c ****     /* Lưu các giá trị trạng thái vào các thành phần của hệ thống */
+ 129:Core/Src/Application/Src/dsp.c ****     self->estimate(self);
+ 206              		.loc 1 129 5 is_stmt 1 view .LVU58
+ 207              		.loc 1 129 9 is_stmt 0 view .LVU59
+ 208 0010 E36F     		ldr	r3, [r4, #124]
+ 209              		.loc 1 129 5 view .LVU60
+ 210 0012 2046     		mov	r0, r4
+ 211 0014 9847     		blx	r3
+ 212              	.LVL9:
+ 130:Core/Src/Application/Src/dsp.c **** 
+ 131:Core/Src/Application/Src/dsp.c ****     /* Cuối cùng là ánh xạ các giá trị trạng thái vào struct State sẽ dùng chung 
+ 132:Core/Src/Application/Src/dsp.c ****     state_topic->Motor      = self->motor_state;
+ 213              		.loc 1 132 5 is_stmt 1 view .LVU61
+ 214              		.loc 1 132 29 is_stmt 0 view .LVU62
+ 215 0016 04F13C03 		add	r3, r4, #60
+ 216 001a 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 217 001c 85E80F00 		stm	r5, {r0, r1, r2, r3}
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 7
+
+
+ 133:Core/Src/Application/Src/dsp.c ****     state_topic->Cart       = self->cart_state;
+ 218              		.loc 1 133 5 is_stmt 1 view .LVU63
+ 219              		.loc 1 133 29 is_stmt 0 view .LVU64
+ 220 0020 05F1100C 		add	ip, r5, #16
+ 221 0024 04F14C03 		add	r3, r4, #76
+ 222 0028 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 223 002a 8CE80F00 		stm	ip, {r0, r1, r2, r3}
+ 134:Core/Src/Application/Src/dsp.c ****     state_topic->Pendulum   = self->pendulum_state;
+ 224              		.loc 1 134 5 is_stmt 1 view .LVU65
+ 225              		.loc 1 134 29 is_stmt 0 view .LVU66
+ 226 002e 2035     		adds	r5, r5, #32
+ 227              	.LVL10:
+ 228              		.loc 1 134 29 view .LVU67
+ 229 0030 5C34     		adds	r4, r4, #92
+ 230              	.LVL11:
+ 231              		.loc 1 134 29 view .LVU68
+ 232 0032 94E80F00 		ldm	r4, {r0, r1, r2, r3}
+ 233 0036 85E80F00 		stm	r5, {r0, r1, r2, r3}
+ 135:Core/Src/Application/Src/dsp.c **** }
+ 234              		.loc 1 135 1 view .LVU69
+ 235 003a 38BD     		pop	{r3, r4, r5, pc}
+ 236              		.loc 1 135 1 view .LVU70
+ 237              		.cfi_endproc
+ 238              	.LFE177:
+ 240              		.section	.text.Differentiator_apply,"ax",%progbits
+ 241              		.align	1
+ 242              		.syntax unified
+ 243              		.thumb
+ 244              		.thumb_func
+ 246              	Differentiator_apply:
+ 247              	.LVL12:
+ 248              	.LFB172:
+   7:Core/Src/Application/Src/dsp.c ****     float32_t diff_x;
+ 249              		.loc 1 7 1 is_stmt 1 view -0
+ 250              		.cfi_startproc
+ 251              		@ args = 0, pretend = 0, frame = 8
+ 252              		@ frame_needed = 0, uses_anonymous_args = 0
+   7:Core/Src/Application/Src/dsp.c ****     float32_t diff_x;
+ 253              		.loc 1 7 1 is_stmt 0 view .LVU72
+ 254 0000 10B5     		push	{r4, lr}
+ 255              	.LCFI2:
+ 256              		.cfi_def_cfa_offset 8
+ 257              		.cfi_offset 4, -8
+ 258              		.cfi_offset 14, -4
+ 259 0002 82B0     		sub	sp, sp, #8
+ 260              	.LCFI3:
+ 261              		.cfi_def_cfa_offset 16
+ 262 0004 1446     		mov	r4, r2
+   8:Core/Src/Application/Src/dsp.c ****     float32_t filtered_diff_x;
+ 263              		.loc 1 8 5 is_stmt 1 view .LVU73
+   9:Core/Src/Application/Src/dsp.c ****     float32_t x = *input;
+ 264              		.loc 1 9 5 view .LVU74
+  10:Core/Src/Application/Src/dsp.c **** 
+ 265              		.loc 1 10 5 view .LVU75
+  10:Core/Src/Application/Src/dsp.c **** 
+ 266              		.loc 1 10 15 is_stmt 0 view .LVU76
+ 267 0006 D1ED006A 		vldr.32	s13, [r1]
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 8
+
+
+ 268              	.LVL13:
+  13:Core/Src/Application/Src/dsp.c **** 
+ 269              		.loc 1 13 5 is_stmt 1 view .LVU77
+  13:Core/Src/Application/Src/dsp.c **** 
+ 270              		.loc 1 13 35 is_stmt 0 view .LVU78
+ 271 000a D0ED017A 		vldr.32	s15, [r0, #4]
+  13:Core/Src/Application/Src/dsp.c **** 
+ 272              		.loc 1 13 39 view .LVU79
+ 273 000e 67EEA67A 		vmul.f32	s15, s15, s13
+  13:Core/Src/Application/Src/dsp.c **** 
+ 274              		.loc 1 13 66 view .LVU80
+ 275 0012 90ED027A 		vldr.32	s14, [r0, #8]
+  13:Core/Src/Application/Src/dsp.c **** 
+ 276              		.loc 1 13 83 view .LVU81
+ 277 0016 90ED046A 		vldr.32	s12, [r0, #16]
+  13:Core/Src/Application/Src/dsp.c **** 
+ 278              		.loc 1 13 70 view .LVU82
+ 279 001a 27EE067A 		vmul.f32	s14, s14, s12
+  13:Core/Src/Application/Src/dsp.c **** 
+ 280              		.loc 1 13 43 view .LVU83
+ 281 001e 77EE877A 		vadd.f32	s15, s15, s14
+  13:Core/Src/Application/Src/dsp.c **** 
+ 282              		.loc 1 13 110 view .LVU84
+ 283 0022 90ED037A 		vldr.32	s14, [r0, #12]
+  13:Core/Src/Application/Src/dsp.c **** 
+ 284              		.loc 1 13 127 view .LVU85
+ 285 0026 D0ED055A 		vldr.32	s11, [r0, #20]
+  13:Core/Src/Application/Src/dsp.c **** 
+ 286              		.loc 1 13 114 view .LVU86
+ 287 002a 27EE257A 		vmul.f32	s14, s14, s11
+  13:Core/Src/Application/Src/dsp.c **** 
+ 288              		.loc 1 13 87 view .LVU87
+ 289 002e 77EE877A 		vadd.f32	s15, s15, s14
+  13:Core/Src/Application/Src/dsp.c **** 
+ 290              		.loc 1 13 12 view .LVU88
+ 291 0032 CDED017A 		vstr.32	s15, [sp, #4]
+  16:Core/Src/Application/Src/dsp.c ****     
+ 292              		.loc 1 16 5 is_stmt 1 view .LVU89
+  16:Core/Src/Application/Src/dsp.c ****     
+ 293              		.loc 1 16 20 is_stmt 0 view .LVU90
+ 294 0036 80ED056A 		vstr.32	s12, [r0, #20]
+  16:Core/Src/Application/Src/dsp.c ****     
+ 295              		.loc 1 16 38 is_stmt 1 view .LVU91
+  16:Core/Src/Application/Src/dsp.c ****     
+ 296              		.loc 1 16 53 is_stmt 0 view .LVU92
+ 297 003a C0ED046A 		vstr.32	s13, [r0, #16]
+  19:Core/Src/Application/Src/dsp.c ****     arm_biquad_cascade_df2T_f32(&self->filter, &diff_x, &filtered_diff_x, 1);
+ 298              		.loc 1 19 5 is_stmt 1 view .LVU93
+  19:Core/Src/Application/Src/dsp.c ****     arm_biquad_cascade_df2T_f32(&self->filter, &diff_x, &filtered_diff_x, 1);
+ 299              		.loc 1 19 28 is_stmt 0 view .LVU94
+ 300 003e 0123     		movs	r3, #1
+ 301 0040 00F8183F 		strb	r3, [r0, #24]!
+ 302              	.LVL14:
+  20:Core/Src/Application/Src/dsp.c **** 
+ 303              		.loc 1 20 5 is_stmt 1 view .LVU95
+ 304 0044 6A46     		mov	r2, sp
+ 305              	.LVL15:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 9
+
+
+  20:Core/Src/Application/Src/dsp.c **** 
+ 306              		.loc 1 20 5 is_stmt 0 view .LVU96
+ 307 0046 01A9     		add	r1, sp, #4
+ 308              	.LVL16:
+  20:Core/Src/Application/Src/dsp.c **** 
+ 309              		.loc 1 20 5 view .LVU97
+ 310 0048 FFF7FEFF 		bl	arm_biquad_cascade_df2T_f32
+ 311              	.LVL17:
+  23:Core/Src/Application/Src/dsp.c **** }
+ 312              		.loc 1 23 5 is_stmt 1 view .LVU98
+  23:Core/Src/Application/Src/dsp.c **** }
+ 313              		.loc 1 23 13 is_stmt 0 view .LVU99
+ 314 004c 009B     		ldr	r3, [sp]	@ float
+ 315 004e 2360     		str	r3, [r4]	@ float
+  24:Core/Src/Application/Src/dsp.c **** 
+ 316              		.loc 1 24 1 view .LVU100
+ 317 0050 02B0     		add	sp, sp, #8
+ 318              	.LCFI4:
+ 319              		.cfi_def_cfa_offset 8
+ 320              		@ sp needed
+ 321 0052 10BD     		pop	{r4, pc}
+  24:Core/Src/Application/Src/dsp.c **** 
+ 322              		.loc 1 24 1 view .LVU101
+ 323              		.cfi_endproc
+ 324              	.LFE172:
+ 326              		.section	.text.Differentiator_new,"ax",%progbits
+ 327              		.align	1
+ 328              		.global	Differentiator_new
+ 329              		.syntax unified
+ 330              		.thumb
+ 331              		.thumb_func
+ 333              	Differentiator_new:
+ 334              	.LVL18:
+ 335              	.LFB173:
+  30:Core/Src/Application/Src/dsp.c ****     /*Assign member functions*/
+ 336              		.loc 1 30 1 is_stmt 1 view -0
+ 337              		.cfi_startproc
+ 338              		@ args = 0, pretend = 0, frame = 0
+ 339              		@ frame_needed = 0, uses_anonymous_args = 0
+  30:Core/Src/Application/Src/dsp.c ****     /*Assign member functions*/
+ 340              		.loc 1 30 1 is_stmt 0 view .LVU103
+ 341 0000 70B5     		push	{r4, r5, r6, lr}
+ 342              	.LCFI5:
+ 343              		.cfi_def_cfa_offset 16
+ 344              		.cfi_offset 4, -16
+ 345              		.cfi_offset 5, -12
+ 346              		.cfi_offset 6, -8
+ 347              		.cfi_offset 14, -4
+ 348 0002 0446     		mov	r4, r0
+ 349 0004 0D46     		mov	r5, r1
+ 350 0006 1646     		mov	r6, r2
+  32:Core/Src/Application/Src/dsp.c **** 
+ 351              		.loc 1 32 5 is_stmt 1 view .LVU104
+  32:Core/Src/Application/Src/dsp.c **** 
+ 352              		.loc 1 32 17 is_stmt 0 view .LVU105
+ 353 0008 114B     		ldr	r3, .L11
+ 354 000a 8362     		str	r3, [r0, #40]
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 10
+
+
+  35:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[0] = 3.0f / (2.0f * self->SampleTime);
+ 355              		.loc 1 35 5 is_stmt 1 view .LVU106
+  35:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[0] = 3.0f / (2.0f * self->SampleTime);
+ 356              		.loc 1 35 22 is_stmt 0 view .LVU107
+ 357 000c 80ED000A 		vstr.32	s0, [r0]
+  36:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[1] = -4.0f / (2.0f * self->SampleTime);
+ 358              		.loc 1 36 5 is_stmt 1 view .LVU108
+  36:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[1] = -4.0f / (2.0f * self->SampleTime);
+ 359              		.loc 1 36 45 is_stmt 0 view .LVU109
+ 360 0010 30EE000A 		vadd.f32	s0, s0, s0
+ 361              	.LVL19:
+  36:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[1] = -4.0f / (2.0f * self->SampleTime);
+ 362              		.loc 1 36 37 view .LVU110
+ 363 0014 B0EE087A 		vmov.f32	s14, #3.0e+0
+ 364 0018 C7EE007A 		vdiv.f32	s15, s14, s0
+  36:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[1] = -4.0f / (2.0f * self->SampleTime);
+ 365              		.loc 1 36 30 view .LVU111
+ 366 001c C0ED017A 		vstr.32	s15, [r0, #4]
+  37:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[2] = 1.0f / (2.0f * self->SampleTime);
+ 367              		.loc 1 37 5 is_stmt 1 view .LVU112
+  37:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[2] = 1.0f / (2.0f * self->SampleTime);
+ 368              		.loc 1 37 38 is_stmt 0 view .LVU113
+ 369 0020 B9EE007A 		vmov.f32	s14, #-4.0e+0
+ 370 0024 C7EE007A 		vdiv.f32	s15, s14, s0
+  37:Core/Src/Application/Src/dsp.c ****     self->Cen_Diff_Coeffs[2] = 1.0f / (2.0f * self->SampleTime);
+ 371              		.loc 1 37 30 view .LVU114
+ 372 0028 C0ED027A 		vstr.32	s15, [r0, #8]
+  38:Core/Src/Application/Src/dsp.c **** 
+ 373              		.loc 1 38 5 is_stmt 1 view .LVU115
+  38:Core/Src/Application/Src/dsp.c **** 
+ 374              		.loc 1 38 37 is_stmt 0 view .LVU116
+ 375 002c B7EE007A 		vmov.f32	s14, #1.0e+0
+ 376 0030 C7EE007A 		vdiv.f32	s15, s14, s0
+  38:Core/Src/Application/Src/dsp.c **** 
+ 377              		.loc 1 38 30 view .LVU117
+ 378 0034 C0ED037A 		vstr.32	s15, [r0, #12]
+  44:Core/Src/Application/Src/dsp.c **** 
+ 379              		.loc 1 44 5 is_stmt 1 view .LVU118
+  44:Core/Src/Application/Src/dsp.c **** 
+ 380              		.loc 1 44 42 is_stmt 0 view .LVU119
+ 381 0038 C800     		lsls	r0, r1, #3
+ 382              	.LVL20:
+  44:Core/Src/Application/Src/dsp.c **** 
+ 383              		.loc 1 44 42 view .LVU120
+ 384 003a FFF7FEFF 		bl	pvPortMalloc
+ 385              	.LVL21:
+  44:Core/Src/Application/Src/dsp.c **** 
+ 386              		.loc 1 44 42 view .LVU121
+ 387 003e 0346     		mov	r3, r0
+  44:Core/Src/Application/Src/dsp.c **** 
+ 388              		.loc 1 44 24 view .LVU122
+ 389 0040 6062     		str	r0, [r4, #36]
+  46:Core/Src/Application/Src/dsp.c **** }
+ 390              		.loc 1 46 5 is_stmt 1 view .LVU123
+ 391 0042 3246     		mov	r2, r6
+ 392 0044 2946     		mov	r1, r5
+ 393 0046 04F11800 		add	r0, r4, #24
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 11
+
+
+ 394 004a FFF7FEFF 		bl	arm_biquad_cascade_df2T_init_f32
+ 395              	.LVL22:
+  47:Core/Src/Application/Src/dsp.c **** 
+ 396              		.loc 1 47 1 is_stmt 0 view .LVU124
+ 397 004e 70BD     		pop	{r4, r5, r6, pc}
+ 398              	.LVL23:
+ 399              	.L12:
+  47:Core/Src/Application/Src/dsp.c **** 
+ 400              		.loc 1 47 1 view .LVU125
+ 401              		.align	2
+ 402              	.L11:
+ 403 0050 00000000 		.word	Differentiator_apply
+ 404              		.cfi_endproc
+ 405              	.LFE173:
+ 407              		.section	.text.dsp_new,"ax",%progbits
+ 408              		.align	1
+ 409              		.global	dsp_new
+ 410              		.syntax unified
+ 411              		.thumb
+ 412              		.thumb_func
+ 414              	dsp_new:
+ 415              	.LVL24:
+ 416              	.LFB178:
+ 136:Core/Src/Application/Src/dsp.c **** 
+ 137:Core/Src/Application/Src/dsp.c **** void dsp_new (DSP * const self) {
+ 417              		.loc 1 137 33 is_stmt 1 view -0
+ 418              		.cfi_startproc
+ 419              		@ args = 0, pretend = 0, frame = 0
+ 420              		@ frame_needed = 0, uses_anonymous_args = 0
+ 421              		.loc 1 137 33 is_stmt 0 view .LVU127
+ 422 0000 10B5     		push	{r4, lr}
+ 423              	.LCFI6:
+ 424              		.cfi_def_cfa_offset 8
+ 425              		.cfi_offset 4, -8
+ 426              		.cfi_offset 14, -4
+ 427 0002 2DED028B 		vpush.64	{d8}
+ 428              	.LCFI7:
+ 429              		.cfi_def_cfa_offset 16
+ 430              		.cfi_offset 80, -16
+ 431              		.cfi_offset 81, -12
+ 432 0006 0446     		mov	r4, r0
+ 138:Core/Src/Application/Src/dsp.c ****     /**
+ 139:Core/Src/Application/Src/dsp.c ****      * Vì hộp giảm tốc có tỉ số truyền là 1:14, 
+ 140:Core/Src/Application/Src/dsp.c ****      * Với bánh răng nhỏ có 14 teeth và Modun = 1.5 => radius = (14 * 1.5) / 2;
+ 141:Core/Src/Application/Src/dsp.c ****      * Khi đó tọa độ x = theta * radius;
+ 142:Core/Src/Application/Src/dsp.c ****      * Với theta là góc quay của trục động cơ, còn giá trị Encoder chúng ta thu v�
+ 143:Core/Src/Application/Src/dsp.c ****      * chính là góc quay của roto nên theta để tìm x cần nhân với giảm đi 14 lầ
+ 144:Core/Src/Application/Src/dsp.c ****      */
+ 145:Core/Src/Application/Src/dsp.c ****     self->gear_ratio = (1.0f / 14.0f) * ((14.0f * 1.5f * 0.001f) / 2.0f);//( 1.0F / 14.0F ) * 0.011
+ 433              		.loc 1 145 5 is_stmt 1 view .LVU128
+ 434              		.loc 1 145 22 is_stmt 0 view .LVU129
+ 435 0008 214B     		ldr	r3, .L15
+ 436 000a 0360     		str	r3, [r0]	@ float
+ 146:Core/Src/Application/Src/dsp.c **** 
+ 147:Core/Src/Application/Src/dsp.c ****     /**
+ 148:Core/Src/Application/Src/dsp.c ****      * Motor's encoder have 500 Pulse per round
+ 149:Core/Src/Application/Src/dsp.c ****      * Pendulum's encoder have 1000 Pulse per round
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 12
+
+
+ 150:Core/Src/Application/Src/dsp.c ****      * và chúng ta đang đọc chế độ x4 (x2 trên mỗi channels)
+ 151:Core/Src/Application/Src/dsp.c ****      * như vậy 2 biến resolution này sẽ quy đổi cho chúng ta từ pulse sang radian
+ 152:Core/Src/Application/Src/dsp.c ****      * đơn vị (radian per pulse)
+ 153:Core/Src/Application/Src/dsp.c ****      */
+ 154:Core/Src/Application/Src/dsp.c ****     self->motor_resolution = (2.0f * PI) / (4.0f * 500.0f);
+ 437              		.loc 1 154 5 is_stmt 1 view .LVU130
+ 438              		.loc 1 154 28 is_stmt 0 view .LVU131
+ 439 000c 214B     		ldr	r3, .L15+4
+ 440 000e 4360     		str	r3, [r0, #4]	@ float
+ 155:Core/Src/Application/Src/dsp.c ****     self->pendulum_resolution = (2.0f * PI) / (4.0f * 1000.0f);
+ 441              		.loc 1 155 5 is_stmt 1 view .LVU132
+ 442              		.loc 1 155 31 is_stmt 0 view .LVU133
+ 443 0010 214B     		ldr	r3, .L15+8
+ 444 0012 8360     		str	r3, [r0, #8]	@ float
+ 156:Core/Src/Application/Src/dsp.c **** 
+ 157:Core/Src/Application/Src/dsp.c ****     /* Khởi tạo các giá trị ban đầu */
+ 158:Core/Src/Application/Src/dsp.c ****     self->motor_state       = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, 
+ 445              		.loc 1 158 5 is_stmt 1 view .LVU134
+ 446              		.loc 1 158 29 is_stmt 0 view .LVU135
+ 447 0014 0023     		movs	r3, #0
+ 448 0016 C363     		str	r3, [r0, #60]
+ 449 0018 0364     		str	r3, [r0, #64]
+ 450 001a 4364     		str	r3, [r0, #68]
+ 451 001c 8364     		str	r3, [r0, #72]
+ 159:Core/Src/Application/Src/dsp.c ****     self->cart_state        = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, 
+ 452              		.loc 1 159 5 is_stmt 1 view .LVU136
+ 453              		.loc 1 159 29 is_stmt 0 view .LVU137
+ 454 001e C364     		str	r3, [r0, #76]
+ 455 0020 0365     		str	r3, [r0, #80]
+ 456 0022 4365     		str	r3, [r0, #84]
+ 457 0024 8365     		str	r3, [r0, #88]
+ 160:Core/Src/Application/Src/dsp.c ****     self->pendulum_state    = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, 
+ 458              		.loc 1 160 5 is_stmt 1 view .LVU138
+ 459              		.loc 1 160 29 is_stmt 0 view .LVU139
+ 460 0026 C365     		str	r3, [r0, #92]
+ 461 0028 0366     		str	r3, [r0, #96]
+ 462 002a 4366     		str	r3, [r0, #100]
+ 463 002c 8366     		str	r3, [r0, #104]
+ 161:Core/Src/Application/Src/dsp.c **** 
+ 162:Core/Src/Application/Src/dsp.c ****     /*Initialize Differentiators*/
+ 163:Core/Src/Application/Src/dsp.c ****     self->motor_differentiator = ( Differentiator * ) pvPortMalloc( sizeof(Differentiator) );
+ 464              		.loc 1 163 5 is_stmt 1 view .LVU140
+ 465              		.loc 1 163 55 is_stmt 0 view .LVU141
+ 466 002e 2C20     		movs	r0, #44
+ 467              	.LVL25:
+ 468              		.loc 1 163 55 view .LVU142
+ 469 0030 FFF7FEFF 		bl	pvPortMalloc
+ 470              	.LVL26:
+ 471              		.loc 1 163 32 view .LVU143
+ 472 0034 E066     		str	r0, [r4, #108]
+ 164:Core/Src/Application/Src/dsp.c ****     self->pendulum_differentiator = ( Differentiator * ) pvPortMalloc( sizeof(Differentiator) );
+ 473              		.loc 1 164 5 is_stmt 1 view .LVU144
+ 474              		.loc 1 164 58 is_stmt 0 view .LVU145
+ 475 0036 2C20     		movs	r0, #44
+ 476 0038 FFF7FEFF 		bl	pvPortMalloc
+ 477              	.LVL27:
+ 478              		.loc 1 164 35 view .LVU146
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 13
+
+
+ 479 003c 2067     		str	r0, [r4, #112]
+ 165:Core/Src/Application/Src/dsp.c ****     Differentiator_new(self->motor_differentiator, 1e-3f, MOTOR_FILTER_STAGES_NUM, &MotorCoefficien
+ 480              		.loc 1 165 5 is_stmt 1 view .LVU147
+ 481 003e 9FED178A 		vldr.32	s16, .L15+12
+ 482 0042 174A     		ldr	r2, .L15+16
+ 483 0044 0121     		movs	r1, #1
+ 484 0046 B0EE480A 		vmov.f32	s0, s16
+ 485 004a E06E     		ldr	r0, [r4, #108]
+ 486 004c FFF7FEFF 		bl	Differentiator_new
+ 487              	.LVL28:
+ 166:Core/Src/Application/Src/dsp.c ****     Differentiator_new(self->pendulum_differentiator, 1e-3f, PENDULUM_FILTER_STAGES_NUM, &PendulumC
+ 488              		.loc 1 166 5 view .LVU148
+ 489 0050 144A     		ldr	r2, .L15+20
+ 490 0052 0121     		movs	r1, #1
+ 491 0054 B0EE480A 		vmov.f32	s0, s16
+ 492 0058 206F     		ldr	r0, [r4, #112]
+ 493 005a FFF7FEFF 		bl	Differentiator_new
+ 494              	.LVL29:
+ 167:Core/Src/Application/Src/dsp.c **** 
+ 168:Core/Src/Application/Src/dsp.c ****     /*----------*/
+ 169:Core/Src/Application/Src/dsp.c ****     self->raw_motor_angle = 0.0f; self->filted_motor_angle = 0.0f; self->motor_angle = 0.0f;
+ 495              		.loc 1 169 5 view .LVU149
+ 496              		.loc 1 169 27 is_stmt 0 view .LVU150
+ 497 005e 0023     		movs	r3, #0
+ 498 0060 E360     		str	r3, [r4, #12]	@ float
+ 499              		.loc 1 169 35 is_stmt 1 view .LVU151
+ 500              		.loc 1 169 60 is_stmt 0 view .LVU152
+ 501 0062 6361     		str	r3, [r4, #20]	@ float
+ 502              		.loc 1 169 68 is_stmt 1 view .LVU153
+ 503              		.loc 1 169 86 is_stmt 0 view .LVU154
+ 504 0064 E361     		str	r3, [r4, #28]	@ float
+ 170:Core/Src/Application/Src/dsp.c ****     self->raw_pendulum_angle = 0.0f; self->filted_pendulum_angle = 0.0f; self->pendulum_angle = 0.0
+ 505              		.loc 1 170 5 is_stmt 1 view .LVU155
+ 506              		.loc 1 170 30 is_stmt 0 view .LVU156
+ 507 0066 2361     		str	r3, [r4, #16]	@ float
+ 508              		.loc 1 170 38 is_stmt 1 view .LVU157
+ 509              		.loc 1 170 66 is_stmt 0 view .LVU158
+ 510 0068 A361     		str	r3, [r4, #24]	@ float
+ 511              		.loc 1 170 74 is_stmt 1 view .LVU159
+ 512              		.loc 1 170 95 is_stmt 0 view .LVU160
+ 513 006a 2362     		str	r3, [r4, #32]	@ float
+ 171:Core/Src/Application/Src/dsp.c **** 
+ 172:Core/Src/Application/Src/dsp.c ****     self->raw_motor_velocity = 0.0f; self->filted_motor_velocity = 0.0f; self->motor_velocity = 0.0
+ 514              		.loc 1 172 5 is_stmt 1 view .LVU161
+ 515              		.loc 1 172 30 is_stmt 0 view .LVU162
+ 516 006c 6362     		str	r3, [r4, #36]	@ float
+ 517              		.loc 1 172 38 is_stmt 1 view .LVU163
+ 518              		.loc 1 172 66 is_stmt 0 view .LVU164
+ 519 006e E362     		str	r3, [r4, #44]	@ float
+ 520              		.loc 1 172 74 is_stmt 1 view .LVU165
+ 521              		.loc 1 172 95 is_stmt 0 view .LVU166
+ 522 0070 6363     		str	r3, [r4, #52]	@ float
+ 173:Core/Src/Application/Src/dsp.c ****     self->raw_pendulum_velocity = 0.0f; self->filted_pendulum_velocity = 0.0f; self->pendulum_veloc
+ 523              		.loc 1 173 5 is_stmt 1 view .LVU167
+ 524              		.loc 1 173 33 is_stmt 0 view .LVU168
+ 525 0072 A362     		str	r3, [r4, #40]	@ float
+ 526              		.loc 1 173 41 is_stmt 1 view .LVU169
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 14
+
+
+ 527              		.loc 1 173 72 is_stmt 0 view .LVU170
+ 528 0074 2363     		str	r3, [r4, #48]	@ float
+ 529              		.loc 1 173 80 is_stmt 1 view .LVU171
+ 530              		.loc 1 173 104 is_stmt 0 view .LVU172
+ 531 0076 A363     		str	r3, [r4, #56]	@ float
+ 174:Core/Src/Application/Src/dsp.c **** 
+ 175:Core/Src/Application/Src/dsp.c ****     /* Assign function pointer */
+ 176:Core/Src/Application/Src/dsp.c ****     self->ConvertAngle  = &ConvertAngle;
+ 532              		.loc 1 176 5 is_stmt 1 view .LVU173
+ 533              		.loc 1 176 25 is_stmt 0 view .LVU174
+ 534 0078 0B4B     		ldr	r3, .L15+24
+ 535 007a 6367     		str	r3, [r4, #116]
+ 177:Core/Src/Application/Src/dsp.c ****     self->filter        = &filter;
+ 536              		.loc 1 177 5 is_stmt 1 view .LVU175
+ 537              		.loc 1 177 25 is_stmt 0 view .LVU176
+ 538 007c 0B4B     		ldr	r3, .L15+28
+ 539 007e A367     		str	r3, [r4, #120]
+ 178:Core/Src/Application/Src/dsp.c ****     self->estimate      = &estimate;
+ 540              		.loc 1 178 5 is_stmt 1 view .LVU177
+ 541              		.loc 1 178 25 is_stmt 0 view .LVU178
+ 542 0080 0B4B     		ldr	r3, .L15+32
+ 543 0082 E367     		str	r3, [r4, #124]
+ 179:Core/Src/Application/Src/dsp.c ****     self->procesNewData = &procesNewData;
+ 544              		.loc 1 179 5 is_stmt 1 view .LVU179
+ 545              		.loc 1 179 25 is_stmt 0 view .LVU180
+ 546 0084 0B4B     		ldr	r3, .L15+36
+ 547 0086 C4F88030 		str	r3, [r4, #128]
+ 180:Core/Src/Application/Src/dsp.c **** }
+ 548              		.loc 1 180 1 view .LVU181
+ 549 008a BDEC028B 		vldm	sp!, {d8}
+ 550              	.LCFI8:
+ 551              		.cfi_restore 80
+ 552              		.cfi_restore 81
+ 553              		.cfi_def_cfa_offset 8
+ 554 008e 10BD     		pop	{r4, pc}
+ 555              	.LVL30:
+ 556              	.L16:
+ 557              		.loc 1 180 1 view .LVU182
+ 558              		.align	2
+ 559              	.L15:
+ 560 0090 A79B443A 		.word	977574823
+ 561 0094 2EE34D3B 		.word	994960174
+ 562 0098 2EE3CD3A 		.word	986571566
+ 563 009c 6F12833A 		.word	981668463
+ 564 00a0 00000000 		.word	MotorCoefficients
+ 565 00a4 00000000 		.word	PendulumCoefficients
+ 566 00a8 00000000 		.word	ConvertAngle
+ 567 00ac 00000000 		.word	filter
+ 568 00b0 00000000 		.word	estimate
+ 569 00b4 00000000 		.word	procesNewData
+ 570              		.cfi_endproc
+ 571              	.LFE178:
+ 573              		.text
+ 574              	.Letext0:
+ 575              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/in
+ 576              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 577              		.file 4 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 15
+
+
+ 578              		.file 5 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 579              		.file 6 "Core/Src/Application/Inc/Topic.h"
+ 580              		.file 7 "Core/Src/Application/Inc/dsp.h"
+ 581              		.file 8 "ThirdParty/FreeRTOS/include/portable.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 dsp.c
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:21     .text.ConvertAngle:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:26     .text.ConvertAngle:00000000 ConvertAngle
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:60     .text.filter:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:66     .text.filter:00000000 filter
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:110    .text.estimate:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:116    .text.estimate:00000000 estimate
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:162    .text.procesNewData:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:168    .text.procesNewData:00000000 procesNewData
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:224    .text.dsp_new:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:230    .text.dsp_new:00000000 dsp_new
-C:\Users\Lamp\AppData\Local\Temp\ccsOVXzI.s:307    .text.dsp_new:00000048 $d
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:21     .text.ConvertAngle:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:26     .text.ConvertAngle:00000000 ConvertAngle
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:60     .text.filter:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:66     .text.filter:00000000 filter
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:118    .text.estimate:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:124    .text.estimate:00000000 estimate
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:170    .text.procesNewData:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:176    .text.procesNewData:00000000 procesNewData
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:241    .text.Differentiator_apply:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:246    .text.Differentiator_apply:00000000 Differentiator_apply
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:327    .text.Differentiator_new:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:333    .text.Differentiator_new:00000000 Differentiator_new
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:403    .text.Differentiator_new:00000050 $d
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:408    .text.dsp_new:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:414    .text.dsp_new:00000000 dsp_new
+C:\Users\Lamp\AppData\Local\Temp\ccX2gY92.s:560    .text.dsp_new:00000090 $d
 
-NO UNDEFINED SYMBOLS
+UNDEFINED SYMBOLS
+arm_biquad_cascade_df2T_f32
+pvPortMalloc
+arm_biquad_cascade_df2T_init_f32
+MotorCoefficients
+PendulumCoefficients

@@ -1,0 +1,316 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_abs_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c"
+  20              		.section	.text.arm_abs_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_abs_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_abs_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Title:        arm_abs_f32.c
+   4:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Description:  Floating-point vector absolute value
+   5:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** #include <math.h>
+  31:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  32:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** /**
+  33:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @ingroup groupMath
+  34:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  */
+  35:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  36:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** /**
+  37:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @defgroup BasicAbs Vector Absolute Value
+  38:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+  39:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * Computes the absolute value of a vector on an element-by-element basis.
+  40:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+  41:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * <pre>
+  42:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *     pDst[n] = abs(pSrc[n]),   0 <= n < blockSize.
+  43:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * </pre>
+  44:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  *
+  45:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * The functions support in-place computation allowing the source and
+  46:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * destination pointers to reference the same memory buffer.
+  47:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * There are separate functions for floating-point, Q7, Q15, and Q31 data types.
+  48:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  */
+  49:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  50:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** /**
+  51:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @addtogroup BasicAbs
+  52:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @{
+  53:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  */
+  54:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  55:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** /**
+  56:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @brief Floating-point vector absolute value.
+  57:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @param[in]       *pSrc points to the input buffer
+  58:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @param[out]      *pDst points to the output buffer
+  59:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @param[in]       blockSize number of samples in each vector
+  60:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  * @return none.
+  61:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****  */
+  62:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  63:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** void arm_abs_f32(
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   float32_t * pSrc,
+  65:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   float32_t * pDst,
+  66:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   uint32_t blockSize)
+  67:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** {
+  30              		.loc 1 67 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  68:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   uint32_t blkCnt;                               /* loop counter */
+  35              		.loc 1 68 3 view .LVU1
+  69:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  70:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** #if defined (ARM_MATH_DSP)
+  71:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  72:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  73:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   float32_t in1, in2, in3, in4;                  /* temporary variables */
+  36              		.loc 1 73 3 view .LVU2
+  74:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  75:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   /*loop Unrolling */
+  76:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   blkCnt = blockSize >> 2U;
+  37              		.loc 1 76 3 view .LVU3
+  38              		.loc 1 76 10 is_stmt 0 view .LVU4
+  39 0000 9308     		lsrs	r3, r2, #2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s 			page 3
+
+
+  40              	.LVL1:
+  77:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  78:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  80:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   while (blkCnt > 0U)
+  41              		.loc 1 80 3 is_stmt 1 view .LVU5
+  42              		.loc 1 80 9 is_stmt 0 view .LVU6
+  43 0002 1AE0     		b	.L2
+  44              	.L3:
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   {
+  82:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* C = |A| */
+  83:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* Calculate absolute and then store the results in the destination buffer. */
+  84:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* read sample from source */
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in1 = *pSrc;
+  45              		.loc 1 85 5 is_stmt 1 view .LVU7
+  46              		.loc 1 85 9 is_stmt 0 view .LVU8
+  47 0004 90ED006A 		vldr.32	s12, [r0]
+  48              	.LVL2:
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in2 = *(pSrc + 1);
+  49              		.loc 1 86 5 is_stmt 1 view .LVU9
+  50              		.loc 1 86 9 is_stmt 0 view .LVU10
+  51 0008 D0ED016A 		vldr.32	s13, [r0, #4]
+  52              	.LVL3:
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in3 = *(pSrc + 2);
+  53              		.loc 1 87 5 is_stmt 1 view .LVU11
+  54              		.loc 1 87 9 is_stmt 0 view .LVU12
+  55 000c 90ED027A 		vldr.32	s14, [r0, #8]
+  56              	.LVL4:
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  89:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* find absolute value */
+  90:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in1 = fabsf(in1);
+  57              		.loc 1 90 5 is_stmt 1 view .LVU13
+  58              		.loc 1 90 9 is_stmt 0 view .LVU14
+  59 0010 B0EEC66A 		vabs.f32	s12, s12
+  60              	.LVL5:
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* read sample from source */
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in4 = *(pSrc + 3);
+  61              		.loc 1 93 5 is_stmt 1 view .LVU15
+  62              		.loc 1 93 9 is_stmt 0 view .LVU16
+  63 0014 D0ED037A 		vldr.32	s15, [r0, #12]
+  64              	.LVL6:
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  95:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* find absolute value */
+  96:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in2 = fabsf(in2);
+  65              		.loc 1 96 5 is_stmt 1 view .LVU17
+  66              		.loc 1 96 9 is_stmt 0 view .LVU18
+  67 0018 F0EEE66A 		vabs.f32	s13, s13
+  68              	.LVL7:
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* read sample from source */
+  99:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     *pDst = in1;
+  69              		.loc 1 99 5 is_stmt 1 view .LVU19
+  70              		.loc 1 99 11 is_stmt 0 view .LVU20
+  71 001c 81ED006A 		vstr.32	s12, [r1]
+ 100:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* find absolute value */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s 			page 4
+
+
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in3 = fabsf(in3);
+  72              		.loc 1 102 5 is_stmt 1 view .LVU21
+  73              		.loc 1 102 9 is_stmt 0 view .LVU22
+  74 0020 B0EEC77A 		vabs.f32	s14, s14
+  75              	.LVL8:
+ 103:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* find absolute value */
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     in4 = fabsf(in4);
+  76              		.loc 1 105 5 is_stmt 1 view .LVU23
+  77              		.loc 1 105 9 is_stmt 0 view .LVU24
+  78 0024 F0EEE77A 		vabs.f32	s15, s15
+  79              	.LVL9:
+ 106:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* store result to destination */
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     *(pDst + 1) = in2;
+  80              		.loc 1 108 5 is_stmt 1 view .LVU25
+  81              		.loc 1 108 17 is_stmt 0 view .LVU26
+  82 0028 C1ED016A 		vstr.32	s13, [r1, #4]
+ 109:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* store result to destination */
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     *(pDst + 2) = in3;
+  83              		.loc 1 111 5 is_stmt 1 view .LVU27
+  84              		.loc 1 111 17 is_stmt 0 view .LVU28
+  85 002c 81ED027A 		vstr.32	s14, [r1, #8]
+ 112:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* store result to destination */
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     *(pDst + 3) = in4;
+  86              		.loc 1 114 5 is_stmt 1 view .LVU29
+  87              		.loc 1 114 17 is_stmt 0 view .LVU30
+  88 0030 C1ED037A 		vstr.32	s15, [r1, #12]
+ 115:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* Update source pointer to process next sampels */
+ 118:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     pSrc += 4U;
+  89              		.loc 1 118 5 is_stmt 1 view .LVU31
+  90              		.loc 1 118 10 is_stmt 0 view .LVU32
+  91 0034 1030     		adds	r0, r0, #16
+  92              	.LVL10:
+ 119:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 120:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* Update destination pointer to process next sampels */
+ 121:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     pDst += 4U;
+  93              		.loc 1 121 5 is_stmt 1 view .LVU33
+  94              		.loc 1 121 10 is_stmt 0 view .LVU34
+  95 0036 1031     		adds	r1, r1, #16
+  96              	.LVL11:
+ 122:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 123:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* Decrement the loop counter */
+ 124:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     blkCnt--;
+  97              		.loc 1 124 5 is_stmt 1 view .LVU35
+  98              		.loc 1 124 11 is_stmt 0 view .LVU36
+  99 0038 013B     		subs	r3, r3, #1
+ 100              	.LVL12:
+ 101              	.L2:
+  80:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   {
+ 102              		.loc 1 80 17 is_stmt 1 view .LVU37
+ 103 003a 002B     		cmp	r3, #0
+ 104 003c E2D1     		bne	.L3
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s 			page 5
+
+
+ 125:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   }
+ 126:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 127:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 128:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****    ** No loop unrolling is used. */
+ 129:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   blkCnt = blockSize % 0x4U;
+ 105              		.loc 1 129 3 view .LVU38
+ 106              		.loc 1 129 10 is_stmt 0 view .LVU39
+ 107 003e 02F00302 		and	r2, r2, #3
+ 108              	.LVL13:
+ 130:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 131:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** #else
+ 132:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 133:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   /* Run the below code for Cortex-M0 */
+ 134:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 135:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   /* Initialize blkCnt with number of samples */
+ 136:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   blkCnt = blockSize;
+ 137:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 138:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** #endif /*   #if defined (ARM_MATH_DSP)   */
+ 139:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 140:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   while (blkCnt > 0U)
+ 109              		.loc 1 140 3 is_stmt 1 view .LVU40
+ 110              		.loc 1 140 9 is_stmt 0 view .LVU41
+ 111 0042 06E0     		b	.L4
+ 112              	.L5:
+ 141:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   {
+ 142:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* C = |A| */
+ 143:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* Calculate absolute and then store the results in the destination buffer. */
+ 144:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     *pDst++ = fabsf(*pSrc++);
+ 113              		.loc 1 144 5 is_stmt 1 view .LVU42
+ 114              	.LVL14:
+ 115              		.loc 1 144 15 is_stmt 0 view .LVU43
+ 116 0044 F0EC017A 		vldmia.32	r0!, {s15}
+ 117              	.LVL15:
+ 118              		.loc 1 144 15 view .LVU44
+ 119 0048 F0EEE77A 		vabs.f32	s15, s15
+ 120              		.loc 1 144 13 view .LVU45
+ 121 004c E1EC017A 		vstmia.32	r1!, {s15}
+ 122              	.LVL16:
+ 145:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** 
+ 146:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     /* Decrement the loop counter */
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****     blkCnt--;
+ 123              		.loc 1 147 5 is_stmt 1 view .LVU46
+ 124              		.loc 1 147 11 is_stmt 0 view .LVU47
+ 125 0050 013A     		subs	r2, r2, #1
+ 126              	.LVL17:
+ 127              	.L4:
+ 140:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   {
+ 128              		.loc 1 140 17 is_stmt 1 view .LVU48
+ 129 0052 002A     		cmp	r2, #0
+ 130 0054 F6D1     		bne	.L5
+ 148:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c ****   }
+ 149:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_abs_f32.c **** }
+ 131              		.loc 1 149 1 is_stmt 0 view .LVU49
+ 132 0056 7047     		bx	lr
+ 133              		.cfi_endproc
+ 134              	.LFE139:
+ 136              		.text
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s 			page 6
+
+
+ 137              	.Letext0:
+ 138              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 139              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 140              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_abs_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s:21     .text.arm_abs_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc94XnZb.s:27     .text.arm_abs_f32:00000000 arm_abs_f32
+
+NO UNDEFINED SYMBOLS

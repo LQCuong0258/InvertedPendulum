@@ -1,0 +1,450 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_min_q31.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c"
+  20              		.section	.text.arm_min_q31,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_min_q31
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_min_q31:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * Title:        arm_min_q31.c
+   4:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * Description:  Minimum value of a Q31 vector
+   5:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  *
+   6:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  *
+   9:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** /*
+  12:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  *
+  14:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  *
+  16:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  *
+  20:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  *
+  22:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  */
+  28:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  29:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  31:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** /**
+  32:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @ingroup groupStats
+  33:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  */
+  34:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  35:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  36:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** /**
+  37:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @addtogroup Min
+  38:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @{
+  39:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  */
+  40:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  41:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  42:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** /**
+  43:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @brief Minimum value of a Q31 vector.
+  44:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @param[in]       *pSrc points to the input vector
+  45:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @param[in]       blockSize length of the input vector
+  46:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @param[out]      *pResult minimum value returned here
+  47:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @param[out]      *pIndex index of minimum value returned here
+  48:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  * @return none.
+  49:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****  */
+  50:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  51:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** void arm_min_q31(
+  52:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   q31_t * pSrc,
+  53:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   uint32_t blockSize,
+  54:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   q31_t * pResult,
+  55:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   uint32_t * pIndex)
+  56:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** {
+  30              		.loc 1 56 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 56 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 28
+  38              		.cfi_offset 4, -28
+  39              		.cfi_offset 5, -24
+  40              		.cfi_offset 6, -20
+  41              		.cfi_offset 7, -16
+  42              		.cfi_offset 8, -12
+  43              		.cfi_offset 9, -8
+  44              		.cfi_offset 14, -4
+  45 0004 9146     		mov	r9, r2
+  46 0006 9E46     		mov	lr, r3
+  57:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** #if defined (ARM_MATH_DSP)
+  58:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  59:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  60:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   q31_t minVal1, minVal2, out;                   /* Temporary variables to store the output value. 
+  47              		.loc 1 60 3 is_stmt 1 view .LVU2
+  61:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   uint32_t blkCnt, outIndex, count;              /* loop counter */
+  48              		.loc 1 61 3 view .LVU3
+  62:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  63:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Initialise the count value. */
+  64:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   count = 0U;
+  49              		.loc 1 64 3 view .LVU4
+  50              	.LVL1:
+  65:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Initialise the index value to zero. */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 3
+
+
+  66:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   outIndex = 0U;
+  51              		.loc 1 66 3 view .LVU5
+  67:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Load first input value that act as reference value for comparision */
+  68:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   out = *pSrc++;
+  52              		.loc 1 68 3 view .LVU6
+  53              		.loc 1 68 7 is_stmt 0 view .LVU7
+  54 0008 50F8044B 		ldr	r4, [r0], #4
+  55              	.LVL2:
+  69:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  70:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Loop unrolling */
+  71:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   blkCnt = (blockSize - 1U) >> 2U;
+  56              		.loc 1 71 3 is_stmt 1 view .LVU8
+  57              		.loc 1 71 23 is_stmt 0 view .LVU9
+  58 000c 4D1E     		subs	r5, r1, #1
+  59              		.loc 1 71 10 view .LVU10
+  60 000e AE08     		lsrs	r6, r5, #2
+  61              	.LVL3:
+  72:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   while (blkCnt > 0U)
+  62              		.loc 1 73 3 is_stmt 1 view .LVU11
+  64:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Initialise the index value to zero. */
+  63              		.loc 1 64 9 is_stmt 0 view .LVU12
+  64 0010 4FF0000C 		mov	ip, #0
+  66:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Load first input value that act as reference value for comparision */
+  65              		.loc 1 66 12 view .LVU13
+  66 0014 6746     		mov	r7, ip
+  67              		.loc 1 73 9 view .LVU14
+  68 0016 03E0     		b	.L2
+  69              	.LVL4:
+  70              	.L6:
+  74:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   {
+  75:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* Initialize minVal to the next consecutive values one by one */
+  76:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal1 = *pSrc++;
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal2 = *pSrc++;
+  78:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  79:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* compare for the minimum value */
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     if (out > minVal1)
+  81:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+  82:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       /* Update the minimum value and its index */
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       out = minVal1;
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 1U;
+  85:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+  86:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  87:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* compare for the minimum value */
+  88:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     if (out > minVal2)
+  89:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+  90:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       /* Update the minimum value and its index */
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       out = minVal2;
+  92:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 2U;
+  93:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+  94:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  95:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* Initialize minVal to the next consecutive values one by one */
+  96:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal1 = *pSrc++;
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal2 = *pSrc++;
+  98:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  99:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* compare for the minimum value */
+ 100:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     if (out > minVal1)
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 4
+
+
+ 101:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 102:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       /* Update the minimum value and its index */
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       out = minVal1;
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 3U;
+ 105:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 106:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 107:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* compare for the minimum value */
+ 108:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     if (out > minVal2)
+ 109:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 110:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       /* Update the minimum value and its index */
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       out = minVal2;
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 4U;
+ 113:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 114:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 115:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     count += 4U;
+  71              		.loc 1 115 5 is_stmt 1 view .LVU15
+  72              		.loc 1 115 11 is_stmt 0 view .LVU16
+  73 0018 0CF1040C 		add	ip, ip, #4
+  74              	.LVL5:
+ 116:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 117:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* Decrement the loop counter */
+ 118:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     blkCnt--;
+  75              		.loc 1 118 5 is_stmt 1 view .LVU17
+  76              		.loc 1 118 11 is_stmt 0 view .LVU18
+  77 001c 013E     		subs	r6, r6, #1
+  78              	.LVL6:
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  79              		.loc 1 97 20 view .LVU19
+  80 001e 4046     		mov	r0, r8
+  81              	.LVL7:
+  82              	.L2:
+  73:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   {
+  83              		.loc 1 73 17 is_stmt 1 view .LVU20
+  84 0020 D6B1     		cbz	r6, .L12
+  76:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal2 = *pSrc++;
+  85              		.loc 1 76 5 view .LVU21
+  86              	.LVL8:
+  76:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal2 = *pSrc++;
+  87              		.loc 1 76 13 is_stmt 0 view .LVU22
+  88 0022 0268     		ldr	r2, [r0]
+  89              	.LVL9:
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  90              		.loc 1 77 5 is_stmt 1 view .LVU23
+  77:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+  91              		.loc 1 77 13 is_stmt 0 view .LVU24
+  92 0024 4368     		ldr	r3, [r0, #4]
+  93              	.LVL10:
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+  94              		.loc 1 80 5 is_stmt 1 view .LVU25
+  80:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+  95              		.loc 1 80 8 is_stmt 0 view .LVU26
+  96 0026 9442     		cmp	r4, r2
+  97 0028 02DD     		ble	.L3
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 1U;
+  98              		.loc 1 83 7 is_stmt 1 view .LVU27
+  99              	.LVL11:
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 5
+
+
+ 100              		.loc 1 84 7 view .LVU28
+  84:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 101              		.loc 1 84 16 is_stmt 0 view .LVU29
+ 102 002a 0CF10107 		add	r7, ip, #1
+ 103              	.LVL12:
+  83:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 1U;
+ 104              		.loc 1 83 11 view .LVU30
+ 105 002e 1446     		mov	r4, r2
+ 106              	.LVL13:
+ 107              	.L3:
+  88:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 108              		.loc 1 88 5 is_stmt 1 view .LVU31
+  88:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 109              		.loc 1 88 8 is_stmt 0 view .LVU32
+ 110 0030 9C42     		cmp	r4, r3
+ 111 0032 02DD     		ble	.L4
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 2U;
+ 112              		.loc 1 91 7 is_stmt 1 view .LVU33
+ 113              	.LVL14:
+  92:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 114              		.loc 1 92 7 view .LVU34
+  92:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 115              		.loc 1 92 16 is_stmt 0 view .LVU35
+ 116 0034 0CF10207 		add	r7, ip, #2
+ 117              	.LVL15:
+  91:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 2U;
+ 118              		.loc 1 91 11 view .LVU36
+ 119 0038 1C46     		mov	r4, r3
+ 120              	.LVL16:
+ 121              	.L4:
+  96:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal2 = *pSrc++;
+ 122              		.loc 1 96 5 is_stmt 1 view .LVU37
+  96:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal2 = *pSrc++;
+ 123              		.loc 1 96 13 is_stmt 0 view .LVU38
+ 124 003a 8368     		ldr	r3, [r0, #8]
+ 125              	.LVL17:
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 126              		.loc 1 97 5 is_stmt 1 view .LVU39
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 127              		.loc 1 97 20 is_stmt 0 view .LVU40
+ 128 003c 00F11008 		add	r8, r0, #16
+ 129              	.LVL18:
+  97:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 130              		.loc 1 97 13 view .LVU41
+ 131 0040 C068     		ldr	r0, [r0, #12]
+ 132              	.LVL19:
+ 100:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 133              		.loc 1 100 5 is_stmt 1 view .LVU42
+ 100:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 134              		.loc 1 100 8 is_stmt 0 view .LVU43
+ 135 0042 9C42     		cmp	r4, r3
+ 136 0044 02DD     		ble	.L5
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 3U;
+ 137              		.loc 1 103 7 is_stmt 1 view .LVU44
+ 138              	.LVL20:
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 139              		.loc 1 104 7 view .LVU45
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 6
+
+
+ 104:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 140              		.loc 1 104 16 is_stmt 0 view .LVU46
+ 141 0046 0CF10307 		add	r7, ip, #3
+ 142              	.LVL21:
+ 103:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 3U;
+ 143              		.loc 1 103 11 view .LVU47
+ 144 004a 1C46     		mov	r4, r3
+ 145              	.LVL22:
+ 146              	.L5:
+ 108:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 147              		.loc 1 108 5 is_stmt 1 view .LVU48
+ 108:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 148              		.loc 1 108 8 is_stmt 0 view .LVU49
+ 149 004c 8442     		cmp	r4, r0
+ 150 004e E3DD     		ble	.L6
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 4U;
+ 151              		.loc 1 111 7 is_stmt 1 view .LVU50
+ 152              	.LVL23:
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 153              		.loc 1 112 7 view .LVU51
+ 112:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 154              		.loc 1 112 16 is_stmt 0 view .LVU52
+ 155 0050 0CF10407 		add	r7, ip, #4
+ 156              	.LVL24:
+ 111:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = count + 4U;
+ 157              		.loc 1 111 11 view .LVU53
+ 158 0054 0446     		mov	r4, r0
+ 159 0056 DFE7     		b	.L6
+ 160              	.LVL25:
+ 161              	.L12:
+ 119:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   }
+ 120:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 121:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* if (blockSize - 1U) is not multiple of 4 */
+ 122:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   blkCnt = (blockSize - 1U) % 4U;
+ 162              		.loc 1 122 3 is_stmt 1 view .LVU54
+ 163              		.loc 1 122 10 is_stmt 0 view .LVU55
+ 164 0058 05F00305 		and	r5, r5, #3
+ 165              	.LVL26:
+ 123:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 124:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** #else
+ 125:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Run the below code for Cortex-M0 */
+ 126:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 127:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   q31_t minVal1, out;                            /* Temporary variables to store the output value. 
+ 128:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   uint32_t blkCnt, outIndex;                     /* loop counter */
+ 129:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 130:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Initialise the index value to zero. */
+ 131:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   outIndex = 0U;
+ 132:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Load first input value that act as reference value for comparision */
+ 133:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   out = *pSrc++;
+ 134:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 135:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   blkCnt = (blockSize - 1U);
+ 136:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 137:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 138:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 139:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   while (blkCnt > 0U)
+ 166              		.loc 1 139 3 is_stmt 1 view .LVU56
+ 167              		.loc 1 139 9 is_stmt 0 view .LVU57
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 7
+
+
+ 168 005c 00E0     		b	.L8
+ 169              	.LVL27:
+ 170              	.L9:
+ 140:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   {
+ 141:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* Initialize minVal to the next consecutive values one by one */
+ 142:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     minVal1 = *pSrc++;
+ 143:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 144:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* compare for the minimum value */
+ 145:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     if (out > minVal1)
+ 146:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 147:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       /* Update the minimum value and it's index */
+ 148:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       out = minVal1;
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = blockSize - blkCnt;
+ 150:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 151:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 152:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     /* Decrement the loop counter */
+ 153:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     blkCnt--;
+ 171              		.loc 1 153 5 is_stmt 1 view .LVU58
+ 172              		.loc 1 153 11 is_stmt 0 view .LVU59
+ 173 005e 013D     		subs	r5, r5, #1
+ 174              	.LVL28:
+ 175              	.L8:
+ 139:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   {
+ 176              		.loc 1 139 17 is_stmt 1 view .LVU60
+ 177 0060 35B1     		cbz	r5, .L13
+ 142:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 178              		.loc 1 142 5 view .LVU61
+ 179              	.LVL29:
+ 142:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 180              		.loc 1 142 13 is_stmt 0 view .LVU62
+ 181 0062 50F8046B 		ldr	r6, [r0], #4
+ 182              	.LVL30:
+ 145:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 183              		.loc 1 145 5 is_stmt 1 view .LVU63
+ 145:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     {
+ 184              		.loc 1 145 8 is_stmt 0 view .LVU64
+ 185 0066 B442     		cmp	r4, r6
+ 186 0068 F9DD     		ble	.L9
+ 148:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = blockSize - blkCnt;
+ 187              		.loc 1 148 7 is_stmt 1 view .LVU65
+ 188              	.LVL31:
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 189              		.loc 1 149 7 view .LVU66
+ 149:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****     }
+ 190              		.loc 1 149 16 is_stmt 0 view .LVU67
+ 191 006a 4F1B     		subs	r7, r1, r5
+ 192              	.LVL32:
+ 148:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****       outIndex = blockSize - blkCnt;
+ 193              		.loc 1 148 11 view .LVU68
+ 194 006c 3446     		mov	r4, r6
+ 195 006e F6E7     		b	.L9
+ 196              	.LVL33:
+ 197              	.L13:
+ 154:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   }
+ 155:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** 
+ 156:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   /* Store the minimum value and it's index into destination pointers */
+ 157:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   *pResult = out;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 8
+
+
+ 198              		.loc 1 157 3 is_stmt 1 view .LVU69
+ 199              		.loc 1 157 12 is_stmt 0 view .LVU70
+ 200 0070 C9F80040 		str	r4, [r9]
+ 158:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c ****   *pIndex = outIndex;
+ 201              		.loc 1 158 3 is_stmt 1 view .LVU71
+ 202              		.loc 1 158 11 is_stmt 0 view .LVU72
+ 203 0074 CEF80070 		str	r7, [lr]
+ 159:Drivers/CMSIS/DSP/Source/StatisticsFunctions/arm_min_q31.c **** }
+ 204              		.loc 1 159 1 view .LVU73
+ 205 0078 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 206              		.loc 1 159 1 view .LVU74
+ 207              		.cfi_endproc
+ 208              	.LFE139:
+ 210              		.text
+ 211              	.Letext0:
+ 212              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 213              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 214              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_min_q31.c
+C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s:21     .text.arm_min_q31:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccZjtdMP.s:27     .text.arm_min_q31:00000000 arm_min_q31
+
+NO UNDEFINED SYMBOLS

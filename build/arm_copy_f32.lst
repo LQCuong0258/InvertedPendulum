@@ -1,0 +1,316 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_copy_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c"
+  20              		.section	.text.arm_copy_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_copy_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_copy_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Title:        arm_copy_f32.c
+   4:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Description:  Copies the elements of a floating-point vector
+   5:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  31:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** /**
+  32:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @ingroup groupSupport
+  33:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  */
+  34:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  35:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** /**
+  36:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @defgroup copy Vector Copy
+  37:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  38:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * Copies sample by sample from source vector to destination vector.
+  39:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  40:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * <pre>
+  41:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * 	pDst[n] = pSrc[n];   0 <= n < blockSize.
+  42:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * </pre>
+  43:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  44:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * There are separate functions for floating point, Q31, Q15, and Q7 data types.
+  45:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  */
+  46:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  47:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** /**
+  48:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @addtogroup copy
+  49:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @{
+  50:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  */
+  51:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  52:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** /**
+  53:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @brief Copies the elements of a floating-point vector.
+  54:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @param[in]       *pSrc points to input vector
+  55:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @param[out]      *pDst points to output vector
+  56:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @param[in]       blockSize length of the input vector
+  57:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  * @return none.
+  58:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  *
+  59:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****  */
+  60:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  61:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  62:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** void arm_copy_f32(
+  63:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   float32_t * pSrc,
+  64:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   float32_t * pDst,
+  65:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   uint32_t blockSize)
+  66:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** {
+  30              		.loc 1 66 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  67:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   uint32_t blkCnt;                               /* loop counter */
+  34              		.loc 1 67 3 view .LVU1
+  68:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  69:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** #if defined (ARM_MATH_DSP)
+  70:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  71:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   /* Run the below code for Cortex-M4 and Cortex-M3 */
+  72:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   float32_t in1, in2, in3, in4;
+  35              		.loc 1 72 3 view .LVU2
+  73:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  74:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   /*loop Unrolling */
+  75:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   blkCnt = blockSize >> 2U;
+  36              		.loc 1 75 3 view .LVU3
+  37              		.loc 1 75 10 is_stmt 0 view .LVU4
+  38 0000 9308     		lsrs	r3, r2, #2
+  39              	.LVL1:
+  76:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s 			page 3
+
+
+  77:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  78:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+  79:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   while (blkCnt > 0U)
+  40              		.loc 1 79 3 is_stmt 1 view .LVU5
+  41              		.loc 1 79 17 view .LVU6
+  42 0002 0BB3     		cbz	r3, .L12
+  66:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   uint32_t blkCnt;                               /* loop counter */
+  43              		.loc 1 66 1 is_stmt 0 view .LVU7
+  44 0004 00B5     		push	{lr}
+  45              	.LCFI0:
+  46              		.cfi_def_cfa_offset 4
+  47              		.cfi_offset 14, -4
+  48              	.L3:
+  80:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   {
+  81:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     /* C = A */
+  82:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     /* Copy and then store the results in the destination buffer */
+  83:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     in1 = *pSrc++;
+  49              		.loc 1 83 5 is_stmt 1 view .LVU8
+  50              	.LVL2:
+  51              		.loc 1 83 9 is_stmt 0 view .LVU9
+  52 0006 90ED007A 		vldr.32	s14, [r0]
+  53              	.LVL3:
+  84:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     in2 = *pSrc++;
+  54              		.loc 1 84 5 is_stmt 1 view .LVU10
+  55              		.loc 1 84 9 is_stmt 0 view .LVU11
+  56 000a D0ED017A 		vldr.32	s15, [r0, #4]
+  57              	.LVL4:
+  85:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     in3 = *pSrc++;
+  58              		.loc 1 85 5 is_stmt 1 view .LVU12
+  59              		.loc 1 85 9 is_stmt 0 view .LVU13
+  60 000e D0F808E0 		ldr	lr, [r0, #8]	@ float
+  61              	.LVL5:
+  86:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     in4 = *pSrc++;
+  62              		.loc 1 86 5 is_stmt 1 view .LVU14
+  63              		.loc 1 86 9 is_stmt 0 view .LVU15
+  64 0012 D0F80CC0 		ldr	ip, [r0, #12]	@ float
+  65              	.LVL6:
+  87:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  88:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     *pDst++ = in1;
+  66              		.loc 1 88 5 is_stmt 1 view .LVU16
+  67              		.loc 1 88 13 is_stmt 0 view .LVU17
+  68 0016 81ED007A 		vstr.32	s14, [r1]
+  89:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     *pDst++ = in2;
+  69              		.loc 1 89 5 is_stmt 1 view .LVU18
+  70              	.LVL7:
+  71              		.loc 1 89 13 is_stmt 0 view .LVU19
+  72 001a C1ED017A 		vstr.32	s15, [r1, #4]
+  90:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     *pDst++ = in3;
+  73              		.loc 1 90 5 is_stmt 1 view .LVU20
+  74              	.LVL8:
+  75              		.loc 1 90 13 is_stmt 0 view .LVU21
+  76 001e C1F808E0 		str	lr, [r1, #8]	@ float
+  91:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     *pDst++ = in4;
+  77              		.loc 1 91 5 is_stmt 1 view .LVU22
+  78              	.LVL9:
+  79              		.loc 1 91 13 is_stmt 0 view .LVU23
+  80 0022 C1F80CC0 		str	ip, [r1, #12]	@ float
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s 			page 4
+
+
+  92:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  93:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     /* Decrement the loop counter */
+  94:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     blkCnt--;
+  81              		.loc 1 94 5 is_stmt 1 view .LVU24
+  82              		.loc 1 94 11 is_stmt 0 view .LVU25
+  83 0026 013B     		subs	r3, r3, #1
+  84              	.LVL10:
+  91:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     *pDst++ = in4;
+  85              		.loc 1 91 10 view .LVU26
+  86 0028 1031     		adds	r1, r1, #16
+  87              	.LVL11:
+  86:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  88              		.loc 1 86 16 view .LVU27
+  89 002a 1030     		adds	r0, r0, #16
+  90              	.LVL12:
+  79:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   {
+  91              		.loc 1 79 17 is_stmt 1 view .LVU28
+  92 002c 002B     		cmp	r3, #0
+  93 002e EAD1     		bne	.L3
+  95:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   }
+  96:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+  97:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+  98:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****    ** No loop unrolling is used. */
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   blkCnt = blockSize % 0x4U;
+  94              		.loc 1 99 3 view .LVU29
+  95              		.loc 1 99 10 is_stmt 0 view .LVU30
+  96 0030 02F00302 		and	r2, r2, #3
+  97              	.LVL13:
+ 100:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 101:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** #else
+ 102:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 103:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   /* Run the below code for Cortex-M0 */
+ 104:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 105:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   /* Loop over blockSize number of values */
+ 106:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   blkCnt = blockSize;
+ 107:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 108:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 109:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   while (blkCnt > 0U)
+  98              		.loc 1 110 3 is_stmt 1 view .LVU31
+  99              		.loc 1 110 9 is_stmt 0 view .LVU32
+ 100 0034 04E0     		b	.L4
+ 101              	.L5:
+ 111:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   {
+ 112:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     /* C = A */
+ 113:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     /* Copy and then store the results in the destination buffer */
+ 114:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     *pDst++ = *pSrc++;
+ 102              		.loc 1 114 5 is_stmt 1 view .LVU33
+ 103              	.LVL14:
+ 104              		.loc 1 114 15 is_stmt 0 view .LVU34
+ 105 0036 50F8043B 		ldr	r3, [r0], #4	@ float
+ 106              	.LVL15:
+ 107              		.loc 1 114 13 view .LVU35
+ 108 003a 41F8043B 		str	r3, [r1], #4	@ float
+ 109              	.LVL16:
+ 115:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 116:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     /* Decrement the loop counter */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s 			page 5
+
+
+ 117:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****     blkCnt--;
+ 110              		.loc 1 117 5 is_stmt 1 view .LVU36
+ 111              		.loc 1 117 11 is_stmt 0 view .LVU37
+ 112 003e 013A     		subs	r2, r2, #1
+ 113              	.LVL17:
+ 114              	.L4:
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   {
+ 115              		.loc 1 110 17 is_stmt 1 view .LVU38
+ 116 0040 002A     		cmp	r2, #0
+ 117 0042 F8D1     		bne	.L5
+ 118:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   }
+ 119:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** }
+ 118              		.loc 1 119 1 is_stmt 0 view .LVU39
+ 119 0044 5DF804FB 		ldr	pc, [sp], #4
+ 120              	.LVL18:
+ 121              	.L12:
+ 122              	.LCFI1:
+ 123              		.cfi_def_cfa_offset 0
+ 124              		.cfi_restore 14
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 125              		.loc 1 99 3 is_stmt 1 view .LVU40
+  99:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 126              		.loc 1 99 10 is_stmt 0 view .LVU41
+ 127 0048 02F00302 		and	r2, r2, #3
+ 128              	.LVL19:
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   {
+ 129              		.loc 1 110 3 is_stmt 1 view .LVU42
+ 130 004c 04E0     		b	.L9
+ 131              	.L10:
+ 114:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 132              		.loc 1 114 5 view .LVU43
+ 133              	.LVL20:
+ 114:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 134              		.loc 1 114 15 is_stmt 0 view .LVU44
+ 135 004e 50F8043B 		ldr	r3, [r0], #4	@ float
+ 136              	.LVL21:
+ 114:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c **** 
+ 137              		.loc 1 114 13 view .LVU45
+ 138 0052 41F8043B 		str	r3, [r1], #4	@ float
+ 139              	.LVL22:
+ 117:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   }
+ 140              		.loc 1 117 5 is_stmt 1 view .LVU46
+ 117:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   }
+ 141              		.loc 1 117 11 is_stmt 0 view .LVU47
+ 142 0056 013A     		subs	r2, r2, #1
+ 143              	.LVL23:
+ 144              	.L9:
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   {
+ 145              		.loc 1 110 17 is_stmt 1 view .LVU48
+ 146 0058 002A     		cmp	r2, #0
+ 147 005a F8D1     		bne	.L10
+ 110:Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_f32.c ****   {
+ 148              		.loc 1 110 17 is_stmt 0 view .LVU49
+ 149 005c 7047     		bx	lr
+ 150              		.cfi_endproc
+ 151              	.LFE139:
+ 153              		.text
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s 			page 6
+
+
+ 154              	.Letext0:
+ 155              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 156              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 157              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_copy_f32.c
+C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s:21     .text.arm_copy_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccTTYOXi.s:27     .text.arm_copy_f32:00000000 arm_copy_f32
+
+NO UNDEFINED SYMBOLS

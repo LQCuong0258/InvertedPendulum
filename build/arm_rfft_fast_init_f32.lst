@@ -1,0 +1,567 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_rfft_fast_init_f32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c"
+  20              		.section	.text.arm_rfft_fast_init_f32,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_rfft_fast_init_f32
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_rfft_fast_init_f32:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * Title:        arm_cfft_init_f32.c
+   4:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * Description:  Split Radix Decimation in Frequency CFFT Floating point processing function
+   5:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** #include "arm_common_tables.h"
+  31:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 
+  32:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** /**
+  33:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * @ingroup groupTransforms
+  34:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  */
+  35:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 
+  36:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** /**
+  37:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * @addtogroup RealFFT
+  38:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  * @{
+  39:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****  */
+  40:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 
+  41:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** /**
+  42:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * @brief  Initialization function for the floating-point real FFT.
+  43:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * @param[in,out] *S             points to an arm_rfft_fast_instance_f32 structure.
+  44:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * @param[in]     fftLen         length of the Real Sequence.
+  45:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * @return        The function returns ARM_MATH_SUCCESS if initialization is successful or ARM_MATH_
+  46:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** *
+  47:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * \par Description:
+  48:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * \par
+  49:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * The parameter <code>fftLen</code>	Specifies length of RFFT/CIFFT process. Supported FFT Lengths a
+  50:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * \par
+  51:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** * This Function also initializes Twiddle factor table pointer and Bit reversal table pointer.
+  52:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** */
+  53:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** arm_status arm_rfft_fast_init_f32(
+  54:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   arm_rfft_fast_instance_f32 * S,
+  55:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   uint16_t fftLen)
+  56:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** {
+  30              		.loc 1 56 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  57:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   arm_cfft_instance_f32 * Sint;
+  35              		.loc 1 57 3 view .LVU1
+  58:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the default arm status */
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   arm_status status = ARM_MATH_SUCCESS;
+  36              		.loc 1 59 3 view .LVU2
+  60:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+  61:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   Sint = &(S->Sint);
+  37              		.loc 1 61 3 view .LVU3
+  62:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   Sint->fftLen = fftLen/2;
+  38              		.loc 1 62 3 view .LVU4
+  39              		.loc 1 62 16 is_stmt 0 view .LVU5
+  40 0000 4B08     		lsrs	r3, r1, #1
+  41 0002 0380     		strh	r3, [r0]	@ movhi
+  63:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   S->fftLenRFFT = fftLen;
+  42              		.loc 1 63 3 is_stmt 1 view .LVU6
+  43              		.loc 1 63 17 is_stmt 0 view .LVU7
+  44 0004 0182     		strh	r1, [r0, #16]	@ movhi
+  64:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 
+  65:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initializations of structure parameters depending on the FFT length */
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   switch (Sint->fftLen)
+  45              		.loc 1 66 3 is_stmt 1 view .LVU8
+  46 0006 B3F5807F 		cmp	r3, #256
+  47 000a 50D0     		beq	.L2
+  48 000c 22D8     		bhi	.L3
+  49 000e 402B     		cmp	r3, #64
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 3
+
+
+  50 0010 58D0     		beq	.L4
+  51 0012 0BD9     		bls	.L13
+  52 0014 802B     		cmp	r3, #128
+  53 0016 1AD1     		bne	.L14
+  67:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+  68:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 2048U:
+  69:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initializations of structure parameters for 2048 point FFT */
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initialise the bit reversal table length */
+  71:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_2048_TABLE_LENGTH;
+  72:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initialise the bit reversal table pointer */
+  73:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable2048;
+  74:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initialise the Twiddle coefficient pointers */
+  75:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_2048;
+  76:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_4096;
+  77:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+  78:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 1024U:
+  79:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_1024_TABLE_LENGTH;
+  80:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable1024;
+  81:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_1024;
+  82:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_2048;
+  83:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+  84:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 512U:
+  85:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_512_TABLE_LENGTH;
+  86:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable512;
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_512;
+  88:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_1024;
+  89:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+  90:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 256U:
+  91:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_256_TABLE_LENGTH;
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable256;
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_256;
+  94:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_512;
+  95:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+  96:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 128U:
+  97:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_128_TABLE_LENGTH;
+  54              		.loc 1 97 5 view .LVU9
+  55              		.loc 1 97 24 is_stmt 0 view .LVU10
+  56 0018 D023     		movs	r3, #208
+  57 001a 8381     		strh	r3, [r0, #12]	@ movhi
+  98:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable128;
+  58              		.loc 1 98 5 is_stmt 1 view .LVU11
+  59              		.loc 1 98 24 is_stmt 0 view .LVU12
+  60 001c 334B     		ldr	r3, .L18
+  61 001e 8360     		str	r3, [r0, #8]
+  99:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_128;
+  62              		.loc 1 99 3 is_stmt 1 view .LVU13
+  63              		.loc 1 99 22 is_stmt 0 view .LVU14
+  64 0020 334B     		ldr	r3, .L18+4
+  65 0022 4360     		str	r3, [r0, #4]
+ 100:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_256;
+  66              		.loc 1 100 3 is_stmt 1 view .LVU15
+  67              		.loc 1 100 22 is_stmt 0 view .LVU16
+  68 0024 334B     		ldr	r3, .L18+8
+  69 0026 4361     		str	r3, [r0, #20]
+ 101:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+  70              		.loc 1 101 5 is_stmt 1 view .LVU17
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 4
+
+
+  71              		.loc 1 59 14 is_stmt 0 view .LVU18
+  72 0028 0020     		movs	r0, #0
+  73              	.LVL1:
+  74              		.loc 1 101 5 view .LVU19
+  75 002a 7047     		bx	lr
+  76              	.LVL2:
+  77              	.L13:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+  78              		.loc 1 66 3 view .LVU20
+  79 002c 102B     		cmp	r3, #16
+  80 002e 53D0     		beq	.L6
+  81 0030 202B     		cmp	r3, #32
+  82 0032 09D1     		bne	.L15
+ 102:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 64U:
+ 103:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_64_TABLE_LENGTH;
+ 104:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable64;
+ 105:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_64;
+ 106:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_128;
+ 107:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 108:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 32U:
+ 109:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_32_TABLE_LENGTH;
+  83              		.loc 1 109 5 is_stmt 1 view .LVU21
+  84              		.loc 1 109 24 is_stmt 0 view .LVU22
+  85 0034 3023     		movs	r3, #48
+  86 0036 8381     		strh	r3, [r0, #12]	@ movhi
+ 110:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable32;
+  87              		.loc 1 110 5 is_stmt 1 view .LVU23
+  88              		.loc 1 110 24 is_stmt 0 view .LVU24
+  89 0038 2F4B     		ldr	r3, .L18+12
+  90 003a 8360     		str	r3, [r0, #8]
+ 111:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_32;
+  91              		.loc 1 111 3 is_stmt 1 view .LVU25
+  92              		.loc 1 111 22 is_stmt 0 view .LVU26
+  93 003c 2F4B     		ldr	r3, .L18+16
+  94 003e 4360     		str	r3, [r0, #4]
+ 112:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_64;
+  95              		.loc 1 112 3 is_stmt 1 view .LVU27
+  96              		.loc 1 112 22 is_stmt 0 view .LVU28
+  97 0040 2F4B     		ldr	r3, .L18+20
+  98 0042 4361     		str	r3, [r0, #20]
+ 113:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+  99              		.loc 1 113 5 is_stmt 1 view .LVU29
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ 100              		.loc 1 59 14 is_stmt 0 view .LVU30
+ 101 0044 0020     		movs	r0, #0
+ 102              	.LVL3:
+ 103              		.loc 1 113 5 view .LVU31
+ 104 0046 7047     		bx	lr
+ 105              	.LVL4:
+ 106              	.L15:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 107              		.loc 1 66 3 view .LVU32
+ 108 0048 4FF0FF30 		mov	r0, #-1
+ 109              	.LVL5:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 110              		.loc 1 66 3 view .LVU33
+ 111 004c 7047     		bx	lr
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 5
+
+
+ 112              	.LVL6:
+ 113              	.L14:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 114              		.loc 1 66 3 view .LVU34
+ 115 004e 4FF0FF30 		mov	r0, #-1
+ 116              	.LVL7:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 117              		.loc 1 66 3 view .LVU35
+ 118 0052 7047     		bx	lr
+ 119              	.LVL8:
+ 120              	.L3:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 121              		.loc 1 66 3 view .LVU36
+ 122 0054 B3F5806F 		cmp	r3, #1024
+ 123 0058 1ED0     		beq	.L10
+ 124 005a B3F5006F 		cmp	r3, #2048
+ 125 005e 0AD1     		bne	.L16
+  71:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initialise the bit reversal table pointer */
+ 126              		.loc 1 71 5 is_stmt 1 view .LVU37
+  71:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initialise the bit reversal table pointer */
+ 127              		.loc 1 71 24 is_stmt 0 view .LVU38
+ 128 0060 4FF46E63 		mov	r3, #3808
+ 129 0064 8381     		strh	r3, [r0, #12]	@ movhi
+  73:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initialise the Twiddle coefficient pointers */
+ 130              		.loc 1 73 5 is_stmt 1 view .LVU39
+  73:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Initialise the Twiddle coefficient pointers */
+ 131              		.loc 1 73 24 is_stmt 0 view .LVU40
+ 132 0066 274B     		ldr	r3, .L18+24
+ 133 0068 8360     		str	r3, [r0, #8]
+  75:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_4096;
+ 134              		.loc 1 75 3 is_stmt 1 view .LVU41
+  75:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_4096;
+ 135              		.loc 1 75 22 is_stmt 0 view .LVU42
+ 136 006a 274B     		ldr	r3, .L18+28
+ 137 006c 4360     		str	r3, [r0, #4]
+  76:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 138              		.loc 1 76 3 is_stmt 1 view .LVU43
+  76:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 139              		.loc 1 76 22 is_stmt 0 view .LVU44
+ 140 006e 274B     		ldr	r3, .L18+32
+ 141 0070 4361     		str	r3, [r0, #20]
+  77:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 1024U:
+ 142              		.loc 1 77 5 is_stmt 1 view .LVU45
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ 143              		.loc 1 59 14 is_stmt 0 view .LVU46
+ 144 0072 0020     		movs	r0, #0
+ 145              	.LVL9:
+  77:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 1024U:
+ 146              		.loc 1 77 5 view .LVU47
+ 147 0074 7047     		bx	lr
+ 148              	.LVL10:
+ 149              	.L16:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 150              		.loc 1 66 3 view .LVU48
+ 151 0076 B3F5007F 		cmp	r3, #512
+ 152 007a 0AD1     		bne	.L17
+  85:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable512;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 6
+
+
+ 153              		.loc 1 85 5 is_stmt 1 view .LVU49
+  85:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable512;
+ 154              		.loc 1 85 24 is_stmt 0 view .LVU50
+ 155 007c 4FF4E073 		mov	r3, #448
+ 156 0080 8381     		strh	r3, [r0, #12]	@ movhi
+  86:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_512;
+ 157              		.loc 1 86 5 is_stmt 1 view .LVU51
+  86:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_512;
+ 158              		.loc 1 86 24 is_stmt 0 view .LVU52
+ 159 0082 234B     		ldr	r3, .L18+36
+ 160 0084 8360     		str	r3, [r0, #8]
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_1024;
+ 161              		.loc 1 87 3 is_stmt 1 view .LVU53
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_1024;
+ 162              		.loc 1 87 22 is_stmt 0 view .LVU54
+ 163 0086 234B     		ldr	r3, .L18+40
+ 164 0088 4360     		str	r3, [r0, #4]
+  88:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 165              		.loc 1 88 3 is_stmt 1 view .LVU55
+  88:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 166              		.loc 1 88 22 is_stmt 0 view .LVU56
+ 167 008a 234B     		ldr	r3, .L18+44
+ 168 008c 4361     		str	r3, [r0, #20]
+  89:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 256U:
+ 169              		.loc 1 89 5 is_stmt 1 view .LVU57
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ 170              		.loc 1 59 14 is_stmt 0 view .LVU58
+ 171 008e 0020     		movs	r0, #0
+ 172              	.LVL11:
+  89:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 256U:
+ 173              		.loc 1 89 5 view .LVU59
+ 174 0090 7047     		bx	lr
+ 175              	.LVL12:
+ 176              	.L17:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 177              		.loc 1 66 3 view .LVU60
+ 178 0092 4FF0FF30 		mov	r0, #-1
+ 179              	.LVL13:
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   {
+ 180              		.loc 1 66 3 view .LVU61
+ 181 0096 7047     		bx	lr
+ 182              	.LVL14:
+ 183              	.L10:
+  79:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable1024;
+ 184              		.loc 1 79 5 is_stmt 1 view .LVU62
+  79:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable1024;
+ 185              		.loc 1 79 24 is_stmt 0 view .LVU63
+ 186 0098 4FF4E163 		mov	r3, #1800
+ 187 009c 8381     		strh	r3, [r0, #12]	@ movhi
+  80:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_1024;
+ 188              		.loc 1 80 5 is_stmt 1 view .LVU64
+  80:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_1024;
+ 189              		.loc 1 80 24 is_stmt 0 view .LVU65
+ 190 009e 1F4B     		ldr	r3, .L18+48
+ 191 00a0 8360     		str	r3, [r0, #8]
+  81:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_2048;
+ 192              		.loc 1 81 3 is_stmt 1 view .LVU66
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 7
+
+
+  81:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_2048;
+ 193              		.loc 1 81 22 is_stmt 0 view .LVU67
+ 194 00a2 1F4B     		ldr	r3, .L18+52
+ 195 00a4 4360     		str	r3, [r0, #4]
+  82:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 196              		.loc 1 82 3 is_stmt 1 view .LVU68
+  82:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 197              		.loc 1 82 22 is_stmt 0 view .LVU69
+ 198 00a6 1F4B     		ldr	r3, .L18+56
+ 199 00a8 4361     		str	r3, [r0, #20]
+  83:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 512U:
+ 200              		.loc 1 83 5 is_stmt 1 view .LVU70
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ 201              		.loc 1 59 14 is_stmt 0 view .LVU71
+ 202 00aa 0020     		movs	r0, #0
+ 203              	.LVL15:
+  83:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 512U:
+ 204              		.loc 1 83 5 view .LVU72
+ 205 00ac 7047     		bx	lr
+ 206              	.LVL16:
+ 207              	.L2:
+  91:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable256;
+ 208              		.loc 1 91 5 is_stmt 1 view .LVU73
+  91:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable256;
+ 209              		.loc 1 91 24 is_stmt 0 view .LVU74
+ 210 00ae 4FF4DC73 		mov	r3, #440
+ 211 00b2 8381     		strh	r3, [r0, #12]	@ movhi
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_256;
+ 212              		.loc 1 92 5 is_stmt 1 view .LVU75
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_256;
+ 213              		.loc 1 92 24 is_stmt 0 view .LVU76
+ 214 00b4 1C4B     		ldr	r3, .L18+60
+ 215 00b6 8360     		str	r3, [r0, #8]
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_512;
+ 216              		.loc 1 93 3 is_stmt 1 view .LVU77
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_512;
+ 217              		.loc 1 93 22 is_stmt 0 view .LVU78
+ 218 00b8 1C4B     		ldr	r3, .L18+64
+ 219 00ba 4360     		str	r3, [r0, #4]
+  94:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 220              		.loc 1 94 3 is_stmt 1 view .LVU79
+  94:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 221              		.loc 1 94 22 is_stmt 0 view .LVU80
+ 222 00bc 1C4B     		ldr	r3, .L18+68
+ 223 00be 4361     		str	r3, [r0, #20]
+  95:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 128U:
+ 224              		.loc 1 95 5 is_stmt 1 view .LVU81
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ 225              		.loc 1 59 14 is_stmt 0 view .LVU82
+ 226 00c0 0020     		movs	r0, #0
+ 227              	.LVL17:
+  95:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 128U:
+ 228              		.loc 1 95 5 view .LVU83
+ 229 00c2 7047     		bx	lr
+ 230              	.LVL18:
+ 231              	.L4:
+ 103:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable64;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 8
+
+
+ 232              		.loc 1 103 5 is_stmt 1 view .LVU84
+ 103:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable64;
+ 233              		.loc 1 103 24 is_stmt 0 view .LVU85
+ 234 00c4 3823     		movs	r3, #56
+ 235 00c6 8381     		strh	r3, [r0, #12]	@ movhi
+ 104:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_64;
+ 236              		.loc 1 104 5 is_stmt 1 view .LVU86
+ 104:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_64;
+ 237              		.loc 1 104 24 is_stmt 0 view .LVU87
+ 238 00c8 1A4B     		ldr	r3, .L18+72
+ 239 00ca 8360     		str	r3, [r0, #8]
+ 105:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_128;
+ 240              		.loc 1 105 3 is_stmt 1 view .LVU88
+ 105:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_128;
+ 241              		.loc 1 105 22 is_stmt 0 view .LVU89
+ 242 00cc 1A4B     		ldr	r3, .L18+76
+ 243 00ce 4360     		str	r3, [r0, #4]
+ 106:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 244              		.loc 1 106 3 is_stmt 1 view .LVU90
+ 106:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 245              		.loc 1 106 22 is_stmt 0 view .LVU91
+ 246 00d0 1A4B     		ldr	r3, .L18+80
+ 247 00d2 4361     		str	r3, [r0, #20]
+ 107:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 32U:
+ 248              		.loc 1 107 5 is_stmt 1 view .LVU92
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ 249              		.loc 1 59 14 is_stmt 0 view .LVU93
+ 250 00d4 0020     		movs	r0, #0
+ 251              	.LVL19:
+ 107:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 32U:
+ 252              		.loc 1 107 5 view .LVU94
+ 253 00d6 7047     		bx	lr
+ 254              	.LVL20:
+ 255              	.L6:
+ 114:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   case 16U:
+ 115:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->bitRevLength = ARMBITREVINDEXTABLE_16_TABLE_LENGTH;
+ 256              		.loc 1 115 5 is_stmt 1 view .LVU95
+ 257              		.loc 1 115 24 is_stmt 0 view .LVU96
+ 258 00d8 1423     		movs	r3, #20
+ 259 00da 8381     		strh	r3, [r0, #12]	@ movhi
+ 116:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable16;
+ 260              		.loc 1 116 5 is_stmt 1 view .LVU97
+ 261              		.loc 1 116 24 is_stmt 0 view .LVU98
+ 262 00dc 184B     		ldr	r3, .L18+84
+ 263 00de 8360     		str	r3, [r0, #8]
+ 117:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		Sint->pTwiddle     = (float32_t *) twiddleCoef_16;
+ 264              		.loc 1 117 3 is_stmt 1 view .LVU99
+ 265              		.loc 1 117 22 is_stmt 0 view .LVU100
+ 266 00e0 184B     		ldr	r3, .L18+88
+ 267 00e2 4360     		str	r3, [r0, #4]
+ 118:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_32;
+ 268              		.loc 1 118 3 is_stmt 1 view .LVU101
+ 269              		.loc 1 118 22 is_stmt 0 view .LVU102
+ 270 00e4 184B     		ldr	r3, .L18+92
+ 271 00e6 4361     		str	r3, [r0, #20]
+ 119:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 272              		.loc 1 119 5 is_stmt 1 view .LVU103
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 9
+
+
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   /*  Initialise the FFT length */
+ 273              		.loc 1 59 14 is_stmt 0 view .LVU104
+ 274 00e8 0020     		movs	r0, #0
+ 275              	.LVL21:
+ 120:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   default:
+ 121:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     /*  Reporting argument error if fftSize is not valid value */
+ 122:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     status = ARM_MATH_ARGUMENT_ERROR;
+ 123:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****     break;
+ 124:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   }
+ 125:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** 
+ 126:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c ****   return (status);
+ 276              		.loc 1 126 3 is_stmt 1 view .LVU105
+ 127:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c **** }
+ 277              		.loc 1 127 1 is_stmt 0 view .LVU106
+ 278 00ea 7047     		bx	lr
+ 279              	.L19:
+ 280              		.align	2
+ 281              	.L18:
+ 282 00ec 00000000 		.word	armBitRevIndexTable128
+ 283 00f0 00000000 		.word	twiddleCoef_128
+ 284 00f4 00000000 		.word	twiddleCoef_rfft_256
+ 285 00f8 00000000 		.word	armBitRevIndexTable32
+ 286 00fc 00000000 		.word	twiddleCoef_32
+ 287 0100 00000000 		.word	twiddleCoef_rfft_64
+ 288 0104 00000000 		.word	armBitRevIndexTable2048
+ 289 0108 00000000 		.word	twiddleCoef_2048
+ 290 010c 00000000 		.word	twiddleCoef_rfft_4096
+ 291 0110 00000000 		.word	armBitRevIndexTable512
+ 292 0114 00000000 		.word	twiddleCoef_512
+ 293 0118 00000000 		.word	twiddleCoef_rfft_1024
+ 294 011c 00000000 		.word	armBitRevIndexTable1024
+ 295 0120 00000000 		.word	twiddleCoef_1024
+ 296 0124 00000000 		.word	twiddleCoef_rfft_2048
+ 297 0128 00000000 		.word	armBitRevIndexTable256
+ 298 012c 00000000 		.word	twiddleCoef_256
+ 299 0130 00000000 		.word	twiddleCoef_rfft_512
+ 300 0134 00000000 		.word	armBitRevIndexTable64
+ 301 0138 00000000 		.word	twiddleCoef_64
+ 302 013c 00000000 		.word	twiddleCoef_rfft_128
+ 303 0140 00000000 		.word	armBitRevIndexTable16
+ 304 0144 00000000 		.word	twiddleCoef_16
+ 305 0148 00000000 		.word	twiddleCoef_rfft_32
+ 306              		.cfi_endproc
+ 307              	.LFE139:
+ 309              		.text
+ 310              	.Letext0:
+ 311              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 312              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 313              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 314              		.file 5 "Drivers/CMSIS/DSP/Include/arm_common_tables.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_rfft_fast_init_f32.c
+C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s:21     .text.arm_rfft_fast_init_f32:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s:27     .text.arm_rfft_fast_init_f32:00000000 arm_rfft_fast_init_f32
+C:\Users\Lamp\AppData\Local\Temp\cc13xj6Z.s:282    .text.arm_rfft_fast_init_f32:000000ec $d
+
+UNDEFINED SYMBOLS
+armBitRevIndexTable128
+twiddleCoef_128
+twiddleCoef_rfft_256
+armBitRevIndexTable32
+twiddleCoef_32
+twiddleCoef_rfft_64
+armBitRevIndexTable2048
+twiddleCoef_2048
+twiddleCoef_rfft_4096
+armBitRevIndexTable512
+twiddleCoef_512
+twiddleCoef_rfft_1024
+armBitRevIndexTable1024
+twiddleCoef_1024
+twiddleCoef_rfft_2048
+armBitRevIndexTable256
+twiddleCoef_256
+twiddleCoef_rfft_512
+armBitRevIndexTable64
+twiddleCoef_64
+twiddleCoef_rfft_128
+armBitRevIndexTable16
+twiddleCoef_16
+twiddleCoef_rfft_32

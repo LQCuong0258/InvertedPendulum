@@ -14,7 +14,7 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 extern Encoder encoder_topic;
-DSP StateSystem;
+struct DSP * data_processor;
 State state_topic = {.Motor = {0.0f}, .Cart = {0.0f}, .Pendulum = {0.0f}};
 
 // float theta = 0.0f, omega = 0.0f, Prev_theta = 0.0f;
@@ -27,7 +27,7 @@ void MainTask(void * xTaskParameters) {
 
   for(;;) {    
     /* Cấp phát động bộ đệm */
-    StateSystem.procesNewData(&StateSystem, &encoder_topic, &state_topic);
+    data_processor->procesNewData(data_processor, &encoder_topic, &state_topic);
 
     // DutyCycle = PID_Pos(xdesign, ThetaCart, Ts);
     // char SIG[100];
@@ -77,7 +77,8 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 
-  dsp_new(&StateSystem);
+  data_processor = (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
+  dsp_new(data_processor);
   // StateSystem= (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
 
   CommuniQueue = xQueueCreate(5, sizeof(char) * 100);

@@ -1,0 +1,810 @@
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"arm_scale_q31.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c"
+  20              		.section	.text.arm_scale_q31,"ax",%progbits
+  21              		.align	1
+  22              		.global	arm_scale_q31
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	arm_scale_q31:
+  28              	.LVL0:
+  29              	.LFB139:
+   1:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * Title:        arm_scale_q31.c
+   4:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * Description:  Multiplies a Q31 vector by a scalar
+   5:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  *
+   6:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * $Date:        27. January 2017
+   7:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * $Revision:    V.1.5.1
+   8:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  *
+   9:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** /*
+  12:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * Copyright (C) 2010-2017 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  *
+  14:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  *
+  16:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  *
+  20:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  *
+  22:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  */
+  28:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  29:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** #include "arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 2
+
+
+  30:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  31:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** /**
+  32:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @ingroup groupMath
+  33:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  */
+  34:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  35:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** /**
+  36:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @addtogroup scale
+  37:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @{
+  38:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  */
+  39:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  40:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** /**
+  41:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @brief Multiplies a Q31 vector by a scalar.
+  42:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @param[in]       *pSrc points to the input vector
+  43:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @param[in]       scaleFract fractional portion of the scale value
+  44:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @param[in]       shift number of bits to shift the result by
+  45:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @param[out]      *pDst points to the output vector
+  46:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @param[in]       blockSize number of samples in the vector
+  47:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * @return none.
+  48:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  *
+  49:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * <b>Scaling and Overflow Behavior:</b>
+  50:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * \par
+  51:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * The input data <code>*pSrc</code> and <code>scaleFract</code> are in 1.31 format.
+  52:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  * These are multiplied to yield a 2.62 intermediate result and this is shifted with saturation to 
+  53:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****  */
+  54:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  55:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** void arm_scale_q31(
+  56:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   q31_t * pSrc,
+  57:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   q31_t scaleFract,
+  58:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   int8_t shift,
+  59:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   q31_t * pDst,
+  60:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   uint32_t blockSize)
+  61:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** {
+  30              		.loc 1 61 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 61 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 099C     		ldr	r4, [sp, #36]
+  62:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   int8_t kShift = shift + 1;                     /* Shift to apply after scaling */
+  48              		.loc 1 62 3 is_stmt 1 view .LVU2
+  49              		.loc 1 62 25 is_stmt 0 view .LVU3
+  50 0006 0132     		adds	r2, r2, #1
+  51              	.LVL1:
+  52              		.loc 1 62 10 view .LVU4
+  53 0008 4FFA82FC 		sxtb	ip, r2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 3
+
+
+  54              	.LVL2:
+  63:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   int8_t sign = (kShift & 0x80);
+  55              		.loc 1 63 3 is_stmt 1 view .LVU5
+  56              		.loc 1 63 10 is_stmt 0 view .LVU6
+  57 000c 02F08002 		and	r2, r2, #128
+  58 0010 4FFA82F8 		sxtb	r8, r2
+  59              	.LVL3:
+  64:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   uint32_t blkCnt;                               /* loop counter */
+  60              		.loc 1 64 3 is_stmt 1 view .LVU7
+  65:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   q31_t in, out;
+  61              		.loc 1 65 3 view .LVU8
+  66:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  67:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** #if defined (ARM_MATH_DSP)
+  68:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  69:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** /* Run the below code for Cortex-M4 and Cortex-M3 */
+  70:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  71:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   q31_t in1, in2, in3, in4;                      /* temporary input variables */
+  62              		.loc 1 71 3 view .LVU9
+  72:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   q31_t out1, out2, out3, out4;                  /* temporary output variabels */
+  63              		.loc 1 72 3 view .LVU10
+  73:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  74:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  75:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   /*loop Unrolling */
+  76:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   blkCnt = blockSize >> 2U;
+  64              		.loc 1 76 3 view .LVU11
+  65              		.loc 1 76 10 is_stmt 0 view .LVU12
+  66 0014 A708     		lsrs	r7, r4, #2
+  67              	.LVL4:
+  77:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  78:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   if (sign == 0U)
+  68              		.loc 1 78 3 is_stmt 1 view .LVU13
+  69              		.loc 1 78 6 is_stmt 0 view .LVU14
+  70 0016 B8F1000F 		cmp	r8, #0
+  71 001a 06D0     		beq	.L2
+  72 001c 9BE0     		b	.L3
+  73              	.LVL5:
+  74              	.L7:
+  79:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   {
+  80:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+  81:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****      ** a second loop below computes the remaining 1 to 3 samples. */
+  82:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     while (blkCnt > 0U)
+  83:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     {
+  84:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* read four inputs from source */
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in1 = *pSrc;
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = *(pSrc + 1);
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = *(pSrc + 2);
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = *(pSrc + 3);
+  89:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  90:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* multiply input with scaler value */
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in1 = ((q63_t) in1 * scaleFract) >> 32;
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = ((q63_t) in2 * scaleFract) >> 32;
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = ((q63_t) in3 * scaleFract) >> 32;
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = ((q63_t) in4 * scaleFract) >> 32;
+  95:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+  96:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* apply shifting */
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out1 = in1 << kShift;
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out2 = in2 << kShift;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 4
+
+
+  99:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 100:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* saturate the results. */
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       if (in1 != (out1 >> kShift))
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out1 = 0x7FFFFFFF ^ (in1 >> 31);
+ 103:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       if (in2 != (out2 >> kShift))
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out2 = 0x7FFFFFFF ^ (in2 >> 31);
+ 106:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out3 = in3 << kShift;
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out4 = in4 << kShift;
+ 109:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *pDst = out1;
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 1) = out2;
+ 112:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       if (in3 != (out3 >> kShift))
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out3 = 0x7FFFFFFF ^ (in3 >> 31);
+ 115:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       if (in4 != (out4 >> kShift))
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out4 = 0x7FFFFFFF ^ (in4 >> 31);
+ 118:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 119:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* Store result destination */
+ 120:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 2) = out3;
+  75              		.loc 1 120 7 is_stmt 1 view .LVU15
+  76              		.loc 1 120 19 is_stmt 0 view .LVU16
+  77 001e C3F808E0 		str	lr, [r3, #8]
+ 121:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 3) = out4;
+  78              		.loc 1 121 7 is_stmt 1 view .LVU17
+  79              		.loc 1 121 19 is_stmt 0 view .LVU18
+  80 0022 DE60     		str	r6, [r3, #12]
+ 122:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 123:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* Update pointers to process next sampels */
+ 124:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       pSrc += 4U;
+  81              		.loc 1 124 7 is_stmt 1 view .LVU19
+  82              		.loc 1 124 12 is_stmt 0 view .LVU20
+  83 0024 1030     		adds	r0, r0, #16
+  84              	.LVL6:
+ 125:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       pDst += 4U;
+  85              		.loc 1 125 7 is_stmt 1 view .LVU21
+  86              		.loc 1 125 12 is_stmt 0 view .LVU22
+  87 0026 1033     		adds	r3, r3, #16
+  88              	.LVL7:
+ 126:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 127:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* Decrement the loop counter */
+ 128:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       blkCnt--;
+  89              		.loc 1 128 7 is_stmt 1 view .LVU23
+  90              		.loc 1 128 13 is_stmt 0 view .LVU24
+  91 0028 013F     		subs	r7, r7, #1
+  92              	.LVL8:
+  93              	.L2:
+  82:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     {
+  94              		.loc 1 82 19 is_stmt 1 view .LVU25
+  95 002a 002F     		cmp	r7, #0
+  96 002c 00F09580 		beq	.L9
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = *(pSrc + 1);
+  97              		.loc 1 85 7 view .LVU26
+  85:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = *(pSrc + 1);
+  98              		.loc 1 85 11 is_stmt 0 view .LVU27
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 5
+
+
+  99 0030 0668     		ldr	r6, [r0]
+ 100              	.LVL9:
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = *(pSrc + 2);
+ 101              		.loc 1 86 7 is_stmt 1 view .LVU28
+  86:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = *(pSrc + 2);
+ 102              		.loc 1 86 11 is_stmt 0 view .LVU29
+ 103 0032 4568     		ldr	r5, [r0, #4]
+ 104              	.LVL10:
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = *(pSrc + 3);
+ 105              		.loc 1 87 7 is_stmt 1 view .LVU30
+  87:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = *(pSrc + 3);
+ 106              		.loc 1 87 11 is_stmt 0 view .LVU31
+ 107 0034 8268     		ldr	r2, [r0, #8]
+ 108              	.LVL11:
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 109              		.loc 1 88 7 is_stmt 1 view .LVU32
+  88:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 110              		.loc 1 88 11 is_stmt 0 view .LVU33
+ 111 0036 D0F80C90 		ldr	r9, [r0, #12]
+ 112              	.LVL12:
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = ((q63_t) in2 * scaleFract) >> 32;
+ 113              		.loc 1 91 7 is_stmt 1 view .LVU34
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = ((q63_t) in2 * scaleFract) >> 32;
+ 114              		.loc 1 91 14 is_stmt 0 view .LVU35
+ 115 003a 4FEAE67B 		asr	fp, r6, #31
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = ((q63_t) in2 * scaleFract) >> 32;
+ 116              		.loc 1 91 26 view .LVU36
+ 117 003e 4FEAE17A 		asr	r10, r1, #31
+ 118 0042 06FB0AFE 		mul	lr, r6, r10
+ 119 0046 01FB0BEE 		mla	lr, r1, fp, lr
+ 120 004a A6FB016B 		umull	r6, fp, r6, r1
+ 121              	.LVL13:
+  91:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = ((q63_t) in2 * scaleFract) >> 32;
+ 122              		.loc 1 91 26 view .LVU37
+ 123 004e DE44     		add	lr, lr, fp
+ 124              	.LVL14:
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = ((q63_t) in3 * scaleFract) >> 32;
+ 125              		.loc 1 92 7 is_stmt 1 view .LVU38
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = ((q63_t) in3 * scaleFract) >> 32;
+ 126              		.loc 1 92 14 is_stmt 0 view .LVU39
+ 127 0050 EE17     		asrs	r6, r5, #31
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = ((q63_t) in3 * scaleFract) >> 32;
+ 128              		.loc 1 92 26 view .LVU40
+ 129 0052 01FB06F6 		mul	r6, r1, r6
+ 130 0056 05FB0A66 		mla	r6, r5, r10, r6
+ 131 005a A1FB055B 		umull	r5, fp, r1, r5
+ 132              	.LVL15:
+  92:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = ((q63_t) in3 * scaleFract) >> 32;
+ 133              		.loc 1 92 26 view .LVU41
+ 134 005e 5E44     		add	r6, r6, fp
+ 135              	.LVL16:
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = ((q63_t) in4 * scaleFract) >> 32;
+ 136              		.loc 1 93 7 is_stmt 1 view .LVU42
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = ((q63_t) in4 * scaleFract) >> 32;
+ 137              		.loc 1 93 14 is_stmt 0 view .LVU43
+ 138 0060 D517     		asrs	r5, r2, #31
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = ((q63_t) in4 * scaleFract) >> 32;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 6
+
+
+ 139              		.loc 1 93 26 view .LVU44
+ 140 0062 01FB05F5 		mul	r5, r1, r5
+ 141 0066 02FB0A55 		mla	r5, r2, r10, r5
+ 142 006a A1FB022B 		umull	r2, fp, r1, r2
+ 143              	.LVL17:
+  93:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = ((q63_t) in4 * scaleFract) >> 32;
+ 144              		.loc 1 93 26 view .LVU45
+ 145 006e 5D44     		add	r5, r5, fp
+ 146              	.LVL18:
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 147              		.loc 1 94 7 is_stmt 1 view .LVU46
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 148              		.loc 1 94 14 is_stmt 0 view .LVU47
+ 149 0070 4FEAE972 		asr	r2, r9, #31
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 150              		.loc 1 94 26 view .LVU48
+ 151 0074 01FB02F2 		mul	r2, r1, r2
+ 152 0078 09FB0A22 		mla	r2, r9, r10, r2
+ 153 007c A1FB099A 		umull	r9, r10, r1, r9
+ 154              	.LVL19:
+  94:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 155              		.loc 1 94 26 view .LVU49
+ 156 0080 5244     		add	r2, r2, r10
+ 157              	.LVL20:
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out2 = in2 << kShift;
+ 158              		.loc 1 97 7 is_stmt 1 view .LVU50
+  97:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out2 = in2 << kShift;
+ 159              		.loc 1 97 12 is_stmt 0 view .LVU51
+ 160 0082 0EFA0CFA 		lsl	r10, lr, ip
+ 161              	.LVL21:
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 162              		.loc 1 98 7 is_stmt 1 view .LVU52
+  98:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 163              		.loc 1 98 12 is_stmt 0 view .LVU53
+ 164 0086 06FA0CF9 		lsl	r9, r6, ip
+ 165              	.LVL22:
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out1 = 0x7FFFFFFF ^ (in1 >> 31);
+ 166              		.loc 1 101 7 is_stmt 1 view .LVU54
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out1 = 0x7FFFFFFF ^ (in1 >> 31);
+ 167              		.loc 1 101 24 is_stmt 0 view .LVU55
+ 168 008a 4AFA0CFB 		asr	fp, r10, ip
+ 101:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out1 = 0x7FFFFFFF ^ (in1 >> 31);
+ 169              		.loc 1 101 10 view .LVU56
+ 170 008e F345     		cmp	fp, lr
+ 171 0090 03D0     		beq	.L4
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 172              		.loc 1 102 9 is_stmt 1 view .LVU57
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 173              		.loc 1 102 14 is_stmt 0 view .LVU58
+ 174 0092 6FF0004A 		mvn	r10, #-2147483648
+ 175              	.LVL23:
+ 102:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 176              		.loc 1 102 14 view .LVU59
+ 177 0096 8AEAEE7A 		eor	r10, r10, lr, asr #31
+ 178              	.LVL24:
+ 179              	.L4:
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out2 = 0x7FFFFFFF ^ (in2 >> 31);
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 7
+
+
+ 180              		.loc 1 104 7 is_stmt 1 view .LVU60
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out2 = 0x7FFFFFFF ^ (in2 >> 31);
+ 181              		.loc 1 104 24 is_stmt 0 view .LVU61
+ 182 009a 49FA0CFE 		asr	lr, r9, ip
+ 183              	.LVL25:
+ 104:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out2 = 0x7FFFFFFF ^ (in2 >> 31);
+ 184              		.loc 1 104 10 view .LVU62
+ 185 009e B645     		cmp	lr, r6
+ 186 00a0 03D0     		beq	.L5
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 187              		.loc 1 105 9 is_stmt 1 view .LVU63
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 188              		.loc 1 105 14 is_stmt 0 view .LVU64
+ 189 00a2 6FF00049 		mvn	r9, #-2147483648
+ 190              	.LVL26:
+ 105:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 191              		.loc 1 105 14 view .LVU65
+ 192 00a6 89EAE679 		eor	r9, r9, r6, asr #31
+ 193              	.LVL27:
+ 194              	.L5:
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out4 = in4 << kShift;
+ 195              		.loc 1 107 7 is_stmt 1 view .LVU66
+ 107:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out4 = in4 << kShift;
+ 196              		.loc 1 107 12 is_stmt 0 view .LVU67
+ 197 00aa 05FA0CFE 		lsl	lr, r5, ip
+ 198              	.LVL28:
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 199              		.loc 1 108 7 is_stmt 1 view .LVU68
+ 108:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 200              		.loc 1 108 12 is_stmt 0 view .LVU69
+ 201 00ae 02FA0CF6 		lsl	r6, r2, ip
+ 202              	.LVL29:
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 1) = out2;
+ 203              		.loc 1 110 7 is_stmt 1 view .LVU70
+ 110:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 1) = out2;
+ 204              		.loc 1 110 13 is_stmt 0 view .LVU71
+ 205 00b2 C3F800A0 		str	r10, [r3]
+ 206              	.LVL30:
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 207              		.loc 1 111 7 is_stmt 1 view .LVU72
+ 111:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 208              		.loc 1 111 19 is_stmt 0 view .LVU73
+ 209 00b6 C3F80490 		str	r9, [r3, #4]
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out3 = 0x7FFFFFFF ^ (in3 >> 31);
+ 210              		.loc 1 113 7 is_stmt 1 view .LVU74
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out3 = 0x7FFFFFFF ^ (in3 >> 31);
+ 211              		.loc 1 113 24 is_stmt 0 view .LVU75
+ 212 00ba 4EFA0CF9 		asr	r9, lr, ip
+ 213              	.LVL31:
+ 113:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out3 = 0x7FFFFFFF ^ (in3 >> 31);
+ 214              		.loc 1 113 10 view .LVU76
+ 215 00be A945     		cmp	r9, r5
+ 216 00c0 03D0     		beq	.L6
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 217              		.loc 1 114 9 is_stmt 1 view .LVU77
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 218              		.loc 1 114 14 is_stmt 0 view .LVU78
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 8
+
+
+ 219 00c2 6FF0004E 		mvn	lr, #-2147483648
+ 220              	.LVL32:
+ 114:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 221              		.loc 1 114 14 view .LVU79
+ 222 00c6 8EEAE57E 		eor	lr, lr, r5, asr #31
+ 223              	.LVL33:
+ 224              	.L6:
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out4 = 0x7FFFFFFF ^ (in4 >> 31);
+ 225              		.loc 1 116 7 is_stmt 1 view .LVU80
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out4 = 0x7FFFFFFF ^ (in4 >> 31);
+ 226              		.loc 1 116 24 is_stmt 0 view .LVU81
+ 227 00ca 46FA0CF5 		asr	r5, r6, ip
+ 228              	.LVL34:
+ 116:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****         out4 = 0x7FFFFFFF ^ (in4 >> 31);
+ 229              		.loc 1 116 10 view .LVU82
+ 230 00ce 9542     		cmp	r5, r2
+ 231 00d0 A5D0     		beq	.L7
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 232              		.loc 1 117 9 is_stmt 1 view .LVU83
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 233              		.loc 1 117 14 is_stmt 0 view .LVU84
+ 234 00d2 6FF00046 		mvn	r6, #-2147483648
+ 235              	.LVL35:
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 236              		.loc 1 117 14 view .LVU85
+ 237 00d6 86EAE276 		eor	r6, r6, r2, asr #31
+ 238              	.LVL36:
+ 117:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 239              		.loc 1 117 14 view .LVU86
+ 240 00da A0E7     		b	.L7
+ 241              	.LVL37:
+ 242              	.L10:
+ 129:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     }
+ 130:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 131:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   }
+ 132:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   else
+ 133:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   {
+ 134:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
+ 135:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****      ** a second loop below computes the remaining 1 to 3 samples. */
+ 136:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     while (blkCnt > 0U)
+ 137:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     {
+ 138:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* read four inputs from source */
+ 139:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in1 = *pSrc;
+ 243              		.loc 1 139 7 is_stmt 1 view .LVU87
+ 244              		.loc 1 139 11 is_stmt 0 view .LVU88
+ 245 00dc 0668     		ldr	r6, [r0]
+ 246              	.LVL38:
+ 140:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = *(pSrc + 1);
+ 247              		.loc 1 140 7 is_stmt 1 view .LVU89
+ 248              		.loc 1 140 11 is_stmt 0 view .LVU90
+ 249 00de 4568     		ldr	r5, [r0, #4]
+ 250              	.LVL39:
+ 141:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = *(pSrc + 2);
+ 251              		.loc 1 141 7 is_stmt 1 view .LVU91
+ 252              		.loc 1 141 11 is_stmt 0 view .LVU92
+ 253 00e0 8268     		ldr	r2, [r0, #8]
+ 254              	.LVL40:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 9
+
+
+ 142:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = *(pSrc + 3);
+ 255              		.loc 1 142 7 is_stmt 1 view .LVU93
+ 256              		.loc 1 142 11 is_stmt 0 view .LVU94
+ 257 00e2 D0F80C90 		ldr	r9, [r0, #12]
+ 258              	.LVL41:
+ 143:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 144:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* multiply input with scaler value */
+ 145:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in1 = ((q63_t) in1 * scaleFract) >> 32;
+ 259              		.loc 1 145 7 is_stmt 1 view .LVU95
+ 260              		.loc 1 145 14 is_stmt 0 view .LVU96
+ 261 00e6 4FEAE67B 		asr	fp, r6, #31
+ 262              		.loc 1 145 26 view .LVU97
+ 263 00ea 4FEAE17A 		asr	r10, r1, #31
+ 264 00ee 06FB0AFE 		mul	lr, r6, r10
+ 265 00f2 01FB0BEE 		mla	lr, r1, fp, lr
+ 266 00f6 A6FB016B 		umull	r6, fp, r6, r1
+ 267              	.LVL42:
+ 268              		.loc 1 145 26 view .LVU98
+ 269 00fa 0EEB0B06 		add	r6, lr, fp
+ 270              	.LVL43:
+ 146:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in2 = ((q63_t) in2 * scaleFract) >> 32;
+ 271              		.loc 1 146 7 is_stmt 1 view .LVU99
+ 272              		.loc 1 146 14 is_stmt 0 view .LVU100
+ 273 00fe 4FEAE57E 		asr	lr, r5, #31
+ 274              		.loc 1 146 26 view .LVU101
+ 275 0102 01FB0EFE 		mul	lr, r1, lr
+ 276 0106 05FB0AEE 		mla	lr, r5, r10, lr
+ 277 010a A1FB055B 		umull	r5, fp, r1, r5
+ 278              	.LVL44:
+ 279              		.loc 1 146 26 view .LVU102
+ 280 010e DE44     		add	lr, lr, fp
+ 281              	.LVL45:
+ 147:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in3 = ((q63_t) in3 * scaleFract) >> 32;
+ 282              		.loc 1 147 7 is_stmt 1 view .LVU103
+ 283              		.loc 1 147 14 is_stmt 0 view .LVU104
+ 284 0110 D517     		asrs	r5, r2, #31
+ 285              		.loc 1 147 26 view .LVU105
+ 286 0112 01FB05F5 		mul	r5, r1, r5
+ 287 0116 02FB0A55 		mla	r5, r2, r10, r5
+ 288 011a A1FB022B 		umull	r2, fp, r1, r2
+ 289              	.LVL46:
+ 290              		.loc 1 147 26 view .LVU106
+ 291 011e 5D44     		add	r5, r5, fp
+ 292              	.LVL47:
+ 148:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       in4 = ((q63_t) in4 * scaleFract) >> 32;
+ 293              		.loc 1 148 7 is_stmt 1 view .LVU107
+ 294              		.loc 1 148 14 is_stmt 0 view .LVU108
+ 295 0120 4FEAE972 		asr	r2, r9, #31
+ 296              		.loc 1 148 26 view .LVU109
+ 297 0124 01FB02F2 		mul	r2, r1, r2
+ 298 0128 09FB0A22 		mla	r2, r9, r10, r2
+ 299 012c A1FB099A 		umull	r9, r10, r1, r9
+ 300              	.LVL48:
+ 301              		.loc 1 148 26 view .LVU110
+ 302 0130 5244     		add	r2, r2, r10
+ 303              	.LVL49:
+ 149:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 10
+
+
+ 150:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* apply shifting */
+ 151:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out1 = in1 >> -kShift;
+ 304              		.loc 1 151 7 is_stmt 1 view .LVU111
+ 305              		.loc 1 151 21 is_stmt 0 view .LVU112
+ 306 0132 CCF10009 		rsb	r9, ip, #0
+ 307              		.loc 1 151 12 view .LVU113
+ 308 0136 46FA09F6 		asr	r6, r6, r9
+ 309              	.LVL50:
+ 152:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out2 = in2 >> -kShift;
+ 310              		.loc 1 152 7 is_stmt 1 view .LVU114
+ 311              		.loc 1 152 12 is_stmt 0 view .LVU115
+ 312 013a 4EFA09FE 		asr	lr, lr, r9
+ 313              	.LVL51:
+ 153:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 154:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out3 = in3 >> -kShift;
+ 314              		.loc 1 154 7 is_stmt 1 view .LVU116
+ 315              		.loc 1 154 12 is_stmt 0 view .LVU117
+ 316 013e 45FA09F5 		asr	r5, r5, r9
+ 317              	.LVL52:
+ 155:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       out4 = in4 >> -kShift;
+ 318              		.loc 1 155 7 is_stmt 1 view .LVU118
+ 319              		.loc 1 155 12 is_stmt 0 view .LVU119
+ 320 0142 42FA09F2 		asr	r2, r2, r9
+ 321              	.LVL53:
+ 156:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 157:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* Store result destination */
+ 158:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *pDst = out1;
+ 322              		.loc 1 158 7 is_stmt 1 view .LVU120
+ 323              		.loc 1 158 13 is_stmt 0 view .LVU121
+ 324 0146 1E60     		str	r6, [r3]
+ 325              	.LVL54:
+ 159:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 1) = out2;
+ 326              		.loc 1 159 7 is_stmt 1 view .LVU122
+ 327              		.loc 1 159 19 is_stmt 0 view .LVU123
+ 328 0148 C3F804E0 		str	lr, [r3, #4]
+ 160:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 161:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 2) = out3;
+ 329              		.loc 1 161 7 is_stmt 1 view .LVU124
+ 330              		.loc 1 161 19 is_stmt 0 view .LVU125
+ 331 014c 9D60     		str	r5, [r3, #8]
+ 162:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       *(pDst + 3) = out4;
+ 332              		.loc 1 162 7 is_stmt 1 view .LVU126
+ 333              		.loc 1 162 19 is_stmt 0 view .LVU127
+ 334 014e DA60     		str	r2, [r3, #12]
+ 163:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 164:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* Update pointers to process next sampels */
+ 165:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       pSrc += 4U;
+ 335              		.loc 1 165 7 is_stmt 1 view .LVU128
+ 336              		.loc 1 165 12 is_stmt 0 view .LVU129
+ 337 0150 1030     		adds	r0, r0, #16
+ 338              	.LVL55:
+ 166:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       pDst += 4U;
+ 339              		.loc 1 166 7 is_stmt 1 view .LVU130
+ 340              		.loc 1 166 12 is_stmt 0 view .LVU131
+ 341 0152 1033     		adds	r3, r3, #16
+ 342              	.LVL56:
+ 167:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 11
+
+
+ 168:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       /* Decrement the loop counter */
+ 169:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****       blkCnt--;
+ 343              		.loc 1 169 7 is_stmt 1 view .LVU132
+ 344              		.loc 1 169 13 is_stmt 0 view .LVU133
+ 345 0154 013F     		subs	r7, r7, #1
+ 346              	.LVL57:
+ 347              	.L3:
+ 136:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     {
+ 348              		.loc 1 136 19 is_stmt 1 view .LVU134
+ 349 0156 002F     		cmp	r7, #0
+ 350 0158 C0D1     		bne	.L10
+ 351              	.L9:
+ 170:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****     }
+ 171:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   }
+ 172:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   /* If the blockSize is not a multiple of 4, compute any remaining output samples here.
+ 173:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****    ** No loop unrolling is used. */
+ 174:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   blkCnt = blockSize % 0x4U;
+ 352              		.loc 1 174 3 view .LVU135
+ 353              		.loc 1 174 10 is_stmt 0 view .LVU136
+ 354 015a 04F00304 		and	r4, r4, #3
+ 355              	.LVL58:
+ 175:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 176:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** #else
+ 177:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 178:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   /* Run the below code for Cortex-M0 */
+ 179:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 180:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   /* Initialize blkCnt with number of samples */
+ 181:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   blkCnt = blockSize;
+ 182:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 183:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 184:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 185:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   if (sign == 0)
+ 356              		.loc 1 185 3 is_stmt 1 view .LVU137
+ 357              		.loc 1 185 6 is_stmt 0 view .LVU138
+ 358 015e B8F1000F 		cmp	r8, #0
+ 359 0162 03D0     		beq	.L11
+ 360              		.loc 1 185 6 view .LVU139
+ 361 0164 2AE0     		b	.L12
+ 362              	.LVL59:
+ 363              	.L13:
+ 186:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   {
+ 187:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  while (blkCnt > 0U)
+ 188:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  {
+ 189:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		/* C = A * scale */
+ 190:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		/* Scale the input and then store the result in the destination buffer. */
+ 191:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		in = *pSrc++;
+ 192:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		in = ((q63_t) in * scaleFract) >> 32;
+ 193:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 194:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		out = in << kShift;
+ 195:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 196:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		if (in != (out >> kShift))
+ 197:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 			out = 0x7FFFFFFF ^ (in >> 31);
+ 198:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 199:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		*pDst++ = out;
+ 364              		.loc 1 199 3 is_stmt 1 view .LVU140
+ 365              		.loc 1 199 11 is_stmt 0 view .LVU141
+ 366 0166 43F8045B 		str	r5, [r3], #4
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 12
+
+
+ 367              	.LVL60:
+ 200:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 201:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		/* Decrement the loop counter */
+ 202:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		blkCnt--;
+ 368              		.loc 1 202 3 is_stmt 1 view .LVU142
+ 369              		.loc 1 202 9 is_stmt 0 view .LVU143
+ 370 016a 013C     		subs	r4, r4, #1
+ 371              	.LVL61:
+ 372              	.L11:
+ 187:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  {
+ 373              		.loc 1 187 18 is_stmt 1 view .LVU144
+ 374 016c 44B3     		cbz	r4, .L1
+ 191:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		in = ((q63_t) in * scaleFract) >> 32;
+ 375              		.loc 1 191 3 view .LVU145
+ 376              	.LVL62:
+ 191:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		in = ((q63_t) in * scaleFract) >> 32;
+ 377              		.loc 1 191 6 is_stmt 0 view .LVU146
+ 378 016e 50F8045B 		ldr	r5, [r0], #4
+ 379              	.LVL63:
+ 192:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 380              		.loc 1 192 3 is_stmt 1 view .LVU147
+ 192:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 381              		.loc 1 192 9 is_stmt 0 view .LVU148
+ 382 0172 EA17     		asrs	r2, r5, #31
+ 192:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 383              		.loc 1 192 20 view .LVU149
+ 384 0174 CE17     		asrs	r6, r1, #31
+ 385 0176 01FB02F2 		mul	r2, r1, r2
+ 386 017a 05FB0622 		mla	r2, r5, r6, r2
+ 387 017e A1FB0556 		umull	r5, r6, r1, r5
+ 388              	.LVL64:
+ 192:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 389              		.loc 1 192 20 view .LVU150
+ 390 0182 3244     		add	r2, r2, r6
+ 391              	.LVL65:
+ 194:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 392              		.loc 1 194 3 is_stmt 1 view .LVU151
+ 194:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 393              		.loc 1 194 7 is_stmt 0 view .LVU152
+ 394 0184 02FA0CF5 		lsl	r5, r2, ip
+ 395              	.LVL66:
+ 196:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 			out = 0x7FFFFFFF ^ (in >> 31);
+ 396              		.loc 1 196 3 is_stmt 1 view .LVU153
+ 196:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 			out = 0x7FFFFFFF ^ (in >> 31);
+ 397              		.loc 1 196 18 is_stmt 0 view .LVU154
+ 398 0188 45FA0CF6 		asr	r6, r5, ip
+ 196:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 			out = 0x7FFFFFFF ^ (in >> 31);
+ 399              		.loc 1 196 6 view .LVU155
+ 400 018c 9642     		cmp	r6, r2
+ 401 018e EAD0     		beq	.L13
+ 197:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 402              		.loc 1 197 4 is_stmt 1 view .LVU156
+ 197:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 403              		.loc 1 197 8 is_stmt 0 view .LVU157
+ 404 0190 6FF00045 		mvn	r5, #-2147483648
+ 405              	.LVL67:
+ 197:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 13
+
+
+ 406              		.loc 1 197 8 view .LVU158
+ 407 0194 85EAE275 		eor	r5, r5, r2, asr #31
+ 408              	.LVL68:
+ 197:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 409              		.loc 1 197 8 view .LVU159
+ 410 0198 E5E7     		b	.L13
+ 411              	.LVL69:
+ 412              	.L16:
+ 203:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  }
+ 204:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   }
+ 205:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   else
+ 206:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   {
+ 207:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  while (blkCnt > 0U)
+ 208:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  {
+ 209:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		/* C = A * scale */
+ 210:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		/* Scale the input and then store the result in the destination buffer. */
+ 211:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		in = *pSrc++;
+ 413              		.loc 1 211 3 is_stmt 1 view .LVU160
+ 414              		.loc 1 211 6 is_stmt 0 view .LVU161
+ 415 019a 50F8045B 		ldr	r5, [r0], #4
+ 416              	.LVL70:
+ 212:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		in = ((q63_t) in * scaleFract) >> 32;
+ 417              		.loc 1 212 3 is_stmt 1 view .LVU162
+ 418              		.loc 1 212 9 is_stmt 0 view .LVU163
+ 419 019e EA17     		asrs	r2, r5, #31
+ 420              		.loc 1 212 20 view .LVU164
+ 421 01a0 CE17     		asrs	r6, r1, #31
+ 422 01a2 01FB02F2 		mul	r2, r1, r2
+ 423 01a6 05FB0622 		mla	r2, r5, r6, r2
+ 424 01aa A1FB0556 		umull	r5, r6, r1, r5
+ 425              	.LVL71:
+ 426              		.loc 1 212 20 view .LVU165
+ 427 01ae 3244     		add	r2, r2, r6
+ 428              	.LVL72:
+ 213:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 214:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		out = in >> -kShift;
+ 429              		.loc 1 214 3 is_stmt 1 view .LVU166
+ 430              		.loc 1 214 15 is_stmt 0 view .LVU167
+ 431 01b0 CCF10005 		rsb	r5, ip, #0
+ 432              		.loc 1 214 7 view .LVU168
+ 433 01b4 2A41     		asrs	r2, r2, r5
+ 434              	.LVL73:
+ 215:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 216:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		*pDst++ = out;
+ 435              		.loc 1 216 3 is_stmt 1 view .LVU169
+ 436              		.loc 1 216 11 is_stmt 0 view .LVU170
+ 437 01b6 43F8042B 		str	r2, [r3], #4
+ 438              	.LVL74:
+ 217:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 218:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		/* Decrement the loop counter */
+ 219:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 		blkCnt--;
+ 439              		.loc 1 219 3 is_stmt 1 view .LVU171
+ 440              		.loc 1 219 9 is_stmt 0 view .LVU172
+ 441 01ba 013C     		subs	r4, r4, #1
+ 442              	.LVL75:
+ 443              	.L12:
+ 207:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  {
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 14
+
+
+ 444              		.loc 1 207 18 is_stmt 1 view .LVU173
+ 445 01bc 002C     		cmp	r4, #0
+ 446 01be ECD1     		bne	.L16
+ 447              	.L1:
+ 220:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 	  }
+ 221:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** 
+ 222:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c ****   }
+ 223:Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_scale_q31.c **** }
+ 448              		.loc 1 223 1 is_stmt 0 view .LVU174
+ 449 01c0 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 450              		.loc 1 223 1 view .LVU175
+ 451              		.cfi_endproc
+ 452              	.LFE139:
+ 454              		.text
+ 455              	.Letext0:
+ 456              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 457              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 458              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_scale_q31.c
+C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s:21     .text.arm_scale_q31:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc2pBTmp.s:27     .text.arm_scale_q31:00000000 arm_scale_q31
+
+NO UNDEFINED SYMBOLS
