@@ -25,7 +25,9 @@ build/encoder.o: Core/Src/Drivers/Src/encoder.c \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ Core/Src/Application/Inc/Topic.h Middlewares/ST/ARM/DSP/Inc/arm_math.h \
+ Drivers/CMSIS/Include/cmsis_compiler.h Core/Src/Application/Inc/dsp.h
 Core/Src/Drivers/Inc/encoder.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 Core/Inc/stm32f4xx_hal_conf.h:
@@ -55,3 +57,7 @@ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+Core/Src/Application/Inc/Topic.h:
+Middlewares/ST/ARM/DSP/Inc/arm_math.h:
+Drivers/CMSIS/Include/cmsis_compiler.h:
+Core/Src/Application/Inc/dsp.h:

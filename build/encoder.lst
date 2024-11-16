@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -26,7 +26,7 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 1
   23              		.thumb
   24              		.thumb_func
   26              	MX_TIM2_Init:
-  27              	.LFB136:
+  27              	.LFB180:
    1:Core/Src/Drivers/Src/encoder.c **** #include "encoder.h"
    2:Core/Src/Drivers/Src/encoder.c **** 
    3:Core/Src/Drivers/Src/encoder.c **** TIM_HandleTypeDef htim2;
@@ -35,54 +35,49 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 1
    6:Core/Src/Drivers/Src/encoder.c **** static void MX_TIM2_Init(void);
    7:Core/Src/Drivers/Src/encoder.c **** static void MX_TIM3_Init(void);
    8:Core/Src/Drivers/Src/encoder.c **** 
-   9:Core/Src/Drivers/Src/encoder.c **** 
-  10:Core/Src/Drivers/Src/encoder.c **** int16_t PendulumCnt;
-  11:Core/Src/Drivers/Src/encoder.c **** int32_t MotorCnt, PreMotorCnt, DeltaCnt;
-  12:Core/Src/Drivers/Src/encoder.c **** 
-  13:Core/Src/Drivers/Src/encoder.c **** /**
-  14:Core/Src/Drivers/Src/encoder.c ****   * @brief  Input Capture callback in non-blocking mode
-  15:Core/Src/Drivers/Src/encoder.c ****   * @param  htim TIM IC handle
-  16:Core/Src/Drivers/Src/encoder.c ****   * @retval None
-  17:Core/Src/Drivers/Src/encoder.c ****   */
-  18:Core/Src/Drivers/Src/encoder.c **** void HAL_TIM_IC_CaptureCallback (TIM_HandleTypeDef *htim) { 
-  19:Core/Src/Drivers/Src/encoder.c ****   if (htim->Instance == TIM2) {
-  20:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
-  21:Core/Src/Drivers/Src/encoder.c ****     MotorCnt = (int32_t)((uint32_t)__HAL_TIM_GET_COUNTER(htim));
-  22:Core/Src/Drivers/Src/encoder.c ****     DeltaCnt = MotorCnt - PreMotorCnt; // Tính số xung thay đổi
-  23:Core/Src/Drivers/Src/encoder.c **** 
-  24:Core/Src/Drivers/Src/encoder.c ****     if (DeltaCnt > 2147483647) DeltaCnt -= 4294967296;
-  25:Core/Src/Drivers/Src/encoder.c ****     if (DeltaCnt < -2147483648) DeltaCnt += 4294967296;
-  26:Core/Src/Drivers/Src/encoder.c ****   }
-  27:Core/Src/Drivers/Src/encoder.c ****   else if (htim->Instance == TIM3) {
-  28:Core/Src/Drivers/Src/encoder.c ****     /* Read pendullum encoder counter value */
-  29:Core/Src/Drivers/Src/encoder.c ****     PendulumCnt = (int16_t)((uint32_t) __HAL_TIM_GET_COUNTER(htim));
-  30:Core/Src/Drivers/Src/encoder.c ****   }
-  31:Core/Src/Drivers/Src/encoder.c **** }
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 2
+   9:Core/Src/Drivers/Src/encoder.c **** Encoder encoder_topic;
+  10:Core/Src/Drivers/Src/encoder.c **** 
+  11:Core/Src/Drivers/Src/encoder.c **** /**
+  12:Core/Src/Drivers/Src/encoder.c ****   * @brief  Input Capture callback in non-blocking mode
+  13:Core/Src/Drivers/Src/encoder.c ****   * @param  htim TIM IC handle
+  14:Core/Src/Drivers/Src/encoder.c ****   * @retval None
+  15:Core/Src/Drivers/Src/encoder.c ****   */
+  16:Core/Src/Drivers/Src/encoder.c **** void HAL_TIM_IC_CaptureCallback (TIM_HandleTypeDef *htim) { 
+  17:Core/Src/Drivers/Src/encoder.c ****   if (htim->Instance == TIM2) {
+  18:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
+  19:Core/Src/Drivers/Src/encoder.c ****     encoder_topic.MotorCnt = (int32_t)((uint32_t)__HAL_TIM_GET_COUNTER(htim));
+  20:Core/Src/Drivers/Src/encoder.c ****   }
+  21:Core/Src/Drivers/Src/encoder.c ****   else if (htim->Instance == TIM3) {
+  22:Core/Src/Drivers/Src/encoder.c ****     /* Read pendullum encoder counter value */
+  23:Core/Src/Drivers/Src/encoder.c ****     encoder_topic.PendulumCnt = (int16_t)((uint32_t) __HAL_TIM_GET_COUNTER(htim));
+  24:Core/Src/Drivers/Src/encoder.c ****   }
+  25:Core/Src/Drivers/Src/encoder.c **** }
+  26:Core/Src/Drivers/Src/encoder.c **** 
+  27:Core/Src/Drivers/Src/encoder.c **** /**
+  28:Core/Src/Drivers/Src/encoder.c ****   * @brief This function initialize USART1.
+  29:Core/Src/Drivers/Src/encoder.c ****   */
+  30:Core/Src/Drivers/Src/encoder.c **** void Driver_Encoder_Init()
+  31:Core/Src/Drivers/Src/encoder.c **** {
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 2
 
 
-  32:Core/Src/Drivers/Src/encoder.c **** 
-  33:Core/Src/Drivers/Src/encoder.c **** /**
-  34:Core/Src/Drivers/Src/encoder.c ****   * @brief This function initialize USART1.
-  35:Core/Src/Drivers/Src/encoder.c ****   */
-  36:Core/Src/Drivers/Src/encoder.c **** void Driver_Encoder_Init()
-  37:Core/Src/Drivers/Src/encoder.c **** {
-  38:Core/Src/Drivers/Src/encoder.c ****   MX_TIM2_Init(); // Motor encoder
-  39:Core/Src/Drivers/Src/encoder.c ****   MX_TIM3_Init(); // Pendullum encoder
-  40:Core/Src/Drivers/Src/encoder.c ****   
-  41:Core/Src/Drivers/Src/encoder.c **** 
-  42:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
-  43:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
-  44:Core/Src/Drivers/Src/encoder.c **** }
-  45:Core/Src/Drivers/Src/encoder.c **** 
-  46:Core/Src/Drivers/Src/encoder.c **** /**
-  47:Core/Src/Drivers/Src/encoder.c ****   * @brief TIM2 Initialization Function
-  48:Core/Src/Drivers/Src/encoder.c ****   * @param None
-  49:Core/Src/Drivers/Src/encoder.c ****   * @retval None
-  50:Core/Src/Drivers/Src/encoder.c ****   */
-  51:Core/Src/Drivers/Src/encoder.c **** static void MX_TIM2_Init(void)
-  52:Core/Src/Drivers/Src/encoder.c **** {
-  28              		.loc 1 52 1 view -0
+  32:Core/Src/Drivers/Src/encoder.c ****   MX_TIM2_Init(); // Motor encoder
+  33:Core/Src/Drivers/Src/encoder.c ****   MX_TIM3_Init(); // Pendullum encoder
+  34:Core/Src/Drivers/Src/encoder.c ****   
+  35:Core/Src/Drivers/Src/encoder.c **** 
+  36:Core/Src/Drivers/Src/encoder.c ****   encoder_topic = (Encoder) {.MotorCnt = 0, .PendulumCnt = 0};
+  37:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
+  38:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+  39:Core/Src/Drivers/Src/encoder.c **** }
+  40:Core/Src/Drivers/Src/encoder.c **** 
+  41:Core/Src/Drivers/Src/encoder.c **** /**
+  42:Core/Src/Drivers/Src/encoder.c ****   * @brief TIM2 Initialization Function
+  43:Core/Src/Drivers/Src/encoder.c ****   * @param None
+  44:Core/Src/Drivers/Src/encoder.c ****   * @retval None
+  45:Core/Src/Drivers/Src/encoder.c ****   */
+  46:Core/Src/Drivers/Src/encoder.c **** static void MX_TIM2_Init(void)
+  47:Core/Src/Drivers/Src/encoder.c **** {
+  28              		.loc 1 47 1 view -0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 48
   31              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -95,877 +90,851 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 1
   38 0002 8DB0     		sub	sp, sp, #52
   39              	.LCFI1:
   40              		.cfi_def_cfa_offset 64
-  53:Core/Src/Drivers/Src/encoder.c ****   TIM_Encoder_InitTypeDef sConfig = {0};
-  41              		.loc 1 53 3 view .LVU1
-  42              		.loc 1 53 27 is_stmt 0 view .LVU2
+  48:Core/Src/Drivers/Src/encoder.c ****   TIM_Encoder_InitTypeDef sConfig = {0};
+  41              		.loc 1 48 3 view .LVU1
+  42              		.loc 1 48 27 is_stmt 0 view .LVU2
   43 0004 2422     		movs	r2, #36
   44 0006 0021     		movs	r1, #0
   45 0008 03A8     		add	r0, sp, #12
   46 000a FFF7FEFF 		bl	memset
   47              	.LVL0:
-  54:Core/Src/Drivers/Src/encoder.c ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
-  48              		.loc 1 54 3 is_stmt 1 view .LVU3
-  49              		.loc 1 54 27 is_stmt 0 view .LVU4
+  49:Core/Src/Drivers/Src/encoder.c ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
+  48              		.loc 1 49 3 is_stmt 1 view .LVU3
+  49              		.loc 1 49 27 is_stmt 0 view .LVU4
   50 000e 0025     		movs	r5, #0
   51 0010 0195     		str	r5, [sp, #4]
   52 0012 0295     		str	r5, [sp, #8]
-  55:Core/Src/Drivers/Src/encoder.c **** 
-  56:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE BEGIN TIM2_Init 1 */
-  57:Core/Src/Drivers/Src/encoder.c **** 
-  58:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE END TIM2_Init 1 */
-  59:Core/Src/Drivers/Src/encoder.c ****   htim2.Instance = TIM2;
-  53              		.loc 1 59 3 is_stmt 1 view .LVU5
-  54              		.loc 1 59 18 is_stmt 0 view .LVU6
-  55 0014 0D4C     		ldr	r4, .L3
+  50:Core/Src/Drivers/Src/encoder.c **** 
+  51:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE BEGIN TIM2_Init 1 */
+  52:Core/Src/Drivers/Src/encoder.c **** 
+  53:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE END TIM2_Init 1 */
+  54:Core/Src/Drivers/Src/encoder.c ****   htim2.Instance = TIM2;
+  53              		.loc 1 54 3 is_stmt 1 view .LVU5
+  54              		.loc 1 54 18 is_stmt 0 view .LVU6
+  55 0014 0E4C     		ldr	r4, .L3
   56 0016 4FF08043 		mov	r3, #1073741824
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 3
-
-
   57 001a 2360     		str	r3, [r4]
-  60:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.Prescaler = 0;
-  58              		.loc 1 60 3 is_stmt 1 view .LVU7
-  59              		.loc 1 60 24 is_stmt 0 view .LVU8
+  55:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.Prescaler = 0;
+  58              		.loc 1 55 3 is_stmt 1 view .LVU7
+  59              		.loc 1 55 24 is_stmt 0 view .LVU8
   60 001c 6560     		str	r5, [r4, #4]
-  61:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  61              		.loc 1 61 3 is_stmt 1 view .LVU9
-  62              		.loc 1 61 26 is_stmt 0 view .LVU10
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 3
+
+
+  56:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  61              		.loc 1 56 3 is_stmt 1 view .LVU9
+  62              		.loc 1 56 26 is_stmt 0 view .LVU10
   63 001e A560     		str	r5, [r4, #8]
-  62:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.Period = 0xFFFFFFFF;
-  64              		.loc 1 62 3 is_stmt 1 view .LVU11
-  65              		.loc 1 62 21 is_stmt 0 view .LVU12
+  57:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.Period = 4294967295; /* 0 -> (2^32) - 1*/
+  64              		.loc 1 57 3 is_stmt 1 view .LVU11
+  65              		.loc 1 57 21 is_stmt 0 view .LVU12
   66 0020 4FF0FF33 		mov	r3, #-1
   67 0024 E360     		str	r3, [r4, #12]
-  63:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  68              		.loc 1 63 3 is_stmt 1 view .LVU13
-  69              		.loc 1 63 28 is_stmt 0 view .LVU14
+  58:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  68              		.loc 1 58 3 is_stmt 1 view .LVU13
+  69              		.loc 1 58 28 is_stmt 0 view .LVU14
   70 0026 2561     		str	r5, [r4, #16]
-  64:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  71              		.loc 1 64 3 is_stmt 1 view .LVU15
-  72              		.loc 1 64 32 is_stmt 0 view .LVU16
-  73 0028 A561     		str	r5, [r4, #24]
-  65:Core/Src/Drivers/Src/encoder.c ****   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
-  74              		.loc 1 65 3 is_stmt 1 view .LVU17
-  75              		.loc 1 65 23 is_stmt 0 view .LVU18
-  76 002a 0323     		movs	r3, #3
-  77 002c 0393     		str	r3, [sp, #12]
-  66:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
-  78              		.loc 1 66 3 is_stmt 1 view .LVU19
-  67:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
-  79              		.loc 1 67 3 view .LVU20
-  80              		.loc 1 67 24 is_stmt 0 view .LVU21
-  81 002e 0123     		movs	r3, #1
-  82 0030 0593     		str	r3, [sp, #20]
-  68:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  83              		.loc 1 68 3 is_stmt 1 view .LVU22
-  69:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Filter = 0;
-  84              		.loc 1 69 3 view .LVU23
-  70:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
-  85              		.loc 1 70 3 view .LVU24
-  71:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
-  86              		.loc 1 71 3 view .LVU25
-  87              		.loc 1 71 24 is_stmt 0 view .LVU26
-  88 0032 0993     		str	r3, [sp, #36]
-  72:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  89              		.loc 1 72 3 is_stmt 1 view .LVU27
-  73:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Filter = 0;
-  90              		.loc 1 73 3 view .LVU28
-  74:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Init(&htim2, &sConfig);
-  91              		.loc 1 74 3 view .LVU29
-  92 0034 03A9     		add	r1, sp, #12
-  93 0036 2046     		mov	r0, r4
-  94 0038 FFF7FEFF 		bl	HAL_TIM_Encoder_Init
-  95              	.LVL1:
-  75:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  96              		.loc 1 75 3 view .LVU30
-  97              		.loc 1 75 37 is_stmt 0 view .LVU31
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 4
+  59:Core/Src/Drivers/Src/encoder.c ****   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  71              		.loc 1 59 3 is_stmt 1 view .LVU15
+  72              		.loc 1 59 32 is_stmt 0 view .LVU16
+  73 0028 8023     		movs	r3, #128
+  74 002a A361     		str	r3, [r4, #24]
+  60:Core/Src/Drivers/Src/encoder.c ****   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
+  75              		.loc 1 60 3 is_stmt 1 view .LVU17
+  76              		.loc 1 60 23 is_stmt 0 view .LVU18
+  77 002c 0323     		movs	r3, #3
+  78 002e 0393     		str	r3, [sp, #12]
+  61:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+  79              		.loc 1 61 3 is_stmt 1 view .LVU19
+  62:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
+  80              		.loc 1 62 3 view .LVU20
+  81              		.loc 1 62 24 is_stmt 0 view .LVU21
+  82 0030 0123     		movs	r3, #1
+  83 0032 0593     		str	r3, [sp, #20]
+  63:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
+  84              		.loc 1 63 3 is_stmt 1 view .LVU22
+  64:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Filter = 0;
+  85              		.loc 1 64 3 view .LVU23
+  65:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+  86              		.loc 1 65 3 view .LVU24
+  66:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
+  87              		.loc 1 66 3 view .LVU25
+  88              		.loc 1 66 24 is_stmt 0 view .LVU26
+  89 0034 0993     		str	r3, [sp, #36]
+  67:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
+  90              		.loc 1 67 3 is_stmt 1 view .LVU27
+  68:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Filter = 0;
+  91              		.loc 1 68 3 view .LVU28
+  69:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Init(&htim2, &sConfig);
+  92              		.loc 1 69 3 view .LVU29
+  93 0036 03A9     		add	r1, sp, #12
+  94 0038 2046     		mov	r0, r4
+  95 003a FFF7FEFF 		bl	HAL_TIM_Encoder_Init
+  96              	.LVL1:
+  70:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  97              		.loc 1 70 3 view .LVU30
+  98              		.loc 1 70 37 is_stmt 0 view .LVU31
+  99 003e 0195     		str	r5, [sp, #4]
+  71:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+ 100              		.loc 1 71 3 is_stmt 1 view .LVU32
+ 101              		.loc 1 71 33 is_stmt 0 view .LVU33
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 4
 
 
-  98 003c 0195     		str	r5, [sp, #4]
-  76:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  99              		.loc 1 76 3 is_stmt 1 view .LVU32
- 100              		.loc 1 76 33 is_stmt 0 view .LVU33
- 101 003e 0295     		str	r5, [sp, #8]
-  77:Core/Src/Drivers/Src/encoder.c ****   HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig);
- 102              		.loc 1 77 3 is_stmt 1 view .LVU34
- 103 0040 01A9     		add	r1, sp, #4
- 104 0042 2046     		mov	r0, r4
- 105 0044 FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
- 106              	.LVL2:
-  78:Core/Src/Drivers/Src/encoder.c **** }
- 107              		.loc 1 78 1 is_stmt 0 view .LVU35
- 108 0048 0DB0     		add	sp, sp, #52
- 109              	.LCFI2:
- 110              		.cfi_def_cfa_offset 12
- 111              		@ sp needed
- 112 004a 30BD     		pop	{r4, r5, pc}
- 113              	.L4:
- 114              		.align	2
- 115              	.L3:
- 116 004c 00000000 		.word	htim2
- 117              		.cfi_endproc
- 118              	.LFE136:
- 120              		.section	.text.MX_TIM3_Init,"ax",%progbits
- 121              		.align	1
- 122              		.syntax unified
- 123              		.thumb
- 124              		.thumb_func
- 126              	MX_TIM3_Init:
- 127              	.LFB137:
-  79:Core/Src/Drivers/Src/encoder.c **** 
-  80:Core/Src/Drivers/Src/encoder.c **** /**
-  81:Core/Src/Drivers/Src/encoder.c ****   * @brief TIM3 Initialization Function
-  82:Core/Src/Drivers/Src/encoder.c ****   * @param None
-  83:Core/Src/Drivers/Src/encoder.c ****   * @retval None
-  84:Core/Src/Drivers/Src/encoder.c ****   */
-  85:Core/Src/Drivers/Src/encoder.c **** static void MX_TIM3_Init(void) {
- 128              		.loc 1 85 32 is_stmt 1 view -0
- 129              		.cfi_startproc
- 130              		@ args = 0, pretend = 0, frame = 48
- 131              		@ frame_needed = 0, uses_anonymous_args = 0
- 132 0000 30B5     		push	{r4, r5, lr}
- 133              	.LCFI3:
- 134              		.cfi_def_cfa_offset 12
- 135              		.cfi_offset 4, -12
- 136              		.cfi_offset 5, -8
- 137              		.cfi_offset 14, -4
- 138 0002 8DB0     		sub	sp, sp, #52
- 139              	.LCFI4:
- 140              		.cfi_def_cfa_offset 64
-  86:Core/Src/Drivers/Src/encoder.c ****   TIM_Encoder_InitTypeDef sConfig = {0};
- 141              		.loc 1 86 3 view .LVU37
- 142              		.loc 1 86 27 is_stmt 0 view .LVU38
- 143 0004 2422     		movs	r2, #36
- 144 0006 0021     		movs	r1, #0
- 145 0008 03A8     		add	r0, sp, #12
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 5
+ 102 0040 0295     		str	r5, [sp, #8]
+  72:Core/Src/Drivers/Src/encoder.c ****   HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig);
+ 103              		.loc 1 72 3 is_stmt 1 view .LVU34
+ 104 0042 01A9     		add	r1, sp, #4
+ 105 0044 2046     		mov	r0, r4
+ 106 0046 FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
+ 107              	.LVL2:
+  73:Core/Src/Drivers/Src/encoder.c **** }
+ 108              		.loc 1 73 1 is_stmt 0 view .LVU35
+ 109 004a 0DB0     		add	sp, sp, #52
+ 110              	.LCFI2:
+ 111              		.cfi_def_cfa_offset 12
+ 112              		@ sp needed
+ 113 004c 30BD     		pop	{r4, r5, pc}
+ 114              	.L4:
+ 115 004e 00BF     		.align	2
+ 116              	.L3:
+ 117 0050 00000000 		.word	htim2
+ 118              		.cfi_endproc
+ 119              	.LFE180:
+ 121              		.section	.text.MX_TIM3_Init,"ax",%progbits
+ 122              		.align	1
+ 123              		.syntax unified
+ 124              		.thumb
+ 125              		.thumb_func
+ 127              	MX_TIM3_Init:
+ 128              	.LFB181:
+  74:Core/Src/Drivers/Src/encoder.c **** 
+  75:Core/Src/Drivers/Src/encoder.c **** /**
+  76:Core/Src/Drivers/Src/encoder.c ****   * @brief TIM3 Initialization Function
+  77:Core/Src/Drivers/Src/encoder.c ****   * @param None
+  78:Core/Src/Drivers/Src/encoder.c ****   * @retval None
+  79:Core/Src/Drivers/Src/encoder.c ****   */
+  80:Core/Src/Drivers/Src/encoder.c **** static void MX_TIM3_Init(void) {
+ 129              		.loc 1 80 32 is_stmt 1 view -0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 48
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133 0000 30B5     		push	{r4, r5, lr}
+ 134              	.LCFI3:
+ 135              		.cfi_def_cfa_offset 12
+ 136              		.cfi_offset 4, -12
+ 137              		.cfi_offset 5, -8
+ 138              		.cfi_offset 14, -4
+ 139 0002 8DB0     		sub	sp, sp, #52
+ 140              	.LCFI4:
+ 141              		.cfi_def_cfa_offset 64
+  81:Core/Src/Drivers/Src/encoder.c ****   TIM_Encoder_InitTypeDef sConfig = {0};
+ 142              		.loc 1 81 3 view .LVU37
+ 143              		.loc 1 81 27 is_stmt 0 view .LVU38
+ 144 0004 2422     		movs	r2, #36
+ 145 0006 0021     		movs	r1, #0
+ 146 0008 03A8     		add	r0, sp, #12
+ 147 000a FFF7FEFF 		bl	memset
+ 148              	.LVL3:
+  82:Core/Src/Drivers/Src/encoder.c ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
+ 149              		.loc 1 82 3 is_stmt 1 view .LVU39
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 5
 
 
- 146 000a FFF7FEFF 		bl	memset
- 147              	.LVL3:
-  87:Core/Src/Drivers/Src/encoder.c ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
- 148              		.loc 1 87 3 is_stmt 1 view .LVU39
- 149              		.loc 1 87 27 is_stmt 0 view .LVU40
- 150 000e 0025     		movs	r5, #0
- 151 0010 0195     		str	r5, [sp, #4]
- 152 0012 0295     		str	r5, [sp, #8]
-  88:Core/Src/Drivers/Src/encoder.c **** 
-  89:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE BEGIN TIM3_Init 1 */
-  90:Core/Src/Drivers/Src/encoder.c **** 
-  91:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE END TIM3_Init 1 */
-  92:Core/Src/Drivers/Src/encoder.c ****   htim3.Instance = TIM3;
- 153              		.loc 1 92 3 is_stmt 1 view .LVU41
- 154              		.loc 1 92 18 is_stmt 0 view .LVU42
- 155 0014 0D4C     		ldr	r4, .L7
- 156 0016 0E4B     		ldr	r3, .L7+4
- 157 0018 2360     		str	r3, [r4]
-  93:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.Prescaler = 0;
- 158              		.loc 1 93 3 is_stmt 1 view .LVU43
- 159              		.loc 1 93 24 is_stmt 0 view .LVU44
- 160 001a 6560     		str	r5, [r4, #4]
-  94:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
- 161              		.loc 1 94 3 is_stmt 1 view .LVU45
- 162              		.loc 1 94 26 is_stmt 0 view .LVU46
- 163 001c A560     		str	r5, [r4, #8]
-  95:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.Period = 0xFFFF;
- 164              		.loc 1 95 3 is_stmt 1 view .LVU47
- 165              		.loc 1 95 21 is_stmt 0 view .LVU48
- 166 001e 4FF6FF73 		movw	r3, #65535
- 167 0022 E360     		str	r3, [r4, #12]
-  96:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
- 168              		.loc 1 96 3 is_stmt 1 view .LVU49
- 169              		.loc 1 96 28 is_stmt 0 view .LVU50
- 170 0024 2561     		str	r5, [r4, #16]
-  97:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
- 171              		.loc 1 97 3 is_stmt 1 view .LVU51
- 172              		.loc 1 97 32 is_stmt 0 view .LVU52
- 173 0026 A561     		str	r5, [r4, #24]
-  98:Core/Src/Drivers/Src/encoder.c ****   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
- 174              		.loc 1 98 3 is_stmt 1 view .LVU53
- 175              		.loc 1 98 23 is_stmt 0 view .LVU54
- 176 0028 0323     		movs	r3, #3
- 177 002a 0393     		str	r3, [sp, #12]
-  99:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
- 178              		.loc 1 99 3 is_stmt 1 view .LVU55
- 100:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
- 179              		.loc 1 100 3 view .LVU56
- 180              		.loc 1 100 24 is_stmt 0 view .LVU57
- 181 002c 0123     		movs	r3, #1
- 182 002e 0593     		str	r3, [sp, #20]
- 101:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
- 183              		.loc 1 101 3 is_stmt 1 view .LVU58
- 102:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Filter = 0;
- 184              		.loc 1 102 3 view .LVU59
- 103:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
- 185              		.loc 1 103 3 view .LVU60
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 6
+ 150              		.loc 1 82 27 is_stmt 0 view .LVU40
+ 151 000e 0025     		movs	r5, #0
+ 152 0010 0195     		str	r5, [sp, #4]
+ 153 0012 0295     		str	r5, [sp, #8]
+  83:Core/Src/Drivers/Src/encoder.c **** 
+  84:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE BEGIN TIM3_Init 1 */
+  85:Core/Src/Drivers/Src/encoder.c **** 
+  86:Core/Src/Drivers/Src/encoder.c ****   /* USER CODE END TIM3_Init 1 */
+  87:Core/Src/Drivers/Src/encoder.c ****   htim3.Instance = TIM3;
+ 154              		.loc 1 87 3 is_stmt 1 view .LVU41
+ 155              		.loc 1 87 18 is_stmt 0 view .LVU42
+ 156 0014 0D4C     		ldr	r4, .L7
+ 157 0016 0E4B     		ldr	r3, .L7+4
+ 158 0018 2360     		str	r3, [r4]
+  88:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.Prescaler = 0;
+ 159              		.loc 1 88 3 is_stmt 1 view .LVU43
+ 160              		.loc 1 88 24 is_stmt 0 view .LVU44
+ 161 001a 6560     		str	r5, [r4, #4]
+  89:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+ 162              		.loc 1 89 3 is_stmt 1 view .LVU45
+ 163              		.loc 1 89 26 is_stmt 0 view .LVU46
+ 164 001c A560     		str	r5, [r4, #8]
+  90:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.Period = 65535; /* 0 -> (2^16) - 1*/
+ 165              		.loc 1 90 3 is_stmt 1 view .LVU47
+ 166              		.loc 1 90 21 is_stmt 0 view .LVU48
+ 167 001e 4FF6FF73 		movw	r3, #65535
+ 168 0022 E360     		str	r3, [r4, #12]
+  91:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+ 169              		.loc 1 91 3 is_stmt 1 view .LVU49
+ 170              		.loc 1 91 28 is_stmt 0 view .LVU50
+ 171 0024 2561     		str	r5, [r4, #16]
+  92:Core/Src/Drivers/Src/encoder.c ****   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+ 172              		.loc 1 92 3 is_stmt 1 view .LVU51
+ 173              		.loc 1 92 32 is_stmt 0 view .LVU52
+ 174 0026 8023     		movs	r3, #128
+ 175 0028 A361     		str	r3, [r4, #24]
+  93:Core/Src/Drivers/Src/encoder.c ****   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
+ 176              		.loc 1 93 3 is_stmt 1 view .LVU53
+ 177              		.loc 1 93 23 is_stmt 0 view .LVU54
+ 178 002a 0323     		movs	r3, #3
+ 179 002c 0393     		str	r3, [sp, #12]
+  94:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+ 180              		.loc 1 94 3 is_stmt 1 view .LVU55
+  95:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
+ 181              		.loc 1 95 3 view .LVU56
+ 182              		.loc 1 95 24 is_stmt 0 view .LVU57
+ 183 002e 0123     		movs	r3, #1
+ 184 0030 0593     		str	r3, [sp, #20]
+  96:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
+ 185              		.loc 1 96 3 is_stmt 1 view .LVU58
+  97:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC1Filter = 0;
+ 186              		.loc 1 97 3 view .LVU59
+  98:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+ 187              		.loc 1 98 3 view .LVU60
+  99:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
+ 188              		.loc 1 99 3 view .LVU61
+ 189              		.loc 1 99 24 is_stmt 0 view .LVU62
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 6
 
 
- 104:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
- 186              		.loc 1 104 3 view .LVU61
- 187              		.loc 1 104 24 is_stmt 0 view .LVU62
- 188 0030 0993     		str	r3, [sp, #36]
- 105:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
- 189              		.loc 1 105 3 is_stmt 1 view .LVU63
- 106:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Filter = 0;
- 190              		.loc 1 106 3 view .LVU64
- 107:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Init(&htim3, &sConfig);
- 191              		.loc 1 107 3 view .LVU65
- 192 0032 03A9     		add	r1, sp, #12
- 193 0034 2046     		mov	r0, r4
- 194 0036 FFF7FEFF 		bl	HAL_TIM_Encoder_Init
- 195              	.LVL4:
- 108:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
- 196              		.loc 1 108 3 view .LVU66
- 197              		.loc 1 108 37 is_stmt 0 view .LVU67
- 198 003a 0195     		str	r5, [sp, #4]
- 109:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
- 199              		.loc 1 109 3 is_stmt 1 view .LVU68
- 200              		.loc 1 109 33 is_stmt 0 view .LVU69
- 201 003c 0295     		str	r5, [sp, #8]
- 110:Core/Src/Drivers/Src/encoder.c ****   HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig);
- 202              		.loc 1 110 3 is_stmt 1 view .LVU70
- 203 003e 01A9     		add	r1, sp, #4
- 204 0040 2046     		mov	r0, r4
- 205 0042 FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
- 206              	.LVL5:
- 111:Core/Src/Drivers/Src/encoder.c **** }
- 207              		.loc 1 111 1 is_stmt 0 view .LVU71
- 208 0046 0DB0     		add	sp, sp, #52
- 209              	.LCFI5:
- 210              		.cfi_def_cfa_offset 12
- 211              		@ sp needed
- 212 0048 30BD     		pop	{r4, r5, pc}
- 213              	.L8:
- 214 004a 00BF     		.align	2
- 215              	.L7:
- 216 004c 00000000 		.word	htim3
- 217 0050 00040040 		.word	1073742848
- 218              		.cfi_endproc
- 219              	.LFE137:
- 221              		.section	.text.HAL_TIM_IC_CaptureCallback,"ax",%progbits
- 222              		.align	1
- 223              		.global	HAL_TIM_IC_CaptureCallback
- 224              		.syntax unified
- 225              		.thumb
- 226              		.thumb_func
- 228              	HAL_TIM_IC_CaptureCallback:
- 229              	.LVL6:
- 230              	.LFB134:
-  18:Core/Src/Drivers/Src/encoder.c ****   if (htim->Instance == TIM2) {
- 231              		.loc 1 18 59 is_stmt 1 view -0
- 232              		.cfi_startproc
- 233              		@ args = 0, pretend = 0, frame = 0
- 234              		@ frame_needed = 0, uses_anonymous_args = 0
- 235              		@ link register save eliminated.
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 7
+ 190 0032 0993     		str	r3, [sp, #36]
+ 100:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
+ 191              		.loc 1 100 3 is_stmt 1 view .LVU63
+ 101:Core/Src/Drivers/Src/encoder.c ****   sConfig.IC2Filter = 0;
+ 192              		.loc 1 101 3 view .LVU64
+ 102:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Init(&htim3, &sConfig);
+ 193              		.loc 1 102 3 view .LVU65
+ 194 0034 03A9     		add	r1, sp, #12
+ 195 0036 2046     		mov	r0, r4
+ 196 0038 FFF7FEFF 		bl	HAL_TIM_Encoder_Init
+ 197              	.LVL4:
+ 103:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+ 198              		.loc 1 103 3 view .LVU66
+ 199              		.loc 1 103 37 is_stmt 0 view .LVU67
+ 200 003c 0195     		str	r5, [sp, #4]
+ 104:Core/Src/Drivers/Src/encoder.c ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+ 201              		.loc 1 104 3 is_stmt 1 view .LVU68
+ 202              		.loc 1 104 33 is_stmt 0 view .LVU69
+ 203 003e 0295     		str	r5, [sp, #8]
+ 105:Core/Src/Drivers/Src/encoder.c ****   HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig);
+ 204              		.loc 1 105 3 is_stmt 1 view .LVU70
+ 205 0040 01A9     		add	r1, sp, #4
+ 206 0042 2046     		mov	r0, r4
+ 207 0044 FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
+ 208              	.LVL5:
+ 106:Core/Src/Drivers/Src/encoder.c **** }
+ 209              		.loc 1 106 1 is_stmt 0 view .LVU71
+ 210 0048 0DB0     		add	sp, sp, #52
+ 211              	.LCFI5:
+ 212              		.cfi_def_cfa_offset 12
+ 213              		@ sp needed
+ 214 004a 30BD     		pop	{r4, r5, pc}
+ 215              	.L8:
+ 216              		.align	2
+ 217              	.L7:
+ 218 004c 00000000 		.word	htim3
+ 219 0050 00040040 		.word	1073742848
+ 220              		.cfi_endproc
+ 221              	.LFE181:
+ 223              		.section	.text.HAL_TIM_IC_CaptureCallback,"ax",%progbits
+ 224              		.align	1
+ 225              		.global	HAL_TIM_IC_CaptureCallback
+ 226              		.syntax unified
+ 227              		.thumb
+ 228              		.thumb_func
+ 230              	HAL_TIM_IC_CaptureCallback:
+ 231              	.LVL6:
+ 232              	.LFB178:
+  16:Core/Src/Drivers/Src/encoder.c ****   if (htim->Instance == TIM2) {
+ 233              		.loc 1 16 59 is_stmt 1 view -0
+ 234              		.cfi_startproc
+ 235              		@ args = 0, pretend = 0, frame = 0
+ 236              		@ frame_needed = 0, uses_anonymous_args = 0
+ 237              		@ link register save eliminated.
+  17:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
+ 238              		.loc 1 17 3 view .LVU73
+  17:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 7
 
 
-  19:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
- 236              		.loc 1 19 3 view .LVU73
-  19:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
- 237              		.loc 1 19 11 is_stmt 0 view .LVU74
- 238 0000 0368     		ldr	r3, [r0]
-  19:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
- 239              		.loc 1 19 6 view .LVU75
- 240 0002 B3F1804F 		cmp	r3, #1073741824
- 241 0006 03D0     		beq	.L12
-  27:Core/Src/Drivers/Src/encoder.c ****     /* Read pendullum encoder counter value */
- 242              		.loc 1 27 8 is_stmt 1 view .LVU76
-  27:Core/Src/Drivers/Src/encoder.c ****     /* Read pendullum encoder counter value */
- 243              		.loc 1 27 11 is_stmt 0 view .LVU77
- 244 0008 084A     		ldr	r2, .L14
- 245 000a 9342     		cmp	r3, r2
- 246 000c 09D0     		beq	.L13
- 247              	.L9:
-  31:Core/Src/Drivers/Src/encoder.c **** 
- 248              		.loc 1 31 1 view .LVU78
- 249 000e 7047     		bx	lr
- 250              	.L12:
-  21:Core/Src/Drivers/Src/encoder.c ****     DeltaCnt = MotorCnt - PreMotorCnt; // Tính số xung thay đổi
- 251              		.loc 1 21 5 is_stmt 1 view .LVU79
-  21:Core/Src/Drivers/Src/encoder.c ****     DeltaCnt = MotorCnt - PreMotorCnt; // Tính số xung thay đổi
- 252              		.loc 1 21 36 is_stmt 0 view .LVU80
- 253 0010 5B6A     		ldr	r3, [r3, #36]
-  21:Core/Src/Drivers/Src/encoder.c ****     DeltaCnt = MotorCnt - PreMotorCnt; // Tính số xung thay đổi
- 254              		.loc 1 21 14 view .LVU81
- 255 0012 074A     		ldr	r2, .L14+4
- 256 0014 1360     		str	r3, [r2]
-  22:Core/Src/Drivers/Src/encoder.c **** 
- 257              		.loc 1 22 5 is_stmt 1 view .LVU82
-  22:Core/Src/Drivers/Src/encoder.c **** 
- 258              		.loc 1 22 25 is_stmt 0 view .LVU83
- 259 0016 074A     		ldr	r2, .L14+8
- 260 0018 1268     		ldr	r2, [r2]
- 261 001a 9B1A     		subs	r3, r3, r2
-  22:Core/Src/Drivers/Src/encoder.c **** 
- 262              		.loc 1 22 14 view .LVU84
- 263 001c 064A     		ldr	r2, .L14+12
- 264 001e 1360     		str	r3, [r2]
-  24:Core/Src/Drivers/Src/encoder.c ****     if (DeltaCnt < -2147483648) DeltaCnt += 4294967296;
- 265              		.loc 1 24 5 is_stmt 1 view .LVU85
-  25:Core/Src/Drivers/Src/encoder.c ****   }
- 266              		.loc 1 25 5 view .LVU86
- 267 0020 7047     		bx	lr
- 268              	.L13:
-  29:Core/Src/Drivers/Src/encoder.c ****   }
- 269              		.loc 1 29 5 view .LVU87
-  29:Core/Src/Drivers/Src/encoder.c ****   }
- 270              		.loc 1 29 40 is_stmt 0 view .LVU88
- 271 0022 5A6A     		ldr	r2, [r3, #36]
-  29:Core/Src/Drivers/Src/encoder.c ****   }
- 272              		.loc 1 29 17 view .LVU89
- 273 0024 054B     		ldr	r3, .L14+16
- 274 0026 1A80     		strh	r2, [r3]	@ movhi
-  31:Core/Src/Drivers/Src/encoder.c **** 
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 8
+ 239              		.loc 1 17 11 is_stmt 0 view .LVU74
+ 240 0000 0368     		ldr	r3, [r0]
+  17:Core/Src/Drivers/Src/encoder.c ****     /* Read motor encoder counter value */
+ 241              		.loc 1 17 6 view .LVU75
+ 242 0002 B3F1804F 		cmp	r3, #1073741824
+ 243 0006 03D0     		beq	.L12
+  21:Core/Src/Drivers/Src/encoder.c ****     /* Read pendullum encoder counter value */
+ 244              		.loc 1 21 8 is_stmt 1 view .LVU76
+  21:Core/Src/Drivers/Src/encoder.c ****     /* Read pendullum encoder counter value */
+ 245              		.loc 1 21 11 is_stmt 0 view .LVU77
+ 246 0008 054A     		ldr	r2, .L14
+ 247 000a 9342     		cmp	r3, r2
+ 248 000c 04D0     		beq	.L13
+ 249              	.L9:
+  25:Core/Src/Drivers/Src/encoder.c **** 
+ 250              		.loc 1 25 1 view .LVU78
+ 251 000e 7047     		bx	lr
+ 252              	.L12:
+  19:Core/Src/Drivers/Src/encoder.c ****   }
+ 253              		.loc 1 19 5 is_stmt 1 view .LVU79
+  19:Core/Src/Drivers/Src/encoder.c ****   }
+ 254              		.loc 1 19 50 is_stmt 0 view .LVU80
+ 255 0010 5A6A     		ldr	r2, [r3, #36]
+  19:Core/Src/Drivers/Src/encoder.c ****   }
+ 256              		.loc 1 19 28 view .LVU81
+ 257 0012 044B     		ldr	r3, .L14+4
+ 258 0014 5A60     		str	r2, [r3, #4]
+ 259 0016 7047     		bx	lr
+ 260              	.L13:
+  23:Core/Src/Drivers/Src/encoder.c ****   }
+ 261              		.loc 1 23 5 is_stmt 1 view .LVU82
+  23:Core/Src/Drivers/Src/encoder.c ****   }
+ 262              		.loc 1 23 54 is_stmt 0 view .LVU83
+ 263 0018 5A6A     		ldr	r2, [r3, #36]
+  23:Core/Src/Drivers/Src/encoder.c ****   }
+ 264              		.loc 1 23 31 view .LVU84
+ 265 001a 024B     		ldr	r3, .L14+4
+ 266 001c 1A80     		strh	r2, [r3]	@ movhi
+  25:Core/Src/Drivers/Src/encoder.c **** 
+ 267              		.loc 1 25 1 view .LVU85
+ 268 001e F6E7     		b	.L9
+ 269              	.L15:
+ 270              		.align	2
+ 271              	.L14:
+ 272 0020 00040040 		.word	1073742848
+ 273 0024 00000000 		.word	encoder_topic
+ 274              		.cfi_endproc
+ 275              	.LFE178:
+ 277              		.section	.text.Driver_Encoder_Init,"ax",%progbits
+ 278              		.align	1
+ 279              		.global	Driver_Encoder_Init
+ 280              		.syntax unified
+ 281              		.thumb
+ 282              		.thumb_func
+ 284              	Driver_Encoder_Init:
+ 285              	.LFB179:
+  31:Core/Src/Drivers/Src/encoder.c ****   MX_TIM2_Init(); // Motor encoder
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 8
 
 
- 275              		.loc 1 31 1 view .LVU90
- 276 0028 F1E7     		b	.L9
- 277              	.L15:
- 278 002a 00BF     		.align	2
- 279              	.L14:
- 280 002c 00040040 		.word	1073742848
- 281 0030 00000000 		.word	MotorCnt
- 282 0034 00000000 		.word	PreMotorCnt
- 283 0038 00000000 		.word	DeltaCnt
- 284 003c 00000000 		.word	PendulumCnt
- 285              		.cfi_endproc
- 286              	.LFE134:
- 288              		.section	.text.Driver_Encoder_Init,"ax",%progbits
- 289              		.align	1
- 290              		.global	Driver_Encoder_Init
- 291              		.syntax unified
- 292              		.thumb
- 293              		.thumb_func
- 295              	Driver_Encoder_Init:
- 296              	.LFB135:
-  37:Core/Src/Drivers/Src/encoder.c ****   MX_TIM2_Init(); // Motor encoder
- 297              		.loc 1 37 1 is_stmt 1 view -0
- 298              		.cfi_startproc
- 299              		@ args = 0, pretend = 0, frame = 0
- 300              		@ frame_needed = 0, uses_anonymous_args = 0
- 301 0000 08B5     		push	{r3, lr}
- 302              	.LCFI6:
- 303              		.cfi_def_cfa_offset 8
- 304              		.cfi_offset 3, -8
- 305              		.cfi_offset 14, -4
-  38:Core/Src/Drivers/Src/encoder.c ****   MX_TIM3_Init(); // Pendullum encoder
- 306              		.loc 1 38 3 view .LVU92
- 307 0002 FFF7FEFF 		bl	MX_TIM2_Init
- 308              	.LVL7:
-  39:Core/Src/Drivers/Src/encoder.c ****   
- 309              		.loc 1 39 3 view .LVU93
- 310 0006 FFF7FEFF 		bl	MX_TIM3_Init
- 311              	.LVL8:
-  42:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
- 312              		.loc 1 42 3 view .LVU94
- 313 000a 3C21     		movs	r1, #60
- 314 000c 0348     		ldr	r0, .L18
- 315 000e FFF7FEFF 		bl	HAL_TIM_Encoder_Start_IT
- 316              	.LVL9:
-  43:Core/Src/Drivers/Src/encoder.c **** }
- 317              		.loc 1 43 3 view .LVU95
- 318 0012 3C21     		movs	r1, #60
- 319 0014 0248     		ldr	r0, .L18+4
- 320 0016 FFF7FEFF 		bl	HAL_TIM_Encoder_Start_IT
- 321              	.LVL10:
-  44:Core/Src/Drivers/Src/encoder.c **** 
- 322              		.loc 1 44 1 is_stmt 0 view .LVU96
- 323 001a 08BD     		pop	{r3, pc}
- 324              	.L19:
- 325              		.align	2
- 326              	.L18:
- 327 001c 00000000 		.word	htim2
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 9
+ 286              		.loc 1 31 1 is_stmt 1 view -0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 0
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290 0000 08B5     		push	{r3, lr}
+ 291              	.LCFI6:
+ 292              		.cfi_def_cfa_offset 8
+ 293              		.cfi_offset 3, -8
+ 294              		.cfi_offset 14, -4
+  32:Core/Src/Drivers/Src/encoder.c ****   MX_TIM3_Init(); // Pendullum encoder
+ 295              		.loc 1 32 3 view .LVU87
+ 296 0002 FFF7FEFF 		bl	MX_TIM2_Init
+ 297              	.LVL7:
+  33:Core/Src/Drivers/Src/encoder.c ****   
+ 298              		.loc 1 33 3 view .LVU88
+ 299 0006 FFF7FEFF 		bl	MX_TIM3_Init
+ 300              	.LVL8:
+  36:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
+ 301              		.loc 1 36 3 view .LVU89
+  36:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
+ 302              		.loc 1 36 17 is_stmt 0 view .LVU90
+ 303 000a 064B     		ldr	r3, .L18
+ 304 000c 0022     		movs	r2, #0
+ 305 000e 1A80     		strh	r2, [r3]	@ movhi
+ 306 0010 5A60     		str	r2, [r3, #4]
+  37:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+ 307              		.loc 1 37 3 is_stmt 1 view .LVU91
+ 308 0012 3C21     		movs	r1, #60
+ 309 0014 0448     		ldr	r0, .L18+4
+ 310 0016 FFF7FEFF 		bl	HAL_TIM_Encoder_Start_IT
+ 311              	.LVL9:
+  38:Core/Src/Drivers/Src/encoder.c **** }
+ 312              		.loc 1 38 3 view .LVU92
+ 313 001a 3C21     		movs	r1, #60
+ 314 001c 0348     		ldr	r0, .L18+8
+ 315 001e FFF7FEFF 		bl	HAL_TIM_Encoder_Start_IT
+ 316              	.LVL10:
+  39:Core/Src/Drivers/Src/encoder.c **** 
+ 317              		.loc 1 39 1 is_stmt 0 view .LVU93
+ 318 0022 08BD     		pop	{r3, pc}
+ 319              	.L19:
+ 320              		.align	2
+ 321              	.L18:
+ 322 0024 00000000 		.word	encoder_topic
+ 323 0028 00000000 		.word	htim2
+ 324 002c 00000000 		.word	htim3
+ 325              		.cfi_endproc
+ 326              	.LFE179:
+ 328              		.section	.text.HAL_TIM_Encoder_MspInit,"ax",%progbits
+ 329              		.align	1
+ 330              		.global	HAL_TIM_Encoder_MspInit
+ 331              		.syntax unified
+ 332              		.thumb
+ 333              		.thumb_func
+ 335              	HAL_TIM_Encoder_MspInit:
+ 336              	.LVL11:
+ 337              	.LFB182:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 9
 
 
- 328 0020 00000000 		.word	htim3
- 329              		.cfi_endproc
- 330              	.LFE135:
- 332              		.section	.text.HAL_TIM_Encoder_MspInit,"ax",%progbits
- 333              		.align	1
- 334              		.global	HAL_TIM_Encoder_MspInit
- 335              		.syntax unified
- 336              		.thumb
- 337              		.thumb_func
- 339              	HAL_TIM_Encoder_MspInit:
- 340              	.LVL11:
- 341              	.LFB138:
- 112:Core/Src/Drivers/Src/encoder.c **** 
- 113:Core/Src/Drivers/Src/encoder.c **** /**
- 114:Core/Src/Drivers/Src/encoder.c **** * @brief TIM_Encoder MSP Initialization
- 115:Core/Src/Drivers/Src/encoder.c **** * This function configures the hardware resources used in this example
- 116:Core/Src/Drivers/Src/encoder.c **** * @param htim_encoder: TIM_Encoder handle pointer
- 117:Core/Src/Drivers/Src/encoder.c **** * @retval None
- 118:Core/Src/Drivers/Src/encoder.c **** */
- 119:Core/Src/Drivers/Src/encoder.c **** void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
- 342              		.loc 1 119 63 is_stmt 1 view -0
- 343              		.cfi_startproc
- 344              		@ args = 0, pretend = 0, frame = 40
- 345              		@ frame_needed = 0, uses_anonymous_args = 0
- 346              		.loc 1 119 63 is_stmt 0 view .LVU98
- 347 0000 10B5     		push	{r4, lr}
- 348              	.LCFI7:
- 349              		.cfi_def_cfa_offset 8
- 350              		.cfi_offset 4, -8
- 351              		.cfi_offset 14, -4
- 352 0002 8AB0     		sub	sp, sp, #40
- 353              	.LCFI8:
- 354              		.cfi_def_cfa_offset 48
- 120:Core/Src/Drivers/Src/encoder.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
- 355              		.loc 1 120 3 is_stmt 1 view .LVU99
- 356              		.loc 1 120 20 is_stmt 0 view .LVU100
- 357 0004 0023     		movs	r3, #0
- 358 0006 0593     		str	r3, [sp, #20]
- 359 0008 0693     		str	r3, [sp, #24]
- 360 000a 0793     		str	r3, [sp, #28]
- 361 000c 0893     		str	r3, [sp, #32]
- 362 000e 0993     		str	r3, [sp, #36]
- 121:Core/Src/Drivers/Src/encoder.c **** 
- 122:Core/Src/Drivers/Src/encoder.c ****   if (htim_encoder->Instance == TIM2) {
- 363              		.loc 1 122 3 is_stmt 1 view .LVU101
- 364              		.loc 1 122 19 is_stmt 0 view .LVU102
- 365 0010 0368     		ldr	r3, [r0]
- 366              		.loc 1 122 6 view .LVU103
- 367 0012 B3F1804F 		cmp	r3, #1073741824
- 368 0016 04D0     		beq	.L24
- 123:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
- 124:Core/Src/Drivers/Src/encoder.c **** 
- 125:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 126:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
- 127:Core/Src/Drivers/Src/encoder.c ****     PA0-WKUP     ------> TIM2_CH1
- 128:Core/Src/Drivers/Src/encoder.c ****     PA1     ------> TIM2_CH2
- 129:Core/Src/Drivers/Src/encoder.c ****     */
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 10
-
-
- 130:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
- 131:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
- 132:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
- 133:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 134:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
- 135:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 107:Core/Src/Drivers/Src/encoder.c **** 
+ 108:Core/Src/Drivers/Src/encoder.c **** /**
+ 109:Core/Src/Drivers/Src/encoder.c **** * @brief TIM_Encoder MSP Initialization
+ 110:Core/Src/Drivers/Src/encoder.c **** * This function configures the hardware resources used in this example
+ 111:Core/Src/Drivers/Src/encoder.c **** * @param htim_encoder: TIM_Encoder handle pointer
+ 112:Core/Src/Drivers/Src/encoder.c **** * @retval None
+ 113:Core/Src/Drivers/Src/encoder.c **** */
+ 114:Core/Src/Drivers/Src/encoder.c **** void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
+ 338              		.loc 1 114 63 is_stmt 1 view -0
+ 339              		.cfi_startproc
+ 340              		@ args = 0, pretend = 0, frame = 40
+ 341              		@ frame_needed = 0, uses_anonymous_args = 0
+ 342              		.loc 1 114 63 is_stmt 0 view .LVU95
+ 343 0000 10B5     		push	{r4, lr}
+ 344              	.LCFI7:
+ 345              		.cfi_def_cfa_offset 8
+ 346              		.cfi_offset 4, -8
+ 347              		.cfi_offset 14, -4
+ 348 0002 8AB0     		sub	sp, sp, #40
+ 349              	.LCFI8:
+ 350              		.cfi_def_cfa_offset 48
+ 115:Core/Src/Drivers/Src/encoder.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 351              		.loc 1 115 3 is_stmt 1 view .LVU96
+ 352              		.loc 1 115 20 is_stmt 0 view .LVU97
+ 353 0004 0023     		movs	r3, #0
+ 354 0006 0593     		str	r3, [sp, #20]
+ 355 0008 0693     		str	r3, [sp, #24]
+ 356 000a 0793     		str	r3, [sp, #28]
+ 357 000c 0893     		str	r3, [sp, #32]
+ 358 000e 0993     		str	r3, [sp, #36]
+ 116:Core/Src/Drivers/Src/encoder.c **** 
+ 117:Core/Src/Drivers/Src/encoder.c ****   if (htim_encoder->Instance == TIM2) {
+ 359              		.loc 1 117 3 is_stmt 1 view .LVU98
+ 360              		.loc 1 117 19 is_stmt 0 view .LVU99
+ 361 0010 0368     		ldr	r3, [r0]
+ 362              		.loc 1 117 6 view .LVU100
+ 363 0012 B3F1804F 		cmp	r3, #1073741824
+ 364 0016 04D0     		beq	.L24
+ 118:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
+ 119:Core/Src/Drivers/Src/encoder.c **** 
+ 120:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 121:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
+ 122:Core/Src/Drivers/Src/encoder.c ****     PA0-WKUP     ------> TIM2_CH1
+ 123:Core/Src/Drivers/Src/encoder.c ****     PA1     ------> TIM2_CH2
+ 124:Core/Src/Drivers/Src/encoder.c ****     */
+ 125:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+ 126:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 127:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 128:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 129:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+ 130:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 131:Core/Src/Drivers/Src/encoder.c **** 
+ 132:Core/Src/Drivers/Src/encoder.c ****     /* TIM2 interrupt Init */
+ 133:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_SetPriority(TIM2_IRQn, 7, 0);
+ 134:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM2_IRQn);
+ 135:Core/Src/Drivers/Src/encoder.c ****   }
  136:Core/Src/Drivers/Src/encoder.c **** 
- 137:Core/Src/Drivers/Src/encoder.c ****     /* TIM2 interrupt Init */
- 138:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_SetPriority(TIM2_IRQn, 7, 0);
- 139:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM2_IRQn);
- 140:Core/Src/Drivers/Src/encoder.c ****   }
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 10
+
+
+ 137:Core/Src/Drivers/Src/encoder.c ****   else if (htim_encoder->Instance == TIM3) {
+ 365              		.loc 1 137 8 is_stmt 1 view .LVU101
+ 366              		.loc 1 137 11 is_stmt 0 view .LVU102
+ 367 0018 2C4A     		ldr	r2, .L26
+ 368 001a 9342     		cmp	r3, r2
+ 369 001c 2BD0     		beq	.L25
+ 370              	.LVL12:
+ 371              	.L20:
+ 138:Core/Src/Drivers/Src/encoder.c ****     /* Peripheral clock enable */
+ 139:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM3_CLK_ENABLE();
+ 140:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
  141:Core/Src/Drivers/Src/encoder.c **** 
- 142:Core/Src/Drivers/Src/encoder.c ****   else if (htim_encoder->Instance == TIM3) {
- 369              		.loc 1 142 8 is_stmt 1 view .LVU104
- 370              		.loc 1 142 11 is_stmt 0 view .LVU105
- 371 0018 2C4A     		ldr	r2, .L26
- 372 001a 9342     		cmp	r3, r2
- 373 001c 2BD0     		beq	.L25
- 374              	.LVL12:
- 375              	.L20:
- 143:Core/Src/Drivers/Src/encoder.c ****     /* Peripheral clock enable */
- 144:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM3_CLK_ENABLE();
- 145:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 146:Core/Src/Drivers/Src/encoder.c **** 
- 147:Core/Src/Drivers/Src/encoder.c ****     /**TIM3 GPIO Configuration
- 148:Core/Src/Drivers/Src/encoder.c ****      * PA6     ------> TIM3_CH1
- 149:Core/Src/Drivers/Src/encoder.c ****      * PA7     ------> TIM3_CH2
- 150:Core/Src/Drivers/Src/encoder.c ****     */
- 151:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
- 152:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
- 153:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
- 154:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 155:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
- 156:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
- 157:Core/Src/Drivers/Src/encoder.c **** 
- 158:Core/Src/Drivers/Src/encoder.c ****     /* TIM3 interrupt Init */
- 159:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_SetPriority(TIM3_IRQn, 7, 0);
- 160:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM3_IRQn);
- 161:Core/Src/Drivers/Src/encoder.c ****   }
- 162:Core/Src/Drivers/Src/encoder.c **** }
- 376              		.loc 1 162 1 view .LVU106
- 377 001e 0AB0     		add	sp, sp, #40
- 378              	.LCFI9:
- 379              		.cfi_remember_state
- 380              		.cfi_def_cfa_offset 8
- 381              		@ sp needed
- 382 0020 10BD     		pop	{r4, pc}
- 383              	.LVL13:
- 384              	.L24:
- 385              	.LCFI10:
- 386              		.cfi_restore_state
- 123:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
- 387              		.loc 1 123 5 is_stmt 1 view .LVU107
- 388              	.LBB2:
- 123:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
- 389              		.loc 1 123 5 view .LVU108
- 390 0022 0024     		movs	r4, #0
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 11
+ 142:Core/Src/Drivers/Src/encoder.c ****     /**TIM3 GPIO Configuration
+ 143:Core/Src/Drivers/Src/encoder.c ****      * PA6     ------> TIM3_CH1
+ 144:Core/Src/Drivers/Src/encoder.c ****      * PA7     ------> TIM3_CH2
+ 145:Core/Src/Drivers/Src/encoder.c ****      */
+ 146:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+ 147:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 148:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 149:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 150:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
+ 151:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 152:Core/Src/Drivers/Src/encoder.c **** 
+ 153:Core/Src/Drivers/Src/encoder.c ****     /* TIM3 interrupt Init */
+ 154:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_SetPriority(TIM3_IRQn, 7, 0);
+ 155:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM3_IRQn);
+ 156:Core/Src/Drivers/Src/encoder.c ****   }
+ 157:Core/Src/Drivers/Src/encoder.c **** }
+ 372              		.loc 1 157 1 view .LVU103
+ 373 001e 0AB0     		add	sp, sp, #40
+ 374              	.LCFI9:
+ 375              		.cfi_remember_state
+ 376              		.cfi_def_cfa_offset 8
+ 377              		@ sp needed
+ 378 0020 10BD     		pop	{r4, pc}
+ 379              	.LVL13:
+ 380              	.L24:
+ 381              	.LCFI10:
+ 382              		.cfi_restore_state
+ 118:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
+ 383              		.loc 1 118 5 is_stmt 1 view .LVU104
+ 384              	.LBB2:
+ 118:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
+ 385              		.loc 1 118 5 view .LVU105
+ 386 0022 0024     		movs	r4, #0
+ 387 0024 0194     		str	r4, [sp, #4]
+ 118:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
+ 388              		.loc 1 118 5 view .LVU106
+ 389 0026 03F50E33 		add	r3, r3, #145408
+ 390 002a 1A6C     		ldr	r2, [r3, #64]
+ 391 002c 42F00102 		orr	r2, r2, #1
+ 392 0030 1A64     		str	r2, [r3, #64]
+ 118:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
+ 393              		.loc 1 118 5 view .LVU107
+ 394 0032 1A6C     		ldr	r2, [r3, #64]
+ 395 0034 02F00102 		and	r2, r2, #1
+ 396 0038 0192     		str	r2, [sp, #4]
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 11
 
 
- 391 0024 0194     		str	r4, [sp, #4]
- 123:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
- 392              		.loc 1 123 5 view .LVU109
- 393 0026 03F50E33 		add	r3, r3, #145408
- 394 002a 1A6C     		ldr	r2, [r3, #64]
- 395 002c 42F00102 		orr	r2, r2, #1
- 396 0030 1A64     		str	r2, [r3, #64]
- 123:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
- 397              		.loc 1 123 5 view .LVU110
- 398 0032 1A6C     		ldr	r2, [r3, #64]
- 399 0034 02F00102 		and	r2, r2, #1
- 400 0038 0192     		str	r2, [sp, #4]
- 123:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
- 401              		.loc 1 123 5 view .LVU111
- 402 003a 019A     		ldr	r2, [sp, #4]
- 403              	.LBE2:
- 123:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
- 404              		.loc 1 123 5 view .LVU112
- 125:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
- 405              		.loc 1 125 5 view .LVU113
- 406              	.LBB3:
- 125:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
- 407              		.loc 1 125 5 view .LVU114
- 408 003c 0294     		str	r4, [sp, #8]
- 125:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
- 409              		.loc 1 125 5 view .LVU115
- 410 003e 1A6B     		ldr	r2, [r3, #48]
- 411 0040 42F00102 		orr	r2, r2, #1
- 412 0044 1A63     		str	r2, [r3, #48]
- 125:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
- 413              		.loc 1 125 5 view .LVU116
- 414 0046 1B6B     		ldr	r3, [r3, #48]
- 415 0048 03F00103 		and	r3, r3, #1
- 416 004c 0293     		str	r3, [sp, #8]
- 125:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
- 417              		.loc 1 125 5 view .LVU117
- 418 004e 029B     		ldr	r3, [sp, #8]
- 419              	.LBE3:
- 125:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
- 420              		.loc 1 125 5 view .LVU118
- 130:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
- 421              		.loc 1 130 5 view .LVU119
- 130:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
- 422              		.loc 1 130 25 is_stmt 0 view .LVU120
- 423 0050 0323     		movs	r3, #3
- 424 0052 0593     		str	r3, [sp, #20]
- 131:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
- 425              		.loc 1 131 5 is_stmt 1 view .LVU121
- 131:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
- 426              		.loc 1 131 26 is_stmt 0 view .LVU122
- 427 0054 0223     		movs	r3, #2
- 428 0056 0693     		str	r3, [sp, #24]
- 132:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 429              		.loc 1 132 5 is_stmt 1 view .LVU123
- 133:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
- 430              		.loc 1 133 5 view .LVU124
- 134:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 12
+ 118:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
+ 397              		.loc 1 118 5 view .LVU108
+ 398 003a 019A     		ldr	r2, [sp, #4]
+ 399              	.LBE2:
+ 118:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_TIM2_CLK_ENABLE();
+ 400              		.loc 1 118 5 view .LVU109
+ 120:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
+ 401              		.loc 1 120 5 view .LVU110
+ 402              	.LBB3:
+ 120:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
+ 403              		.loc 1 120 5 view .LVU111
+ 404 003c 0294     		str	r4, [sp, #8]
+ 120:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
+ 405              		.loc 1 120 5 view .LVU112
+ 406 003e 1A6B     		ldr	r2, [r3, #48]
+ 407 0040 42F00102 		orr	r2, r2, #1
+ 408 0044 1A63     		str	r2, [r3, #48]
+ 120:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
+ 409              		.loc 1 120 5 view .LVU113
+ 410 0046 1B6B     		ldr	r3, [r3, #48]
+ 411 0048 03F00103 		and	r3, r3, #1
+ 412 004c 0293     		str	r3, [sp, #8]
+ 120:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
+ 413              		.loc 1 120 5 view .LVU114
+ 414 004e 029B     		ldr	r3, [sp, #8]
+ 415              	.LBE3:
+ 120:Core/Src/Drivers/Src/encoder.c ****     /**TIM2 GPIO Configuration
+ 416              		.loc 1 120 5 view .LVU115
+ 125:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 417              		.loc 1 125 5 view .LVU116
+ 125:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 418              		.loc 1 125 25 is_stmt 0 view .LVU117
+ 419 0050 0323     		movs	r3, #3
+ 420 0052 0593     		str	r3, [sp, #20]
+ 126:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 421              		.loc 1 126 5 is_stmt 1 view .LVU118
+ 126:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 422              		.loc 1 126 26 is_stmt 0 view .LVU119
+ 423 0054 0223     		movs	r3, #2
+ 424 0056 0693     		str	r3, [sp, #24]
+ 127:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 425              		.loc 1 127 5 is_stmt 1 view .LVU120
+ 128:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+ 426              		.loc 1 128 5 view .LVU121
+ 129:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 427              		.loc 1 129 5 view .LVU122
+ 129:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 428              		.loc 1 129 31 is_stmt 0 view .LVU123
+ 429 0058 0123     		movs	r3, #1
+ 430 005a 0993     		str	r3, [sp, #36]
+ 130:Core/Src/Drivers/Src/encoder.c **** 
+ 431              		.loc 1 130 5 is_stmt 1 view .LVU124
+ 432 005c 05A9     		add	r1, sp, #20
+ 433 005e 1C48     		ldr	r0, .L26+4
+ 434              	.LVL14:
+ 130:Core/Src/Drivers/Src/encoder.c **** 
+ 435              		.loc 1 130 5 is_stmt 0 view .LVU125
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 12
 
 
- 431              		.loc 1 134 5 view .LVU125
- 134:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
- 432              		.loc 1 134 31 is_stmt 0 view .LVU126
- 433 0058 0123     		movs	r3, #1
- 434 005a 0993     		str	r3, [sp, #36]
- 135:Core/Src/Drivers/Src/encoder.c **** 
- 435              		.loc 1 135 5 is_stmt 1 view .LVU127
- 436 005c 05A9     		add	r1, sp, #20
- 437 005e 1C48     		ldr	r0, .L26+4
- 438              	.LVL14:
- 135:Core/Src/Drivers/Src/encoder.c **** 
- 439              		.loc 1 135 5 is_stmt 0 view .LVU128
- 440 0060 FFF7FEFF 		bl	HAL_GPIO_Init
- 441              	.LVL15:
- 138:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM2_IRQn);
- 442              		.loc 1 138 5 is_stmt 1 view .LVU129
- 443 0064 2246     		mov	r2, r4
- 444 0066 0721     		movs	r1, #7
- 445 0068 1C20     		movs	r0, #28
- 446 006a FFF7FEFF 		bl	HAL_NVIC_SetPriority
- 447              	.LVL16:
- 139:Core/Src/Drivers/Src/encoder.c ****   }
- 448              		.loc 1 139 5 view .LVU130
- 449 006e 1C20     		movs	r0, #28
- 450 0070 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
- 451              	.LVL17:
- 452 0074 D3E7     		b	.L20
- 453              	.LVL18:
- 454              	.L25:
- 144:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 455              		.loc 1 144 5 view .LVU131
- 456              	.LBB4:
- 144:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 457              		.loc 1 144 5 view .LVU132
- 458 0076 0024     		movs	r4, #0
- 459 0078 0394     		str	r4, [sp, #12]
- 144:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 460              		.loc 1 144 5 view .LVU133
- 461 007a 164B     		ldr	r3, .L26+8
- 462 007c 1A6C     		ldr	r2, [r3, #64]
- 463 007e 42F00202 		orr	r2, r2, #2
- 464 0082 1A64     		str	r2, [r3, #64]
- 144:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 465              		.loc 1 144 5 view .LVU134
- 466 0084 1A6C     		ldr	r2, [r3, #64]
- 467 0086 02F00202 		and	r2, r2, #2
- 468 008a 0392     		str	r2, [sp, #12]
- 144:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 469              		.loc 1 144 5 view .LVU135
- 470 008c 039A     		ldr	r2, [sp, #12]
- 471              	.LBE4:
- 144:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
- 472              		.loc 1 144 5 view .LVU136
- 145:Core/Src/Drivers/Src/encoder.c **** 
- 473              		.loc 1 145 5 view .LVU137
- 474              	.LBB5:
- 145:Core/Src/Drivers/Src/encoder.c **** 
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 13
+ 436 0060 FFF7FEFF 		bl	HAL_GPIO_Init
+ 437              	.LVL15:
+ 133:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM2_IRQn);
+ 438              		.loc 1 133 5 is_stmt 1 view .LVU126
+ 439 0064 2246     		mov	r2, r4
+ 440 0066 0721     		movs	r1, #7
+ 441 0068 1C20     		movs	r0, #28
+ 442 006a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 443              	.LVL16:
+ 134:Core/Src/Drivers/Src/encoder.c ****   }
+ 444              		.loc 1 134 5 view .LVU127
+ 445 006e 1C20     		movs	r0, #28
+ 446 0070 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 447              	.LVL17:
+ 448 0074 D3E7     		b	.L20
+ 449              	.LVL18:
+ 450              	.L25:
+ 139:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 451              		.loc 1 139 5 view .LVU128
+ 452              	.LBB4:
+ 139:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 453              		.loc 1 139 5 view .LVU129
+ 454 0076 0024     		movs	r4, #0
+ 455 0078 0394     		str	r4, [sp, #12]
+ 139:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 456              		.loc 1 139 5 view .LVU130
+ 457 007a 164B     		ldr	r3, .L26+8
+ 458 007c 1A6C     		ldr	r2, [r3, #64]
+ 459 007e 42F00202 		orr	r2, r2, #2
+ 460 0082 1A64     		str	r2, [r3, #64]
+ 139:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 461              		.loc 1 139 5 view .LVU131
+ 462 0084 1A6C     		ldr	r2, [r3, #64]
+ 463 0086 02F00202 		and	r2, r2, #2
+ 464 008a 0392     		str	r2, [sp, #12]
+ 139:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 465              		.loc 1 139 5 view .LVU132
+ 466 008c 039A     		ldr	r2, [sp, #12]
+ 467              	.LBE4:
+ 139:Core/Src/Drivers/Src/encoder.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 468              		.loc 1 139 5 view .LVU133
+ 140:Core/Src/Drivers/Src/encoder.c **** 
+ 469              		.loc 1 140 5 view .LVU134
+ 470              	.LBB5:
+ 140:Core/Src/Drivers/Src/encoder.c **** 
+ 471              		.loc 1 140 5 view .LVU135
+ 472 008e 0494     		str	r4, [sp, #16]
+ 140:Core/Src/Drivers/Src/encoder.c **** 
+ 473              		.loc 1 140 5 view .LVU136
+ 474 0090 1A6B     		ldr	r2, [r3, #48]
+ 475 0092 42F00102 		orr	r2, r2, #1
+ 476 0096 1A63     		str	r2, [r3, #48]
+ 140:Core/Src/Drivers/Src/encoder.c **** 
+ 477              		.loc 1 140 5 view .LVU137
+ 478 0098 1B6B     		ldr	r3, [r3, #48]
+ 479 009a 03F00103 		and	r3, r3, #1
+ 480 009e 0493     		str	r3, [sp, #16]
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 13
 
 
- 475              		.loc 1 145 5 view .LVU138
- 476 008e 0494     		str	r4, [sp, #16]
- 145:Core/Src/Drivers/Src/encoder.c **** 
- 477              		.loc 1 145 5 view .LVU139
- 478 0090 1A6B     		ldr	r2, [r3, #48]
- 479 0092 42F00102 		orr	r2, r2, #1
- 480 0096 1A63     		str	r2, [r3, #48]
- 145:Core/Src/Drivers/Src/encoder.c **** 
- 481              		.loc 1 145 5 view .LVU140
- 482 0098 1B6B     		ldr	r3, [r3, #48]
- 483 009a 03F00103 		and	r3, r3, #1
- 484 009e 0493     		str	r3, [sp, #16]
- 145:Core/Src/Drivers/Src/encoder.c **** 
- 485              		.loc 1 145 5 view .LVU141
- 486 00a0 049B     		ldr	r3, [sp, #16]
- 487              	.LBE5:
- 145:Core/Src/Drivers/Src/encoder.c **** 
- 488              		.loc 1 145 5 view .LVU142
- 151:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
- 489              		.loc 1 151 5 view .LVU143
- 151:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
- 490              		.loc 1 151 25 is_stmt 0 view .LVU144
- 491 00a2 C023     		movs	r3, #192
- 492 00a4 0593     		str	r3, [sp, #20]
- 152:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
- 493              		.loc 1 152 5 is_stmt 1 view .LVU145
- 152:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
- 494              		.loc 1 152 26 is_stmt 0 view .LVU146
- 495 00a6 0223     		movs	r3, #2
- 496 00a8 0693     		str	r3, [sp, #24]
- 153:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 497              		.loc 1 153 5 is_stmt 1 view .LVU147
- 153:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 498              		.loc 1 153 26 is_stmt 0 view .LVU148
- 499 00aa 0122     		movs	r2, #1
- 500 00ac 0792     		str	r2, [sp, #28]
- 154:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
- 501              		.loc 1 154 5 is_stmt 1 view .LVU149
- 155:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
- 502              		.loc 1 155 5 view .LVU150
- 155:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
- 503              		.loc 1 155 31 is_stmt 0 view .LVU151
- 504 00ae 0993     		str	r3, [sp, #36]
- 156:Core/Src/Drivers/Src/encoder.c **** 
- 505              		.loc 1 156 5 is_stmt 1 view .LVU152
- 506 00b0 05A9     		add	r1, sp, #20
- 507 00b2 0748     		ldr	r0, .L26+4
- 508              	.LVL19:
- 156:Core/Src/Drivers/Src/encoder.c **** 
- 509              		.loc 1 156 5 is_stmt 0 view .LVU153
- 510 00b4 FFF7FEFF 		bl	HAL_GPIO_Init
- 511              	.LVL20:
- 159:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM3_IRQn);
- 512              		.loc 1 159 5 is_stmt 1 view .LVU154
- 513 00b8 2246     		mov	r2, r4
- 514 00ba 0721     		movs	r1, #7
- 515 00bc 1D20     		movs	r0, #29
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 14
+ 140:Core/Src/Drivers/Src/encoder.c **** 
+ 481              		.loc 1 140 5 view .LVU138
+ 482 00a0 049B     		ldr	r3, [sp, #16]
+ 483              	.LBE5:
+ 140:Core/Src/Drivers/Src/encoder.c **** 
+ 484              		.loc 1 140 5 view .LVU139
+ 146:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 485              		.loc 1 146 5 view .LVU140
+ 146:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 486              		.loc 1 146 25 is_stmt 0 view .LVU141
+ 487 00a2 C023     		movs	r3, #192
+ 488 00a4 0593     		str	r3, [sp, #20]
+ 147:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 489              		.loc 1 147 5 is_stmt 1 view .LVU142
+ 147:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 490              		.loc 1 147 26 is_stmt 0 view .LVU143
+ 491 00a6 0223     		movs	r3, #2
+ 492 00a8 0693     		str	r3, [sp, #24]
+ 148:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 493              		.loc 1 148 5 is_stmt 1 view .LVU144
+ 148:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 494              		.loc 1 148 26 is_stmt 0 view .LVU145
+ 495 00aa 0122     		movs	r2, #1
+ 496 00ac 0792     		str	r2, [sp, #28]
+ 149:Core/Src/Drivers/Src/encoder.c ****     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
+ 497              		.loc 1 149 5 is_stmt 1 view .LVU146
+ 150:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 498              		.loc 1 150 5 view .LVU147
+ 150:Core/Src/Drivers/Src/encoder.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 499              		.loc 1 150 31 is_stmt 0 view .LVU148
+ 500 00ae 0993     		str	r3, [sp, #36]
+ 151:Core/Src/Drivers/Src/encoder.c **** 
+ 501              		.loc 1 151 5 is_stmt 1 view .LVU149
+ 502 00b0 05A9     		add	r1, sp, #20
+ 503 00b2 0748     		ldr	r0, .L26+4
+ 504              	.LVL19:
+ 151:Core/Src/Drivers/Src/encoder.c **** 
+ 505              		.loc 1 151 5 is_stmt 0 view .LVU150
+ 506 00b4 FFF7FEFF 		bl	HAL_GPIO_Init
+ 507              	.LVL20:
+ 154:Core/Src/Drivers/Src/encoder.c ****     HAL_NVIC_EnableIRQ(TIM3_IRQn);
+ 508              		.loc 1 154 5 is_stmt 1 view .LVU151
+ 509 00b8 2246     		mov	r2, r4
+ 510 00ba 0721     		movs	r1, #7
+ 511 00bc 1D20     		movs	r0, #29
+ 512 00be FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 513              	.LVL21:
+ 155:Core/Src/Drivers/Src/encoder.c ****   }
+ 514              		.loc 1 155 5 view .LVU152
+ 515 00c2 1D20     		movs	r0, #29
+ 516 00c4 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 517              	.LVL22:
+ 518              		.loc 1 157 1 is_stmt 0 view .LVU153
+ 519 00c8 A9E7     		b	.L20
+ 520              	.L27:
+ 521 00ca 00BF     		.align	2
+ 522              	.L26:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 14
 
 
- 516 00be FFF7FEFF 		bl	HAL_NVIC_SetPriority
- 517              	.LVL21:
- 160:Core/Src/Drivers/Src/encoder.c ****   }
- 518              		.loc 1 160 5 view .LVU155
- 519 00c2 1D20     		movs	r0, #29
- 520 00c4 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
- 521              	.LVL22:
- 522              		.loc 1 162 1 is_stmt 0 view .LVU156
- 523 00c8 A9E7     		b	.L20
- 524              	.L27:
- 525 00ca 00BF     		.align	2
- 526              	.L26:
- 527 00cc 00040040 		.word	1073742848
- 528 00d0 00000240 		.word	1073872896
- 529 00d4 00380240 		.word	1073887232
- 530              		.cfi_endproc
- 531              	.LFE138:
- 533              		.section	.text.TIM2_IRQHandler,"ax",%progbits
- 534              		.align	1
- 535              		.global	TIM2_IRQHandler
- 536              		.syntax unified
- 537              		.thumb
- 538              		.thumb_func
- 540              	TIM2_IRQHandler:
- 541              	.LFB139:
- 163:Core/Src/Drivers/Src/encoder.c **** 
- 164:Core/Src/Drivers/Src/encoder.c **** /**
- 165:Core/Src/Drivers/Src/encoder.c ****   * @brief This function handles TIM2 global interrupt.
- 166:Core/Src/Drivers/Src/encoder.c ****   */
- 167:Core/Src/Drivers/Src/encoder.c **** void TIM2_IRQHandler(void)
- 168:Core/Src/Drivers/Src/encoder.c **** {
- 542              		.loc 1 168 1 is_stmt 1 view -0
- 543              		.cfi_startproc
- 544              		@ args = 0, pretend = 0, frame = 0
- 545              		@ frame_needed = 0, uses_anonymous_args = 0
- 546 0000 08B5     		push	{r3, lr}
- 547              	.LCFI11:
- 548              		.cfi_def_cfa_offset 8
- 549              		.cfi_offset 3, -8
- 550              		.cfi_offset 14, -4
- 169:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_IRQHandler(&htim2);
- 551              		.loc 1 169 3 view .LVU158
- 552 0002 0248     		ldr	r0, .L30
- 553 0004 FFF7FEFF 		bl	HAL_TIM_IRQHandler
- 554              	.LVL23:
- 170:Core/Src/Drivers/Src/encoder.c **** }
- 555              		.loc 1 170 1 is_stmt 0 view .LVU159
- 556 0008 08BD     		pop	{r3, pc}
- 557              	.L31:
- 558 000a 00BF     		.align	2
- 559              	.L30:
- 560 000c 00000000 		.word	htim2
- 561              		.cfi_endproc
- 562              	.LFE139:
- 564              		.section	.text.TIM3_IRQHandler,"ax",%progbits
- 565              		.align	1
- 566              		.global	TIM3_IRQHandler
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 15
+ 523 00cc 00040040 		.word	1073742848
+ 524 00d0 00000240 		.word	1073872896
+ 525 00d4 00380240 		.word	1073887232
+ 526              		.cfi_endproc
+ 527              	.LFE182:
+ 529              		.section	.text.TIM2_IRQHandler,"ax",%progbits
+ 530              		.align	1
+ 531              		.global	TIM2_IRQHandler
+ 532              		.syntax unified
+ 533              		.thumb
+ 534              		.thumb_func
+ 536              	TIM2_IRQHandler:
+ 537              	.LFB183:
+ 158:Core/Src/Drivers/Src/encoder.c **** 
+ 159:Core/Src/Drivers/Src/encoder.c **** /**
+ 160:Core/Src/Drivers/Src/encoder.c ****   * @brief This function handles TIM2 global interrupt.
+ 161:Core/Src/Drivers/Src/encoder.c ****   */
+ 162:Core/Src/Drivers/Src/encoder.c **** void TIM2_IRQHandler(void)
+ 163:Core/Src/Drivers/Src/encoder.c **** {
+ 538              		.loc 1 163 1 is_stmt 1 view -0
+ 539              		.cfi_startproc
+ 540              		@ args = 0, pretend = 0, frame = 0
+ 541              		@ frame_needed = 0, uses_anonymous_args = 0
+ 542 0000 08B5     		push	{r3, lr}
+ 543              	.LCFI11:
+ 544              		.cfi_def_cfa_offset 8
+ 545              		.cfi_offset 3, -8
+ 546              		.cfi_offset 14, -4
+ 164:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_IRQHandler(&htim2);
+ 547              		.loc 1 164 3 view .LVU155
+ 548 0002 0248     		ldr	r0, .L30
+ 549 0004 FFF7FEFF 		bl	HAL_TIM_IRQHandler
+ 550              	.LVL23:
+ 165:Core/Src/Drivers/Src/encoder.c **** }
+ 551              		.loc 1 165 1 is_stmt 0 view .LVU156
+ 552 0008 08BD     		pop	{r3, pc}
+ 553              	.L31:
+ 554 000a 00BF     		.align	2
+ 555              	.L30:
+ 556 000c 00000000 		.word	htim2
+ 557              		.cfi_endproc
+ 558              	.LFE183:
+ 560              		.section	.text.TIM3_IRQHandler,"ax",%progbits
+ 561              		.align	1
+ 562              		.global	TIM3_IRQHandler
+ 563              		.syntax unified
+ 564              		.thumb
+ 565              		.thumb_func
+ 567              	TIM3_IRQHandler:
+ 568              	.LFB184:
+ 166:Core/Src/Drivers/Src/encoder.c **** 
+ 167:Core/Src/Drivers/Src/encoder.c **** /**
+ 168:Core/Src/Drivers/Src/encoder.c ****   * @brief This function handles TIM3 global interrupt.
+ 169:Core/Src/Drivers/Src/encoder.c ****   */
+ 170:Core/Src/Drivers/Src/encoder.c **** void TIM3_IRQHandler(void)
+ 171:Core/Src/Drivers/Src/encoder.c **** {
+ 569              		.loc 1 171 1 is_stmt 1 view -0
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 15
 
 
- 567              		.syntax unified
- 568              		.thumb
- 569              		.thumb_func
- 571              	TIM3_IRQHandler:
- 572              	.LFB140:
- 171:Core/Src/Drivers/Src/encoder.c **** 
- 172:Core/Src/Drivers/Src/encoder.c **** /**
- 173:Core/Src/Drivers/Src/encoder.c ****   * @brief This function handles TIM3 global interrupt.
- 174:Core/Src/Drivers/Src/encoder.c ****   */
- 175:Core/Src/Drivers/Src/encoder.c **** void TIM3_IRQHandler(void)
- 176:Core/Src/Drivers/Src/encoder.c **** {
- 573              		.loc 1 176 1 is_stmt 1 view -0
- 574              		.cfi_startproc
- 575              		@ args = 0, pretend = 0, frame = 0
- 576              		@ frame_needed = 0, uses_anonymous_args = 0
- 577 0000 08B5     		push	{r3, lr}
- 578              	.LCFI12:
- 579              		.cfi_def_cfa_offset 8
- 580              		.cfi_offset 3, -8
- 581              		.cfi_offset 14, -4
- 177:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_IRQHandler(&htim3);
- 582              		.loc 1 177 3 view .LVU161
- 583 0002 0248     		ldr	r0, .L34
- 584 0004 FFF7FEFF 		bl	HAL_TIM_IRQHandler
- 585              	.LVL24:
- 178:Core/Src/Drivers/Src/encoder.c **** }
- 586              		.loc 1 178 1 is_stmt 0 view .LVU162
- 587 0008 08BD     		pop	{r3, pc}
- 588              	.L35:
- 589 000a 00BF     		.align	2
- 590              	.L34:
- 591 000c 00000000 		.word	htim3
- 592              		.cfi_endproc
- 593              	.LFE140:
- 595              		.global	DeltaCnt
- 596              		.section	.bss.DeltaCnt,"aw",%nobits
- 597              		.align	2
- 600              	DeltaCnt:
- 601 0000 00000000 		.space	4
- 602              		.global	PreMotorCnt
- 603              		.section	.bss.PreMotorCnt,"aw",%nobits
- 604              		.align	2
- 607              	PreMotorCnt:
- 608 0000 00000000 		.space	4
- 609              		.global	MotorCnt
- 610              		.section	.bss.MotorCnt,"aw",%nobits
- 611              		.align	2
- 614              	MotorCnt:
- 615 0000 00000000 		.space	4
- 616              		.global	PendulumCnt
- 617              		.section	.bss.PendulumCnt,"aw",%nobits
- 618              		.align	1
- 621              	PendulumCnt:
- 622 0000 0000     		.space	2
- 623              		.global	htim3
- 624              		.section	.bss.htim3,"aw",%nobits
- 625              		.align	2
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 16
+ 570              		.cfi_startproc
+ 571              		@ args = 0, pretend = 0, frame = 0
+ 572              		@ frame_needed = 0, uses_anonymous_args = 0
+ 573 0000 08B5     		push	{r3, lr}
+ 574              	.LCFI12:
+ 575              		.cfi_def_cfa_offset 8
+ 576              		.cfi_offset 3, -8
+ 577              		.cfi_offset 14, -4
+ 172:Core/Src/Drivers/Src/encoder.c ****   HAL_TIM_IRQHandler(&htim3);
+ 578              		.loc 1 172 3 view .LVU158
+ 579 0002 0248     		ldr	r0, .L34
+ 580 0004 FFF7FEFF 		bl	HAL_TIM_IRQHandler
+ 581              	.LVL24:
+ 173:Core/Src/Drivers/Src/encoder.c **** }
+ 582              		.loc 1 173 1 is_stmt 0 view .LVU159
+ 583 0008 08BD     		pop	{r3, pc}
+ 584              	.L35:
+ 585 000a 00BF     		.align	2
+ 586              	.L34:
+ 587 000c 00000000 		.word	htim3
+ 588              		.cfi_endproc
+ 589              	.LFE184:
+ 591              		.global	encoder_topic
+ 592              		.section	.bss.encoder_topic,"aw",%nobits
+ 593              		.align	2
+ 596              	encoder_topic:
+ 597 0000 00000000 		.space	8
+ 597      00000000 
+ 598              		.global	htim3
+ 599              		.section	.bss.htim3,"aw",%nobits
+ 600              		.align	2
+ 603              	htim3:
+ 604 0000 00000000 		.space	72
+ 604      00000000 
+ 604      00000000 
+ 604      00000000 
+ 604      00000000 
+ 605              		.global	htim2
+ 606              		.section	.bss.htim2,"aw",%nobits
+ 607              		.align	2
+ 610              	htim2:
+ 611 0000 00000000 		.space	72
+ 611      00000000 
+ 611      00000000 
+ 611      00000000 
+ 611      00000000 
+ 612              		.text
+ 613              	.Letext0:
+ 614              		.file 2 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
+ 615              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 616              		.file 4 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 617              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 618              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 619              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 620              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 621              		.file 9 "Core/Src/Application/Inc/Topic.h"
+ 622              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 16
 
 
- 628              	htim3:
- 629 0000 00000000 		.space	72
- 629      00000000 
- 629      00000000 
- 629      00000000 
- 629      00000000 
- 630              		.global	htim2
- 631              		.section	.bss.htim2,"aw",%nobits
- 632              		.align	2
- 635              	htim2:
- 636 0000 00000000 		.space	72
- 636      00000000 
- 636      00000000 
- 636      00000000 
- 636      00000000 
- 637              		.text
- 638              	.Letext0:
- 639              		.file 2 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
- 640              		.file 3 "C:/ARM GNU Toolchain/arm-none-eabi/include/machine/_default_types.h"
- 641              		.file 4 "C:/ARM GNU Toolchain/arm-none-eabi/include/sys/_stdint.h"
- 642              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 643              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
- 644              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 645              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
- 646              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
- 647              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h"
- 648              		.file 11 "<built-in>"
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s 			page 17
+ 623              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h"
+ 624              		.file 12 "<built-in>"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 encoder.c
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:21     .text.MX_TIM2_Init:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:26     .text.MX_TIM2_Init:00000000 MX_TIM2_Init
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:116    .text.MX_TIM2_Init:0000004c $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:635    .bss.htim2:00000000 htim2
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:121    .text.MX_TIM3_Init:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:126    .text.MX_TIM3_Init:00000000 MX_TIM3_Init
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:216    .text.MX_TIM3_Init:0000004c $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:628    .bss.htim3:00000000 htim3
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:222    .text.HAL_TIM_IC_CaptureCallback:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:228    .text.HAL_TIM_IC_CaptureCallback:00000000 HAL_TIM_IC_CaptureCallback
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:280    .text.HAL_TIM_IC_CaptureCallback:0000002c $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:614    .bss.MotorCnt:00000000 MotorCnt
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:607    .bss.PreMotorCnt:00000000 PreMotorCnt
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:600    .bss.DeltaCnt:00000000 DeltaCnt
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:621    .bss.PendulumCnt:00000000 PendulumCnt
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:289    .text.Driver_Encoder_Init:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:295    .text.Driver_Encoder_Init:00000000 Driver_Encoder_Init
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:327    .text.Driver_Encoder_Init:0000001c $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:333    .text.HAL_TIM_Encoder_MspInit:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:339    .text.HAL_TIM_Encoder_MspInit:00000000 HAL_TIM_Encoder_MspInit
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:527    .text.HAL_TIM_Encoder_MspInit:000000cc $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:534    .text.TIM2_IRQHandler:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:540    .text.TIM2_IRQHandler:00000000 TIM2_IRQHandler
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:560    .text.TIM2_IRQHandler:0000000c $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:565    .text.TIM3_IRQHandler:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:571    .text.TIM3_IRQHandler:00000000 TIM3_IRQHandler
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:591    .text.TIM3_IRQHandler:0000000c $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:597    .bss.DeltaCnt:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:604    .bss.PreMotorCnt:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:611    .bss.MotorCnt:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:618    .bss.PendulumCnt:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:625    .bss.htim3:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc2ggJed.s:632    .bss.htim2:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:21     .text.MX_TIM2_Init:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:26     .text.MX_TIM2_Init:00000000 MX_TIM2_Init
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:117    .text.MX_TIM2_Init:00000050 $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:610    .bss.htim2:00000000 htim2
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:122    .text.MX_TIM3_Init:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:127    .text.MX_TIM3_Init:00000000 MX_TIM3_Init
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:218    .text.MX_TIM3_Init:0000004c $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:603    .bss.htim3:00000000 htim3
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:224    .text.HAL_TIM_IC_CaptureCallback:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:230    .text.HAL_TIM_IC_CaptureCallback:00000000 HAL_TIM_IC_CaptureCallback
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:272    .text.HAL_TIM_IC_CaptureCallback:00000020 $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:596    .bss.encoder_topic:00000000 encoder_topic
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:278    .text.Driver_Encoder_Init:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:284    .text.Driver_Encoder_Init:00000000 Driver_Encoder_Init
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:322    .text.Driver_Encoder_Init:00000024 $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:329    .text.HAL_TIM_Encoder_MspInit:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:335    .text.HAL_TIM_Encoder_MspInit:00000000 HAL_TIM_Encoder_MspInit
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:523    .text.HAL_TIM_Encoder_MspInit:000000cc $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:530    .text.TIM2_IRQHandler:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:536    .text.TIM2_IRQHandler:00000000 TIM2_IRQHandler
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:556    .text.TIM2_IRQHandler:0000000c $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:561    .text.TIM3_IRQHandler:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:567    .text.TIM3_IRQHandler:00000000 TIM3_IRQHandler
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:587    .text.TIM3_IRQHandler:0000000c $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:593    .bss.encoder_topic:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:600    .bss.htim3:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\ccqbYZ6y.s:607    .bss.htim2:00000000 $d
 
 UNDEFINED SYMBOLS
 memset

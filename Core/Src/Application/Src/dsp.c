@@ -1,0 +1,115 @@
+#include "dsp.h"
+
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
+
+extern int64_t checkCnt;
+
+/* Các hàm dùng để ánh xạ vào các Methods của DSP struct----------*/
+
+/**
+ * Hàm này dùng để tính toán số pulse nhận được từ Encoder sang radian
+ * Biểu diễn bằng thứ nguyên:
+ * angle (radian) = resolution (radian/pulse) * counter (pulse)
+ */
+static void ConvertAngle (DSP * const self, Encoder const * const encoder_topic) {
+    self->motor_angle = self->motor_resolution * encoder_topic->MotorCnt;
+    self->pendulum_angle = self->pendulum_resolution * encoder_topic->PendulumCnt;
+}
+
+/**
+ * Hàm này để lọc data (Low pass filter) nhưng vì hiện tại chưa xử lý được việc
+ * lọc data được nên ở đây sẽ gán trực tiếp các giá trị sau khi tính toán được trạng thái
+ * của hệ thống vào các biến lưu trạng thái của hệ thống (State)
+ */
+void filter (DSP * const self) {
+    self->motor_velocity = (self->motor_angle - self->motor_state.Prev_position) / self->SampleTime;
+    /* Lưu giá trị hiện tại vào biến trước để tính toán velocity trong lần gọi tiếp theo */
+    self->motor_state.Prev_position = self->motor_angle;
+
+    // Tương tự
+    self->pendulum_velocity = (self->pendulum_angle - self->pendulum_state.Prev_position) /self->SampleTime;
+    self->pendulum_state.Prev_position = self->pendulum_angle;
+}
+
+/**
+ * 
+ */
+void estimate (DSP * const self) {
+    /* Lưu lại các trạng thái của hệ thống, vì đây là những
+       thông tin cần thiết trong quá trình điều khiển */
+    self->motor_state.position = self->motor_angle;
+    self->motor_state.velocity = self->motor_velocity;
+
+    self->pendulum_state.position = self->pendulum_angle;
+    self->pendulum_state.velocity = self->pendulum_velocity;
+
+    /* Riêng đối với trạng thái của xe, chúng ta cần tính toán vị trí sang tọa độ
+       x(m) và vận tốc v(m/s) trước khi gán vào self->cart_state */
+    self->cart_state.position = self->motor_angle * self->gear_ratio;
+    self->cart_state.velocity = self->motor_velocity * self->gear_ratio;
+}
+
+void procesNewData (DSP * const self, Encoder const * const encoder_topic, State * const state_topic) {
+    /* Chuyển đổi từ pulse sang radian */
+    ConvertAngle(self, encoder_topic);
+
+    /* Tiến hành lọc data và tính toán vận tốc*/
+    filter(self);
+
+    /* Lưu các giá trị trạng thái vào các thành phần của hệ thống */
+    estimate(self);
+
+    /* Cuối cùng là ánh xạ các giá trị trạng thái vào struct State sẽ dùng chung trong hệ thống */
+    state_topic->Motor      = self->motor_state;
+    state_topic->Cart       = self->cart_state;
+    state_topic->Pendulum   = self->pendulum_state;
+}
+
+void dsp_new (DSP * const self) {
+    /** 
+     * Giá trị chu kỳ lấy mẫu SampleTime nghĩa là hệ thống sẽ lấy mẫu
+     * (1/SampleTime) lần trong một giây.
+     * Ví dụ, nếu SampleTime = 0.01s thì trong 1 giây hệ thống sẽ 
+     * lấy được 100 lần dữ liệu.
+     */
+    self->SampleTime = 0.001f;
+
+    /**
+     * Vì hộp giảm tốc có tỉ số truyền là 1:14, 
+     * Với bánh răng nhỏ có 14 teeth và Modun = 1.5 => radius = (14 * 1.5) / 2;
+     * Khi đó tọa độ x = theta * radius;
+     * Với theta là góc quay của trục động cơ, còn giá trị Encoder chúng ta thu về và tính toán
+     * chính là góc quay của roto nên theta để tìm x cần nhân với giảm đi 14 lần vì tỉ số truyền (1:14)
+     */
+    self->gear_ratio = (1.0f / 14.0f) * ((14.0f * 1.5f * 0.001f) / 2.0f);//( 1.0F / 14.0F ) * 0.011F;
+
+    /**
+     * Motor's encoder have 500 Pulse per round
+     * Pendulum's encoder have 1000 Pulse per round
+     * và chúng ta đang đọc chế độ x4 (x2 trên mỗi channels)
+     * như vậy 2 biến resolution này sẽ quy đổi cho chúng ta từ pulse sang radian
+     * đơn vị (radian per pulse)
+     */
+    self->motor_resolution = (2.0f * PI) / (4.0f * 500.0f);
+    self->pendulum_resolution = (2.0f * PI) / (4.0f * 1000.0f);
+
+    /* Khởi tạo các giá trị ban đầu */
+    self->motor_state       = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, .Prev_position = 0.0f};
+    self->cart_state        = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, .Prev_position = 0.0f};
+    self->pendulum_state    = (StateData){.position = .0f, .velocity = 0.0f, .acceleration = 0.0f, .Prev_position = 0.0f};
+
+    /*----------*/
+    self->motor_angle = 0.0f;
+    self->motor_velocity = 0.0f;
+
+    self->pendulum_angle = 0.0f;
+    self->pendulum_velocity = 0.0f;
+    
+
+    /* Assign function pointer */
+    self->ConvertAngle  = &ConvertAngle;
+    self->filter        = &filter;
+    self->estimate      = &estimate;
+    self->procesNewData = &procesNewData;
+}

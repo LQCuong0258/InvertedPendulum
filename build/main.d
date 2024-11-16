@@ -1,4 +1,4 @@
-build/main.o: Core/Src/main.c Core/Src/main.h \
+build/main.o: Core/Src/main.c Core/Inc/main.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  Core/Inc/stm32f4xx_hal_conf.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -24,10 +24,12 @@ build/main.o: Core/Src/main.c Core/Src/main.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h Core/Src/printf.h \
- Core/Src/Drivers/Inc/SysConfig.h Core/Src/Drivers/Inc/usart.h \
- Core/Src/Drivers/Inc/encoder.h Core/Src/Drivers/Inc/Controller.h \
- ThirdParty/FreeRTOS/include/FreeRTOS.h \
+ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h Core/Inc/printf.h \
+ Middlewares/ST/ARM/DSP/Inc/arm_math.h \
+ Drivers/CMSIS/Include/cmsis_compiler.h Core/Src/Drivers/Inc/SysConfig.h \
+ Core/Src/Drivers/Inc/usart.h Core/Src/Drivers/Inc/encoder.h \
+ Core/Src/Application/Inc/Topic.h Core/Src/Application/Inc/dsp.h \
+ Core/Src/Drivers/Inc/Controller.h ThirdParty/FreeRTOS/include/FreeRTOS.h \
  ThirdParty/FreeRTOS/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
  ThirdParty/FreeRTOS/include/portable.h \
@@ -37,7 +39,7 @@ build/main.o: Core/Src/main.c Core/Src/main.h \
  ThirdParty/FreeRTOS/include/task.h ThirdParty/FreeRTOS/include/list.h \
  ThirdParty/FreeRTOS/include/queue.h ThirdParty/FreeRTOS/include/task.h \
  ThirdParty/FreeRTOS/include/semphr.h ThirdParty/FreeRTOS/include/queue.h
-Core/Src/main.h:
+Core/Inc/main.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 Core/Inc/stm32f4xx_hal_conf.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -66,10 +68,14 @@ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-Core/Src/printf.h:
+Core/Inc/printf.h:
+Middlewares/ST/ARM/DSP/Inc/arm_math.h:
+Drivers/CMSIS/Include/cmsis_compiler.h:
 Core/Src/Drivers/Inc/SysConfig.h:
 Core/Src/Drivers/Inc/usart.h:
 Core/Src/Drivers/Inc/encoder.h:
+Core/Src/Application/Inc/Topic.h:
+Core/Src/Application/Inc/dsp.h:
 Core/Src/Drivers/Inc/Controller.h:
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
 ThirdParty/FreeRTOS/FreeRTOSConfig.h:

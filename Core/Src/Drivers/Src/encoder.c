@@ -6,9 +6,7 @@ TIM_HandleTypeDef htim3;
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 
-
-int16_t PendulumCnt;
-int32_t MotorCnt, PreMotorCnt, DeltaCnt;
+Encoder encoder_topic;
 
 /**
   * @brief  Input Capture callback in non-blocking mode
@@ -18,15 +16,11 @@ int32_t MotorCnt, PreMotorCnt, DeltaCnt;
 void HAL_TIM_IC_CaptureCallback (TIM_HandleTypeDef *htim) { 
   if (htim->Instance == TIM2) {
     /* Read motor encoder counter value */
-    MotorCnt = (int32_t)((uint32_t)__HAL_TIM_GET_COUNTER(htim));
-    DeltaCnt = MotorCnt - PreMotorCnt; // Tính số xung thay đổi
-
-    if (DeltaCnt > 2147483647) DeltaCnt -= 4294967296;
-    if (DeltaCnt < -2147483648) DeltaCnt += 4294967296;
+    encoder_topic.MotorCnt = (int32_t)((uint32_t)__HAL_TIM_GET_COUNTER(htim));
   }
   else if (htim->Instance == TIM3) {
     /* Read pendullum encoder counter value */
-    PendulumCnt = (int16_t)((uint32_t) __HAL_TIM_GET_COUNTER(htim));
+    encoder_topic.PendulumCnt = (int16_t)((uint32_t) __HAL_TIM_GET_COUNTER(htim));
   }
 }
 
@@ -39,6 +33,7 @@ void Driver_Encoder_Init()
   MX_TIM3_Init(); // Pendullum encoder
   
 
+  encoder_topic = (Encoder) {.MotorCnt = 0, .PendulumCnt = 0};
   HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
   HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
 }
@@ -59,9 +54,9 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 0xFFFFFFFF;
+  htim2.Init.Period = 4294967295; /* 0 -> (2^32) - 1*/
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
@@ -92,9 +87,9 @@ static void MX_TIM3_Init(void) {
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 0xFFFF;
+  htim3.Init.Period = 65535; /* 0 -> (2^16) - 1*/
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
@@ -147,7 +142,7 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
     /**TIM3 GPIO Configuration
      * PA6     ------> TIM3_CH1
      * PA7     ------> TIM3_CH2
-    */
+     */
     GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;

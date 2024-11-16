@@ -31,6 +31,15 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h"
+#include "printf.h"
+#include "arm_math.h"
+
+#include "SysConfig.h"
+#include "usart.h"
+#include "encoder.h"
+#include "Controller.h"
+#include "dsp.h"
 
 /* USER CODE END Includes */
 
