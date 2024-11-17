@@ -59,6 +59,30 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+
+
+  // Cấu hình PB1 làm ngắt
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  GPIO_InitStruct.Pin = GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING; // Ngắt cạnh lên (hoặc IT_RISING_FALLING nếu cần cả hai)
+  GPIO_InitStruct.Pull = GPIO_PULLUP;         // Pull-up (hoặc PULLDOWN nếu cần)
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  // Kích hoạt ngắt EXTI
+  /* Vì ngắt này để bắt điểm mà phase Z trigger nên cần độ ưu tiên cao hơn 2 timer đếm xung encoder */
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 6, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);             // Bật ngắt
+
+  /* Led green test */
+  GPIO_InitStruct = (GPIO_InitTypeDef) {0};
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+  GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pin   = GPIO_PIN_12;
+  GPIO_InitStruct.Pull  = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

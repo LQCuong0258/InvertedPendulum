@@ -1,8 +1,8 @@
 #ifndef TOPIC_H
 #define TOPIC_H
 
+#include "stdint.h"
 #include "arm_math.h"
-#include <stdint.h>
 
 typedef struct {
     int16_t PendulumCnt;

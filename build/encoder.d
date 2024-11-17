@@ -26,15 +26,15 @@ build/encoder.o: Core/Src/Drivers/Src/encoder.c \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- Core/Src/Application/Inc/Topic.h Drivers/CMSIS/DSP/Include/arm_math.h \
- Core/Src/Application/Inc/dsp.h ThirdParty/FreeRTOS/include/FreeRTOS.h \
+ Core/Src/Middleware/Topic.h Drivers/CMSIS/DSP/Include/arm_math.h \
+ Core/Src/Middleware/dsp.h ThirdParty/FreeRTOS/include/FreeRTOS.h \
  ThirdParty/FreeRTOS/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
  ThirdParty/FreeRTOS/include/portable.h \
  ThirdParty/FreeRTOS/include/deprecated_definitions.h \
  ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h \
  ThirdParty/FreeRTOS/include/mpu_wrappers.h \
- Core/Src/Application/Inc/Butter_Worth_Filtor.h
+ Core/Src/Middleware/Butter_Worth_Filtor.h
 Core/Src/Drivers/Inc/encoder.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 Core/Inc/stm32f4xx_hal_conf.h:
@@ -64,9 +64,9 @@ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-Core/Src/Application/Inc/Topic.h:
+Core/Src/Middleware/Topic.h:
 Drivers/CMSIS/DSP/Include/arm_math.h:
-Core/Src/Application/Inc/dsp.h:
+Core/Src/Middleware/dsp.h:
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
 ThirdParty/FreeRTOS/FreeRTOSConfig.h:
 ThirdParty/FreeRTOS/include/projdefs.h:
@@ -74,4 +74,4 @@ ThirdParty/FreeRTOS/include/portable.h:
 ThirdParty/FreeRTOS/include/deprecated_definitions.h:
 ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h:
 ThirdParty/FreeRTOS/include/mpu_wrappers.h:
-Core/Src/Application/Inc/Butter_Worth_Filtor.h:
+Core/Src/Middleware/Butter_Worth_Filtor.h:

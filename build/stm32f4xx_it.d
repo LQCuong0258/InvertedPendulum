@@ -27,7 +27,7 @@ build/stm32f4xx_it.o: Core/Src/stm32f4xx_it.c Core/Inc/main.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h Core/Inc/printf.h \
  Drivers/CMSIS/DSP/Include/arm_math.h Core/Src/Drivers/Inc/SysConfig.h \
  Core/Src/Drivers/Inc/usart.h Core/Src/Drivers/Inc/encoder.h \
- Core/Src/Application/Inc/Topic.h Core/Src/Application/Inc/dsp.h \
+ Core/Src/Middleware/Topic.h Core/Src/Middleware/dsp.h \
  ThirdParty/FreeRTOS/include/FreeRTOS.h \
  ThirdParty/FreeRTOS/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
@@ -35,7 +35,7 @@ build/stm32f4xx_it.o: Core/Src/stm32f4xx_it.c Core/Inc/main.h \
  ThirdParty/FreeRTOS/include/deprecated_definitions.h \
  ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h \
  ThirdParty/FreeRTOS/include/mpu_wrappers.h \
- Core/Src/Application/Inc/Butter_Worth_Filtor.h \
+ Core/Src/Middleware/Butter_Worth_Filtor.h \
  Core/Src/Drivers/Inc/Controller.h Core/Inc/stm32f4xx_it.h
 Core/Inc/main.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -71,8 +71,8 @@ Drivers/CMSIS/DSP/Include/arm_math.h:
 Core/Src/Drivers/Inc/SysConfig.h:
 Core/Src/Drivers/Inc/usart.h:
 Core/Src/Drivers/Inc/encoder.h:
-Core/Src/Application/Inc/Topic.h:
-Core/Src/Application/Inc/dsp.h:
+Core/Src/Middleware/Topic.h:
+Core/Src/Middleware/dsp.h:
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
 ThirdParty/FreeRTOS/FreeRTOSConfig.h:
 ThirdParty/FreeRTOS/include/projdefs.h:
@@ -80,6 +80,6 @@ ThirdParty/FreeRTOS/include/portable.h:
 ThirdParty/FreeRTOS/include/deprecated_definitions.h:
 ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h:
 ThirdParty/FreeRTOS/include/mpu_wrappers.h:
-Core/Src/Application/Inc/Butter_Worth_Filtor.h:
+Core/Src/Middleware/Butter_Worth_Filtor.h:
 Core/Src/Drivers/Inc/Controller.h:
 Core/Inc/stm32f4xx_it.h:

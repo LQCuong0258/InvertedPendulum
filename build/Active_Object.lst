@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccJPt9UT.s 			page 1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -19,12 +19,944 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccJPt9UT.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.file 1 "Core/Src/Application/Src/Active_Object.c"
-  20              	.Letext0:
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccJPt9UT.s 			page 2
+  19              		.file 1 "Core/Src/Middleware/Active_Object.c"
+  20              		.section	.text.init,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	init:
+  27              	.LVL0:
+  28              	.LFB173:
+   1:Core/Src/Middleware/Active_Object.c **** #include "Active_Object.h"
+   2:Core/Src/Middleware/Active_Object.c **** 
+   3:Core/Src/Middleware/Active_Object.c **** /*-------------------------------------------------------------------------------------------------
+   4:Core/Src/Middleware/Active_Object.c **** /* Event-loop thread function for all Active Object (FreeRTOS task signature) */
+   5:Core/Src/Middleware/Active_Object.c **** static void Active_eventloop (void *pvParameters) {
+   6:Core/Src/Middleware/Active_Object.c ****     
+   7:Core/Src/Middleware/Active_Object.c ****     Active *Active_instance = (Active *) pvParameters;
+   8:Core/Src/Middleware/Active_Object.c **** 
+   9:Core/Src/Middleware/Active_Object.c ****     /* Khởi tạo vào sự kiện */
+  10:Core/Src/Middleware/Active_Object.c ****     static Event const initEvt = { ENTRY_SIG };
+  11:Core/Src/Middleware/Active_Object.c **** 
+  12:Core/Src/Middleware/Active_Object.c ****     /* Active object must be provided */
+  13:Core/Src/Middleware/Active_Object.c ****     configASSERT(Active_instance);
+  14:Core/Src/Middleware/Active_Object.c **** 
+  15:Core/Src/Middleware/Active_Object.c ****     /* Initialize Active Object */
+  16:Core/Src/Middleware/Active_Object.c ****     (*Active_instance->dispatch) (Active_instance, &initEvt);
+  17:Core/Src/Middleware/Active_Object.c ****     for(;;) {
+  18:Core/Src/Middleware/Active_Object.c ****         Event * event;  /* Pointer to Event object (message) */
+  19:Core/Src/Middleware/Active_Object.c ****     
+  20:Core/Src/Middleware/Active_Object.c ****         /* Wait for any event and receive it into object 'event' */
+  21:Core/Src/Middleware/Active_Object.c ****         xQueueReceive(Active_instance->queue, &event, portMAX_DELAY);
+  22:Core/Src/Middleware/Active_Object.c ****         
+  23:Core/Src/Middleware/Active_Object.c ****         /* Dispatch to Active Object 'self' */
+  24:Core/Src/Middleware/Active_Object.c ****         (*Active_instance->dispatch) (Active_instance, event);
+  25:Core/Src/Middleware/Active_Object.c ****     }
+  26:Core/Src/Middleware/Active_Object.c **** }
+  27:Core/Src/Middleware/Active_Object.c **** /*-------------------------------------------------------------------------------------------------
+  28:Core/Src/Middleware/Active_Object.c **** 
+  29:Core/Src/Middleware/Active_Object.c **** /* Khởi tạo hệ thống Active Object */
+  30:Core/Src/Middleware/Active_Object.c **** static void init(Active * const self, Event const * const event) {
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 2
+
+
+  29              		.loc 1 30 66 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 30 66 is_stmt 0 view .LVU1
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0446     		mov	r4, r0
+  31:Core/Src/Middleware/Active_Object.c ****     /* Sự kiện khởi tạo một Active Object */
+  32:Core/Src/Middleware/Active_Object.c ****     static Event const entry_evt = {.signal = ENTRY_SIG};
+  40              		.loc 1 32 5 is_stmt 1 view .LVU2
+  33:Core/Src/Middleware/Active_Object.c **** 
+  34:Core/Src/Middleware/Active_Object.c ****     (*self->handler)(self, event);
+  41              		.loc 1 34 5 view .LVU3
+  42              		.loc 1 34 6 is_stmt 0 view .LVU4
+  43 0004 0368     		ldr	r3, [r0]
+  44 0006 9847     		blx	r3
+  45              	.LVL1:
+  35:Core/Src/Middleware/Active_Object.c ****     (*self->handler)(self, &entry_evt);
+  46              		.loc 1 35 5 is_stmt 1 view .LVU5
+  47              		.loc 1 35 6 is_stmt 0 view .LVU6
+  48 0008 2368     		ldr	r3, [r4]
+  49 000a 0249     		ldr	r1, .L3
+  50 000c 2046     		mov	r0, r4
+  51 000e 9847     		blx	r3
+  52              	.LVL2:
+  36:Core/Src/Middleware/Active_Object.c **** }
+  53              		.loc 1 36 1 view .LVU7
+  54 0010 10BD     		pop	{r4, pc}
+  55              	.LVL3:
+  56              	.L4:
+  57              		.loc 1 36 1 view .LVU8
+  58 0012 00BF     		.align	2
+  59              	.L3:
+  60 0014 00000000 		.word	entry_evt.1
+  61              		.cfi_endproc
+  62              	.LFE173:
+  64              		.section	.text.dispatch,"ax",%progbits
+  65              		.align	1
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	dispatch:
+  71              	.LVL4:
+  72              	.LFB175:
+  37:Core/Src/Middleware/Active_Object.c **** 
+  38:Core/Src/Middleware/Active_Object.c **** static void start (Active * const self, UBaseType_t uxPriority, UBaseType_t uxQueueLength, uint32_t
+  39:Core/Src/Middleware/Active_Object.c ****     self->queue = xQueueCreate(uxQueueLength, sizeof(Event *));
+  40:Core/Src/Middleware/Active_Object.c **** 
+  41:Core/Src/Middleware/Active_Object.c ****     xTaskCreate(
+  42:Core/Src/Middleware/Active_Object.c ****         self->EventLoop,
+  43:Core/Src/Middleware/Active_Object.c ****         "ActiveObject",
+  44:Core/Src/Middleware/Active_Object.c ****         usStackDepth,
+  45:Core/Src/Middleware/Active_Object.c ****         self,
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 3
+
+
+  46:Core/Src/Middleware/Active_Object.c ****         uxPriority,
+  47:Core/Src/Middleware/Active_Object.c ****         &self->thread
+  48:Core/Src/Middleware/Active_Object.c ****     );
+  49:Core/Src/Middleware/Active_Object.c **** 
+  50:Core/Src/Middleware/Active_Object.c ****     /* Thread must be created */
+  51:Core/Src/Middleware/Active_Object.c ****     configASSERT(self->thread);
+  52:Core/Src/Middleware/Active_Object.c **** }
+  53:Core/Src/Middleware/Active_Object.c **** 
+  54:Core/Src/Middleware/Active_Object.c **** /* Hàm phân phối các sự kiện cho Active Object */
+  55:Core/Src/Middleware/Active_Object.c **** static void dispatch(struct Active * const self, Event const * const event)
+  56:Core/Src/Middleware/Active_Object.c **** {
+  73              		.loc 1 56 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		.loc 1 56 1 is_stmt 0 view .LVU10
+  78 0000 38B5     		push	{r3, r4, r5, lr}
+  79              	.LCFI1:
+  80              		.cfi_def_cfa_offset 16
+  81              		.cfi_offset 3, -16
+  82              		.cfi_offset 4, -12
+  83              		.cfi_offset 5, -8
+  84              		.cfi_offset 14, -4
+  85 0002 0446     		mov	r4, r0
+  57:Core/Src/Middleware/Active_Object.c ****     Status status;
+  86              		.loc 1 57 5 is_stmt 1 view .LVU11
+  58:Core/Src/Middleware/Active_Object.c ****     /* Lưu lại quá trình xử lý hiện tại */
+  59:Core/Src/Middleware/Active_Object.c ****     StateHandler prev_handler = self->handler;
+  87              		.loc 1 59 5 view .LVU12
+  88              		.loc 1 59 18 is_stmt 0 view .LVU13
+  89 0004 0568     		ldr	r5, [r0]
+  90              	.LVL5:
+  60:Core/Src/Middleware/Active_Object.c ****     static Event const entry_evt = {.signal = ENTRY_SIG};
+  91              		.loc 1 60 5 is_stmt 1 view .LVU14
+  61:Core/Src/Middleware/Active_Object.c ****     static Event const exit_evt = {.signal = EXIT_SIG};
+  92              		.loc 1 61 5 view .LVU15
+  62:Core/Src/Middleware/Active_Object.c **** 
+  63:Core/Src/Middleware/Active_Object.c ****     /* Thực hiện xử lý sự kiện mới được nhận */
+  64:Core/Src/Middleware/Active_Object.c ****     status = (*self->handler)(self, event);
+  93              		.loc 1 64 5 view .LVU16
+  94              		.loc 1 64 15 is_stmt 0 view .LVU17
+  95 0006 A847     		blx	r5
+  96              	.LVL6:
+  65:Core/Src/Middleware/Active_Object.c ****     /* Nếu sự kiện là đổi trạng thái thì sẽ thoát khỏi Active Object hiện tạ
+  66:Core/Src/Middleware/Active_Object.c ****     if(status == TRAN_STATUS) {
+  97              		.loc 1 66 5 is_stmt 1 view .LVU18
+  98              		.loc 1 66 7 is_stmt 0 view .LVU19
+  99 0008 30B9     		cbnz	r0, .L5
+  67:Core/Src/Middleware/Active_Object.c ****         (*prev_handler)(self, &exit_evt);
+ 100              		.loc 1 67 9 is_stmt 1 view .LVU20
+ 101              		.loc 1 67 10 is_stmt 0 view .LVU21
+ 102 000a 0449     		ldr	r1, .L8
+ 103 000c 2046     		mov	r0, r4
+ 104              	.LVL7:
+ 105              		.loc 1 67 10 view .LVU22
+ 106 000e A847     		blx	r5
+ 107              	.LVL8:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 4
+
+
+  68:Core/Src/Middleware/Active_Object.c ****         (*self->handler)(self, &entry_evt);
+ 108              		.loc 1 68 9 is_stmt 1 view .LVU23
+ 109              		.loc 1 68 10 is_stmt 0 view .LVU24
+ 110 0010 2368     		ldr	r3, [r4]
+ 111 0012 0349     		ldr	r1, .L8+4
+ 112 0014 2046     		mov	r0, r4
+ 113 0016 9847     		blx	r3
+ 114              	.LVL9:
+ 115              	.L5:
+  69:Core/Src/Middleware/Active_Object.c ****     }
+  70:Core/Src/Middleware/Active_Object.c **** }
+ 116              		.loc 1 70 1 view .LVU25
+ 117 0018 38BD     		pop	{r3, r4, r5, pc}
+ 118              	.LVL10:
+ 119              	.L9:
+ 120              		.loc 1 70 1 view .LVU26
+ 121 001a 00BF     		.align	2
+ 122              	.L8:
+ 123 001c 00000000 		.word	exit_evt.3
+ 124 0020 00000000 		.word	entry_evt.2
+ 125              		.cfi_endproc
+ 126              	.LFE175:
+ 128              		.section	.text.postFromISR,"ax",%progbits
+ 129              		.align	1
+ 130              		.syntax unified
+ 131              		.thumb
+ 132              		.thumb_func
+ 134              	postFromISR:
+ 135              	.LVL11:
+ 136              	.LFB177:
+  71:Core/Src/Middleware/Active_Object.c **** 
+  72:Core/Src/Middleware/Active_Object.c **** static void post (Active * const self, Event const * const event) {
+  73:Core/Src/Middleware/Active_Object.c ****     BaseType_t status = xQueueSendToBack(self->queue, (void *)&event, (TickType_t) 0);
+  74:Core/Src/Middleware/Active_Object.c ****     configASSERT(status == pdPASS);
+  75:Core/Src/Middleware/Active_Object.c **** }
+  76:Core/Src/Middleware/Active_Object.c **** 
+  77:Core/Src/Middleware/Active_Object.c **** static void postFromISR (Active * const self, Event const * const event,
+  78:Core/Src/Middleware/Active_Object.c ****                          BaseType_t * const pxHigherPriorityTaskWoken)
+  79:Core/Src/Middleware/Active_Object.c **** {
+ 137              		.loc 1 79 1 is_stmt 1 view -0
+ 138              		.cfi_startproc
+ 139              		@ args = 0, pretend = 0, frame = 8
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+ 141              		.loc 1 79 1 is_stmt 0 view .LVU28
+ 142 0000 00B5     		push	{lr}
+ 143              	.LCFI2:
+ 144              		.cfi_def_cfa_offset 4
+ 145              		.cfi_offset 14, -4
+ 146 0002 83B0     		sub	sp, sp, #12
+ 147              	.LCFI3:
+ 148              		.cfi_def_cfa_offset 16
+ 149 0004 0191     		str	r1, [sp, #4]
+  80:Core/Src/Middleware/Active_Object.c ****     BaseType_t status = xQueueSendToBackFromISR(self->queue, (void *)&event, pxHigherPriorityTaskWo
+ 150              		.loc 1 80 5 is_stmt 1 view .LVU29
+ 151              		.loc 1 80 25 is_stmt 0 view .LVU30
+ 152 0006 0023     		movs	r3, #0
+ 153 0008 01A9     		add	r1, sp, #4
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 5
+
+
+ 154              	.LVL12:
+ 155              		.loc 1 80 25 view .LVU31
+ 156 000a 006E     		ldr	r0, [r0, #96]
+ 157              	.LVL13:
+ 158              		.loc 1 80 25 view .LVU32
+ 159 000c FFF7FEFF 		bl	xQueueGenericSendFromISR
+ 160              	.LVL14:
+  81:Core/Src/Middleware/Active_Object.c ****     configASSERT(status == pdPASS);
+ 161              		.loc 1 81 5 is_stmt 1 view .LVU33
+ 162 0010 0128     		cmp	r0, #1
+ 163 0012 08D0     		beq	.L10
+ 164              		.loc 1 81 5 view .LVU34
+ 165              	.LBB11:
+ 166              	.LBI11:
+ 167              		.file 2 "ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h"
+   1:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*
+   2:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * FreeRTOS Kernel V10.5.1
+   3:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * Copyright (C) 2021 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+   5:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * SPDX-License-Identifier: MIT
+   6:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+   7:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   8:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * this software and associated documentation files (the "Software"), to deal in
+   9:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * the Software without restriction, including without limitation the rights to
+  10:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+  11:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  12:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * subject to the following conditions:
+  13:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+  14:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * The above copyright notice and this permission notice shall be included in all
+  15:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * copies or substantial portions of the Software.
+  16:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+  17:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  19:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  20:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  21:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  22:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  23:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+  24:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * https://www.FreeRTOS.org
+  25:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * https://github.com/FreeRTOS
+  26:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+  27:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  */
+  28:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  29:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  30:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** #ifndef PORTMACRO_H
+  31:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define PORTMACRO_H
+  32:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  33:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #ifdef __cplusplus
+  34:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         extern "C" {
+  35:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #endif
+  36:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  37:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------
+  38:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * Port specific definitions.
+  39:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+  40:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * The settings in this file configure FreeRTOS correctly for the
+  41:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * given hardware and compiler.
+  42:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 6
+
+
+  43:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * These settings should not be altered.
+  44:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  *-----------------------------------------------------------
+  45:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  */
+  46:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  47:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Type definitions. */
+  48:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portCHAR          char
+  49:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portFLOAT         float
+  50:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portDOUBLE        double
+  51:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portLONG          long
+  52:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portSHORT         short
+  53:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portSTACK_TYPE    uint32_t
+  54:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portBASE_TYPE     long
+  55:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  56:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     typedef portSTACK_TYPE   StackType_t;
+  57:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     typedef long             BaseType_t;
+  58:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     typedef unsigned long    UBaseType_t;
+  59:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  60:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #if ( configUSE_16_BIT_TICKS == 1 )
+  61:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         typedef uint16_t     TickType_t;
+  62:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portMAX_DELAY              ( TickType_t ) 0xffff
+  63:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #else
+  64:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         typedef uint32_t     TickType_t;
+  65:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+  66:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  67:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
+  68:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * not need to be guarded with a critical section. */
+  69:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portTICK_TYPE_IS_ATOMIC    1
+  70:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #endif
+  71:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+  72:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  73:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Architecture specifics. */
+  74:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portSTACK_GROWTH      ( -1 )
+  75:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+  76:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portBYTE_ALIGNMENT    8
+  77:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portDONT_DISCARD      __attribute__( ( used ) )
+  78:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+  79:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  80:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Scheduler utilities. */
+  81:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portYIELD()                                 \
+  82:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     {                                                   \
+  83:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         /* Set a PendSV to request a context switch. */ \
+  84:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+  85:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****                                                         \
+  86:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         /* Barriers are normally not required but do ensure the code is completely \
+  87:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****          * within the specified behaviour for the architecture. */ \
+  88:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         __asm volatile ( "dsb" ::: "memory" );                     \
+  89:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         __asm volatile ( "isb" );                                  \
+  90:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     }
+  91:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  92:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+  93:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
+  94:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portEND_SWITCHING_ISR( xSwitchRequired )    do { if( xSwitchRequired != pdFALSE ) portY
+  95:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portYIELD_FROM_ISR( x )                     portEND_SWITCHING_ISR( x )
+  96:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+  97:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+  98:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Critical section management. */
+  99:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     extern void vPortEnterCritical( void );
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 7
+
+
+ 100:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     extern void vPortExitCritical( void );
+ 101:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortRaiseBASEPRI()
+ 102:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortSetBASEPRI( x )
+ 103:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portDISABLE_INTERRUPTS()                  vPortRaiseBASEPRI()
+ 104:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portENABLE_INTERRUPTS()                   vPortSetBASEPRI( 0 )
+ 105:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portENTER_CRITICAL()                      vPortEnterCritical()
+ 106:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portEXIT_CRITICAL()                       vPortExitCritical()
+ 107:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 108:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+ 109:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 110:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Task function macros as described on the FreeRTOS.org WEB site.  These are
+ 111:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * not necessary for to use this port.  They are defined so the common demo files
+ 112:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****  * (which build with all the ports) will build. */
+ 113:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParamete
+ 114:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParamete
+ 115:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+ 116:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 117:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Tickless idle/low power functionality. */
+ 118:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #ifndef portSUPPRESS_TICKS_AND_SLEEP
+ 119:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+ 120:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xE
+ 121:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #endif
+ 122:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+ 123:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 124:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Architecture specific optimisations. */
+ 125:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
+ 126:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
+ 127:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #endif
+ 128:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 129:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+ 130:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 131:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Generic helper function. */
+ 132:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t 
+ 133:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         {
+ 134:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****             uint8_t ucReturn;
+ 135:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 136:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****             __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
+ 137:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 138:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****             return ucReturn;
+ 139:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         }
+ 140:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 141:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Check the configuration. */
+ 142:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #if ( configMAX_PRIORITIES > 32 )
+ 143:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****             #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIO
+ 144:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #endif
+ 145:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 146:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* Store/clear the ready priorities in a bit map. */
+ 147:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities )
+ 148:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities )
+ 149:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 150:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+ 151:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 152:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 3
+ 153:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 154:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+ 155:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 156:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 8
+
+
+ 157:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 158:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #ifdef configASSERT
+ 159:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         void vPortValidateInterruptPriority( void );
+ 160:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
+ 161:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #endif
+ 162:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 163:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /* portNOP() is not required by this port. */
+ 164:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portNOP()
+ 165:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 166:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #define portINLINE              __inline
+ 167:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 168:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #ifndef portFORCE_INLINE
+ 169:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
+ 170:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     #endif
+ 171:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 172:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
+ 173:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     {
+ 174:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         uint32_t ulCurrentInterrupt;
+ 175:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         BaseType_t xReturn;
+ 176:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 177:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         /* Obtain the number of the currently executing interrupt. */
+ 178:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+ 179:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 180:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         if( ulCurrentInterrupt == 0 )
+ 181:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         {
+ 182:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****             xReturn = pdFALSE;
+ 183:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         }
+ 184:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         else
+ 185:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         {
+ 186:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****             xReturn = pdTRUE;
+ 187:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         }
+ 188:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 189:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         return xReturn;
+ 190:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     }
+ 191:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 192:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
+ 193:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 194:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     portFORCE_INLINE static void vPortRaiseBASEPRI( void )
+ 168              		.loc 2 194 34 view .LVU35
+ 169              	.LBB12:
+ 195:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     {
+ 196:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         uint32_t ulNewBASEPRI;
+ 170              		.loc 2 196 9 view .LVU36
+ 197:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 198:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****         __asm volatile
+ 171              		.loc 2 198 9 view .LVU37
+ 172              		.syntax unified
+ 173              	@ 198 "ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h" 1
+ 174 0014 4FF05003 			mov r3, #80												
+ 175 0018 83F31188 		msr basepri, r3											
+ 176 001c BFF36F8F 		isb														
+ 177 0020 BFF34F8F 		dsb														
+ 178              	
+ 179              	@ 0 "" 2
+ 180              	.LVL15:
+ 181              		.thumb
+ 182              		.syntax unified
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 9
+
+
+ 183              	.L12:
+ 184              		.loc 2 198 9 is_stmt 0 view .LVU38
+ 185              	.LBE12:
+ 186              	.LBE11:
+ 187              		.loc 1 81 5 is_stmt 1 discriminator 1 view .LVU39
+ 188              		.loc 1 81 5 discriminator 1 view .LVU40
+ 189 0024 FEE7     		b	.L12
+ 190              	.L10:
+  82:Core/Src/Middleware/Active_Object.c **** }
+ 191              		.loc 1 82 1 is_stmt 0 view .LVU41
+ 192 0026 03B0     		add	sp, sp, #12
+ 193              	.LCFI4:
+ 194              		.cfi_def_cfa_offset 4
+ 195              		@ sp needed
+ 196 0028 5DF804FB 		ldr	pc, [sp], #4
+ 197              		.cfi_endproc
+ 198              	.LFE177:
+ 200              		.section	.text.post,"ax",%progbits
+ 201              		.align	1
+ 202              		.syntax unified
+ 203              		.thumb
+ 204              		.thumb_func
+ 206              	post:
+ 207              	.LVL16:
+ 208              	.LFB176:
+  72:Core/Src/Middleware/Active_Object.c ****     BaseType_t status = xQueueSendToBack(self->queue, (void *)&event, (TickType_t) 0);
+ 209              		.loc 1 72 67 is_stmt 1 view -0
+ 210              		.cfi_startproc
+ 211              		@ args = 0, pretend = 0, frame = 8
+ 212              		@ frame_needed = 0, uses_anonymous_args = 0
+  72:Core/Src/Middleware/Active_Object.c ****     BaseType_t status = xQueueSendToBack(self->queue, (void *)&event, (TickType_t) 0);
+ 213              		.loc 1 72 67 is_stmt 0 view .LVU43
+ 214 0000 00B5     		push	{lr}
+ 215              	.LCFI5:
+ 216              		.cfi_def_cfa_offset 4
+ 217              		.cfi_offset 14, -4
+ 218 0002 83B0     		sub	sp, sp, #12
+ 219              	.LCFI6:
+ 220              		.cfi_def_cfa_offset 16
+ 221 0004 0191     		str	r1, [sp, #4]
+  73:Core/Src/Middleware/Active_Object.c ****     configASSERT(status == pdPASS);
+ 222              		.loc 1 73 5 is_stmt 1 view .LVU44
+  73:Core/Src/Middleware/Active_Object.c ****     configASSERT(status == pdPASS);
+ 223              		.loc 1 73 25 is_stmt 0 view .LVU45
+ 224 0006 0023     		movs	r3, #0
+ 225 0008 1A46     		mov	r2, r3
+ 226 000a 01A9     		add	r1, sp, #4
+ 227              	.LVL17:
+  73:Core/Src/Middleware/Active_Object.c ****     configASSERT(status == pdPASS);
+ 228              		.loc 1 73 25 view .LVU46
+ 229 000c 006E     		ldr	r0, [r0, #96]
+ 230              	.LVL18:
+  73:Core/Src/Middleware/Active_Object.c ****     configASSERT(status == pdPASS);
+ 231              		.loc 1 73 25 view .LVU47
+ 232 000e FFF7FEFF 		bl	xQueueGenericSend
+ 233              	.LVL19:
+  74:Core/Src/Middleware/Active_Object.c **** }
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 10
+
+
+ 234              		.loc 1 74 5 is_stmt 1 view .LVU48
+ 235 0012 0128     		cmp	r0, #1
+ 236 0014 08D0     		beq	.L14
+  74:Core/Src/Middleware/Active_Object.c **** }
+ 237              		.loc 1 74 5 view .LVU49
+ 238              	.LBB13:
+ 239              	.LBI13:
+ 194:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     {
+ 240              		.loc 2 194 34 view .LVU50
+ 241              	.LBB14:
+ 196:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 242              		.loc 2 196 9 view .LVU51
+ 243              		.loc 2 198 9 view .LVU52
+ 244              		.syntax unified
+ 245              	@ 198 "ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h" 1
+ 246 0016 4FF05003 			mov r3, #80												
+ 247 001a 83F31188 		msr basepri, r3											
+ 248 001e BFF36F8F 		isb														
+ 249 0022 BFF34F8F 		dsb														
+ 250              	
+ 251              	@ 0 "" 2
+ 252              	.LVL20:
+ 253              		.thumb
+ 254              		.syntax unified
+ 255              	.L16:
+ 256              		.loc 2 198 9 is_stmt 0 view .LVU53
+ 257              	.LBE14:
+ 258              	.LBE13:
+  74:Core/Src/Middleware/Active_Object.c **** }
+ 259              		.loc 1 74 5 is_stmt 1 discriminator 1 view .LVU54
+  74:Core/Src/Middleware/Active_Object.c **** }
+ 260              		.loc 1 74 5 discriminator 1 view .LVU55
+ 261 0026 FEE7     		b	.L16
+ 262              	.L14:
+  75:Core/Src/Middleware/Active_Object.c **** 
+ 263              		.loc 1 75 1 is_stmt 0 view .LVU56
+ 264 0028 03B0     		add	sp, sp, #12
+ 265              	.LCFI7:
+ 266              		.cfi_def_cfa_offset 4
+ 267              		@ sp needed
+ 268 002a 5DF804FB 		ldr	pc, [sp], #4
+ 269              		.cfi_endproc
+ 270              	.LFE176:
+ 272              		.section	.rodata.start.str1.4,"aMS",%progbits,1
+ 273              		.align	2
+ 274              	.LC0:
+ 275 0000 41637469 		.ascii	"ActiveObject\000"
+ 275      76654F62 
+ 275      6A656374 
+ 275      00
+ 276              		.section	.text.start,"ax",%progbits
+ 277              		.align	1
+ 278              		.syntax unified
+ 279              		.thumb
+ 280              		.thumb_func
+ 282              	start:
+ 283              	.LVL21:
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 11
+
+
+ 284              	.LFB174:
+  38:Core/Src/Middleware/Active_Object.c ****     self->queue = xQueueCreate(uxQueueLength, sizeof(Event *));
+ 285              		.loc 1 38 115 is_stmt 1 view -0
+ 286              		.cfi_startproc
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+  38:Core/Src/Middleware/Active_Object.c ****     self->queue = xQueueCreate(uxQueueLength, sizeof(Event *));
+ 289              		.loc 1 38 115 is_stmt 0 view .LVU58
+ 290 0000 70B5     		push	{r4, r5, r6, lr}
+ 291              	.LCFI8:
+ 292              		.cfi_def_cfa_offset 16
+ 293              		.cfi_offset 4, -16
+ 294              		.cfi_offset 5, -12
+ 295              		.cfi_offset 6, -8
+ 296              		.cfi_offset 14, -4
+ 297 0002 82B0     		sub	sp, sp, #8
+ 298              	.LCFI9:
+ 299              		.cfi_def_cfa_offset 24
+ 300 0004 0446     		mov	r4, r0
+ 301 0006 0E46     		mov	r6, r1
+ 302 0008 1046     		mov	r0, r2
+ 303              	.LVL22:
+  38:Core/Src/Middleware/Active_Object.c ****     self->queue = xQueueCreate(uxQueueLength, sizeof(Event *));
+ 304              		.loc 1 38 115 view .LVU59
+ 305 000a 1D46     		mov	r5, r3
+  39:Core/Src/Middleware/Active_Object.c **** 
+ 306              		.loc 1 39 5 is_stmt 1 view .LVU60
+  39:Core/Src/Middleware/Active_Object.c **** 
+ 307              		.loc 1 39 19 is_stmt 0 view .LVU61
+ 308 000c 0022     		movs	r2, #0
+ 309              	.LVL23:
+  39:Core/Src/Middleware/Active_Object.c **** 
+ 310              		.loc 1 39 19 view .LVU62
+ 311 000e 0421     		movs	r1, #4
+ 312              	.LVL24:
+  39:Core/Src/Middleware/Active_Object.c **** 
+ 313              		.loc 1 39 19 view .LVU63
+ 314 0010 FFF7FEFF 		bl	xQueueGenericCreate
+ 315              	.LVL25:
+  39:Core/Src/Middleware/Active_Object.c **** 
+ 316              		.loc 1 39 17 view .LVU64
+ 317 0014 2066     		str	r0, [r4, #96]
+  41:Core/Src/Middleware/Active_Object.c ****         self->EventLoop,
+ 318              		.loc 1 41 5 is_stmt 1 view .LVU65
+ 319 0016 231D     		adds	r3, r4, #4
+ 320 0018 0193     		str	r3, [sp, #4]
+ 321 001a 0096     		str	r6, [sp]
+ 322 001c 2346     		mov	r3, r4
+ 323 001e AAB2     		uxth	r2, r5
+ 324 0020 0849     		ldr	r1, .L23
+ 325 0022 D4F8C000 		ldr	r0, [r4, #192]
+ 326 0026 FFF7FEFF 		bl	xTaskCreate
+ 327              	.LVL26:
+  51:Core/Src/Middleware/Active_Object.c **** }
+ 328              		.loc 1 51 5 view .LVU66
+ 329 002a 6368     		ldr	r3, [r4, #4]
+ 330 002c 0BB1     		cbz	r3, .L22
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 12
+
+
+  52:Core/Src/Middleware/Active_Object.c **** 
+ 331              		.loc 1 52 1 is_stmt 0 view .LVU67
+ 332 002e 02B0     		add	sp, sp, #8
+ 333              	.LCFI10:
+ 334              		.cfi_remember_state
+ 335              		.cfi_def_cfa_offset 16
+ 336              		@ sp needed
+ 337 0030 70BD     		pop	{r4, r5, r6, pc}
+ 338              	.LVL27:
+ 339              	.L22:
+ 340              	.LCFI11:
+ 341              		.cfi_restore_state
+  51:Core/Src/Middleware/Active_Object.c **** }
+ 342              		.loc 1 51 5 is_stmt 1 view .LVU68
+ 343              	.LBB15:
+ 344              	.LBI15:
+ 194:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     {
+ 345              		.loc 2 194 34 view .LVU69
+ 346              	.LBB16:
+ 196:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 347              		.loc 2 196 9 view .LVU70
+ 348              		.loc 2 198 9 view .LVU71
+ 349              		.syntax unified
+ 350              	@ 198 "ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h" 1
+ 351 0032 4FF05003 			mov r3, #80												
+ 352 0036 83F31188 		msr basepri, r3											
+ 353 003a BFF36F8F 		isb														
+ 354 003e BFF34F8F 		dsb														
+ 355              	
+ 356              	@ 0 "" 2
+ 357              	.LVL28:
+ 358              		.thumb
+ 359              		.syntax unified
+ 360              	.L20:
+ 361              		.loc 2 198 9 is_stmt 0 view .LVU72
+ 362              	.LBE16:
+ 363              	.LBE15:
+  51:Core/Src/Middleware/Active_Object.c **** }
+ 364              		.loc 1 51 5 is_stmt 1 discriminator 1 view .LVU73
+  51:Core/Src/Middleware/Active_Object.c **** }
+ 365              		.loc 1 51 5 discriminator 1 view .LVU74
+ 366 0042 FEE7     		b	.L20
+ 367              	.L24:
+ 368              		.align	2
+ 369              	.L23:
+ 370 0044 00000000 		.word	.LC0
+ 371              		.cfi_endproc
+ 372              	.LFE174:
+ 374              		.section	.text.Active_eventloop,"ax",%progbits
+ 375              		.align	1
+ 376              		.syntax unified
+ 377              		.thumb
+ 378              		.thumb_func
+ 380              	Active_eventloop:
+ 381              	.LVL29:
+ 382              	.LFB172:
+   5:Core/Src/Middleware/Active_Object.c ****     
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 13
+
+
+ 383              		.loc 1 5 51 view -0
+ 384              		.cfi_startproc
+ 385              		@ args = 0, pretend = 0, frame = 8
+ 386              		@ frame_needed = 0, uses_anonymous_args = 0
+   7:Core/Src/Middleware/Active_Object.c **** 
+ 387              		.loc 1 7 5 view .LVU76
+  10:Core/Src/Middleware/Active_Object.c **** 
+ 388              		.loc 1 10 5 view .LVU77
+  13:Core/Src/Middleware/Active_Object.c **** 
+ 389              		.loc 1 13 5 view .LVU78
+ 390 0000 90B1     		cbz	r0, .L31
+   5:Core/Src/Middleware/Active_Object.c ****     
+ 391              		.loc 1 5 51 is_stmt 0 discriminator 2 view .LVU79
+ 392 0002 10B5     		push	{r4, lr}
+ 393              	.LCFI12:
+ 394              		.cfi_def_cfa_offset 8
+ 395              		.cfi_offset 4, -8
+ 396              		.cfi_offset 14, -4
+ 397 0004 82B0     		sub	sp, sp, #8
+ 398              	.LCFI13:
+ 399              		.cfi_def_cfa_offset 16
+ 400 0006 0446     		mov	r4, r0
+  13:Core/Src/Middleware/Active_Object.c **** 
+ 401              		.loc 1 13 34 is_stmt 1 discriminator 2 view .LVU80
+  16:Core/Src/Middleware/Active_Object.c ****     for(;;) {
+ 402              		.loc 1 16 5 discriminator 2 view .LVU81
+  16:Core/Src/Middleware/Active_Object.c ****     for(;;) {
+ 403              		.loc 1 16 6 is_stmt 0 discriminator 2 view .LVU82
+ 404 0008 D0F8B830 		ldr	r3, [r0, #184]
+ 405 000c 0B49     		ldr	r1, .L32
+ 406 000e 9847     		blx	r3
+ 407              	.LVL30:
+ 408              	.L28:
+  17:Core/Src/Middleware/Active_Object.c ****         Event * event;  /* Pointer to Event object (message) */
+ 409              		.loc 1 17 5 is_stmt 1 discriminator 2 view .LVU83
+ 410              	.LBB17:
+  18:Core/Src/Middleware/Active_Object.c ****     
+ 411              		.loc 1 18 9 discriminator 2 view .LVU84
+  21:Core/Src/Middleware/Active_Object.c ****         
+ 412              		.loc 1 21 9 discriminator 2 view .LVU85
+ 413 0010 4FF0FF32 		mov	r2, #-1
+ 414 0014 01A9     		add	r1, sp, #4
+ 415 0016 206E     		ldr	r0, [r4, #96]
+ 416 0018 FFF7FEFF 		bl	xQueueReceive
+ 417              	.LVL31:
+  24:Core/Src/Middleware/Active_Object.c ****     }
+ 418              		.loc 1 24 9 discriminator 2 view .LVU86
+  24:Core/Src/Middleware/Active_Object.c ****     }
+ 419              		.loc 1 24 10 is_stmt 0 discriminator 2 view .LVU87
+ 420 001c D4F8B830 		ldr	r3, [r4, #184]
+ 421 0020 0199     		ldr	r1, [sp, #4]
+ 422 0022 2046     		mov	r0, r4
+ 423 0024 9847     		blx	r3
+ 424              	.LVL32:
+ 425              	.LBE17:
+  17:Core/Src/Middleware/Active_Object.c ****         Event * event;  /* Pointer to Event object (message) */
+ 426              		.loc 1 17 5 is_stmt 1 discriminator 2 view .LVU88
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 14
+
+
+ 427 0026 F3E7     		b	.L28
+ 428              	.LVL33:
+ 429              	.L31:
+ 430              	.LCFI14:
+ 431              		.cfi_def_cfa_offset 0
+ 432              		.cfi_restore 4
+ 433              		.cfi_restore 14
+  13:Core/Src/Middleware/Active_Object.c **** 
+ 434              		.loc 1 13 5 view .LVU89
+ 435              	.LBB18:
+ 436              	.LBI18:
+ 194:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h ****     {
+ 437              		.loc 2 194 34 view .LVU90
+ 438              	.LBB19:
+ 196:ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h **** 
+ 439              		.loc 2 196 9 view .LVU91
+ 440              		.loc 2 198 9 view .LVU92
+ 441              		.syntax unified
+ 442              	@ 198 "ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h" 1
+ 443 0028 4FF05003 			mov r3, #80												
+ 444 002c 83F31188 		msr basepri, r3											
+ 445 0030 BFF36F8F 		isb														
+ 446 0034 BFF34F8F 		dsb														
+ 447              	
+ 448              	@ 0 "" 2
+ 449              	.LVL34:
+ 450              		.thumb
+ 451              		.syntax unified
+ 452              	.L27:
+ 453              		.loc 2 198 9 is_stmt 0 view .LVU93
+ 454              	.LBE19:
+ 455              	.LBE18:
+  13:Core/Src/Middleware/Active_Object.c **** 
+ 456              		.loc 1 13 5 is_stmt 1 discriminator 1 view .LVU94
+  13:Core/Src/Middleware/Active_Object.c **** 
+ 457              		.loc 1 13 5 discriminator 1 view .LVU95
+ 458 0038 FEE7     		b	.L27
+ 459              	.L33:
+ 460 003a 00BF     		.align	2
+ 461              	.L32:
+ 462 003c 00000000 		.word	initEvt.0
+ 463              		.cfi_endproc
+ 464              	.LFE172:
+ 466              		.section	.text.Active_new,"ax",%progbits
+ 467              		.align	1
+ 468              		.global	Active_new
+ 469              		.syntax unified
+ 470              		.thumb
+ 471              		.thumb_func
+ 473              	Active_new:
+ 474              	.LVL35:
+ 475              	.LFB178:
+  83:Core/Src/Middleware/Active_Object.c **** 
+  84:Core/Src/Middleware/Active_Object.c **** void Active_new (Active * const self, StateHandler handler) {
+ 476              		.loc 1 84 61 view -0
+ 477              		.cfi_startproc
+ 478              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 15
+
+
+ 479              		@ frame_needed = 0, uses_anonymous_args = 0
+ 480              		@ link register save eliminated.
+  85:Core/Src/Middleware/Active_Object.c ****     self->handler = handler;
+ 481              		.loc 1 85 5 view .LVU97
+ 482              		.loc 1 85 19 is_stmt 0 view .LVU98
+ 483 0000 0160     		str	r1, [r0]
+  86:Core/Src/Middleware/Active_Object.c **** 
+  87:Core/Src/Middleware/Active_Object.c ****     self->EventLoop = &Active_eventloop;
+ 484              		.loc 1 87 5 is_stmt 1 view .LVU99
+ 485              		.loc 1 87 21 is_stmt 0 view .LVU100
+ 486 0002 094B     		ldr	r3, .L35
+ 487 0004 C0F8C030 		str	r3, [r0, #192]
+  88:Core/Src/Middleware/Active_Object.c ****     self->init = &init;
+ 488              		.loc 1 88 5 is_stmt 1 view .LVU101
+ 489              		.loc 1 88 16 is_stmt 0 view .LVU102
+ 490 0008 084B     		ldr	r3, .L35+4
+ 491 000a C0F8B430 		str	r3, [r0, #180]
+  89:Core/Src/Middleware/Active_Object.c ****     self->start = &start;
+ 492              		.loc 1 89 5 is_stmt 1 view .LVU103
+ 493              		.loc 1 89 17 is_stmt 0 view .LVU104
+ 494 000e 084B     		ldr	r3, .L35+8
+ 495 0010 C0F8BC30 		str	r3, [r0, #188]
+  90:Core/Src/Middleware/Active_Object.c ****     self->dispatch = &dispatch;
+ 496              		.loc 1 90 5 is_stmt 1 view .LVU105
+ 497              		.loc 1 90 20 is_stmt 0 view .LVU106
+ 498 0014 074B     		ldr	r3, .L35+12
+ 499 0016 C0F8B830 		str	r3, [r0, #184]
+  91:Core/Src/Middleware/Active_Object.c ****     self->post = &post;
+ 500              		.loc 1 91 5 is_stmt 1 view .LVU107
+ 501              		.loc 1 91 16 is_stmt 0 view .LVU108
+ 502 001a 074B     		ldr	r3, .L35+16
+ 503 001c C0F8C430 		str	r3, [r0, #196]
+  92:Core/Src/Middleware/Active_Object.c ****     self->postFromISR = &postFromISR;
+ 504              		.loc 1 92 5 is_stmt 1 view .LVU109
+ 505              		.loc 1 92 23 is_stmt 0 view .LVU110
+ 506 0020 064B     		ldr	r3, .L35+20
+ 507 0022 C0F8C830 		str	r3, [r0, #200]
+  93:Core/Src/Middleware/Active_Object.c **** }...
+ 508              		.loc 1 93 1 view .LVU111
+ 509 0026 7047     		bx	lr
+ 510              	.L36:
+ 511              		.align	2
+ 512              	.L35:
+ 513 0028 00000000 		.word	Active_eventloop
+ 514 002c 00000000 		.word	init
+ 515 0030 00000000 		.word	start
+ 516 0034 00000000 		.word	dispatch
+ 517 0038 00000000 		.word	post
+ 518 003c 00000000 		.word	postFromISR
+ 519              		.cfi_endproc
+ 520              	.LFE178:
+ 522              		.section	.rodata.initEvt.0,"a"
+ 523              		.align	2
+ 526              	initEvt.0:
+ 527 0000 0100     		.short	1
+ 528              		.section	.rodata.entry_evt.1,"a"
+ 529              		.align	2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 16
+
+
+ 532              	entry_evt.1:
+ 533 0000 0100     		.short	1
+ 534              		.section	.rodata.entry_evt.2,"a"
+ 535              		.align	2
+ 538              	entry_evt.2:
+ 539 0000 0100     		.short	1
+ 540              		.section	.rodata.exit_evt.3,"a"
+ 541              		.align	2
+ 544              	exit_evt.3:
+ 545 0000 0200     		.short	2
+ 546              		.text
+ 547              	.Letext0:
+ 548              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 549              		.file 4 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
+ 550              		.file 5 "ThirdParty/FreeRTOS/include/projdefs.h"
+ 551              		.file 6 "ThirdParty/FreeRTOS/include/FreeRTOS.h"
+ 552              		.file 7 "ThirdParty/FreeRTOS/include/task.h"
+ 553              		.file 8 "ThirdParty/FreeRTOS/include/queue.h"
+ 554              		.file 9 "Core/Src/Middleware/Active_Object.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 Active_Object.c
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:21     .text.init:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:26     .text.init:00000000 init
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:60     .text.init:00000014 $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:532    .rodata.entry_evt.1:00000000 entry_evt.1
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:65     .text.dispatch:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:70     .text.dispatch:00000000 dispatch
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:123    .text.dispatch:0000001c $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:544    .rodata.exit_evt.3:00000000 exit_evt.3
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:538    .rodata.entry_evt.2:00000000 entry_evt.2
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:129    .text.postFromISR:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:134    .text.postFromISR:00000000 postFromISR
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:201    .text.post:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:206    .text.post:00000000 post
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:273    .rodata.start.str1.4:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:277    .text.start:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:282    .text.start:00000000 start
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:370    .text.start:00000044 $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:375    .text.Active_eventloop:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:380    .text.Active_eventloop:00000000 Active_eventloop
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:462    .text.Active_eventloop:0000003c $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:526    .rodata.initEvt.0:00000000 initEvt.0
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:467    .text.Active_new:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:473    .text.Active_new:00000000 Active_new
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:513    .text.Active_new:00000028 $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:523    .rodata.initEvt.0:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:529    .rodata.entry_evt.1:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:535    .rodata.entry_evt.2:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cc1sHCcC.s:541    .rodata.exit_evt.3:00000000 $d
 
-NO UNDEFINED SYMBOLS
+UNDEFINED SYMBOLS
+xQueueGenericSendFromISR
+xQueueGenericSend
+xQueueGenericCreate
+xTaskCreate
+xQueueReceive

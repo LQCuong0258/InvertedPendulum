@@ -13,26 +13,29 @@ extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
+
+
 extern Encoder encoder_topic;
 struct DSP * data_processor;
 State state_topic = {.Motor = {0.0f}, .Cart = {0.0f}, .Pendulum = {0.0f}};
 
-// float theta = 0.0f, omega = 0.0f, Prev_theta = 0.0f;
+int64_t DutyCycle = 0;
 
-int64_t checkCnt = 0;
 /**
  * 
  */
 void MainTask(void * xTaskParameters) {
 
   for(;;) {    
+
+
     /* Cấp phát động bộ đệm */
     data_processor->procesNewData(data_processor, &encoder_topic, &state_topic);
 
     // DutyCycle = PID_Pos(xdesign, ThetaCart, Ts);
-    // char SIG[100];
-    // sprintf(SIG, "N1 O d%d\n", DutyCycle);
-    // SendBuffer(&huart2, SIG);
+    char SIG[100];
+    sprintf(SIG, "N1 O d%d\n", DutyCycle);
+    SendBuffer(&huart2, SIG);
 
     /* Buffer dùng để truyền dữ liệu cho Matlab*/
     char buffer[100];

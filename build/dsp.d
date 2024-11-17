@@ -1,5 +1,5 @@
-build/dsp.o: Core/Src/Application/Src/dsp.c \
- Core/Src/Application/Inc/dsp.h ThirdParty/FreeRTOS/include/FreeRTOS.h \
+build/dsp.o: Core/Src/Middleware/dsp.c Core/Src/Middleware/dsp.h \
+ ThirdParty/FreeRTOS/include/FreeRTOS.h \
  ThirdParty/FreeRTOS/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
  ThirdParty/FreeRTOS/include/portable.h \
@@ -34,9 +34,9 @@ build/dsp.o: Core/Src/Application/Src/dsp.c \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- Core/Src/Application/Inc/Topic.h \
- Core/Src/Application/Inc/Butter_Worth_Filtor.h
-Core/Src/Application/Inc/dsp.h:
+ Core/Src/Middleware/Topic.h Core/Src/Middleware/dsp.h \
+ Core/Src/Middleware/Butter_Worth_Filtor.h
+Core/Src/Middleware/dsp.h:
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
 ThirdParty/FreeRTOS/FreeRTOSConfig.h:
 ThirdParty/FreeRTOS/include/projdefs.h:
@@ -74,5 +74,6 @@ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-Core/Src/Application/Inc/Topic.h:
-Core/Src/Application/Inc/Butter_Worth_Filtor.h:
+Core/Src/Middleware/Topic.h:
+Core/Src/Middleware/dsp.h:
+Core/Src/Middleware/Butter_Worth_Filtor.h:

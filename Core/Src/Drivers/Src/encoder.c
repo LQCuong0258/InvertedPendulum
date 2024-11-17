@@ -17,11 +17,28 @@ void HAL_TIM_IC_CaptureCallback (TIM_HandleTypeDef *htim) {
   if (htim->Instance == TIM2) {
     /* Read motor encoder counter value */
     encoder_topic.MotorCnt = (int32_t)((uint32_t)__HAL_TIM_GET_COUNTER(htim));
+
   }
   else if (htim->Instance == TIM3) {
     /* Read pendullum encoder counter value */
     encoder_topic.PendulumCnt = (int16_t)((uint32_t) __HAL_TIM_GET_COUNTER(htim));
+    if (encoder_topic.PendulumCnt >= 4000 || encoder_topic.PendulumCnt <= -4000 ) {
+      __HAL_TIM_SET_COUNTER(&htim3, 0);
+    }
   }
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  if (GPIO_Pin == GPIO_PIN_1) {
+    if (encoder_topic.PendulumCnt > 0 && encoder_topic.PendulumCnt < 1000) __HAL_TIM_SET_COUNTER(&htim3, 328);
+    else if (encoder_topic.PendulumCnt < -3000) __HAL_TIM_SET_COUNTER(&htim3, -3672);
+
+    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+  }
+}
+
+void EXTI1_IRQHandler(void) {
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1); // Xử lý ngắt
 }
 
 /**
