@@ -13,6 +13,14 @@ extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
+static struct Computer computer;
+static struct Active * computer_AO = &computer.super;
+
+static struct Estimator estimator;
+static struct Active * estimator_AO = &estimator.super;
+
+static struct Motor motor;
+static struct Active * motor_AO = &motor.super;
 
 
 extern Encoder encoder_topic;
@@ -80,15 +88,24 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 
-  data_processor = (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
-  dsp_new(data_processor);
-  // StateSystem= (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
+  // data_processor = (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
+  // dsp_new(data_processor);
+  // // StateSystem= (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
 
-  CommuniQueue = xQueueCreate(5, sizeof(char) * 100);
-  // vSemaphoreCreateBinary(CommuniSemaphore);
+  // CommuniQueue = xQueueCreate(5, sizeof(char) * 100);
+  // // vSemaphoreCreateBinary(CommuniSemaphore);
 
-  xTaskCreate(MainTask, NULL, configMINIMAL_STACK_SIZE, NULL, 3, NULL);
-  // xTaskCreate(CommunicationTask, NULL, configMINIMAL_STACK_SIZE, NULL, 2, NULL);
+  // xTaskCreate(MainTask, NULL, configMINIMAL_STACK_SIZE, NULL, 3, NULL);
+  // // xTaskCreate(CommunicationTask, NULL, configMINIMAL_STACK_SIZE, NULL, 2, NULL);
+
+  Computer.new(&computer);
+  computer.super.start(computer_AO, 1, 15, 1000);
+
+  Estimator.new(&estimator);
+  estimator.super.start(estimator_AO, 2, 20, 3000);
+
+  Motor.new(&motor);
+  motor.super.start(motor_AO, 3, 15, 2000);
 
   vTaskStartScheduler();
 

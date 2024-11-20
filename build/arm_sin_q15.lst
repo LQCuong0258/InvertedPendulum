@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s 			page 1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccCqF0lw.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s 			page 1
   27:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****  */
   28:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c **** 
   29:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c **** #include "arm_math.h"
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s 			page 2
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccCqF0lw.s 			page 2
 
 
   30:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c **** #include "arm_common_tables.h"
@@ -107,22 +107,22 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s 			page 1
   60:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   /* Calculation of fractional value */
   61:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   fract = (x - (index << FAST_MATH_Q15_SHIFT)) << 9;
   43              		.loc 1 61 3 is_stmt 1 view .LVU7
-  44              		.loc 1 61 14 is_stmt 0 view .LVU8
+  44              		.loc 1 61 9 is_stmt 0 view .LVU8
   45 0002 00F03F00 		and	r0, r0, #63
   46              	.LVL2:
   47              		.loc 1 61 9 view .LVU9
-  48 0006 4002     		lsls	r0, r0, #9
+  48 0006 4302     		lsls	r3, r0, #9
   49              	.LVL3:
   62:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c **** 
   63:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   /* Read two nearest values of input value from the sin table */
   64:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   a = sinTable_q15[index];
   50              		.loc 1 64 3 is_stmt 1 view .LVU10
   51              		.loc 1 64 5 is_stmt 0 view .LVU11
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s 			page 3
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccCqF0lw.s 			page 3
 
 
   52 0008 0849     		ldr	r1, .L2
-  53 000a 31F91230 		ldrsh	r3, [r1, r2, lsl #1]
+  53 000a 31F91200 		ldrsh	r0, [r1, r2, lsl #1]
   54              	.LVL4:
   65:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   b = sinTable_q15[index+1];
   55              		.loc 1 65 3 is_stmt 1 view .LVU12
@@ -137,53 +137,51 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s 			page 1
   68:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   sinVal = (q31_t)(0x8000-fract)*a >> 16;
   62              		.loc 1 68 3 is_stmt 1 view .LVU15
   63              		.loc 1 68 26 is_stmt 0 view .LVU16
-  64 0014 C0F50041 		rsb	r1, r0, #32768
-  65              		.loc 1 68 33 view .LVU17
-  66 0018 01FB03F3 		mul	r3, r1, r3
-  67              	.LVL7:
+  64 0014 C3F50041 		rsb	r1, r3, #32768
+  65              	.LVL7:
+  66              		.loc 1 68 33 view .LVU17
+  67 0018 01FB00F0 		mul	r0, r1, r0
+  68              	.LVL8:
   69:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   sinVal = (q15_t)((((q31_t)sinVal << 16) + ((q31_t)fract*b)) >> 16);
-  68              		.loc 1 69 3 is_stmt 1 view .LVU18
-  69              		.loc 1 69 36 is_stmt 0 view .LVU19
-  70 001c 1B0C     		lsrs	r3, r3, #16
-  71              	.LVL8:
-  72              		.loc 1 69 36 view .LVU20
-  73 001e 1B04     		lsls	r3, r3, #16
-  74              		.loc 1 69 43 view .LVU21
-  75 0020 00FB0230 		mla	r0, r0, r2, r3
-  76              	.LVL9:
-  77              		.loc 1 69 10 view .LVU22
-  78 0024 0014     		asrs	r0, r0, #16
-  79              	.LVL10:
+  69              		.loc 1 69 3 is_stmt 1 view .LVU18
+  70              		.loc 1 69 36 is_stmt 0 view .LVU19
+  71 001c 6FF30F00 		bfc	r0, #0, #16
+  72              	.LVL9:
+  73              		.loc 1 69 43 view .LVU20
+  74 0020 03FB0200 		mla	r0, r3, r2, r0
+  75              		.loc 1 69 10 view .LVU21
+  76 0024 0014     		asrs	r0, r0, #16
+  77              	.LVL10:
   70:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c **** 
   71:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c ****   return sinVal << 1;
-  80              		.loc 1 71 3 is_stmt 1 view .LVU23
-  81              		.loc 1 71 17 is_stmt 0 view .LVU24
-  82 0026 4000     		lsls	r0, r0, #1
-  83              	.LVL11:
+  78              		.loc 1 71 3 is_stmt 1 view .LVU22
+  79              		.loc 1 71 17 is_stmt 0 view .LVU23
+  80 0026 4000     		lsls	r0, r0, #1
+  81              	.LVL11:
   72:Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_q15.c **** }
-  84              		.loc 1 72 1 view .LVU25
-  85 0028 00B2     		sxth	r0, r0
-  86 002a 7047     		bx	lr
-  87              	.L3:
-  88              		.align	2
-  89              	.L2:
-  90 002c 00000000 		.word	sinTable_q15
-  91              		.cfi_endproc
-  92              	.LFE139:
-  94              		.text
-  95              	.Letext0:
-  96              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
-  97              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
-  98              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
-  99              		.file 5 "Drivers/CMSIS/DSP/Include/arm_common_tables.h"
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s 			page 4
+  82              		.loc 1 72 1 view .LVU24
+  83 0028 00B2     		sxth	r0, r0
+  84 002a 7047     		bx	lr
+  85              	.L3:
+  86              		.align	2
+  87              	.L2:
+  88 002c 00000000 		.word	sinTable_q15
+  89              		.cfi_endproc
+  90              	.LFE139:
+  92              		.text
+  93              	.Letext0:
+  94              		.file 2 "C:/ARM GNU Toolchain/arm-none-eabi/include/machine/_default_types.h"
+  95              		.file 3 "C:/ARM GNU Toolchain/arm-none-eabi/include/sys/_stdint.h"
+  96              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+  97              		.file 5 "Drivers/CMSIS/DSP/Include/arm_common_tables.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\ccCqF0lw.s 			page 4
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 arm_sin_q15.c
-C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s:21     .text.arm_sin_q15:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s:27     .text.arm_sin_q15:00000000 arm_sin_q15
-C:\Users\Lamp\AppData\Local\Temp\ccoHJsfw.s:90     .text.arm_sin_q15:0000002c $d
+C:\Users\Lamp\AppData\Local\Temp\ccCqF0lw.s:21     .text.arm_sin_q15:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\ccCqF0lw.s:27     .text.arm_sin_q15:00000000 arm_sin_q15
+C:\Users\Lamp\AppData\Local\Temp\ccCqF0lw.s:88     .text.arm_sin_q15:0000002c $d
 
 UNDEFINED SYMBOLS
 sinTable_q15

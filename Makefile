@@ -191,6 +191,40 @@ $(BUILD_DIR):
 	mkdir $@		
 
 #######################################
+# Progarmming
+# This is the configuration used to load
+# the program into the Microcontroller.
+#######################################
+
+# STLink Configruration=========
+STLINK = STM32_Programmer_CLI
+PORT = SWD
+FREQ = 4000000
+# ==============================
+
+# Caculate file size to read
+FW_SIZE = $(shell stat -c%s $(BUILD_DIR)/$(TARGET).hex)
+
+# Flash address
+FLASH_ADDR = 0x08000000
+
+run: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+# Full chip erase
+	$(STLINK) --connect port=$(PORT) freq=$(FREQ) --erase all
+
+# Download file
+	$(STLINK) --connect port=$(PORT) freq=$(FREQ) --write $(BUILD_DIR)/$(TARGET).bin $(FLASH_ADDR)
+
+# Verify file
+	$(STLINK) --connect port=$(PORT) freq=$(FREQ) --read $(FLASH_ADDR) $(FW_SIZE) $(BUILD_DIR)/read.bin
+	fc /b $(BUILD_DIR)/$(TARGET).bin $(BUILD_DIR)/read.bin
+	-rm $(BUILD_DIR)\read.bin
+
+# Run after programming
+	$(STLINK) --connect port=$(PORT) freq=$(FREQ) --start $(FLASH_ADDR)
+
+
+#######################################
 # clean up
 #######################################
 clean:

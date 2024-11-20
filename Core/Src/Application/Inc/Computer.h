@@ -7,9 +7,9 @@
 
 #include "stm32f4xx_hal.h"
 #include "Active_Object.h"
+#include "Estimator.h"
 #include "usart.h"
-
-typedef struct Computer Computer;
+#include "printf.h"
 
 typedef enum ComputerEvent {
     SENSOR_SENDED_SIG = USER_SIG + 1,
@@ -28,13 +28,17 @@ struct Computer {
 
 
     // Methods --------------------------------------------------------
-    Status (*initial)(Computer *const self, Event const * const event);
-    Status (*wait)(Computer *const self, Event const * const event);
-    Status (*sending)(Computer *const self, Event const * const event);
+    Status (*init) (struct Computer * const self, Event const * const event);
+    Status (*wait) (struct Computer * const self, Event const * const event);
+    Status (*sending) (struct Computer * const self, Event const * const event);
 
     /* Hàm này sẽ được gọi để nhận tin nhắn mới từ Matlab */
-    void (*public)(QueueHandle_t xQueue, const void * pvItemToQueue);
-    void (*publicFromISR)(QueueHandle_t xQueue, const void * pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken);
+    void (*public) (QueueHandle_t xQueue, const void * pvItemToQueue);
+    void (*publicFromISR) (QueueHandle_t xQueue, const void * pvItemToQueue, BaseType_t *pxHigherPriorityTaskWoken);
 };
+
+extern const struct ComputerClass {
+    void (*new) (struct Computer * const self);
+} Computer;
 
 #endif /* __COMPUTOR_H */

@@ -9,7 +9,7 @@ build/dsp.o: Core/Src/Middleware/dsp.c Core/Src/Middleware/dsp.h \
  Drivers/CMSIS/DSP/Include/arm_math.h Drivers/CMSIS/Include/core_cm4.h \
  Drivers/CMSIS/Include/cmsis_version.h \
  Drivers/CMSIS/Include/cmsis_compiler.h Drivers/CMSIS/Include/cmsis_gcc.h \
- Core/Src/Drivers/Inc/encoder.h \
+ Core/Src/Drivers/Inc/timer.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  Core/Inc/stm32f4xx_hal_conf.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -34,8 +34,14 @@ build/dsp.o: Core/Src/Middleware/dsp.c Core/Src/Middleware/dsp.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- Core/Src/Middleware/Topic.h Core/Src/Middleware/dsp.h \
- Core/Src/Middleware/Butter_Worth_Filtor.h
+ ThirdParty/FreeRTOS/include/queue.h ThirdParty/FreeRTOS/include/task.h \
+ ThirdParty/FreeRTOS/include/list.h Core/Src/Middleware/Active_Object.h \
+ ThirdParty/FreeRTOS/include/task.h Core/Src/Middleware/Topic.h \
+ Core/Src/Application/Inc/Estimator.h Core/Src/Application/Inc/Computer.h \
+ Core/Src/Application/Inc/Estimator.h Core/Src/Drivers/Inc/usart.h \
+ Core/Src/Middleware/Topic.h Core/Src/Application/Inc/Motor.h \
+ Core/Inc/printf.h Core/Src/Application/Inc/Computer.h \
+ Core/Src/Middleware/dsp.h Core/Src/Middleware/Butter_Worth_Filtor.h
 Core/Src/Middleware/dsp.h:
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
 ThirdParty/FreeRTOS/FreeRTOSConfig.h:
@@ -49,7 +55,7 @@ Drivers/CMSIS/Include/core_cm4.h:
 Drivers/CMSIS/Include/cmsis_version.h:
 Drivers/CMSIS/Include/cmsis_compiler.h:
 Drivers/CMSIS/Include/cmsis_gcc.h:
-Core/Src/Drivers/Inc/encoder.h:
+Core/Src/Drivers/Inc/timer.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 Core/Inc/stm32f4xx_hal_conf.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -74,6 +80,19 @@ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+ThirdParty/FreeRTOS/include/queue.h:
+ThirdParty/FreeRTOS/include/task.h:
+ThirdParty/FreeRTOS/include/list.h:
+Core/Src/Middleware/Active_Object.h:
+ThirdParty/FreeRTOS/include/task.h:
 Core/Src/Middleware/Topic.h:
+Core/Src/Application/Inc/Estimator.h:
+Core/Src/Application/Inc/Computer.h:
+Core/Src/Application/Inc/Estimator.h:
+Core/Src/Drivers/Inc/usart.h:
+Core/Src/Middleware/Topic.h:
+Core/Src/Application/Inc/Motor.h:
+Core/Inc/printf.h:
+Core/Src/Application/Inc/Computer.h:
 Core/Src/Middleware/dsp.h:
 Core/Src/Middleware/Butter_Worth_Filtor.h:

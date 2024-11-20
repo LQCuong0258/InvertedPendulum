@@ -7,7 +7,7 @@
 
 #include "FreeRTOS.h"
 #include "arm_math.h"
-#include "encoder.h"
+#include "timer.h"
 #include "Butter_Worth_Filtor.h"
 
 /**---------------------------------------------------------------------------------

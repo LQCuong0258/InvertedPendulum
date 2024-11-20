@@ -1,7 +1,11 @@
-#include "encoder.h"
+#include "timer.h"
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim7;
+
+extern struct Active * AO_Estimator;
+extern struct Estimator * estimator;
 
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
@@ -13,11 +17,12 @@ Encoder encoder_topic;
   * @param  htim TIM IC handle
   * @retval None
   */
-void HAL_TIM_IC_CaptureCallback (TIM_HandleTypeDef *htim) { 
+void HAL_TIM_IC_CaptureCallback (TIM_HandleTypeDef *htim) {
+  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
   if (htim->Instance == TIM2) {
     /* Read motor encoder counter value */
     encoder_topic.MotorCnt = (int32_t)((uint32_t)__HAL_TIM_GET_COUNTER(htim));
-
+    estimator->publicFromISR(estimator->encoder_sub, &encoder_topic, &xHigherPriorityTaskWoken);
   }
   else if (htim->Instance == TIM3) {
     /* Read pendullum encoder counter value */
@@ -25,7 +30,26 @@ void HAL_TIM_IC_CaptureCallback (TIM_HandleTypeDef *htim) {
     if (encoder_topic.PendulumCnt >= 4000 || encoder_topic.PendulumCnt <= -4000 ) {
       __HAL_TIM_SET_COUNTER(&htim3, 0);
     }
+    estimator->publicFromISR(estimator->encoder_sub, &encoder_topic, &xHigherPriorityTaskWoken);
   }
+  portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
+}
+
+/**
+  * @brief  Period elapsed callback in non-blocking mode
+  * @param  htim TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+
+  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  
+  if(htim->Instance == TIM7) {
+    static const Event time_evt = {TIMEOUT_1kHz_SIG};
+    AO_Estimator->postFromISR(AO_Estimator, &time_evt, &xHigherPriorityTaskWoken);
+  }
+
+  portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {

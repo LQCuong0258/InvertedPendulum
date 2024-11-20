@@ -24,7 +24,23 @@ build/usart.o: Core/Src/Drivers/Src/usart.c Core/Src/Drivers/Inc/usart.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ Core/Src/Middleware/Topic.h Drivers/CMSIS/DSP/Include/arm_math.h \
+ ThirdParty/FreeRTOS/include/FreeRTOS.h \
+ ThirdParty/FreeRTOS/FreeRTOSConfig.h \
+ ThirdParty/FreeRTOS/include/projdefs.h \
+ ThirdParty/FreeRTOS/include/portable.h \
+ ThirdParty/FreeRTOS/include/deprecated_definitions.h \
+ ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h \
+ ThirdParty/FreeRTOS/include/mpu_wrappers.h \
+ ThirdParty/FreeRTOS/include/queue.h ThirdParty/FreeRTOS/include/task.h \
+ ThirdParty/FreeRTOS/include/list.h Core/Src/Middleware/Active_Object.h \
+ ThirdParty/FreeRTOS/include/task.h Core/Src/Middleware/Topic.h \
+ Core/Src/Application/Inc/Motor.h Core/Inc/printf.h \
+ Core/Src/Application/Inc/Computer.h Core/Src/Application/Inc/Estimator.h \
+ Core/Src/Application/Inc/Computer.h Core/Src/Middleware/dsp.h \
+ Core/Src/Drivers/Inc/timer.h Core/Src/Application/Inc/Estimator.h \
+ Core/Src/Middleware/Butter_Worth_Filtor.h
 Core/Src/Drivers/Inc/usart.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 Core/Inc/stm32f4xx_hal_conf.h:
@@ -54,3 +70,27 @@ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+Core/Src/Middleware/Topic.h:
+Drivers/CMSIS/DSP/Include/arm_math.h:
+ThirdParty/FreeRTOS/include/FreeRTOS.h:
+ThirdParty/FreeRTOS/FreeRTOSConfig.h:
+ThirdParty/FreeRTOS/include/projdefs.h:
+ThirdParty/FreeRTOS/include/portable.h:
+ThirdParty/FreeRTOS/include/deprecated_definitions.h:
+ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h:
+ThirdParty/FreeRTOS/include/mpu_wrappers.h:
+ThirdParty/FreeRTOS/include/queue.h:
+ThirdParty/FreeRTOS/include/task.h:
+ThirdParty/FreeRTOS/include/list.h:
+Core/Src/Middleware/Active_Object.h:
+ThirdParty/FreeRTOS/include/task.h:
+Core/Src/Middleware/Topic.h:
+Core/Src/Application/Inc/Motor.h:
+Core/Inc/printf.h:
+Core/Src/Application/Inc/Computer.h:
+Core/Src/Application/Inc/Estimator.h:
+Core/Src/Application/Inc/Computer.h:
+Core/Src/Middleware/dsp.h:
+Core/Src/Drivers/Inc/timer.h:
+Core/Src/Application/Inc/Estimator.h:
+Core/Src/Middleware/Butter_Worth_Filtor.h:

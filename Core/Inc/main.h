@@ -35,11 +35,18 @@ extern "C" {
 #include "printf.h"
 #include "arm_math.h"
 
+#include "Active_Object.h"
+#include "Motor.h"
+#include "Computer.h"
+#include "Estimator.h"
+
 #include "SysConfig.h"
 #include "usart.h"
-#include "encoder.h"
+#include "timer.h"
 #include "Controller.h"
 #include "dsp.h"
+
+
 
 /* USER CODE END Includes */
 

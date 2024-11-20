@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -57,28 +57,36 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 1
   13:Core/Src/main.c **** extern UART_HandleTypeDef huart2;
   14:Core/Src/main.c **** extern UART_HandleTypeDef huart3;
   15:Core/Src/main.c **** 
-  16:Core/Src/main.c **** 
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 2
+  16:Core/Src/main.c **** static struct Computer computer;
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 2
 
 
-  17:Core/Src/main.c **** 
-  18:Core/Src/main.c **** extern Encoder encoder_topic;
-  19:Core/Src/main.c **** struct DSP * data_processor;
-  20:Core/Src/main.c **** State state_topic = {.Motor = {0.0f}, .Cart = {0.0f}, .Pendulum = {0.0f}};
+  17:Core/Src/main.c **** static struct Active * computer_AO = &computer.super;
+  18:Core/Src/main.c **** 
+  19:Core/Src/main.c **** static struct Estimator estimator;
+  20:Core/Src/main.c **** static struct Active * estimator_AO = &estimator.super;
   21:Core/Src/main.c **** 
-  22:Core/Src/main.c **** int64_t DutyCycle = 0;
-  23:Core/Src/main.c **** 
-  24:Core/Src/main.c **** /**
-  25:Core/Src/main.c ****  * 
-  26:Core/Src/main.c ****  */
-  27:Core/Src/main.c **** void MainTask(void * xTaskParameters) {
-  37              		.loc 1 27 39 view -0
+  22:Core/Src/main.c **** static struct Motor motor;
+  23:Core/Src/main.c **** static struct Active * motor_AO = &motor.super;
+  24:Core/Src/main.c **** 
+  25:Core/Src/main.c **** 
+  26:Core/Src/main.c **** extern Encoder encoder_topic;
+  27:Core/Src/main.c **** struct DSP * data_processor;
+  28:Core/Src/main.c **** State state_topic = {.Motor = {0.0f}, .Cart = {0.0f}, .Pendulum = {0.0f}};
+  29:Core/Src/main.c **** 
+  30:Core/Src/main.c **** int64_t DutyCycle = 0;
+  31:Core/Src/main.c **** 
+  32:Core/Src/main.c **** /**
+  33:Core/Src/main.c ****  * 
+  34:Core/Src/main.c ****  */
+  35:Core/Src/main.c **** void MainTask(void * xTaskParameters) {
+  37              		.loc 1 35 39 view -0
   38              		.cfi_startproc
   39              		@ Volatile: function does not return.
   40              		@ args = 0, pretend = 0, frame = 200
   41              		@ frame_needed = 0, uses_anonymous_args = 0
   42              	.LVL0:
-  43              		.loc 1 27 39 is_stmt 0 view .LVU1
+  43              		.loc 1 35 39 is_stmt 0 view .LVU1
   44 0000 80B5     		push	{r7, lr}
   45              	.LCFI0:
   46              		.cfi_def_cfa_offset 8
@@ -89,65 +97,65 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 1
   51              		.cfi_def_cfa_offset 232
   52              	.LVL1:
   53              	.L2:
-  28:Core/Src/main.c **** 
-  29:Core/Src/main.c ****   for(;;) {    
-  54              		.loc 1 29 3 is_stmt 1 discriminator 1 view .LVU2
+  36:Core/Src/main.c **** 
+  37:Core/Src/main.c ****   for(;;) {    
+  54              		.loc 1 37 3 is_stmt 1 view .LVU2
   55              	.LBB2:
-  30:Core/Src/main.c **** 
-  31:Core/Src/main.c **** 
-  32:Core/Src/main.c ****     /* Cấp phát động bộ đệm */
-  33:Core/Src/main.c ****     data_processor->procesNewData(data_processor, &encoder_topic, &state_topic);
-  56              		.loc 1 33 5 discriminator 1 view .LVU3
-  57              		.loc 1 33 19 is_stmt 0 discriminator 1 view .LVU4
+  38:Core/Src/main.c **** 
+  39:Core/Src/main.c **** 
+  40:Core/Src/main.c ****     /* Cấp phát động bộ đệm */
+  41:Core/Src/main.c ****     data_processor->procesNewData(data_processor, &encoder_topic, &state_topic);
+  56              		.loc 1 41 5 view .LVU3
+  57              		.loc 1 41 19 is_stmt 0 view .LVU4
   58 0004 1C4B     		ldr	r3, .L4
   59 0006 1868     		ldr	r0, [r3]
   60 0008 D0F88030 		ldr	r3, [r0, #128]
-  61              		.loc 1 33 5 discriminator 1 view .LVU5
+  61              		.loc 1 41 5 view .LVU5
   62 000c 1B4C     		ldr	r4, .L4+4
   63 000e 2246     		mov	r2, r4
   64 0010 1B49     		ldr	r1, .L4+8
   65 0012 9847     		blx	r3
   66              	.LVL2:
-  34:Core/Src/main.c **** 
-  35:Core/Src/main.c ****     // DutyCycle = PID_Pos(xdesign, ThetaCart, Ts);
-  36:Core/Src/main.c ****     char SIG[100];
-  67              		.loc 1 36 5 is_stmt 1 discriminator 1 view .LVU6
-  37:Core/Src/main.c ****     sprintf(SIG, "N1 O d%d\n", DutyCycle);
-  68              		.loc 1 37 5 discriminator 1 view .LVU7
+  42:Core/Src/main.c **** 
+  43:Core/Src/main.c ****     // DutyCycle = PID_Pos(xdesign, ThetaCart, Ts);
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 3
+
+
+  44:Core/Src/main.c ****     char SIG[100];
+  67              		.loc 1 44 5 is_stmt 1 view .LVU6
+  45:Core/Src/main.c ****     sprintf(SIG, "N1 O d%d\n", DutyCycle);
+  68              		.loc 1 45 5 view .LVU7
   69 0014 1B4B     		ldr	r3, .L4+12
   70 0016 D3E90023 		ldrd	r2, [r3]
   71 001a 1B49     		ldr	r1, .L4+16
   72 001c 06A8     		add	r0, sp, #24
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 3
-
-
   73 001e FFF7FEFF 		bl	sprintf_
   74              	.LVL3:
-  38:Core/Src/main.c ****     SendBuffer(&huart2, SIG);
-  75              		.loc 1 38 5 discriminator 1 view .LVU8
+  46:Core/Src/main.c ****     SendBuffer(&huart2, SIG);
+  75              		.loc 1 46 5 view .LVU8
   76 0022 06A9     		add	r1, sp, #24
   77 0024 1948     		ldr	r0, .L4+20
   78 0026 FFF7FEFF 		bl	SendBuffer
   79              	.LVL4:
-  39:Core/Src/main.c **** 
-  40:Core/Src/main.c ****     /* Buffer dùng để truyền dữ liệu cho Matlab*/
-  41:Core/Src/main.c ****     char buffer[100];
-  80              		.loc 1 41 5 discriminator 1 view .LVU9
-  42:Core/Src/main.c ****     sprintf(buffer,
-  81              		.loc 1 42 5 discriminator 1 view .LVU10
-  43:Core/Src/main.c ****             "S%0.6f %0.6f %0.6f %0.6f\n",
-  44:Core/Src/main.c ****             state_topic.Cart.position,
-  45:Core/Src/main.c ****             state_topic.Cart.velocity,
-  82              		.loc 1 45 29 is_stmt 0 discriminator 1 view .LVU11
+  47:Core/Src/main.c **** 
+  48:Core/Src/main.c ****     /* Buffer dùng để truyền dữ liệu cho Matlab*/
+  49:Core/Src/main.c ****     char buffer[100];
+  80              		.loc 1 49 5 view .LVU9
+  50:Core/Src/main.c ****     sprintf(buffer,
+  81              		.loc 1 50 5 view .LVU10
+  51:Core/Src/main.c ****             "S%0.6f %0.6f %0.6f %0.6f\n",
+  52:Core/Src/main.c ****             state_topic.Cart.position,
+  53:Core/Src/main.c ****             state_topic.Cart.velocity,
+  82              		.loc 1 53 29 is_stmt 0 view .LVU11
   83 002a 6669     		ldr	r6, [r4, #20]	@ float
-  46:Core/Src/main.c ****             state_topic.Pendulum.position,
-  84              		.loc 1 46 33 discriminator 1 view .LVU12
+  54:Core/Src/main.c ****             state_topic.Pendulum.position,
+  84              		.loc 1 54 33 view .LVU12
   85 002c 276A     		ldr	r7, [r4, #32]	@ float
-  47:Core/Src/main.c ****             state_topic.Pendulum.velocity);
-  86              		.loc 1 47 33 discriminator 1 view .LVU13
+  55:Core/Src/main.c ****             state_topic.Pendulum.velocity);
+  86              		.loc 1 55 33 view .LVU13
   87 002e D4F82480 		ldr	r8, [r4, #36]	@ float
-  42:Core/Src/main.c ****             "S%0.6f %0.6f %0.6f %0.6f\n",
-  88              		.loc 1 42 5 discriminator 1 view .LVU14
+  50:Core/Src/main.c ****             "S%0.6f %0.6f %0.6f %0.6f\n",
+  88              		.loc 1 50 5 view .LVU14
   89 0032 2069     		ldr	r0, [r4, #16]	@ float
   90 0034 FFF7FEFF 		bl	__aeabi_f2d
   91              	.LVL5:
@@ -170,28 +178,28 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 1
  108 005e 0C49     		ldr	r1, .L4+24
  109 0060 1FA8     		add	r0, sp, #124
  110 0062 FFF7FEFF 		bl	sprintf_
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 4
+
+
  111              	.LVL9:
-  48:Core/Src/main.c **** 
-  49:Core/Src/main.c ****     SendBuffer(&huart3, buffer);
- 112              		.loc 1 49 5 is_stmt 1 discriminator 1 view .LVU15
+  56:Core/Src/main.c **** 
+  57:Core/Src/main.c ****     SendBuffer(&huart3, buffer);
+ 112              		.loc 1 57 5 is_stmt 1 view .LVU15
  113 0066 1FA9     		add	r1, sp, #124
  114 0068 0A48     		ldr	r0, .L4+28
  115 006a FFF7FEFF 		bl	SendBuffer
  116              	.LVL10:
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 4
-
-
-  50:Core/Src/main.c **** 
-  51:Core/Src/main.c ****     // xQueueSendToBack(CommuniQueue, buffer, portMAX_DELAY);
-  52:Core/Src/main.c ****     // xSemaphoreGive(CommuniSemaphore);
-  53:Core/Src/main.c ****     vTaskDelay(pdMS_TO_TICKS(1));
- 117              		.loc 1 53 5 discriminator 1 view .LVU16
+  58:Core/Src/main.c **** 
+  59:Core/Src/main.c ****     // xQueueSendToBack(CommuniQueue, buffer, portMAX_DELAY);
+  60:Core/Src/main.c ****     // xSemaphoreGive(CommuniSemaphore);
+  61:Core/Src/main.c ****     vTaskDelay(pdMS_TO_TICKS(1));
+ 117              		.loc 1 61 5 view .LVU16
  118 006e 0120     		movs	r0, #1
  119 0070 FFF7FEFF 		bl	vTaskDelay
  120              	.LVL11:
  121              	.LBE2:
-  29:Core/Src/main.c **** 
- 122              		.loc 1 29 3 discriminator 1 view .LVU17
+  37:Core/Src/main.c **** 
+ 122              		.loc 1 37 3 view .LVU17
  123 0074 C6E7     		b	.L2
  124              	.L5:
  125 0076 00BF     		.align	2
@@ -214,47 +222,47 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 1
  143              		.thumb_func
  145              	CommunicationTask:
  146              	.LFB176:
-  54:Core/Src/main.c ****   }
-  55:Core/Src/main.c **** }
-  56:Core/Src/main.c **** 
-  57:Core/Src/main.c **** /**
-  58:Core/Src/main.c ****  * 
-  59:Core/Src/main.c ****  */
-  60:Core/Src/main.c **** char buffer[100];
-  61:Core/Src/main.c **** void CommunicationTask(void * xTaskParameters) {
- 147              		.loc 1 61 48 view -0
+  62:Core/Src/main.c ****   }
+  63:Core/Src/main.c **** }
+  64:Core/Src/main.c **** 
+  65:Core/Src/main.c **** /**
+  66:Core/Src/main.c ****  * 
+  67:Core/Src/main.c ****  */
+  68:Core/Src/main.c **** char buffer[100];
+  69:Core/Src/main.c **** void CommunicationTask(void * xTaskParameters) {
+ 147              		.loc 1 69 48 view -0
  148              		.cfi_startproc
  149              		@ Volatile: function does not return.
  150              		@ args = 0, pretend = 0, frame = 0
  151              		@ frame_needed = 0, uses_anonymous_args = 0
  152              	.LVL12:
- 153              		.loc 1 61 48 is_stmt 0 view .LVU19
+ 153              		.loc 1 69 48 is_stmt 0 view .LVU19
  154 0000 08B5     		push	{r3, lr}
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 5
+
+
  155              	.LCFI2:
  156              		.cfi_def_cfa_offset 8
  157              		.cfi_offset 3, -8
  158              		.cfi_offset 14, -4
  159              	.LVL13:
  160              	.L7:
-  62:Core/Src/main.c ****   for(;;) {
- 161              		.loc 1 62 3 is_stmt 1 view .LVU20
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 5
-
-
-  63:Core/Src/main.c ****     if (xQueueReceive(CommuniQueue, buffer, portMAX_DELAY) == pdTRUE) {
- 162              		.loc 1 63 5 view .LVU21
- 163              		.loc 1 63 9 is_stmt 0 view .LVU22
+  70:Core/Src/main.c ****   for(;;) {
+ 161              		.loc 1 70 3 is_stmt 1 view .LVU20
+  71:Core/Src/main.c ****     if (xQueueReceive(CommuniQueue, buffer, portMAX_DELAY) == pdTRUE) {
+ 162              		.loc 1 71 5 view .LVU21
+ 163              		.loc 1 71 9 is_stmt 0 view .LVU22
  164 0002 4FF0FF32 		mov	r2, #-1
  165 0006 0649     		ldr	r1, .L10
  166 0008 064B     		ldr	r3, .L10+4
  167 000a 1868     		ldr	r0, [r3]
  168 000c FFF7FEFF 		bl	xQueueReceive
  169              	.LVL14:
- 170              		.loc 1 63 8 view .LVU23
+ 170              		.loc 1 71 8 discriminator 1 view .LVU23
  171 0010 0128     		cmp	r0, #1
  172 0012 F6D1     		bne	.L7
-  64:Core/Src/main.c ****       SendBuffer(&huart3, buffer);
- 173              		.loc 1 64 7 is_stmt 1 view .LVU24
+  72:Core/Src/main.c ****       SendBuffer(&huart3, buffer);
+ 173              		.loc 1 72 7 is_stmt 1 view .LVU24
  174 0014 0249     		ldr	r1, .L10
  175 0016 0448     		ldr	r0, .L10+8
  176 0018 FFF7FEFF 		bl	SendBuffer
@@ -276,212 +284,283 @@ ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 1
  193              		.thumb_func
  195              	main:
  196              	.LFB177:
-  65:Core/Src/main.c ****     }
-  66:Core/Src/main.c **** 
-  67:Core/Src/main.c ****     // vTaskDelay(pdMS_TO_TICKS(SAMPLE_TIME));
-  68:Core/Src/main.c ****   }
-  69:Core/Src/main.c **** }
-  70:Core/Src/main.c **** 
-  71:Core/Src/main.c **** int main(void)
-  72:Core/Src/main.c **** {
- 197              		.loc 1 72 1 view -0
+  73:Core/Src/main.c ****     }
+  74:Core/Src/main.c **** 
+  75:Core/Src/main.c ****     // vTaskDelay(pdMS_TO_TICKS(SAMPLE_TIME));
+  76:Core/Src/main.c ****   }
+  77:Core/Src/main.c **** }
+  78:Core/Src/main.c **** 
+  79:Core/Src/main.c **** int main(void)
+  80:Core/Src/main.c **** {
+ 197              		.loc 1 80 1 view -0
  198              		.cfi_startproc
  199              		@ Volatile: function does not return.
  200              		@ args = 0, pretend = 0, frame = 0
  201              		@ frame_needed = 0, uses_anonymous_args = 0
- 202 0000 00B5     		push	{lr}
+ 202 0000 08B5     		push	{r3, lr}
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 6
+
+
  203              	.LCFI3:
- 204              		.cfi_def_cfa_offset 4
- 205              		.cfi_offset 14, -4
- 206 0002 83B0     		sub	sp, sp, #12
- 207              	.LCFI4:
- 208              		.cfi_def_cfa_offset 16
-  73:Core/Src/main.c ****   /* Configuraion */
-  74:Core/Src/main.c ****   HAL_Init();
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 6
-
-
- 209              		.loc 1 74 3 view .LVU26
- 210 0004 FFF7FEFF 		bl	HAL_Init
- 211              	.LVL16:
-  75:Core/Src/main.c ****   SystemClock_Config();
- 212              		.loc 1 75 3 view .LVU27
- 213 0008 FFF7FEFF 		bl	SystemClock_Config
- 214              	.LVL17:
-  76:Core/Src/main.c ****   MX_GPIO_Init();
- 215              		.loc 1 76 3 view .LVU28
- 216 000c FFF7FEFF 		bl	MX_GPIO_Init
- 217              	.LVL18:
-  77:Core/Src/main.c **** 
-  78:Core/Src/main.c ****   Driver_USART_Init();
- 218              		.loc 1 78 3 view .LVU29
- 219 0010 FFF7FEFF 		bl	Driver_USART_Init
- 220              	.LVL19:
-  79:Core/Src/main.c ****   Driver_Encoder_Init();
- 221              		.loc 1 79 3 view .LVU30
- 222 0014 FFF7FEFF 		bl	Driver_Encoder_Init
- 223              	.LVL20:
-  80:Core/Src/main.c **** 
-  81:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
-  82:Core/Src/main.c **** 
-  83:Core/Src/main.c ****   data_processor = (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
- 224              		.loc 1 83 3 view .LVU31
- 225              		.loc 1 83 36 is_stmt 0 view .LVU32
- 226 0018 8420     		movs	r0, #132
- 227 001a FFF7FEFF 		bl	pvPortMalloc
- 228              	.LVL21:
- 229              		.loc 1 83 18 view .LVU33
- 230 001e 0B4B     		ldr	r3, .L15
- 231 0020 1860     		str	r0, [r3]
-  84:Core/Src/main.c ****   dsp_new(data_processor);
- 232              		.loc 1 84 3 is_stmt 1 view .LVU34
- 233 0022 FFF7FEFF 		bl	dsp_new
- 234              	.LVL22:
-  85:Core/Src/main.c ****   // StateSystem= (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
-  86:Core/Src/main.c **** 
-  87:Core/Src/main.c ****   CommuniQueue = xQueueCreate(5, sizeof(char) * 100);
- 235              		.loc 1 87 3 view .LVU35
- 236              		.loc 1 87 18 is_stmt 0 view .LVU36
- 237 0026 0022     		movs	r2, #0
- 238 0028 6421     		movs	r1, #100
- 239 002a 0520     		movs	r0, #5
- 240 002c FFF7FEFF 		bl	xQueueGenericCreate
- 241              	.LVL23:
- 242              		.loc 1 87 16 view .LVU37
- 243 0030 074B     		ldr	r3, .L15+4
- 244 0032 1860     		str	r0, [r3]
-  88:Core/Src/main.c ****   // vSemaphoreCreateBinary(CommuniSemaphore);
-  89:Core/Src/main.c **** 
-  90:Core/Src/main.c ****   xTaskCreate(MainTask, NULL, configMINIMAL_STACK_SIZE, NULL, 3, NULL);
- 245              		.loc 1 90 3 is_stmt 1 view .LVU38
- 246 0034 0021     		movs	r1, #0
- 247 0036 0191     		str	r1, [sp, #4]
- 248 0038 0323     		movs	r3, #3
- 249 003a 0093     		str	r3, [sp]
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 7
-
-
- 250 003c 0B46     		mov	r3, r1
- 251 003e 8222     		movs	r2, #130
- 252 0040 0448     		ldr	r0, .L15+8
- 253 0042 FFF7FEFF 		bl	xTaskCreate
- 254              	.LVL24:
-  91:Core/Src/main.c ****   // xTaskCreate(CommunicationTask, NULL, configMINIMAL_STACK_SIZE, NULL, 2, NULL);
-  92:Core/Src/main.c **** 
-  93:Core/Src/main.c ****   vTaskStartScheduler();
- 255              		.loc 1 93 3 view .LVU39
- 256 0046 FFF7FEFF 		bl	vTaskStartScheduler
- 257              	.LVL25:
- 258              	.L13:
+ 204              		.cfi_def_cfa_offset 8
+ 205              		.cfi_offset 3, -8
+ 206              		.cfi_offset 14, -4
+  81:Core/Src/main.c ****   /* Configuraion */
+  82:Core/Src/main.c ****   HAL_Init();
+ 207              		.loc 1 82 3 view .LVU26
+ 208 0002 FFF7FEFF 		bl	HAL_Init
+ 209              	.LVL16:
+  83:Core/Src/main.c ****   SystemClock_Config();
+ 210              		.loc 1 83 3 view .LVU27
+ 211 0006 FFF7FEFF 		bl	SystemClock_Config
+ 212              	.LVL17:
+  84:Core/Src/main.c ****   MX_GPIO_Init();
+ 213              		.loc 1 84 3 view .LVU28
+ 214 000a FFF7FEFF 		bl	MX_GPIO_Init
+ 215              	.LVL18:
+  85:Core/Src/main.c **** 
+  86:Core/Src/main.c ****   Driver_USART_Init();
+ 216              		.loc 1 86 3 view .LVU29
+ 217 000e FFF7FEFF 		bl	Driver_USART_Init
+ 218              	.LVL19:
+  87:Core/Src/main.c ****   Driver_Encoder_Init();
+ 219              		.loc 1 87 3 view .LVU30
+ 220 0012 FFF7FEFF 		bl	Driver_Encoder_Init
+ 221              	.LVL20:
+  88:Core/Src/main.c **** 
+  89:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+  90:Core/Src/main.c **** 
+  91:Core/Src/main.c ****   // data_processor = (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
+  92:Core/Src/main.c ****   // dsp_new(data_processor);
+  93:Core/Src/main.c ****   // // StateSystem= (struct DSP * ) pvPortMalloc( sizeof(struct DSP) );
   94:Core/Src/main.c **** 
-  95:Core/Src/main.c ****   /* USER CODE END 2 */
-  96:Core/Src/main.c **** 
-  97:Core/Src/main.c ****   /* Infinite loop */
-  98:Core/Src/main.c ****   while (1) {}
- 259              		.loc 1 98 3 discriminator 1 view .LVU40
- 260              		.loc 1 98 14 discriminator 1 view .LVU41
- 261              		.loc 1 98 9 discriminator 1 view .LVU42
- 262 004a FEE7     		b	.L13
- 263              	.L16:
- 264              		.align	2
- 265              	.L15:
- 266 004c 00000000 		.word	data_processor
- 267 0050 00000000 		.word	CommuniQueue
- 268 0054 00000000 		.word	MainTask
- 269              		.cfi_endproc
- 270              	.LFE177:
- 272              		.global	buffer
- 273              		.section	.bss.buffer,"aw",%nobits
- 274              		.align	2
- 277              	buffer:
- 278 0000 00000000 		.space	100
- 278      00000000 
- 278      00000000 
- 278      00000000 
- 278      00000000 
- 279              		.global	DutyCycle
- 280              		.section	.bss.DutyCycle,"aw",%nobits
- 281              		.align	3
- 284              	DutyCycle:
- 285 0000 00000000 		.space	8
- 285      00000000 
- 286              		.global	state_topic
- 287              		.section	.bss.state_topic,"aw",%nobits
- 288              		.align	2
- 291              	state_topic:
- 292 0000 00000000 		.space	48
- 292      00000000 
- 292      00000000 
- 292      00000000 
- 292      00000000 
- 293              		.global	data_processor
- 294              		.section	.bss.data_processor,"aw",%nobits
- 295              		.align	2
- 298              	data_processor:
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 8
+  95:Core/Src/main.c ****   // CommuniQueue = xQueueCreate(5, sizeof(char) * 100);
+  96:Core/Src/main.c ****   // // vSemaphoreCreateBinary(CommuniSemaphore);
+  97:Core/Src/main.c **** 
+  98:Core/Src/main.c ****   // xTaskCreate(MainTask, NULL, configMINIMAL_STACK_SIZE, NULL, 3, NULL);
+  99:Core/Src/main.c ****   // // xTaskCreate(CommunicationTask, NULL, configMINIMAL_STACK_SIZE, NULL, 2, NULL);
+ 100:Core/Src/main.c **** 
+ 101:Core/Src/main.c ****   Computer.new(&computer);
+ 222              		.loc 1 101 3 view .LVU31
+ 223              		.loc 1 101 11 is_stmt 0 view .LVU32
+ 224 0016 154B     		ldr	r3, .L15
+ 225 0018 1B68     		ldr	r3, [r3]
+ 226              		.loc 1 101 3 view .LVU33
+ 227 001a 154C     		ldr	r4, .L15+4
+ 228 001c 2046     		mov	r0, r4
+ 229 001e 9847     		blx	r3
+ 230              	.LVL21:
+ 102:Core/Src/main.c ****   computer.super.start(computer_AO, 1, 15, 1000);
+ 231              		.loc 1 102 3 is_stmt 1 view .LVU34
+ 232              		.loc 1 102 17 is_stmt 0 view .LVU35
+ 233 0020 D4F8BC50 		ldr	r5, [r4, #188]
+ 234              		.loc 1 102 3 view .LVU36
+ 235 0024 4FF47A73 		mov	r3, #1000
+ 236 0028 0F22     		movs	r2, #15
+ 237 002a 0121     		movs	r1, #1
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 7
 
 
- 299 0000 00000000 		.space	4
- 300              		.global	CommuniSemaphore
- 301              		.section	.bss.CommuniSemaphore,"aw",%nobits
- 302              		.align	2
- 305              	CommuniSemaphore:
- 306 0000 00000000 		.space	4
- 307              		.global	CommuniQueue
- 308              		.section	.bss.CommuniQueue,"aw",%nobits
- 309              		.align	2
- 312              	CommuniQueue:
- 313 0000 00000000 		.space	4
- 314              		.text
- 315              	.Letext0:
- 316              		.file 2 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
- 317              		.file 3 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/..
- 318              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
- 319              		.file 5 "C:\\ST\\STM32CubeCLT_1.16.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/12.3.1/in
- 320              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 321              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 322              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
- 323              		.file 9 "Drivers/CMSIS/DSP/Include/arm_math.h"
- 324              		.file 10 "Core/Src/Middleware/Topic.h"
- 325              		.file 11 "ThirdParty/FreeRTOS/include/projdefs.h"
- 326              		.file 12 "ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h"
- 327              		.file 13 "Core/Src/Middleware/dsp.h"
- 328              		.file 14 "ThirdParty/FreeRTOS/include/task.h"
- 329              		.file 15 "ThirdParty/FreeRTOS/include/queue.h"
- 330              		.file 16 "ThirdParty/FreeRTOS/include/semphr.h"
- 331              		.file 17 "ThirdParty/FreeRTOS/include/portable.h"
- 332              		.file 18 "Core/Src/Drivers/Inc/encoder.h"
- 333              		.file 19 "Core/Src/Drivers/Inc/usart.h"
- 334              		.file 20 "Core/Src/Drivers/Inc/SysConfig.h"
- 335              		.file 21 "Core/Inc/printf.h"
- 336              		.file 22 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
-ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cc274b39.s 			page 9
+ 238 002c 2046     		mov	r0, r4
+ 239 002e A847     		blx	r5
+ 240              	.LVL22:
+ 103:Core/Src/main.c **** 
+ 104:Core/Src/main.c ****   Estimator.new(&estimator);
+ 241              		.loc 1 104 3 is_stmt 1 view .LVU37
+ 242              		.loc 1 104 12 is_stmt 0 view .LVU38
+ 243 0030 104B     		ldr	r3, .L15+8
+ 244 0032 1B68     		ldr	r3, [r3]
+ 245              		.loc 1 104 3 view .LVU39
+ 246 0034 104C     		ldr	r4, .L15+12
+ 247 0036 2046     		mov	r0, r4
+ 248 0038 9847     		blx	r3
+ 249              	.LVL23:
+ 105:Core/Src/main.c ****   estimator.super.start(estimator_AO, 2, 20, 3000);
+ 250              		.loc 1 105 3 is_stmt 1 view .LVU40
+ 251              		.loc 1 105 18 is_stmt 0 view .LVU41
+ 252 003a D4F8BC50 		ldr	r5, [r4, #188]
+ 253              		.loc 1 105 3 view .LVU42
+ 254 003e 40F6B833 		movw	r3, #3000
+ 255 0042 1422     		movs	r2, #20
+ 256 0044 0221     		movs	r1, #2
+ 257 0046 2046     		mov	r0, r4
+ 258 0048 A847     		blx	r5
+ 259              	.LVL24:
+ 106:Core/Src/main.c **** 
+ 107:Core/Src/main.c ****   Motor.new(&motor);
+ 260              		.loc 1 107 3 is_stmt 1 view .LVU43
+ 261              		.loc 1 107 8 is_stmt 0 view .LVU44
+ 262 004a 0C4B     		ldr	r3, .L15+16
+ 263 004c 1B68     		ldr	r3, [r3]
+ 264              		.loc 1 107 3 view .LVU45
+ 265 004e 0C4C     		ldr	r4, .L15+20
+ 266 0050 2046     		mov	r0, r4
+ 267 0052 9847     		blx	r3
+ 268              	.LVL25:
+ 108:Core/Src/main.c ****   motor.super.start(motor_AO, 3, 15, 2000);
+ 269              		.loc 1 108 3 is_stmt 1 view .LVU46
+ 270              		.loc 1 108 14 is_stmt 0 view .LVU47
+ 271 0054 D4F8BC50 		ldr	r5, [r4, #188]
+ 272              		.loc 1 108 3 view .LVU48
+ 273 0058 4FF4FA63 		mov	r3, #2000
+ 274 005c 0F22     		movs	r2, #15
+ 275 005e 0321     		movs	r1, #3
+ 276 0060 2046     		mov	r0, r4
+ 277 0062 A847     		blx	r5
+ 278              	.LVL26:
+ 109:Core/Src/main.c **** 
+ 110:Core/Src/main.c ****   vTaskStartScheduler();
+ 279              		.loc 1 110 3 is_stmt 1 view .LVU49
+ 280 0064 FFF7FEFF 		bl	vTaskStartScheduler
+ 281              	.LVL27:
+ 282              	.L13:
+ 111:Core/Src/main.c **** 
+ 112:Core/Src/main.c ****   /* USER CODE END 2 */
+ 113:Core/Src/main.c **** 
+ 114:Core/Src/main.c ****   /* Infinite loop */
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 8
+
+
+ 115:Core/Src/main.c ****   while (1) {}
+ 283              		.loc 1 115 3 view .LVU50
+ 284              		.loc 1 115 14 view .LVU51
+ 285              		.loc 1 115 9 view .LVU52
+ 286 0068 FEE7     		b	.L13
+ 287              	.L16:
+ 288 006a 00BF     		.align	2
+ 289              	.L15:
+ 290 006c 00000000 		.word	Computer
+ 291 0070 00000000 		.word	computer
+ 292 0074 00000000 		.word	Estimator
+ 293 0078 00000000 		.word	estimator
+ 294 007c 00000000 		.word	Motor
+ 295 0080 00000000 		.word	motor
+ 296              		.cfi_endproc
+ 297              	.LFE177:
+ 299              		.global	buffer
+ 300              		.section	.bss.buffer,"aw",%nobits
+ 301              		.align	2
+ 304              	buffer:
+ 305 0000 00000000 		.space	100
+ 305      00000000 
+ 305      00000000 
+ 305      00000000 
+ 305      00000000 
+ 306              		.global	DutyCycle
+ 307              		.section	.bss.DutyCycle,"aw",%nobits
+ 308              		.align	3
+ 311              	DutyCycle:
+ 312 0000 00000000 		.space	8
+ 312      00000000 
+ 313              		.global	state_topic
+ 314              		.section	.bss.state_topic,"aw",%nobits
+ 315              		.align	2
+ 318              	state_topic:
+ 319 0000 00000000 		.space	48
+ 319      00000000 
+ 319      00000000 
+ 319      00000000 
+ 319      00000000 
+ 320              		.global	data_processor
+ 321              		.section	.bss.data_processor,"aw",%nobits
+ 322              		.align	2
+ 325              	data_processor:
+ 326 0000 00000000 		.space	4
+ 327              		.section	.bss.motor,"aw",%nobits
+ 328              		.align	2
+ 331              	motor:
+ 332 0000 00000000 		.space	228
+ 332      00000000 
+ 332      00000000 
+ 332      00000000 
+ 332      00000000 
+ 333              		.section	.bss.estimator,"aw",%nobits
+ 334              		.align	2
+ 337              	estimator:
+ 338 0000 00000000 		.space	232
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 9
+
+
+ 338      00000000 
+ 338      00000000 
+ 338      00000000 
+ 338      00000000 
+ 339              		.section	.bss.computer,"aw",%nobits
+ 340              		.align	2
+ 343              	computer:
+ 344 0000 00000000 		.space	232
+ 344      00000000 
+ 344      00000000 
+ 344      00000000 
+ 344      00000000 
+ 345              		.global	CommuniSemaphore
+ 346              		.section	.bss.CommuniSemaphore,"aw",%nobits
+ 347              		.align	2
+ 350              	CommuniSemaphore:
+ 351 0000 00000000 		.space	4
+ 352              		.global	CommuniQueue
+ 353              		.section	.bss.CommuniQueue,"aw",%nobits
+ 354              		.align	2
+ 357              	CommuniQueue:
+ 358 0000 00000000 		.space	4
+ 359              		.text
+ 360              	.Letext0:
+ 361              		.file 2 "C:/ARM GNU Toolchain/arm-none-eabi/include/machine/_default_types.h"
+ 362              		.file 3 "C:/ARM GNU Toolchain/arm-none-eabi/include/sys/_stdint.h"
+ 363              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
+ 364              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 365              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 366              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 367              		.file 8 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 368              		.file 9 "ThirdParty/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h"
+ 369              		.file 10 "ThirdParty/FreeRTOS/include/FreeRTOS.h"
+ 370              		.file 11 "ThirdParty/FreeRTOS/include/task.h"
+ 371              		.file 12 "ThirdParty/FreeRTOS/include/queue.h"
+ 372              		.file 13 "Core/Src/Middleware/Topic.h"
+ 373              		.file 14 "Core/Src/Middleware/Active_Object.h"
+ 374              		.file 15 "Core/Src/Middleware/dsp.h"
+ 375              		.file 16 "Core/Src/Application/Inc/Estimator.h"
+ 376              		.file 17 "Core/Src/Application/Inc/Computer.h"
+ 377              		.file 18 "Core/Src/Application/Inc/Motor.h"
+ 378              		.file 19 "ThirdParty/FreeRTOS/include/semphr.h"
+ 379              		.file 20 "Core/Src/Drivers/Inc/timer.h"
+ 380              		.file 21 "Core/Src/Drivers/Inc/usart.h"
+ 381              		.file 22 "Core/Src/Drivers/Inc/SysConfig.h"
+ 382              		.file 23 "Core/Inc/printf.h"
+ 383              		.file 24 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ARM GAS  C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:21     .rodata.MainTask.str1.4:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:29     .text.MainTask:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:35     .text.MainTask:00000000 MainTask
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:127    .text.MainTask:00000078 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:298    .bss.data_processor:00000000 data_processor
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:291    .bss.state_topic:00000000 state_topic
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:284    .bss.DutyCycle:00000000 DutyCycle
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:139    .text.CommunicationTask:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:145    .text.CommunicationTask:00000000 CommunicationTask
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:182    .text.CommunicationTask:00000020 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:277    .bss.buffer:00000000 buffer
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:312    .bss.CommuniQueue:00000000 CommuniQueue
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:189    .text.main:00000000 $t
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:195    .text.main:00000000 main
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:266    .text.main:0000004c $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:274    .bss.buffer:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:281    .bss.DutyCycle:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:288    .bss.state_topic:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:295    .bss.data_processor:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:305    .bss.CommuniSemaphore:00000000 CommuniSemaphore
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:302    .bss.CommuniSemaphore:00000000 $d
-C:\Users\Lamp\AppData\Local\Temp\cc274b39.s:309    .bss.CommuniQueue:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:21     .rodata.MainTask.str1.4:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:29     .text.MainTask:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:35     .text.MainTask:00000000 MainTask
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:127    .text.MainTask:00000078 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:325    .bss.data_processor:00000000 data_processor
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:318    .bss.state_topic:00000000 state_topic
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:311    .bss.DutyCycle:00000000 DutyCycle
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:139    .text.CommunicationTask:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:145    .text.CommunicationTask:00000000 CommunicationTask
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:182    .text.CommunicationTask:00000020 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:304    .bss.buffer:00000000 buffer
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:357    .bss.CommuniQueue:00000000 CommuniQueue
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:189    .text.main:00000000 $t
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:195    .text.main:00000000 main
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:290    .text.main:0000006c $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:343    .bss.computer:00000000 computer
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:337    .bss.estimator:00000000 estimator
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:331    .bss.motor:00000000 motor
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:301    .bss.buffer:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:308    .bss.DutyCycle:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:315    .bss.state_topic:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:322    .bss.data_processor:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:328    .bss.motor:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:334    .bss.estimator:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:340    .bss.computer:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:350    .bss.CommuniSemaphore:00000000 CommuniSemaphore
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:347    .bss.CommuniSemaphore:00000000 $d
+C:\Users\Lamp\AppData\Local\Temp\cchgph6b.s:354    .bss.CommuniQueue:00000000 $d
 
 UNDEFINED SYMBOLS
 __aeabi_f2d
@@ -497,8 +576,7 @@ SystemClock_Config
 MX_GPIO_Init
 Driver_USART_Init
 Driver_Encoder_Init
-pvPortMalloc
-dsp_new
-xQueueGenericCreate
-xTaskCreate
 vTaskStartScheduler
+Computer
+Estimator
+Motor

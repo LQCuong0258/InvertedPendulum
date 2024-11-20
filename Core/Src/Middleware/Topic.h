@@ -22,6 +22,14 @@ typedef struct {
     StateData Pendulum;
 } State;
 
+/* Pulse width command */
+typedef struct {
+  int16_t d;
+} PWC;
 
+typedef struct {
+  char message[7];
+  uint8_t length;
+} RecivedMessage;
 
 #endif /* TOPIC_H */ 
