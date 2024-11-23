@@ -2,6 +2,8 @@
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim7;
+
 extern struct Computer * computer;
 struct Active * AO_Estimator;
 struct Estimator * estimator; 
@@ -19,7 +21,8 @@ Status wait (struct Estimator * const self, Event const * const event) {
     Status status;
 
     switch (event->signal) {
-        case INIT_SIG:
+        case ENTRY_SIG:
+            HAL_TIM_Base_Start_IT(&htim7);
             HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
             HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
 

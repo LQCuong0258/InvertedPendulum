@@ -41,8 +41,7 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  Core/Src/Application/Inc/Computer.h Core/Src/Middleware/dsp.h \
  Core/Src/Drivers/Inc/timer.h Core/Src/Application/Inc/Estimator.h \
  Core/Src/Middleware/Butter_Worth_Filtor.h Core/Inc/printf.h \
- Core/Src/Drivers/Inc/SysConfig.h Core/Src/Drivers/Inc/Controller.h \
- ThirdParty/FreeRTOS/include/semphr.h ThirdParty/FreeRTOS/include/queue.h
+ Core/Src/Drivers/Inc/SysConfig.h Core/Src/Drivers/Inc/Controller.h
 Core/Inc/main.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 Core/Inc/stm32f4xx_hal_conf.h:
@@ -100,5 +99,3 @@ Core/Src/Middleware/Butter_Worth_Filtor.h:
 Core/Inc/printf.h:
 Core/Src/Drivers/Inc/SysConfig.h:
 Core/Src/Drivers/Inc/Controller.h:
-ThirdParty/FreeRTOS/include/semphr.h:
-ThirdParty/FreeRTOS/include/queue.h:

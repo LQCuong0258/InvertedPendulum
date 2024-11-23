@@ -9,6 +9,7 @@ extern struct Estimator * estimator;
 
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_TIM7_Init(void);
 
 Encoder encoder_topic;
 
@@ -72,11 +73,12 @@ void Driver_Encoder_Init()
 {
   MX_TIM2_Init(); // Motor encoder
   MX_TIM3_Init(); // Pendullum encoder
+  MX_TIM7_Init(); // 1kHz timer
   
 
   encoder_topic = (Encoder) {.MotorCnt = 0, .PendulumCnt = 0};
-  HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
-  HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+  // HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
+  // HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
 }
 
 /**
@@ -84,8 +86,7 @@ void Driver_Encoder_Init()
   * @param None
   * @retval None
   */
-static void MX_TIM2_Init(void)
-{
+static void MX_TIM2_Init(void) {
   TIM_Encoder_InitTypeDef sConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
@@ -147,6 +148,34 @@ static void MX_TIM3_Init(void) {
 }
 
 /**
+  * @brief TIM7 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM7_Init(void)
+{
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  htim7.Instance = TIM7;
+  htim7.Init.Prescaler = 84;
+  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim7.Init.Period = 1000;
+  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
+  {
+    // Error_Handler();
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
+  {
+    // Error_Handler();
+  }
+}
+
+
+/**
 * @brief TIM_Encoder MSP Initialization
 * This function configures the hardware resources used in this example
 * @param htim_encoder: TIM_Encoder handle pointer
@@ -198,6 +227,25 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
 }
 
 /**
+* @brief TIM_Base MSP Initialization
+* This function configures the hardware resources used in this example
+* @param htim_base: TIM_Base handle pointer
+* @retval None
+*/
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
+{
+  if(htim_base->Instance==TIM7)
+  {
+    /* Peripheral clock enable */
+    __HAL_RCC_TIM7_CLK_ENABLE();
+
+    /* TIM7 interrupt Init */
+    HAL_NVIC_SetPriority(TIM7_IRQn, 8, 0);
+    HAL_NVIC_EnableIRQ(TIM7_IRQn);
+  }
+}
+
+/**
   * @brief This function handles TIM2 global interrupt.
   */
 void TIM2_IRQHandler(void)
@@ -211,4 +259,12 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   HAL_TIM_IRQHandler(&htim3);
+}
+
+/**
+  * @brief This function handles TIM7 global interrupt.
+  */
+void TIM7_IRQHandler(void)
+{
+  HAL_TIM_IRQHandler(&htim7);
 }
