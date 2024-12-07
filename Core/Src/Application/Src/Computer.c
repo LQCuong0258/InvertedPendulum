@@ -10,6 +10,8 @@ struct Computer * computer;
 static char tx_data[50];
 uint8_t rx_byte_data;
 
+State state_topic = {.Motor = {0.0f}, .Cart = {0.0f}, .Pendulum = {0.0f}};
+
 static Status init (struct Computer * const self, Event const * const event) {
     Status status = TRAN_STATUS;
     self->super.handler = (StateHandler) self->wait;
@@ -28,7 +30,6 @@ static Status sending (struct Computer * const self, Event const * const event) 
             self->super.handler = (StateHandler)self->wait;
             status = TRAN_STATUS;
             break;
-
 
         case EXIT_SIG:
             status = HANDLED_STATUS;
@@ -52,7 +53,7 @@ static Status wait (struct Computer *const self, Event const * const event) {
             break;
 
         case STATE_UPDATED_SIG:
-            static State state_topic = {.Motor = {0.0f}, .Cart = {0.0f}, .Pendulum = {0.0f}};
+            // static State state_topic = {.Motor = {0.0f}, .Cart = {0.0f}, .Pendulum = {0.0f}};
             BaseType_t is_success;
             is_success = xQueuePeek(estimator->state_pub, &state_topic, 0);
             

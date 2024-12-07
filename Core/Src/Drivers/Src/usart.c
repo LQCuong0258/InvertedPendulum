@@ -121,6 +121,8 @@ void Driver_USART_Init()
     huart3.Instance = USART3;
     UART_Init(&huart2);
     UART_Init(&huart3);
+
+    SendBuffer(&huart2, "N1 O d0\n");
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef* huart)
