@@ -28,7 +28,7 @@ build/Computer.o: Core/Src/Application/Src/Computer.c \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  Core/Src/Middleware/Active_Object.h \
  ThirdParty/FreeRTOS/include/FreeRTOS.h \
- ThirdParty/FreeRTOS/FreeRTOSConfig.h \
+ ThirdParty/FreeRTOS/include/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
  ThirdParty/FreeRTOS/include/portable.h \
  ThirdParty/FreeRTOS/include/deprecated_definitions.h \
@@ -73,7 +73,7 @@ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 Core/Src/Middleware/Active_Object.h:
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
-ThirdParty/FreeRTOS/FreeRTOSConfig.h:
+ThirdParty/FreeRTOS/include/FreeRTOSConfig.h:
 ThirdParty/FreeRTOS/include/projdefs.h:
 ThirdParty/FreeRTOS/include/portable.h:
 ThirdParty/FreeRTOS/include/deprecated_definitions.h:

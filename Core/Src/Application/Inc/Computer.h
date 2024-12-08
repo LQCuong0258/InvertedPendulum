@@ -25,8 +25,6 @@ struct Computer {
     QueueHandle_t state_sub;
     QueueHandle_t received_message_sub; /* Queue để nhận tin nhắn từ Matlab */
 
-
-
     // Methods --------------------------------------------------------
     Status (*init) (struct Computer * const self, Event const * const event);
     Status (*wait) (struct Computer * const self, Event const * const event);

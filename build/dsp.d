@@ -1,6 +1,6 @@
 build/dsp.o: Core/Src/Middleware/dsp.c Core/Src/Middleware/dsp.h \
  ThirdParty/FreeRTOS/include/FreeRTOS.h \
- ThirdParty/FreeRTOS/FreeRTOSConfig.h \
+ ThirdParty/FreeRTOS/include/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
  ThirdParty/FreeRTOS/include/portable.h \
  ThirdParty/FreeRTOS/include/deprecated_definitions.h \
@@ -44,7 +44,7 @@ build/dsp.o: Core/Src/Middleware/dsp.c Core/Src/Middleware/dsp.h \
  Core/Src/Middleware/dsp.h Core/Src/Middleware/Butter_Worth_Filtor.h
 Core/Src/Middleware/dsp.h:
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
-ThirdParty/FreeRTOS/FreeRTOSConfig.h:
+ThirdParty/FreeRTOS/include/FreeRTOSConfig.h:
 ThirdParty/FreeRTOS/include/projdefs.h:
 ThirdParty/FreeRTOS/include/portable.h:
 ThirdParty/FreeRTOS/include/deprecated_definitions.h:

@@ -1,6 +1,6 @@
 build/event_groups.o: ThirdParty/FreeRTOS/event_groups.c \
  ThirdParty/FreeRTOS/include/FreeRTOS.h \
- ThirdParty/FreeRTOS/FreeRTOSConfig.h \
+ ThirdParty/FreeRTOS/include/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
  ThirdParty/FreeRTOS/include/portable.h \
  ThirdParty/FreeRTOS/include/deprecated_definitions.h \
@@ -11,7 +11,7 @@ build/event_groups.o: ThirdParty/FreeRTOS/event_groups.c \
  ThirdParty/FreeRTOS/include/event_groups.h \
  ThirdParty/FreeRTOS/include/timers.h
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
-ThirdParty/FreeRTOS/FreeRTOSConfig.h:
+ThirdParty/FreeRTOS/include/FreeRTOSConfig.h:
 ThirdParty/FreeRTOS/include/projdefs.h:
 ThirdParty/FreeRTOS/include/portable.h:
 ThirdParty/FreeRTOS/include/deprecated_definitions.h:

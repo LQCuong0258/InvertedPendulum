@@ -6,7 +6,7 @@ extern TIM_HandleTypeDef htim7;
 
 extern struct Computer * computer;
 struct Active * AO_Estimator;
-struct Estimator * estimator; 
+struct Estimator * estimator;
 
 
 Status init (struct Estimator * const self, Event const * const event) {
@@ -56,7 +56,7 @@ Status wait (struct Estimator * const self, Event const * const event) {
              * Điều này sẽ khiến computer nhận được Queue state_pub và
              * gửi state_topic đến Matlab 
              */
-            static const Event state_evt = { STATE_UPDATED_SIG };
+            static const Event state_evt = {.signal = STATE_UPDATED_SIG};
             AO_Estimator->post(&computer->super, &state_evt);
 
             status = HANDLED_STATUS;

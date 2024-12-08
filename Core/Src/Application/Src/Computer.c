@@ -29,7 +29,6 @@ static Status sending (struct Computer * const self, Event const * const event) 
             status = TRAN_STATUS;
             break;
 
-
         case EXIT_SIG:
             status = HANDLED_STATUS;
             break;

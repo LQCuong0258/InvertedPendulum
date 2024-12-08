@@ -2,6 +2,7 @@
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
 
 extern struct Active * AO_Estimator;
@@ -9,6 +10,7 @@ extern struct Estimator * estimator;
 
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_TIM6_Init(void);
 static void MX_TIM7_Init(void);
 
 Encoder encoder_topic;
@@ -46,7 +48,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   BaseType_t xHigherPriorityTaskWoken = pdFALSE;
   
   if(htim->Instance == TIM7) {
-    static const Event time_evt = {TIMEOUT_1kHz_SIG};
+    static const Event time_evt = {.signal = TIMEOUT_1kHz_SIG};
     AO_Estimator->postFromISR(AO_Estimator, &time_evt, &xHigherPriorityTaskWoken);
   }
 
@@ -67,18 +69,15 @@ void EXTI1_IRQHandler(void) {
 }
 
 /**
-  * @brief This function initialize USART1.
+  * @brief This function initialize Timer.
   */
-void Driver_Encoder_Init()
-{
+void Driver_Encoder_Init() {
   MX_TIM2_Init(); // Motor encoder
   MX_TIM3_Init(); // Pendullum encoder
+  MX_TIM6_Init(); // 100Hz timer
   MX_TIM7_Init(); // 1kHz timer
-  
 
   encoder_topic = (Encoder) {.MotorCnt = 0, .PendulumCnt = 0};
-  // HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
-  // HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
 }
 
 /**
@@ -148,30 +147,43 @@ static void MX_TIM3_Init(void) {
 }
 
 /**
+  * @brief TIM6 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM6_Init(void) {
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 84 - 1;
+  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim6.Init.Period = 10000 - 1;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim7) != HAL_OK) {}
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK) {}
+}
+
+/**
   * @brief TIM7 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_TIM7_Init(void)
-{
+static void MX_TIM7_Init(void) {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 84;
+  htim7.Init.Prescaler = 84 - 1;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 1000;
+  htim7.Init.Period = 1000 - 1;
   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
-  {
-    // Error_Handler();
-  }
+  if (HAL_TIM_Base_Init(&htim7) != HAL_OK) {}
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
-  {
-    // Error_Handler();
-  }
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK) {}
 }
 
 
@@ -232,15 +244,21 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
 * @param htim_base: TIM_Base handle pointer
 * @retval None
 */
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
-{
-  if(htim_base->Instance==TIM7)
-  {
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
+  if (htim_base->Instance == TIM6) {
+    /* Peripheral clock enable */
+    __HAL_RCC_TIM6_CLK_ENABLE();
+
+    /* TIM6 interrupt Init */
+    HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 8, 0);
+    HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+  }
+  else if (htim_base->Instance == TIM7) {
     /* Peripheral clock enable */
     __HAL_RCC_TIM7_CLK_ENABLE();
 
     /* TIM7 interrupt Init */
-    HAL_NVIC_SetPriority(TIM7_IRQn, 8, 0);
+    HAL_NVIC_SetPriority(TIM7_IRQn, 9, 0);
     HAL_NVIC_EnableIRQ(TIM7_IRQn);
   }
 }
@@ -259,6 +277,13 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   HAL_TIM_IRQHandler(&htim3);
+}
+
+/**
+  * @brief This function handles TIM6 global interrupt.
+  */
+void TIM6_IRQHandler(void) {
+  HAL_TIM_IRQHandler(&htim6);
 }
 
 /**

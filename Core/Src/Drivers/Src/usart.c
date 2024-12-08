@@ -47,11 +47,11 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
     if(huart->Instance == USART2) {
-        static const Event motor_sended_event = { COMMAND_SENDED_SIG };
+        static const Event motor_sended_event = {.signal = COMMAND_SENDED_SIG};
         AO_Motor->postFromISR(AO_Motor, &motor_sended_event, &xHigherPriorityTaskWoken);
     }
     else if(huart->Instance == USART3) {
-        static const Event sensor_event = { SENSOR_SENDED_SIG };
+        static const Event sensor_event = {.signal = SENSOR_SENDED_SIG};
         AO_Computer->postFromISR(AO_Computer, &sensor_event, &xHigherPriorityTaskWoken);      
     }
 
@@ -62,10 +62,8 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
   * @brief This function will be called if number of 
   * recived bytes equal data Size declared in HAL_UART_Receive_IT.
   */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
     if(huart->Instance == USART3) {
         static RecivedMessage recived_message = { .length = 0 }; 
         static uint8_t is_data_comming = 0;
@@ -74,7 +72,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         byte_data = rx_byte_data; 
     
         if(is_data_comming == 1) { /* Have recived 'S' */
-            
             if(byte_data != 'S' && byte_data != 10) { /* Not 'S' and '\n' */
                 recived_message.message[recived_message.length] = byte_data;
                 recived_message.length++;
@@ -113,20 +110,18 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 static void UART_Init(UART_HandleTypeDef* huart);
 
 /**
-  * @brief This function initialize USART1.
+  * @brief This function initialize Driver USART.
   */
-void Driver_USART_Init()
-{
+void Driver_USART_Init() {
     huart2.Instance = USART2;
     huart3.Instance = USART3;
     UART_Init(&huart2);
     UART_Init(&huart3);
 }
 
-void HAL_UART_MspInit(UART_HandleTypeDef* huart)
-{
+void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    if(huart->Instance==USART2)
+    if(huart->Instance == USART2)
     {
         /* Peripheral clock enable */
         __HAL_RCC_USART2_CLK_ENABLE();
@@ -143,12 +138,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
         GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
         HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-        /* USART1 interrupt Init */
+        /* USART2 interrupt Init */
         HAL_NVIC_SetPriority(USART2_IRQn, 9, 0);
         HAL_NVIC_EnableIRQ(USART2_IRQn);
     }
-    else if(huart->Instance==USART3)
-    {
+    else if(huart->Instance == USART3) {
         /* Peripheral clock enable */
         __HAL_RCC_USART3_CLK_ENABLE();
         __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -170,9 +164,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     }
 }
 
-static void UART_Init(UART_HandleTypeDef* huart)
-{
-
+static void UART_Init(UART_HandleTypeDef* huart) {
     /**
      * Feature: Send signal control to Driver CC-SMART MSD_E20
      */
@@ -207,16 +199,14 @@ static void UART_Init(UART_HandleTypeDef* huart)
 /**
   * @brief This function handles USART2 global interrupt.
   */
-void USART2_IRQHandler(void)
-{
+void USART2_IRQHandler(void) {
     HAL_UART_IRQHandler(&huart2);
 }
 
 /**
   * @brief This function handles USART3 global interrupt.
   */
-void USART3_IRQHandler(void)
-{
+void USART3_IRQHandler(void) {
     HAL_UART_IRQHandler(&huart3);
 }
 

@@ -1,7 +1,4 @@
 #include "main.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 
 static struct Computer computer;
 static struct Active * computer_AO = &computer.super;

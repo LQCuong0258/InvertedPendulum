@@ -61,7 +61,6 @@ static Status sending (struct Motor * const self, Event const * const event) {
         case COMMAND_SENDED_SIG:
             self->super.handler = (StateHandler)self->wait;
             status = TRAN_STATUS;
-
             break;
 
         case EXIT_SIG:
