@@ -121,7 +121,6 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
 -IDrivers/CMSIS/DSP/Include \
--IThirdParty/FreeRTOS \
 -IThirdParty/FreeRTOS/include \
 -IThirdParty/FreeRTOS/portable/GCC/ARM_CM4F \
 -ICore/Src/Middleware \

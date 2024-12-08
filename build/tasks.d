@@ -1,6 +1,6 @@
 build/tasks.o: ThirdParty/FreeRTOS/tasks.c \
  ThirdParty/FreeRTOS/include/FreeRTOS.h \
- ThirdParty/FreeRTOS/FreeRTOSConfig.h \
+ ThirdParty/FreeRTOS/include/FreeRTOSConfig.h \
  ThirdParty/FreeRTOS/include/projdefs.h \
  ThirdParty/FreeRTOS/include/portable.h \
  ThirdParty/FreeRTOS/include/deprecated_definitions.h \
@@ -10,7 +10,7 @@ build/tasks.o: ThirdParty/FreeRTOS/tasks.c \
  ThirdParty/FreeRTOS/include/timers.h ThirdParty/FreeRTOS/include/task.h \
  ThirdParty/FreeRTOS/include/stack_macros.h
 ThirdParty/FreeRTOS/include/FreeRTOS.h:
-ThirdParty/FreeRTOS/FreeRTOSConfig.h:
+ThirdParty/FreeRTOS/include/FreeRTOSConfig.h:
 ThirdParty/FreeRTOS/include/projdefs.h:
 ThirdParty/FreeRTOS/include/portable.h:
 ThirdParty/FreeRTOS/include/deprecated_definitions.h:

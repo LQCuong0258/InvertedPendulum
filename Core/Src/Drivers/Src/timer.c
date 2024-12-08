@@ -12,6 +12,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM7_Init(void);
 
 Encoder encoder_topic;
+int32_t Pre_PendulumCnt = 0;
 
 /**
   * @brief  Input Capture callback in non-blocking mode
@@ -53,11 +54,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
 }
 
+int32_t checkcnt = 0;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
   if (GPIO_Pin == GPIO_PIN_1) {
-    if (encoder_topic.PendulumCnt > 0 && encoder_topic.PendulumCnt < 1000) __HAL_TIM_SET_COUNTER(&htim3, 328);
-    else if (encoder_topic.PendulumCnt < -3000) __HAL_TIM_SET_COUNTER(&htim3, -3672);
+    if (encoder_topic.PendulumCnt < 0) __HAL_TIM_SET_COUNTER(&htim3, -216);
+    else __HAL_TIM_SET_COUNTER(&htim3, -3780);
 
+    /* Search Phase Z */
+    checkcnt = encoder_topic.PendulumCnt;
     HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
   }
 }
